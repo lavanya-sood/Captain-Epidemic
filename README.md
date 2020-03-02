@@ -4,14 +4,10 @@
 
 ### Design Details
 
-
 ### Management Information
 
-
-## Collaborators - 
-
 ## Collaborators:
-* **Yin Huey Tan**  z5211373
+* **Yin Huey Tan** z5211373
 * **Amanda Li** z5206613
 * **Sarah Oakman** z5206178
 * **Lavanya Sood** z5208121
