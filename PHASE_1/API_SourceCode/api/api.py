@@ -1,6 +1,8 @@
 import flask
 from flask import request, jsonify
 import sqlite3
+import os
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
@@ -51,4 +53,5 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d
 
-app.run()
+if __name__ == "__main__":
+    app.run()
