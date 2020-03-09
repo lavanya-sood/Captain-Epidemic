@@ -9,6 +9,7 @@ class ReportbotSpider(scrapy.Spider):
 
     def parse(self, response):
         headline = response.css(".headline::text").extract()[0]
+        
         publication_date = re.findall('\d{4}_\d{2}_\d{2}', response.url)
         if len(publication_date) == 0:
             list_publication_date = response.url.split('don/')[1].split('-')[:3]
@@ -21,10 +22,24 @@ class ReportbotSpider(scrapy.Spider):
             disease = disease_temp.split('!')[1]
         #convert yyyy_mm_dd and dd_month_yyyy for database
         
+        maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[0].split('<!-- close of the meta div -->')
+        if len(maintext) == 1: 
+            maintext = maintext[0]
+            maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[1:]).replace('\t','').split('\n')[1:]))))
+        else:
+            maintext = maintext[1]
+            maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
+            if maintext is '': 
+                maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[1]
+                maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
+        #should \n and \r be removed from output?? should it be one block of text?
+        #ask about this link https://www.who.int/csr/don/1996_11_28c/en/ 
+        
         scraped_info = {
             'url': response.url,
             'headline': headline,
             'publication-date': publication_date,
+            'maintext': maintext,
             'disease': disease
         }
         yield scraped_info
