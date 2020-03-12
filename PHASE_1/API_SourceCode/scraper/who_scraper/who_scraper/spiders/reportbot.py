@@ -16,7 +16,7 @@ class ReportbotSpider(scrapy.Spider):
             publication_date = '_'.join(list_publication_date)
 
         disease_temp = response.css(".headline::text").extract()[0]
-        disease_temp = re.sub(' [^0-9A-Za-z] | in | and |,', '!', disease_temp)
+        disease_temp = re.sub(' [^0-9A-Za-z] | in |,', '!', disease_temp)
         disease = disease_temp.split('!')[0]
         if (re.search("^[0-9 ]+$", disease)):
             disease = disease_temp.split('!')[1]
