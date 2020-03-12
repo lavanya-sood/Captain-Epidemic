@@ -42,7 +42,8 @@ class ReportbotSpider(scrapy.Spider):
             disease = [disease]
 
         # change everything below
-        # find by cases but it's hard
+        # find by cases to find different reports and sort them properly 
+        # but it's hard and idk if it'll work
 
         # potential method
         # list of reports [
@@ -59,10 +60,50 @@ class ReportbotSpider(scrapy.Spider):
         # go through each paragraph and keep a count 
         # check per sentence for 'case' (repeats don't matter)
             # check whether it says no, none, 0, zero before the 'case' was found and remove these lines
-            # if there's no number or diseases or symptom in the sentence, remove the line
+            # if there's no number or diseases or symptoms in the sentence, remove the line
             # store what paragraph count it has come from in a list
             # store the paragraph and line into a list of dict
+        
+        # is there a better way to do this??
+        diseases = 'congo haemorrhagic fever|congo fever|ebola|dengue|diphteria|ebola haemorrhagic fever|ehec|ecoli|enterovirus 71 infection|enterovirus|influenza|influenza a/h5n1|influenza a/h7n9|influenza a/h9n2|influenza a/h1n1|influenza a/h1n2|influenza a/h3n5|influenza a/h3n2|influenza a/h2n2|influenza a(h5n1)|influenza a(h7n9)|influenza a(h9n2)|influenza a(h1n1)|influenza a(h1n2)|influenza a(h3n5)|influenza a(h3n2)|influenza a(h2n2)|hand, foot and mouth disease|hantavirus|hepatitis|hepatitis a|hepatitis b|hepatitis c|hepatitis d|hepatitis e|histoplasmosis|hiv|aids|lassa fever|lassa|malaria|marburg virus disease|marbug|measles|mers-cov|mers|mumps|nipah virus|nipah|norovirus infection|norovirus|pertussis|plague|pneumococcus pneumonia|pneumococcus|pneumonia|polio|q fever|rabies|rift valley fever|rift valley|rotavirus infection|rotavirus|rubella|salmonellosis|salmonella|sars|shigellosis|smallpox|staphylococcal enterotoxin b|staphylococcal|enterotoxin|thypoid fever|thypoid|tuberculosis|tularemia|vaccinia|cowpox|varicella|west nile virus|west nile|yellow fever|yersiniosis|zika|legionares|listeriosis|monkeypox|2019nCoV|coronavirus|pox|zika|legionnaire|virus|anthrax|botulism|smallpox|tularemia|junin|machupo|guanarito|chapare|lujo|cholera|meningitis'
+        symptoms = 'haemorrhagic|fever|flacid|paralysis|gastroenterities|gastro|respiratory|syndrome|influenza-like|illness|rash|encephalitis|meningitis|diarrhea|coughing|diarrhoea|diarrheal|diarrhoeal|itch|itchy|itchiness|red skin|irritated|headache|headaches|seizure|seizures|nausea|vomiting|lethargy|numb|runny nose|muscle pain|muscle ache|muscle aches|confusion|cold hands|cold feet|mottled skin|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|comas|sores|paralytic|dehydrated|stomach cramp|cramp'
 
+        report_list = []
+
+
+        # commonly found before 'cases'
+        matches = 'one|two|three|four|five|six|seven|eight|nine|ten|twenty|eleven|twelve|thirt|fift|ninth|increas|decreas|number|laboratory[- ]confirm|new|upsurge|rise|human|latest|first|second|third|hundred|thousand'
+        
+        paragraphs = response.css('div#primary p span::text').extract()
+        paragraph_counter = 0
+        for p in paragraphs:
+            for s in p.split('.'):
+                cases = re.search('(\n)?case(s)? ',s, re.IGNORECASE)
+                index = 0
+                while (cases):
+                    case = cases.group()
+                    start_index = index
+                    index = s.find(case)
+                    bef_s = s[start_index:index]
+                    no_cases = re.search(' (no|none|0|zero) ',bef_s, re.IGNORECASE)
+                    if (not no_cases):
+                        num_cases = re.search('[0-9]+', bef_s)
+                        # having these made too many matches
+                        #diseases_check = re.search(diseases, s, re.IGNORECASE)
+                        #symptoms_check = re.search(symptoms, s, re.IGNORECASE)
+                        matches_check = re.search(matches, bef_s, re.IGNORECASE)
+                        if (num_cases or matches_check):
+                            report_dict = {
+                                'paragraph': paragraph_counter,
+                                'line': s
+                            }
+                            report_list.append(report_dict)
+                            break
+                    s = s.replace(case, '')
+                    cases = re.search(' case(s)? ',s, re.IGNORECASE)
+            paragraph_counter+=1
+
+        print(report_list)
         # loop through the lines with cases and look for extra details e.g. disease, date, symptom, source
             # if found, add extra details to the dict 
         
@@ -91,8 +132,7 @@ class ReportbotSpider(scrapy.Spider):
             'headline': headline,
             'publication-date': publication_date,
             'maintext': maintext,
-            'disease': disease,
-            'eventdate': event_date_list
+            'disease': disease
         }
         yield scraped_info
 
