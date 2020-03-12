@@ -17,7 +17,7 @@ class ReportbotSpider(scrapy.Spider):
         if len(maintext) == 1: 
             maintext = maintext[0]
             if (len(response.css('.dateline').extract()) > 0):
-                maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[1:]).replace('\t','').split('\n')[0:]))))
+                maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[0:]).replace('\t','').split('\n')[1:]))))
             else: 
                 maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[1:]).replace('\t','').split('\n')[1:]))))
         else:
@@ -30,6 +30,7 @@ class ReportbotSpider(scrapy.Spider):
         #ask about this link https://www.who.int/csr/don/1996_11_28c/en/ 
         #figure out link https://www.who.int/csr/don/2010_10_25a/en/
 
+        # only the disease mentioned in the title
         disease_temp = response.css(".headline::text").extract()[0]
         disease_temp = re.sub(' [^0-9A-Za-z] | in |,', '!', disease_temp)
         disease = disease_temp.split('!')[0]
@@ -40,53 +41,50 @@ class ReportbotSpider(scrapy.Spider):
         else:
             disease = [disease]
 
-        # event date is mostly found within the first paragraph of the main text, sometimes the date is not found so the second paragraph is scanned as well just in case
-        text = maintext.split('\n')[0]
-        event_date_list = event_date_helper(text)
-        if (len(event_date_list) == 0):
-            text = maintext.split('\n')[1]
-            event_date_list = event_date_helper(text)
-        # if there's more than one disease, find the date that matches the right disease
-            # same date
-            # different dates
-            # multiple dates
+        # change everything below
+        # find by cases but it's hard
+
+        # potential method
+        # list of reports [
+        #   {
+        #       paragraph: int
+        #       line: ''
+        #       disease: []
+        #       symptom: []
+        #       event-date: []
+        #       source: ''
+        #   }
+        # ] 
+
+        # go through each paragraph and keep a count 
+        # check per sentence for 'case' (repeats don't matter)
+            # check whether it says no, none, 0, zero before the 'case' was found and remove these lines
+            # if there's no number or diseases or symptom in the sentence, remove the line
+            # store what paragraph count it has come from in a list
+            # store the paragraph and line into a list of dict
+
+        # loop through the lines with cases and look for extra details e.g. disease, date, symptom, source
+            # if found, add extra details to the dict 
         
+        # extra plan to fill in missing data for reports
+        # extra_info = [
+        #   {
+        #       paragraph: int
+        #       disease: []
+        #       symptom: []
+        #       event-date: []
+        #       extra info if we think that's needed
+        #   }
+        # ]
+        # collect paragraphs found in the list of report dict
+        # loop through the paragraphs found in the list of reports
+            # check for diseases, symptoms, event-date, source and extra info and add to dict
+
+        # go through the list of dict reports and fill in missing data by matching it the paragraph list of info 
         
-        #need year of publication date
-        #publication_year = re.search('[0-9]{4}', publication_date).group()
-        month = {
-            'January': '1',
-            'February': '2',
-            'March': '3',
-            'April': '4',
-            'May': '5',
-            'June': '6',
-            'July': '7',
-            'August': '8',
-            'September': '9',
-            'October': '10',
-            'November': '11',
-            'December': '12'
-        }
-        months = '|'.join(month.keys())
-        # change dates to use ints and add /
-        #temp = []
-        #for event in event_date_list:
-        #    get_month = re.search(months, event).group()
-        #    event = event.replace(get_month, month[get_month])
-        #    event = event.replace(' ','/')
-        #    temp.append(event)
-        #event_date_list = temp
-
-        # change if there's 'and', 'or' between the dates
-            # remove any dates between these dates
-            # change to two dates with a - in between
-            # if there's more dates than theres 2 disease reports
-
-        # if a day and month matches another one then remove it 
-        # if a day and month doesn't have a year, add the publication year
-        # remove duplicate dates
-
+        # if there is a element of the list of dict reports that's missing disease or location
+        # add the diseases and locations found in the title 
+        
 
         scraped_info = {
             'url': response.url,
