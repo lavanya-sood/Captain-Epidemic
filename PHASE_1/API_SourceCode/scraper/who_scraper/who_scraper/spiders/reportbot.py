@@ -29,7 +29,8 @@ class ReportbotSpider(scrapy.Spider):
                 maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
         #should \n and \r be removed from output?? should it be one block of text?
         #ask about this link https://www.who.int/csr/don/1996_11_28c/en/ 
-        
+        #figure out link https://www.who.int/csr/don/2010_10_25a/en/
+
         disease_temp = response.css(".headline::text").extract()[0]
         disease_temp = re.sub(' [^0-9A-Za-z] | in |,', '!', disease_temp)
         disease = disease_temp.split('!')[0]
@@ -40,13 +41,28 @@ class ReportbotSpider(scrapy.Spider):
         else:
             disease = [disease]
 
-
+        # event date is found within the main text, sometimes the date is not found
+        text = maintext
+        event_date_list = []
+        date_found = re.search(r'([0-9]{1,2} to )?[0-9]{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)( [0-9]{4})?', text, re.IGNORECASE)
+        if (date_found):
+            date_found = date_found.group()
+            event_date_list.append(date_found)
+            while(date_found is not None):
+                text = text.replace(date_found, '')
+                date_found = re.search(r'([0-9]{1,2} to )?[0-9]{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)( [0-9]{4})?', text, re.IGNORECASE)
+                if (date_found):
+                    date_found = date_found.group()
+                    event_date_list.append(date_found)
+                else:
+                    date_found = None
 
         scraped_info = {
             'url': response.url,
             'headline': headline,
             'publication-date': publication_date,
             'maintext': maintext,
-            'disease': disease
+            'disease': disease,
+            'eventdate': event_date_list
         }
         yield scraped_info
