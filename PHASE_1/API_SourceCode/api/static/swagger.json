@@ -182,26 +182,53 @@
     },
     "components": {
       "schemas": {
-        "id": {
-          "properties": {
-            "uuid": {
-              "type": "string"
+        "report": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "format": "website"
+                  },
+                "reportId": {
+                "type": "int"
+              }, 
+              "symptom": {
+                  "type": "string"
+                }
             }
+        },  
+        "disease": {
+          "properties": {
+            "reportId": {
+              "type": "int"
+            }, 
+            "disease": {
+                "type": "string"
+              }
           }
         },
-        "bookRequestPostBody": {
+        "syndrome": {
           "type": "object",
           "properties": {
-            "title": {
-              "type": "string",
-              "format": "string"
-            },
-            "email": {
-              "type": "string",
-              "format": "email"
-            }
+            "reportId": {
+              "type": "int"
+            }, 
+            "symptom": {
+                "type": "string"
+              }
           }
         },
+        "searchTerm": {
+            "type": "object",
+            "properties": {
+              "reportId": {
+                "type": "int"
+              }, 
+              "searchTerm": {
+                  "type": "string"
+                }
+            }
+          },
         "bookRequest": {
           "type": "object",
           "properties": {
