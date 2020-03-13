@@ -64,9 +64,8 @@ class ReportbotSpider(scrapy.Spider):
             # store what paragraph count it has come from in a list
             # store the paragraph and line into a list of dict
         
-        # is there a better way to do this??
-        diseases = 'congo haemorrhagic fever|congo fever|ebola|dengue|diphteria|ebola haemorrhagic fever|ehec|ecoli|enterovirus 71 infection|enterovirus|influenza|influenza a/h5n1|influenza a/h7n9|influenza a/h9n2|influenza a/h1n1|influenza a/h1n2|influenza a/h3n5|influenza a/h3n2|influenza a/h2n2|influenza a(h5n1)|influenza a(h7n9)|influenza a(h9n2)|influenza a(h1n1)|influenza a(h1n2)|influenza a(h3n5)|influenza a(h3n2)|influenza a(h2n2)|hand, foot and mouth disease|hantavirus|hepatitis|hepatitis a|hepatitis b|hepatitis c|hepatitis d|hepatitis e|histoplasmosis|hiv|aids|lassa fever|lassa|malaria|marburg virus disease|marbug|measles|mers-cov|mers|mumps|nipah virus|nipah|norovirus infection|norovirus|pertussis|plague|pneumococcus pneumonia|pneumococcus|pneumonia|polio|q fever|rabies|rift valley fever|rift valley|rotavirus infection|rotavirus|rubella|salmonellosis|salmonella|sars|shigellosis|smallpox|staphylococcal enterotoxin b|staphylococcal|enterotoxin|thypoid fever|thypoid|tuberculosis|tularemia|vaccinia|cowpox|varicella|west nile virus|west nile|yellow fever|yersiniosis|zika|legionares|listeriosis|monkeypox|2019nCoV|coronavirus|pox|zika|legionnaire|virus|anthrax|botulism|smallpox|tularemia|junin|machupo|guanarito|chapare|lujo|cholera|meningitis'
-        symptoms = 'haemorrhagic|fever|flacid|paralysis|gastroenterities|gastro|respiratory|syndrome|influenza-like|illness|rash|encephalitis|meningitis|diarrhea|coughing|diarrhoea|diarrheal|diarrhoeal|itch|itchy|itchiness|red skin|irritated|headache|headaches|seizure|seizures|nausea|vomiting|lethargy|numb|runny nose|muscle pain|muscle ache|muscle aches|confusion|cold hands|cold feet|mottled skin|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|comas|sores|paralytic|dehydrated|stomach cramp|cramp'
+       
+        
 
         report_list = []
 
@@ -103,10 +102,22 @@ class ReportbotSpider(scrapy.Spider):
                     cases = re.search(' case(s)? ',s, re.IGNORECASE)
             paragraph_counter+=1
 
-        print(report_list)
         # loop through the lines with cases and look for extra details e.g. disease, date, symptom, source
             # if found, add extra details to the dict 
         
+        # look for date, disease, symptoms in sentence 
+        # add whatever else is commonly found in these lines
+        for r in report_list: 
+            r['event-date'] = event_date_helper(r['line'])
+            r['diseases'] = diseases_helper(r['line'])
+            r['syndromes'] = syndrome_helper(r['line'])
+
+        print(report_list)
+        f = open("report_output.txt","a+")
+
+        # combine data talking about the same thing
+        # remove duplicate data if any 
+
         # extra plan to fill in missing data for reports
         # extra_info = [
         #   {
@@ -123,6 +134,8 @@ class ReportbotSpider(scrapy.Spider):
 
         # go through the list of dict reports and fill in missing data by matching it the paragraph list of info 
         
+        
+
         # if there is a element of the list of dict reports that's missing disease or location
         # add the diseases and locations found in the title 
         
@@ -140,7 +153,7 @@ class ReportbotSpider(scrapy.Spider):
     
 def event_date_helper(text):
     event_date_list = []
-    date_found = re.search(r'([0-9]{1,2} (to|and) )?([0-9]{1,2} )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
+    date_found = re.search(r'([0-9]{1,2}((-)|( (to|and) )))?([0-9]{1,2} )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
     if (date_found):
         date_found = date_found.group()
         event_date_list.append(date_found)
@@ -153,3 +166,37 @@ def event_date_helper(text):
             else:
                 date_found = None
     return event_date_list
+
+def diseases_helper(text):
+    disease_list = []
+    diseases = 'congo haemorrhagic fever|congo fever|ebola|dengue|diphteria|ebola haemorrhagic fever|ehec|ecoli|enterovirus 71 infection|enterovirus|influenza|influenza a/h5n1|influenza a/h7n9|influenza a/h9n2|influenza a/h1n1|influenza a/h1n2|influenza a/h3n5|influenza a/h3n2|influenza a/h2n2|influenza a(h5n1)|influenza a(h7n9)|influenza a(h9n2)|influenza a(h1n1)|influenza a(h1n2)|influenza a(h3n5)|influenza a(h3n2)|influenza a(h2n2)|hand, foot and mouth disease|hantavirus|hepatitis|hepatitis a|hepatitis b|hepatitis c|hepatitis d|hepatitis e|histoplasmosis|hiv|aids|lassa fever|lassa|malaria|marburg virus disease|marbug|measles|mers-cov|mers|mumps|nipah virus|nipah|norovirus infection|norovirus|pertussis|plague|pneumococcus pneumonia|pneumococcus|legionellosis|pneumonia|polio|q fever|rabies|rift valley fever|rift valley|rotavirus infection|rotavirus|rubella|salmonellosis|salmonella|sars|shigellosis|smallpox|staphylococcal enterotoxin b|staphylococcal|enterotoxin|thypoid fever|thypoid|tuberculosis|tularemia|vaccinia|cowpox|varicella|west nile virus|west nile|yellow fever|yersiniosis|zika|legionares|listeriosis|monkeypox|2019nCoV|coronavirus|pox|zika|legionnaire|virus|anthrax|botulism|smallpox|tularemia|junin|machupo|guanarito|chapare|lujo|cholera|meningitis'
+    disease_found = re.search(diseases, text)
+    if (disease_found):
+        disease_found = disease_found.group()
+        disease_list.append(disease_found)
+        while(disease_found is not None):
+            text = text.replace(disease_found, '')
+            disease_found = re.search(diseases, text)
+            if (disease_found):
+                disease_found = disease_found.group()
+                disease_list.append(disease_found)
+            else:
+                disease_found = None
+    return disease_list
+
+def syndrome_helper(text):
+    syndrome_list = []
+    symptoms = 'haemorrhagic|fever|flacid|paralysis|gastroenterities|gastro|respiratory|syndrome|influenza-like|illness|rash|encephalitis|meningitis|diarrhea|coughing|diarrhoea|diarrheal|diarrhoeal|itch|itchy|itchiness|red skin|irritated|headache|headaches|seizure|seizures|nausea|vomiting|lethargy|runny nose|muscle pain|muscle ache|muscle aches|confusion|cold hands|cold feet|mottled skin|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|comas|sores|paralytic|dehydrated|stomach cramp|cramp'
+    symptom_found = re.search(symptoms, text)
+    if (symptom_found):
+        symptom_found = symptom_found.group()
+        syndrome_list.append(symptom_found)
+        while(symptom_found is not None):
+            text = text.replace(symptom_found, '')
+            symptom_found = re.search(symptoms, text)
+            if (symptom_found):
+                symptom_found = symptom_found.group()
+                syndrome_list.append(symptom_found)
+            else:
+                symptom_found = None
+    return syndrome_list
