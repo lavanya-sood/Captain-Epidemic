@@ -118,22 +118,15 @@ class ReportbotSpider(scrapy.Spider):
             json.dump(report_list, f)
             f.write('\n')
 
-        # combine data talking about the same thing
-        # remove duplicate data if any 
+        # combine data talking about the same thing/same report 
+        # remove duplicate/dud data if any 
 
-        # extra plan to fill in missing data for reports
-        # extra_info = [
-        #   {
-        #       paragraph: int
-        #       disease: []
-        #       symptom: []
-        #       event-date: []
-        #       extra info if we think that's needed
-        #   }
-        # ]
-        # collect paragraphs found in the list of report dict
-        # loop through the paragraphs found in the list of reports
-            # check for diseases, symptoms, event-date, source and extra info and add to dict
+        # after data found is filtered, find more details
+        
+        # loop through the list of reports paragraphs
+            # check for diseases, symptoms, event-date, source and extra info and add to dict if not already found
+
+        # after data found is filtered, fill in missing disease and locations using those found in the titles
 
         # go through the list of dict reports and fill in missing data by matching it the paragraph list of info 
         
