@@ -3,7 +3,7 @@
     "info": {
       "description": "This is API developed by the team Teletubbies using a database with information from WHO ",
       "version": "1.0.0",
-      "title": "Teletubbies API",
+      "title": "Teletubbies API"
     },
     "servers": [
       {
@@ -17,77 +17,34 @@
       }
     ],
     "paths": {
-      "/request": {
+      "/report": {
         "get": {
           "tags": [
             "Book Request"
           ],
-          "summary": "Returns bookRequests",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/bookRequests"
-              }
-            }
-          }
-        },
-        "post": {
-          "tags": [
-            "Book Request"
-          ],
-          "summary": "Create a new book request system",
-          "requestBody": {
-            "description": "Book Request Post Object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bookRequestPostBody"
-                }
-              }
-            }
-          },
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "201": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/id"
-              }
-            },
-            "400": {
-              "description": "Failed. Bad post data."
-            }
-          }
-        }
-      },
-      "/request/{id}": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID of the cat that we want to match",
-            "type": "string"
-          }
-        ],
-        "get": {
-          "tags": [
-            "Book Request"
-          ],
-          "summary": "Get book request with given ID",
+          "summary": "Get articles by requested date range",
           "parameters": [
             {
-              "in": "path",
-              "name": "id",
+              "in": "query",
+              "name": "start_date",
               "required": true,
-              "description": "Book Request id",
-              "schema": {
-                "$ref": "#/components/schemas/id"
-              }
+              "description": "Start date for the articles"
+            }, 
+            {
+              "in": "query",
+              "name": "end_date",
+              "required": true,
+              "description": "End date for the articles"
+            },
+            {
+              "in": "query",
+              "name": "location",
+              "description": "The location where the epidemic takes place"
+            },
+            {
+              "in": "query",
+              "name": "key-terms",
+              "description": "The key terms to look for when finding article"
             }
           ],
           "responses": {
@@ -104,79 +61,6 @@
               "description": "Failed. Book request not found."
             }
           }
-        },
-        "put": {
-          "summary": "edit a book request by ID",
-          "tags": [
-            "Book Request"
-          ],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "description": "Book Request id",
-              "schema": {
-                "$ref": "#/components/schemas/id"
-              }
-            }
-          ],
-          "requestBody": {
-            "description": "Book Request Object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bookRequest"
-                }
-              }
-            }
-          },
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/bookRequest"
-              }
-            },
-            "400": {
-              "description": "Failed. Bad post data."
-            }
-          }
-        },
-        "delete": {
-          "summary": "Delete Book Request by ID",
-          "tags": [
-            "Book Request"
-          ],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "description": "Book Request Id",
-              "schema": {
-                "$ref": "#/components/schemas/id"
-              }
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/id"
-              }
-            },
-            "400": {
-              "description": "Failed. Misunderstood Request."
-            },
-            "404": {
-              "description": "Failed. Book Request not found."
-            }
-          }
         }
       }
     },
@@ -189,11 +73,12 @@
                     "type": "string",
                     "format": "website"
                   },
-                "reportId": {
-                "type": "int"
-              }, 
-              "symptom": {
-                  "type": "string"
+                "id": {
+                  "type": "integer"
+                }, 
+                "eventdate": {
+                  "type": "string",
+                  "format": "date"
                 }
             }
         },  
@@ -218,6 +103,16 @@
               }
           }
         },
+        "location": {
+          "properties": {
+            "reportId": {
+              "type": "int"
+            }, 
+            "location": {
+                "type": "string"
+              }
+          }
+        },
         "searchTerm": {
             "type": "object",
             "properties": {
@@ -229,31 +124,42 @@
                 }
             }
           },
-        "bookRequest": {
+        "article": {
           "type": "object",
           "properties": {
-            "title": {
+            "url": {
               "type": "string",
-              "format": "string"
+              "format": "website"
             },
-            "email": {
-              "type": "string",
-              "format": "email"
+            "headline": {
+              "type": "string"
             },
-            "timestamp": {
+            "mainText": {
+              "type": "string"
+            },
+            "publicationDate": {
               "type": "string",
-              "format": "number"
+              "format": "date"
             }
           }
         },
-        "bookRequests": {
+        "description": {
           "type": "object",
           "properties": {
-            "bookRequest": {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/components/schemas/bookRequest"
-              }
+            "reportId": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "cases": {
+              "type": "integer"
+            },
+            "deaths": {
+              "type": "integer"
+            },
+            "controls": {
+              "type": "string"
             }
           }
         }
