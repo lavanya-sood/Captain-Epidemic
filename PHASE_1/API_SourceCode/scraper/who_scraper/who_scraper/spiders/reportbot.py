@@ -119,7 +119,9 @@ class ReportbotSpider(scrapy.Spider):
             f.write('\n')
 
         # combine data talking about the same thing/same report 
+            # look at the paragraph it's from and the data found and see if they're similar and combine if so
         # remove duplicate/dud data if any 
+            # somehow figure out what's bad data and delete
 
         # after data found is filtered, find more details
         
