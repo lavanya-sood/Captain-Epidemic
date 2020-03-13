@@ -16,16 +16,37 @@ def get_data():
     conn = sqlite3.connect('who.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
-    disease = request.args.get('disease', '')
+
+    # handle more than one key term
+
+    # handle location
+    key_terms = request.args.get('key_terms', '')
     location = request.args.get('location', '')
     start_date = request.args.get('start_date', '')
     end_date = request.args.get('end_date', '')
+
+    # handle start and end date
+    # find the article then join the report then append to the json object
+
+    # split date / time
+    if start_date == "" or end_date == "":
+        return "Please provide start and end date in format"
+    # do regex
+
+    start_day,start_time = start_date.split('T')
+    end_day,end_time = end_date.split('T')
+    sd = start_day.replace("-","")
+    query = 'SELECT * from Article where PublicationDate >=' + sd + ';'
+    all_results = cur.execute(query).fetchall()
+    return jsonify(all_results)
+
     # disease is given
-    if disease != '':
-        results = get_disease(disease,cur)
-        if len(results) == 0:
-            return "No Results Found"
-        return jsonify(results)
+    # if disease != '':
+    #     results = get_disease(disease,cur)
+    #     if len(results) == 0:
+    #         return "No Results Found"
+    #     return jsonify(results)
+
     # location is given
     if location != '':
         results = get_location(location,cur)
@@ -38,7 +59,7 @@ def get_data():
     #     return jsonify(all_diseases)
 
 def get_location(location,cur):
-    query = 'SELECT * FROM Location L INNER JOIN Report ON Report.id = L.ReportID where L.location = \'' + location.title() + '\';'
+    query = 'SELECT * FROM Location L JOIN Report ON Report.id = L.ReportID where L.location = \'' + location.title() + '\';'
     ''' WHERE Location.Location = \'' + location + '\';'''
     all_diseases = cur.execute(query).fetchall()
     cur.close()
