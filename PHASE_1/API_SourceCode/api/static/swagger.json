@@ -229,21 +229,22 @@
                 }
             }
           },
-        "bookRequest": {
+        "article": {
           "type": "object",
           "properties": {
-            "title": {
+            "url": {
               "type": "string",
-              "format": "string"
+              "format": "website"
             },
-            "email": {
-              "type": "string",
-              "format": "email"
+            "headline": {
+              "type": "string"
             },
-            "timestamp": {
-              "type": "string",
-              "format": "number"
-            }
+            "mainText": {
+              "type": "string"
+            },
+            "publicationDate": {
+              "type": "dateTime"
+            },
           }
         },
         "bookRequests": {
