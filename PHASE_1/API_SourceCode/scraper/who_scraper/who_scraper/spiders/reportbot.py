@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import re
+import json
 
 
 class ReportbotSpider(scrapy.Spider):
@@ -71,7 +72,7 @@ class ReportbotSpider(scrapy.Spider):
 
 
         # commonly found before 'cases'
-        matches = 'one|two|three|four|five|six|seven|eight|nine|ten|twenty|eleven|twelve|thirt|fift|ninth|increas|decreas|number|laboratory[- ]confirm|new|upsurge|rise|human|latest|first|second|third|hundred|thousand'
+        matches = 'one|two|three|four|five|six|seven|eight|nine|ten|twenty|eleven|twelve|thirt|fift|ninth|increas|decreas|laboratory[- ]confirm|new|upsurge|rise|latest|first|second|third|hundred|thousand'
         
         paragraphs = response.css('div#primary p span::text').extract()
         paragraph_counter = 0
@@ -113,7 +114,9 @@ class ReportbotSpider(scrapy.Spider):
             r['syndromes'] = syndrome_helper(r['line'])
 
         print(report_list)
-        f = open("report_output.txt","a+")
+        with open ('report_output', 'a') as f:
+            json.dump(report_list, f)
+            f.write('\n')
 
         # combine data talking about the same thing
         # remove duplicate data if any 
@@ -153,13 +156,13 @@ class ReportbotSpider(scrapy.Spider):
     
 def event_date_helper(text):
     event_date_list = []
-    date_found = re.search(r'([0-9]{1,2}((-)|( (to|and) )))?([0-9]{1,2} )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
+    date_found = re.search(r'([0-9]{1,2}((-)|( (to|and) )))?([0-9]{1,2}(th|rd|st)? )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
     if (date_found):
         date_found = date_found.group()
         event_date_list.append(date_found)
         while(date_found is not None):
             text = text.replace(date_found, '')
-            date_found = re.search(r'([0-9]{1,2} (to|and) )?([0-9]{1,2} )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
+            date_found = re.search(r'([0-9]{1,2}((-)|( (to|and) )))?([0-9]{1,2}(th|rd|st)? )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
             if (date_found):
                 date_found = date_found.group()
                 event_date_list.append(date_found)
