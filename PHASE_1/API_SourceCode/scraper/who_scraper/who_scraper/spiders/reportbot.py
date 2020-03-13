@@ -41,8 +41,9 @@ class ReportbotSpider(scrapy.Spider):
             disease = disease.split(" and ")
         else:
             disease = [disease]
+        
 
-        # overall plan to find reports by cases found
+
         # find by cases to find different reports and sort them properly 
         # but it's hard and idk if it'll work
 
@@ -68,15 +69,10 @@ class ReportbotSpider(scrapy.Spider):
         # figure out same reports and combine them or different reports and divide them
         # remove dud/useless data found
         # add missing parts by going through paragraph before the line with cases and checking for date, disease, location
-        # if no disease or location can be found still, add in disease and location found in headers
-        
-       
-        
+        # if no disease or location can be found still, add in disease and location found in
 
         report_list = []
 
-
-        # commonly found before 'cases'
         matches = 'one|two|three|four|five|six|seven|eight|nine|ten|twenty|eleven|twelve|thirt|fift|ninth|increas|decreas|laboratory[- ]confirm|new|upsurge|rise|latest|first|second|third|hundred|thousand'
         
         paragraphs = response.css('div#primary p span::text').extract()
@@ -108,41 +104,42 @@ class ReportbotSpider(scrapy.Spider):
                     cases = re.search(' case(s)? ',s, re.IGNORECASE)
             paragraph_counter+=1
 
-        # loop through the lines with cases and look for extra details e.g. disease, date, symptom, source
-            # if found, add extra details to the dict 
-        
-        # look for date, disease, symptoms in sentence 
-        # add whatever else is commonly found in these lines
-
         for r in report_list: 
             r['event-date'] = event_date_helper(r['line'])
             r['diseases'] = diseases_helper(r['line'])
             r['syndromes'] = syndrome_helper(r['line'])
+        
+        # find by cases to find different reports and sort them properly 
+        # but it's hard and idk if it'll work
+
+        # potential method
+        # list of reports [
+        #   {
+        #       paragraph: int
+        #       line: ''
+        #       disease: []
+        #       symptom: []
+        #       event-date: []
+        #       source: ''
+        #   }
+        # ] 
+
+        # go through each paragraph and keep a count 
+        # check per sentence for 'case' (repeats don't matter)
+            # check whether it says no, none, 0, zero before the 'case' was found and remove these lines
+            # if there's no number of cases mentioned in the sentence, remove the line
+            # store what paragraph count it has come from in a list
+            # store the paragraph and line into a list of dict
+        # look at lines found of cases and get data commonly found in the same line e.g. date, disease, symptoms
+        # figure out same reports and combine them or different reports and divide them
+        # remove dud/useless data found
+        # add missing parts by going through paragraph before the line with cases and checking for date, disease, location
+        # if no disease or location can be found still, add in disease and location found in
 
         print(report_list)
         with open ('report_output', 'a') as f:
             json.dump(report_list, f)
             f.write('\n')
-
-        # seperate different reports 
-            # look at date, disease, location, if different ones are used then separate
-        # combine data talking about the same thing/same report 
-            # look at the paragraph it's from and the data found and see if they're similar and combine if so
-        # remove duplicate/dud data if any 
-            # somehow figure out what's bad data and delete
-s
-        # after data found is filtered (three points above), find more details
-        
-        # check for diseases, symptoms, event-date, source and extra info and add to dict if not already found
-        # loop through the list of reports
-            # look at what paragraph the line is found in 
-            # to find the date if it's missing
-                # look at the data before the line and search for the date
-            # if more than one report are within one paragraph
-                # search through the paragragh before the line was found and look for extra or missing  data
-            # if there's only one report per paragraph just search the whole thing for extra or missing data
-            
-        # after data found is filtered, fill in missing disease and locations using those found in the titles
 
         scraped_info = {
             'url': response.url,
