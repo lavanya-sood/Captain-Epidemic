@@ -1,95 +1,137 @@
-import flask
-from flask import request, jsonify,send_from_directory, make_response
+from flask import Flask,jsonify,request
+from flask_restplus import Api, Resource, fields
 import sqlite3
+import datetime
 from flask_swagger_ui import get_swaggerui_blueprint
 
 
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app = Flask(__name__)
+api = Api(app)
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>Teletubbies API</h1><p>This site is a TELETUBBIES prototype API.</p>"
+class Article(Resource):
+    @api.response(200, 'Success')
+    @api.response(404, 'No data found')
+    def get(self, start_date,end_date):
+        location = request.args.get('location')
+        if not location:
+            location = ""
+        key_terms = request.args.get('key_terms')
+        if not key_terms:
+            key_terms = ""
+        final_start,final_end = self.convert_date_to_int(start_date,end_date)
+        if final_end < final_start:
+            return "End date must be larger than start date",404
+        articles = self.check_data_exists(final_start,final_end,location,key_terms)
+        if articles == False:
+            return "No data found",404
+        result = self.get_results(articles)
+        return result,200
 
-# get by key terms disease
-@app.route('/teletubbies/who-api', methods=['GET'])
+    @api.response(403, 'Not Authorized')
+    def post(self, id):
+        api.abort(403)
 
-# data is compulsory
-def get_data():
-    conn = sqlite3.connect('who.db')
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-    disease = request.args.get('disease', '')
-    location = request.args.get('location', '')
-    start_date = request.args.get('start_date', '')
-    end_date = request.args.get('end_date', '')
-    # disease is given
-    if disease != '':
-        results = get_disease(disease,cur)
+    @api.response(403, 'Not Authorized')
+    def put(self, id):
+        api.abort(403)
+
+    @api.response(403, 'Not Authorized')
+    def delete(self, id):
+        api.abort(403)
+
+    # check if any data exists for the query
+    def check_data_exists(self,start_date,end_date,location,key_terms):
+        conn = sqlite3.connect('who.db')
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date from Article a JOIN Report r on r.url = a.url where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ';'
+        if location != '' and key_terms != '':
+            query = 'SELECT * from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location + '\'  and d.Disease = \'' + key_terms + '\';'
+        elif location != '':
+            query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,l.location,r.event_date from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location + '\';'
+        elif key_terms != '':
+            query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + key_terms + '\';'
+        results = cur.execute(query).fetchall()
+        articles = {}
         if len(results) == 0:
-            return "No Results Found"
-        return jsonify(results)
-    # location is given
-    if location != '':
-        results = get_location(location,cur)
-        if len(results) == 0:
-            return "No Results Found"
-        return jsonify(results)
-    # fix this?
-    # else:
-    #     all_diseases = cur.execute('SELECT * FROM disease;').fetchall()
-    #     return jsonify(all_diseases)
+            return False
+        for r in results:
+            if r['url'] in articles:
+                u = r['url']
+                articles[u].append(r['id'])
+            else:
+                arr = []
+                arr.append(r['id'])
+                u = r['url']
+                articles[u] = arr
+        return articles
 
-def get_location(location,cur):
-    query = 'SELECT * FROM Location L INNER JOIN Report ON Report.id = L.ReportID where L.location = \'' + location.title() + '\';'
-    ''' WHERE Location.Location = \'' + location + '\';'''
-    all_diseases = cur.execute(query).fetchall()
-    cur.close()
-    return all_diseases
+    # compile the results into correct format
+    def get_results(self,articles):
+        conn = sqlite3.connect('who.db')
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        res = []
+        for key in articles:
+            query = 'SELECT a.url,a.date_of_publication,a.headline,a.main_text from Article a WHERE a.url = \'' + key + '\';'
+            data = cur.execute(query).fetchall()
+            data[0]['reports'] = []
+            # change publication date format
+            date = str(data[0]['date_of_publication'])
+            data[0]['date_of_publication'] = date[0:4] + '-' + date[4:6] + '-' + date[6:8] + ' ' + date[8:10] + ':' + date[10:12] + ':' + date[12:14]
+            for id in articles[key]:
+                query = 'SELECT * from Report r left join Syndrome s on s.ReportID = r.id left join Location l on l.ReportID = r.id left join Disease d on d.ReportID = r.id where r.id =' + str(id) + ';'
+                report = cur.execute(query).fetchall()
+                b = {}
+                if len(report) > 0:
+                    b['event_date'] = report[0]['event_date']
+                # get list of locations, diseases and syndromes
+                b['locations'] = []
+                b['diseases'] = []
+                b['syndromes'] = []
+                for l in report:
+                    if l['Country'] or l['Location']:
+                        places = {}
+                        if not l['Country']:
+                            l['Country'] = ""
+                        if not l['Location']:
+                            l['Location']= ""
+                        places['country'] = l['Country']
+                        places['location'] = l['Location']
+                        if places not in b['locations']:
+                            b['locations'].append(places)
+                    else:
+                        b['locations'] = ""
+                    if l['Disease'] :
+                        if l['Disease'] not in b['diseases']:
+                            b['diseases'].append(l['Disease'])
+                    else:
+                        b['diseases'] = ""
+                    if l['Symptom'] :
+                        if l['Symptom'] not in b['syndromes']:
+                            b['syndromes'].append(l['Symptom'])
+                    else:
+                        b['syndromes'] = ""
+                data[0]['reports'].append(b)
+            res.append(data[0])
+        return res
 
-def get_disease(disease,cur):
-    query = 'SELECT * FROM Disease INNER JOIN Report ON Report.id = Disease.ReportID;'
-    all_diseases = cur.execute(query).fetchall()
-    cur.close()
-    return all_diseases
+    def convert_date_to_int(self,start_date,end_date):
+        start_day,start_time = start_date.split('T')
+        end_day,end_time = end_date.split('T')
+        sd = start_day.replace("-","")
+        ed = end_day.replace("-","")
+        st = start_time.replace(":","")
+        et = end_time.replace(":","")
+        final_start = sd + st
+        final_end = ed + et
+        return final_start,final_end
 
-# helper function
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
-
-
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static',path)
-
-
-
-# SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
-# #API_URL = 'http://petstore.swagger.io/v2/swagger.json'  # Our API url (can of course be a local resource)
-# API_URL = '/static/swagger.json'
-# # Call factory function to create our blueprint
-# swaggerui_blueprint = get_swaggerui_blueprint(
-#     SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
-#     API_URL,
-#     config={  # Swagger UI config overrides
-#         'app_name': "Test application"
-#     },
-#     # oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
-#     #    'clientId': "your-client-id",
-#     #    'clientSecret': "your-client-secret-if-required",
-#     #    'realm': "your-realms",
-#     #    'appName': "your-app-name",
-#     #    'scopeSeparator': " ",
-#     #    'additionalQueryStringParams': {'test': "hello"}
-#     # }
-# )
-
-# # Register blueprint at URL
-# # (URL must match the one given to factory function above)
-# app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 ### swagger specific ###
 SWAGGER_URL = '/swagger'
@@ -109,5 +151,5 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-
-app.run()
+api.add_resource(Article, "/article/<string:start_date>/<string:end_date>")
+app.run(debug=True)
