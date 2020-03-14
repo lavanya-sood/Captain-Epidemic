@@ -1,25 +1,41 @@
-from flask import Flask,jsonify
-from flask_restful import Api, Resource, reqparse
+from flask import Flask,jsonify,request
+from flask_restplus import Api, Resource, fields
 import sqlite3
 import datetime
 
 app = Flask(__name__)
 api = Api(app)
 
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
-
 class Article(Resource):
-    def get(self, start_date,end_date,location='',key_terms=''):
+    @api.response(200, 'Success')
+    @api.response(404, 'No data found')
+    def get(self, start_date,end_date):
+        location = request.args.get('location')
+        if not location:
+            location = ""
+        key_terms = request.args.get('key_terms')
+        if not key_terms:
+            key_terms = ""
         final_start,final_end = self.convert_date_to_int(start_date,end_date)
         if final_end < final_start:
             return "End date must be larger than start date",404
         articles = self.check_data_exists(final_start,final_end,location,key_terms)
+        if articles == False:
+            return "No data found",404
         result = self.get_results(articles)
         return result,200
+
+    @api.response(403, 'Not Authorized')
+    def post(self, id):
+        api.abort(403)
+
+    @api.response(403, 'Not Authorized')
+    def put(self, id):
+        api.abort(403)
+
+    @api.response(403, 'Not Authorized')
+    def delete(self, id):
+        api.abort(403)
 
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
@@ -109,6 +125,11 @@ class Article(Resource):
         final_end = ed + et
         return final_start,final_end
 
-api.add_resource(Article, "/article/start_date=<string:start_date>&end_date=<string:end_date>","/article/start_date=<string:start_date>&end_date=<string:end_date>&location=<string:location>","/article/start_date=<string:start_date>&end_date=<string:end_date>&key_terms=<string:key_terms>","/article/start_date=<string:start_date>&end_date=<string:end_date>&key_terms=<string:key_terms>&location=<string:location>","/article/start_date=<string:start_date>&end_date=<string:end_date>&location=<string:location>&key_terms=<string:key_terms>")
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
 
+api.add_resource(Article, "/article/<string:start_date>/<string:end_date>")
 app.run(debug=True)
