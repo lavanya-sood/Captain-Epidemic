@@ -52,11 +52,11 @@
                     "properties": {
                       "start_date": {
                         "type": "string",
-                        "discription": "The start date of the articles"
+                        "description": "The start date of the articles. Use format YYYY-MM-DDTHH:MM:SS"
                       },
                       "end_date": {
                         "type": "string",
-                        "discription": "The end date of the articles"
+                        "description": "The end date of the articles. Use format YYYY-MM-DDTHH:MM:SS"
                       },
                       "location": {
                         "type": "string",
