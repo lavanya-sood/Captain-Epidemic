@@ -10,19 +10,13 @@
         "url": "/"
       }
     ],
-    "tags": [
-      {
-        "name": "Diseases Information",
-        "description": "This API is used to get information from Epidemics"
-      }
-    ],
     "paths": {
-      "/report": {
+      "/article/": {
         "get": {
           "tags": [
-            "Book Request"
+            "Epidemic Reports"
           ],
-          "summary": "Get articles by requested date range",
+          "summary": "This API is used to get information from Epidemics",
           "parameters": [
             {
               "in": "query",
