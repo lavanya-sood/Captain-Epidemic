@@ -2,11 +2,16 @@
 #locations is the list returned with location objects (just add to scraped_info)
 #right now runs with python3 locationbot.py 
 import pycountry
-from Location import *
+#from Location import * this doesnt work with scrapy? 
 from geotext import GeoText
 
 import unicodedata
 
+class Location:
+  def __init__(self, country, location):
+    self.country = country
+    self.location = location
+    
 def remove_accents(input_str):
     nfkd_form = unicodedata.normalize('NFKD', input_str)
     return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
