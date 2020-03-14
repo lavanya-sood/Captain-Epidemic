@@ -1,5 +1,5 @@
 #how this works: given a body of text (string) it can find all the countries in that given section
-#locations is the list returned with location objects
+#locations is the list returned with location objects (just add to scraped_info)
 #right now runs with python3 locationbot.py 
 import pycountry
 from Location import *
@@ -27,7 +27,7 @@ for country in pycountry.countries:
             location = Location(country.name, cities)
         foundState = "no"
         for sub in pycountry.subdivisions.get(country_code = country.alpha_2):
-            if remove_accents(sub.name) in text || sub.name in text:
+            if remove_accents(sub.name) in text or sub.name in text:
                 location = Location(country.name, sub.name)
                 found_state = "yes"
         #if there's no more specific info given
