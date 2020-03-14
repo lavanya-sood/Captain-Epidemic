@@ -10,40 +10,40 @@
         "url": "/"
       }
     ],
-    "tags": [
-      {
-        "name": "Diseases Information",
-        "description": "This API is used to get information from Epidemics"
-      }
-    ],
     "paths": {
-      "/report": {
+      "/article": {
         "get": {
           "tags": [
-            "Book Request"
-          ],
+            {
+              "name": "Diseases Information"
+            }
+            ],
           "summary": "Get articles by requested date range",
           "parameters": [
             {
               "in": "query",
               "name": "start_date",
               "required": true,
-              "description": "Start date for the articles"
+              "type":"string",
+              "description": "Start date for the articles e.g. 20190809T080909"
             }, 
             {
               "in": "query",
               "name": "end_date",
               "required": true,
-              "description": "End date for the articles"
+              "type":"string",
+              "description": "End date for the articles e.g. 20190809T080909"
             },
             {
               "in": "query",
               "name": "location",
+              "type":"string",
               "description": "The location where the epidemic takes place"
             },
             {
               "in": "query",
               "name": "key_terms",
+              "type":"string",
               "description": "The key terms to look for when finding article"
             }
           ],
@@ -58,10 +58,12 @@
                     "properties": {
                       "start_date": {
                         "type": "string",
+                        "required":true,
                         "discription": "The start date of the articles"
                       },
                       "end_date": {
                         "type": "string",
+                        "required":true,
                         "discription": "The end date of the articles"
                       },
                       "location": {
