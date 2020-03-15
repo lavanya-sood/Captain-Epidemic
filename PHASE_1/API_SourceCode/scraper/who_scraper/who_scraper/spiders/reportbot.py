@@ -63,16 +63,63 @@ class ReportbotSpider(scrapy.Spider):
             event_dates = event_date_helper(paragraph[i])
             i += 1
         
+        months = [
+            {'January': '01'},
+            {'February': '02'},
+            {'March': '03'},
+            {'April': '04'},
+            {'May': '05'},
+            {'June': '06'},
+            {'July': '07'},
+            {'August': '08'},
+            {'September': '09'},
+            {'October': '10'},
+            {'November': '11'},
+            {'December': '12'},
+        ]
+        new_event_dates = []
+        temp_event_dates = []
+        for e in event_dates:
+            if (re.search('and ',e,re.IGNORECASE)):
+                date_2 = e.split('and ')[1]
+                date_1 = e.split('and ')[0] + ' '.join(date_2.split(' ')[1:])
+                temp_event_dates.append(date_1)
+                temp_event_dates.append(date_2)
+            else:
+                temp_event_dates.append(e)
+        for e in temp_event_dates:
+            day = 'XX'
+            month = 'XX'
+            year = 'XXXX'
+            dates_expanded = e.split(' ')
+            for d in dates_expanded:
+                date_int = re.search('[0-9]+',d,re.IGNORECASE)
+                if (date_int):
+                    if (len(date_int.group()) > 2):
+                        year = date_int.group()
+                    else:
+                        day = date_int.group()
+                        if (len(day) < 2):
+                            day = '0'+day
+                else:
+                    month = re.search('January|February|March|April|May|June|July|August|September|October|November|December',d,re.IGNORECASE)
+                    if (month):
+                        month = month.group()
+                        for m in months:
+                            mon = list(m.keys())[0]
+                            if (re.search(month, mon, re.IGNORECASE)):
+                                month = m[mon]
+            if (year is 'XXXX'):
+                temp_year = re.search('[0-9]{4}',headline)
+                if (temp_year):
+                    year = temp_year.group()
+            date = day+'-'+month+'-'+year
+            new_event_dates.append(date)
+
         # link diseases to the disease list given and then check for more diseases in the main text
             # if found that means there's more reports and need to scan the paragraph it was found in for more report details 
-        
-
-        # for influenza -> need to do something different
-        
-
         new_diseases = get_disease_name(disease,maintext)
         
-
         # find symptoms: scan whole main text if no other diseases exist, or read all paragraphs up to the other diseases paragraph 
         # find sources: scan whole main text if no other diseases exist, or read all paragraphs up to the other diseases paragraph
 
@@ -179,7 +226,8 @@ class ReportbotSpider(scrapy.Spider):
             'maintext': maintext,
             'disease': disease,
             'proper-disease': new_diseases,
-            'event-date': event_dates
+            'event-date': event_dates,
+            'new_event_date': new_event_dates
         }
 
         #report_list.append(scraped_info)
