@@ -13,8 +13,8 @@
 * Ability to make request to the API
 * Generating an output file 
 
-The API has been documented in swagger and hosted online using the following link https://teletubbies-who-api.herokuapp.com/
-More detailed information on Deliverable 2 has been provided in PHASE_1/API_SourceCode/readme.md file. :simple_smile:
+The API has been documented in Swagger and hosted online using the following link https://teletubbies-who-api.herokuapp.com/
+More detailed information on Deliverable 2 has been provided in PHASE_1/API_SourceCode/readme.md file.
 
 ## Collaborators:
 * **Yin Huey Tan** z5211373
