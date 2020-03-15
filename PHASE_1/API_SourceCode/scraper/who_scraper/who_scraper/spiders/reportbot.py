@@ -33,6 +33,9 @@ class ReportbotSpider(scrapy.Spider):
             section_check = re.search('<h5 class="section_head3">', maintext)
             if (section_check):
                 maintext = maintext.split('<h5 class="section_head3">')[0]
+            section_check = re.search('<ul class="list">', maintext)
+            if (section_check):
+                maintext = maintext.split('<ul class="list">')[0]
             if (len(response.css('.dateline').extract()) > 0):
                 maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[0:]).replace('\t','').split('\n')[1:]))))
             else: 
@@ -42,6 +45,9 @@ class ReportbotSpider(scrapy.Spider):
             section_check = re.search('<h5 class="section_head3">', maintext)
             if (section_check):
                 maintext = maintext.split('<h5 class="section_head3">')[0]
+            section_check = re.search('<ul class="list">', maintext)
+            if (section_check):
+                maintext = maintext.split('<ul class="list">')[0]
             maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
             if maintext is '': 
                 maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[1]
@@ -75,21 +81,8 @@ class ReportbotSpider(scrapy.Spider):
             event_dates = event_date_helper(paragraph[i])
             i += 1
         
-        months = [
-            {'January': '01'},
-            {'February': '02'},
-            {'March': '03'},
-            {'April': '04'},
-            {'May': '05'},
-            {'June': '06'},
-            {'July': '07'},
-            {'August': '08'},
-            {'September': '09'},
-            {'October': '10'},
-            {'November': '11'},
-            {'December': '12'},
-        ]
-        new_event_dates = []
+        
+        new_dates = []
         temp_event_dates = []
         for e in event_dates:
             if (re.search('and ',e,re.IGNORECASE)):
@@ -99,34 +92,28 @@ class ReportbotSpider(scrapy.Spider):
                 temp_event_dates.append(date_2)
             else:
                 temp_event_dates.append(e)
-        for e in temp_event_dates:
-            day = 'XX'
-            month = 'XX'
-            year = 'XXXX'
-            dates_expanded = e.split(' ')
-            for d in dates_expanded:
-                date_int = re.search('[0-9]+',d,re.IGNORECASE)
-                if (date_int):
-                    if (len(date_int.group()) > 2):
-                        year = date_int.group()
-                    else:
-                        day = date_int.group()
-                        if (len(day) < 2):
-                            day = '0'+day
-                else:
-                    month = re.search('January|February|March|April|May|June|July|August|September|October|November|December',d,re.IGNORECASE)
-                    if (month):
-                        month = month.group()
-                        for m in months:
-                            mon = list(m.keys())[0]
-                            if (re.search(month, mon, re.IGNORECASE)):
-                                month = m[mon]
-            if (year is 'XXXX'):
-                temp_year = re.search('[0-9]{4}',headline)
-                if (temp_year):
-                    year = temp_year.group()
-            date = day+'-'+month+'-'+year
-            new_event_dates.append(date)
+        new_dates = convert_dates(temp_event_dates, ' ', headline, response)
+        if (len(new_dates) == 0):
+            event_date = re.findall('\d{4}_\d{2}_\d{2}', response.url)
+            if len(event_date) == 0:
+                event_date = response.url.split('don/')[1].split('-')[:3]
+                month = convert_month(event_date[1])
+                event_date = event_date[2]+'-'+month+'-'+event_date[0]+' xx:xx:xx'
+            else:
+                event_date = re.sub(r'_','-',event_date[0])+' xx:xx:xx'
+        else:
+            new_dates.sort()
+            first_date = new_dates[0]
+            last_date = new_dates[len(new_dates)-1]
+            if (first_date != last_date):
+                date1 = format_date(first_date)
+                date2 = format_date(last_date)
+                event_date = date1 + ' to ' + date2
+            else:
+                event_date = format_date(first_date)
+
+
+
 
         # link diseases to the disease list given and then check for more diseases in the main text
             # if found that means there's more reports and need to scan the paragraph it was found in for more report details 
@@ -238,8 +225,9 @@ class ReportbotSpider(scrapy.Spider):
             'maintext': maintext,
             'disease': disease,
             'proper-disease': new_diseases,
-            'event-date': event_dates,
-            'new_event_date': new_event_dates,
+            'event-dates': event_dates,
+            'new_event_date': new_dates,
+            'event-date': event_date,
             'key_terms': key_terms
         }
 
@@ -428,3 +416,72 @@ def key_terms_helper(text, terms_list):
             else:
                 terms_found = None
     return terms_list
+
+def format_date(date):
+    date = str(date)
+    year = date[:4]
+    if (year == '0000'):
+        year = 'xxxx'
+    month = date[4:6]
+    if (month == '00'):
+        month = 'xx'
+    day = date[6:]
+    if (day == '00'):
+        day = 'xx'
+    return year + '-' + month + '-' + day + ' xx:xx:xx'
+
+def convert_month(string):
+    months = [
+        {'January': '01'},
+        {'February': '02'},
+        {'March': '03'},
+        {'April': '04'},
+        {'May': '05'},
+        {'June': '06'},
+        {'July': '07'},
+        {'August': '08'},
+        {'September': '09'},
+        {'October': '10'},
+        {'November': '11'},
+        {'December': '12'},
+    ]
+    month = re.search('January|February|March|April|May|June|July|August|September|October|November|December',string,re.IGNORECASE)
+    if (month):
+        month = month.group()
+        for m in months:
+            mon = list(m.keys())[0]
+            if (re.search(month, mon, re.IGNORECASE)):
+                month = m[mon]
+    return month
+
+def convert_dates(temp_event_dates, string, headline, response):
+   
+    new_dates = []
+    for e in temp_event_dates:
+        day = '00'
+        month = '00'
+        year = '0000'
+        dates_expanded = e.split(string)
+        for d in dates_expanded:
+            date_int = re.search('[0-9]+',d,re.IGNORECASE)
+            if (date_int):
+                if (len(date_int.group()) > 2):
+                    year = date_int.group()
+                else:
+                    day = date_int.group()
+                    if (len(day) < 2):
+                        day = '0'+day
+            else:
+                month = convert_month(d)
+        if (year is '0000'):
+            temp_year = re.search('[0-9]{4}',headline)
+            if (temp_year):
+                year = temp_year.group()
+        if (year is '0000'):
+            temp_year = re.search('[0-9]{4}', response.url)
+            if (temp_year):
+                year = temp_year.group()
+        date = year + month + day
+        date = int(date)
+        new_dates.append(date)
+    return new_dates
