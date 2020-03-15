@@ -14,8 +14,20 @@ class ReportbotSpider(scrapy.Spider):
         
         publication_date = response.xpath('//meta[@name="DC.date.published"]/@content')[0].extract()
         #convert yyyy_mm_dd and dd_month_yyyy for database
-        
+  
+        key_terms = [] #list of strings
+        #separate related_terms, get rid of [...]
+        related_terms = response.xpath('//meta[@name="DC.keywords"]/@content')[0].extract()
+        related_terms = re.sub('\[.*?\]', '', related_terms)
+        key_terms = related_terms.split(',')
+        for i, term in enumerate(key_terms):
+            key_terms[i] = term.strip()
+            
         maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[0].split('<!-- close of the meta div -->')
+ 
+        for alltext in maintext:
+            key_terms = key_terms_helper(alltext.lower(), key_terms)
+        
         if len(maintext) == 1: 
             maintext = maintext[0]
             section_check = re.search('<h5 class="section_head3">', maintext)
@@ -227,7 +239,8 @@ class ReportbotSpider(scrapy.Spider):
             'disease': disease,
             'proper-disease': new_diseases,
             'event-date': event_dates,
-            'new_event_date': new_event_dates
+            'new_event_date': new_event_dates,
+            'key_terms': key_terms
         }
 
         #report_list.append(scraped_info)
@@ -399,3 +412,19 @@ def get_disease_name(disease,maintext):
     if (len(new_diseases) == 0):
         new_diseases = ['unknown']
     return new_diseases
+
+def key_terms_helper(text, terms_list):
+    terms = 'outbreak|infection|fever|virus|epidemic|infectious|illness|bacteria|emerging|unknown virus|mystery disease|mysterious disease|zika|mers|salmonella|legionnaire|measles|category a agents|anthrax|botulism|plague|smallpox|pox|tularemia|junin fever|machupo fever|guanarito fever|chapare fever|lassa fever|lujo fever|hantavirus|rift valley fever|crimean congo hemorrhagic fever|dengue|ebola|marburg'
+    terms_found = re.search(terms, text)
+    if (terms_found):
+        terms_found = terms_found.group()
+        terms_list.append(terms_found)
+        while(terms_found is not None):
+            text = text.replace(terms_found, '')
+            terms_found = re.search(terms, text)
+            if (terms_found):
+                terms_found = terms_found.group()
+                terms_list.append(terms_found)
+            else:
+                terms_found = None
+    return terms_list
