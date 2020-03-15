@@ -117,7 +117,7 @@ class ReportbotSpider(scrapy.Spider):
 
         # link diseases to the disease list given and then check for more diseases in the main text
             # if found that means there's more reports and need to scan the paragraph it was found in for more report details 
-        new_diseases = get_disease_name(disease,maintext)
+        diseases = get_disease_name(disease,maintext)
         
         # find symptoms: scan whole main text if no other diseases exist, or read all paragraphs up to the other diseases paragraph 
         # find sources: scan whole main text if no other diseases exist, or read all paragraphs up to the other diseases paragraph
@@ -223,10 +223,7 @@ class ReportbotSpider(scrapy.Spider):
             'headline': headline,
             'publication-date': publication_date,
             'maintext': maintext,
-            'disease': disease,
-            'proper-disease': new_diseases,
-            'event-dates': event_dates,
-            'new_event_date': new_dates,
+            'disease': diseases,
             'event-date': event_date,
             'key_terms': key_terms
         }
