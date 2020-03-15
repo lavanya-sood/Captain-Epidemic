@@ -1,6 +1,6 @@
 # SENG3011_TeleTubbies
 
-## Deliverable 1 (finished)
+## Deliverable 1
 
 ### Design Details
 
