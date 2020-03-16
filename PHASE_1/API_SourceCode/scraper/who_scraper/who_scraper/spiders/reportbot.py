@@ -3,7 +3,7 @@ import scrapy
 import re
 import json
 from collections import Counter
-
+from text2digits import text2digits #need to pip install
 
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
@@ -24,9 +24,15 @@ class ReportbotSpider(scrapy.Spider):
             key_terms[i] = term.strip()
             
         maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[0].split('<!-- close of the meta div -->')
- 
-        for alltext in maintext:
-            key_terms = key_terms_helper(alltext.lower(), key_terms)
+        alltext = response.css('div#primary').extract()[0]
+        key_terms = key_terms_helper(alltext.lower(), key_terms)
+
+        #convert all numbers written in words into numbers
+        #join numbers like 18 038 to 18038
+        alltext = re.sub('(?<=\d) (?=\d)', '', alltext)
+        alltext = re.sub('(?<=\d),(?=\d)', '', alltext)
+        cases = find_cases(response, text2digits.Text2Digits().convert(alltext))
+        deaths = find_deaths(response,text2digits.Text2Digits().convert(alltext))
         
         if len(maintext) == 1: 
             maintext = maintext[0]
@@ -225,7 +231,9 @@ class ReportbotSpider(scrapy.Spider):
             'maintext': maintext,
             'disease': diseases,
             'event-date': event_date,
-            'key_terms': key_terms
+            'key_terms': key_terms,
+            'cases': cases,
+            'deaths': deaths
         }
 
         #report_list.append(scraped_info)
@@ -482,3 +490,40 @@ def convert_dates(temp_event_dates, string, headline, response):
         date = int(date)
         new_dates.append(date)
     return new_dates
+
+def find_cases(response, alltext):
+    table = response.xpath('//*[@class="borderOn"]//tbody')
+    if (table): #if there is a table outlining cases use this
+        rows = table.xpath('//tr')
+        row = rows[-3]
+        case = row.xpath('td//text()')[-1].extract()
+        return case
+    #otherwise look through all text and find 'totals' (find confirmed here too)
+    case = re.search('total (of )?[ 0-9]+| ^(\(H1N1\)) [ 0-9]+ confirmed case(s)?', alltext) #finds first one only automatically
+    #H1n1 case is because some reports name it h1n1 2009 (reports sometimes say h1n1 2009 confirmed cases)
+    if (case):
+        case = case.group()
+        case = int(''.join(filter(str.isdigit, case)))
+        return case
+    #otherwise look for all other ways of saying cases
+    case = re.search(' ^(\(H1N1\)) [ 0-9]+( suspected| new| laboratory-confirmed| confirmed)? case(s)?| ^(\(H1N1\)) [ 0-9]+(st|rd|nd|th) case| ^(\(H1N1\)) [ 0-9]+ laboratory confirmed', alltext)
+    if (case):
+        case = case.group()
+        case = int(''.join(filter(str.isdigit, case)))
+        return case
+    return case #None
+
+def find_deaths(response, alltext):
+    table = response.xpath('//*[@class="borderOn"]//tbody')
+    if (table): #if there is a table outlining cases use this
+        rows = table.xpath('//tr')
+        row = rows[-2]
+        death = row.xpath('td//text()')[-1].extract()
+        return death
+    #otherwise look through all text and find 'ways of saying death'
+    death = re.search(' [ 0-9]+ death(s)?| [ 0-9]+ case(s)? died | [ 0-9]+ of fatal | [ 0-9]+ fatal | [ 0-9]+ (were|was) fatal | [ 0-9]+ related death(s)? | [ 0-9]+ ha(ve|s) been fatal | [ 0-9]+ of these cases have died | [ 0-9]+ ha(ve|s) died ', alltext) #finds first one only automatically
+    if (death):
+        death = death.group()
+        death = int(''.join(filter(str.isdigit, death)))
+        return death
+    return death #none
