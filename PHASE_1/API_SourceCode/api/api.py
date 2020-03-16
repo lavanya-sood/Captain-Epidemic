@@ -48,7 +48,7 @@ class Article(Resource):
             key_terms = ""
         final_start,final_end = self.convert_date_to_int(start_date,end_date)
         if final_end < final_start:
-            return "End date must be larger than start date",404
+            return "End date must be larger than start date",400
         articles = self.check_data_exists(final_start,final_end,location,key_terms)
         if articles == False:
             return "No data found",404
