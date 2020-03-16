@@ -15,7 +15,7 @@ app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Who REST Api - Teletubbies'
 app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
-#api = api.namespace('article', description = 'WHO Disease Article Operations')
+api = api.namespace('article', description = 'WHO Disease Article Operations')
 # add description to each request 
 
 class Article(Resource):
@@ -82,12 +82,11 @@ class Article(Resource):
     @api.response(403, 'url already exists')
     @api.response(401, 'Unathorised id')
     @api.response(200, 'Success')
-    # add error for empty inputs
     def post(self):
         api.abort(401)
     
     # make parameters required or part of path
-    # add a report to an article 
+    # adds a report to an article 
     @app.route('/article/<id>/<url>')
     @api.doc(params={'id': 'Authorisation id to put a disease report into an existing article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to the Who news article a report is to be added to. Url must exist in the database'})
@@ -96,7 +95,6 @@ class Article(Resource):
     @api.doc(params={'location': 'The location within a country the disease was reported in'})
     @api.doc(params={'diseases': 'The disease reported in the article'})
     @api.doc(params={'syndromes': 'The symptoms reported in the article. Separate the symptoms with a comma'})
-    # add error for empty inputs
     @api.response(401, 'Unathorised id')
     @api.response(400, 'url cannot be empty')
     @api.response(200, 'Success')
