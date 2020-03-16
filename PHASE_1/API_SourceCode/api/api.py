@@ -13,6 +13,7 @@ app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
 api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
 
 
+
 class Article(Resource):
     model = api.model('Diseases', {      
         "url": fields.DateTime,
@@ -27,14 +28,22 @@ class Article(Resource):
         "syndromes": fields.String
         
     })
+
+
     @api.response(200, 'Success',model)
     @api.response(404, 'No data found')
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
     @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
     @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma'})
     @api.doc(params={'location': 'The country where the epidemic takes place'})
+    # @api.doc(params={'time_zone': fields.String(description='Time Zone of the article. Could be empty', enum=['A', 'B'])})
+    # @api.doc(params={'time_zone':'Time Zone of the article. Could be empty', "enum":['A', 'B']})
+    # @api.doc(params={'time_zone': fields.String(description="Time Zone of the article. Could be empty")})
     @api.response(400, 'Invalid date format')
+
+
     def get(self, start_date,end_date):
+        
         # check start and end date format
         if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
             return "Invalid date input",400
