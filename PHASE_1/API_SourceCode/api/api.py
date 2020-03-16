@@ -4,6 +4,7 @@ import sqlite3
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_restplus import Api, Resource, fields
 import datetime
+import re
 
 
 app = Flask(__name__)
@@ -12,7 +13,12 @@ api = Api(app,doc=False)
 class Article(Resource):
     @api.response(200, 'Success')
     @api.response(404, 'No data found')
+    @api.response(403, 'Invalid format')
     def get(self, start_date,end_date):
+        # pattern match start and end date
+        # re.search("^[0-9][0-9]\-[0-9]\-[0-9]T[0-9]:[0-9]:[0-9}$", start_date)
+        # if not x:
+        #   # return 403 api.abort(403)
         location = request.args.get('location')
         if not location:
             location = ""
@@ -51,7 +57,16 @@ class Article(Resource):
         elif location != '':
             query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,l.location,r.event_date from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location + '\';'
         elif key_terms != '':
-            query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + key_terms + '\';'
+            if ',' in key_terms:
+                k = key_terms.split(',')
+                i = 1
+                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[0] + '\''
+                while i < len(k):
+                    query = query + ' UNION SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[i] + '\''
+                    i+=1
+                query = query + ';'
+            else:
+                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + key_terms + '\';'
         results = cur.execute(query).fetchall()
         articles = {}
         if len(results) == 0:
