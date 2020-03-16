@@ -8,12 +8,16 @@ import re
 
 
 app = Flask(__name__)
-api = Api(app)
+app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
+api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
 
 class Article(Resource):
     @api.response(200, 'Success')
     @api.response(404, 'No data found')
     @api.response(403, 'Invalid format')
+    @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
+    @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
+    @api.doc(params={'key_terms': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
     def get(self, start_date,end_date):
         # pattern match start and end date
         # re.search("^[0-9][0-9]\-[0-9]\-[0-9]T[0-9]:[0-9]:[0-9}$", start_date)
