@@ -8,8 +8,10 @@ import re
 
 
 app = Flask(__name__)
+
 app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
 api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
+
 
 class Article(Resource):
     model = api.model('Diseases', {      
@@ -27,16 +29,17 @@ class Article(Resource):
     })
     @api.response(200, 'Success',model)
     @api.response(404, 'No data found')
-    @api.response(403, 'Invalid format')
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
     @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
     @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma'})
     @api.doc(params={'location': 'The country where the epidemic takes place'})
+    @api.response(400, 'Invalid date format')
     def get(self, start_date,end_date):
-        # pattern match start and end date
-        # re.search("^[0-9][0-9]\-[0-9]\-[0-9]T[0-9]:[0-9]:[0-9}$", start_date)
-        # if not x:
-        #   # return 403 api.abort(403)
+        # check start and end date format
+        if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
+            return "Invalid date input",400
+        if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", end_date):
+            return "Invalid date input",400
         location = request.args.get('location')
         if not location:
             location = ""
@@ -54,20 +57,17 @@ class Article(Resource):
 
     @api.response(403, 'Not Authorized')
     def delete(self, id):
-        api.abort(403)
+         api.abort(403)
     
+    @api.response(403, 'Not Authorized')
+    def post(self):
+        api.abort(403)
     
 
     @api.response(403, 'Not Authorized')
-    def put(self, id):
+    def put(self):
         api.abort(403)
-    
-    @api.response(403, 'Not Authorized')
-    def post(self, id):
-        api.abort(403)
-
-    
-
+        
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
         conn = sqlite3.connect('who.db')
@@ -75,20 +75,29 @@ class Article(Resource):
         cur = conn.cursor()
         query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date from Article a JOIN Report r on r.url = a.url where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ';'
         if location != '' and key_terms != '':
-            query = 'SELECT * from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location + '\'  and d.Disease = \'' + key_terms + '\';'
+            if ',' in key_terms:
+                k = key_terms.split(',')
+                i = 1
+                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[0].lower() + '\'and l.location = \'' + location.title() + '\''
+                while i < len(k):
+                    query = query + ' UNION SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[i].lower() + '\'and l.location = \'' + location.title() + '\''
+                    i+=1
+                query = query + ';'
+            else:
+                query = 'SELECT * from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location.title() + '\'  and d.Disease = \'' + key_terms.lower() + '\';'
         elif location != '':
-            query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,l.location,r.event_date from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location + '\';'
+            query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,l.location,r.event_date from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location.title() + '\';'
         elif key_terms != '':
             if ',' in key_terms:
                 k = key_terms.split(',')
                 i = 1
-                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[0] + '\''
+                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[0].lower() + '\''
                 while i < len(k):
-                    query = query + ' UNION SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[i] + '\''
+                    query = query + ' UNION SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + k[i].lower() + '\''
                     i+=1
                 query = query + ';'
             else:
-                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + key_terms + '\';'
+                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and d.Disease = \'' + key_terms.lower() + '\';'
         results = cur.execute(query).fetchall()
         articles = {}
         if len(results) == 0:
