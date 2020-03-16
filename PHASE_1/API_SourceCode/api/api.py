@@ -7,7 +7,7 @@ import datetime
 
 
 app = Flask(__name__)
-api = Api(app,doc=false)
+api = Api(app)
 
 class Article(Resource):
     @api.response(200, 'Success')
