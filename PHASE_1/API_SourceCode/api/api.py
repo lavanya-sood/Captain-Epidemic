@@ -238,5 +238,5 @@ def send_static(path):
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-api.add_resource(Article, "/<string:start_date>/<string:end_date>")
+api.add_resource(Article, "")
 app.run(debug=True)
