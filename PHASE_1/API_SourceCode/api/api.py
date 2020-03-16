@@ -13,7 +13,7 @@ api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is A
 
 class Article(Resource):
     model = api.model('Diseases', {      
-        "url": fields.String,
+        "url": fields.DateTime,
         "date_of_publication": fields.DateTime,
         "headline": fields.String,
         "main_text": fields.String,
