@@ -12,7 +12,7 @@ import json
 
 app = Flask(__name__)
 
-app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Who REST Api - Teletubbies'
+app.config.SWAGGER_UI_OAUTH_APP_NAME = 'WHO REST Api - Teletubbies'
 app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
@@ -35,7 +35,7 @@ reports = api.model('Report', {
 })
 
 
-articles = api.model('Article', {      
+articles = api.model('Article', {
     "url": fields.Url,
     "date_of_publication": fields.DateTime,
     "headline": fields.String,
@@ -43,21 +43,21 @@ articles = api.model('Article', {
     "reports": fields.List(fields.Nested(reports)),
 })
 
-
-data = {"name": "pet","description":"Everything about your Pets"}
-
-#"tags":[{"name":"pet","description":"Everything about your Pets"
-
+parser = api.parser()
+parser.add_argument('start_date', help='Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00', location='args',required=True)
+parser.add_argument('end_date', help='End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59', location='args',required=True)
 class Article(Resource):
     @api.response(200, 'Success',[articles])
     @api.response(404, 'No data found')
-    @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00'})
-    @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59'})
     @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma. Eg:ebola,virus'})
     @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Guinea'})
     @api.response(400, 'Invalid date format')
     @api.doc(summary='Get request gets all the articles given the parameters')
-    def get(self, start_date,end_date):
+    @api.expect(parser,validate=False)
+    def get(self):
+        args = parser.parse_args()
+        start_date = args['start_date']
+        end_date = args['end_date']
         # check start and end date format
         if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
             return "Invalid date input",400
@@ -86,7 +86,7 @@ class Article(Resource):
     @api.response(200, 'Success')
     def delete(self, id):
          api.abort(401)
-    
+
     # make parameters required or part of path
     @api.doc(params={'id': 'Authorisation id to post an article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to a Who news article. Must not already exist in the database'})
@@ -99,9 +99,9 @@ class Article(Resource):
     @api.response(200, 'Success')
     def post(self):
         api.abort(401)
-    
+
     # make parameters required or part of path
-    # adds a report to an article 
+    # adds a report to an article
     @api.doc(params={'id': 'Authorisation id to put a disease report into an existing article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to the Who news article a report is to be added to. Url must exist in the database'})
     @api.doc(params={'event_date': "The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'"})
@@ -115,7 +115,7 @@ class Article(Resource):
     @api.response(403, 'url does not exist')
     def put(self):
         api.abort(401)
-        
+
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
         conn = sqlite3.connect('who.db')
