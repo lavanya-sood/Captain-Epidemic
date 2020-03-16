@@ -8,7 +8,7 @@ import re
 
 
 app = Flask(__name__)
-api = Api(app,doc=False)
+api = Api(app)
 
 class Article(Resource):
     @api.response(200, 'Success')
