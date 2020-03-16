@@ -19,7 +19,7 @@ api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API c
 #api = Api(app,default='article',default_label='WHO Disease Article Operations',title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
 
-api = api.namespace('article', description = 'WHO Disease Article Operations')
+api = api.namespace('article', description = 'WHO Disease Article and Report Operations')
 
 
 locations = api.model('Locations', {
@@ -43,9 +43,18 @@ articles = api.model('Article', {
     "reports": fields.List(fields.Nested(reports)),
 })
 
-parser = api.parser()
-parser.add_argument('start_date', help='Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00', location='args',required=True)
-parser.add_argument('end_date', help='End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59', location='args',required=True)
+parser1 = api.parser()
+parser1.add_argument('start_date', help='Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00', location='args',required=True)
+parser1.add_argument('end_date', help='End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59', location='args',required=True)
+parser2 = api.parser()
+parser2.add_argument('id', help='Authorisation id to delete an existing article (only available to authorised users)', location='args', required=True)
+parser2.add_argument('url', help='Url to the Who news article to be deleted. Url must exist in the database', location='args', required=True)
+parser3 = api.parser()
+parser3.add_argument('id', help='Authorisation id to post an article (only available to authorised users)', location='args', required=True)
+parser3.add_argument('url', help='Url to a Who news article. Must not already exist in the database', location='args', required=True)
+parser4 = api.parser()
+parser4.add_argument('id', help='Authorisation id to put a disease report into an existing article (only available to authorised users)', location='args', required=True)
+parser4.add_argument('url', help='Url to the Who news article a report is to be added to. Url must exist in the database', location='args', required=True)
 class Article(Resource):
     @api.response(200, 'Success',[articles])
     @api.response(404, 'No data found')
@@ -53,9 +62,9 @@ class Article(Resource):
     @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Guinea'})
     @api.response(400, 'Invalid date format')
     @api.doc(summary='Get request gets all the articles given the parameters')
-    @api.expect(parser,validate=False)
+    @api.expect(parser1,validate=False)
     def get(self):
-        args = parser.parse_args()
+        args = parser1.parse_args()
         start_date = args['start_date']
         end_date = args['end_date']
         # check start and end date format
@@ -78,41 +87,35 @@ class Article(Resource):
         result = self.get_results(articles)
         return result,200
 
-     # make parameters required or part of path
-    @api.doc(params={'id': 'Authorisation id to delete an existing article (only available to authorised users)'})
-    @api.doc(params={'url': 'Url to the Who news article to be deleted. Url must exist in the database'})
     @api.response(403, 'url does not exist')
-    @api.response(401, 'Unathorised id')
+    @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
+    @api.expect(parser2,validate=False)
     def delete(self, id):
          api.abort(401)
 
-    # make parameters required or part of path
-    @api.doc(params={'id': 'Authorisation id to post an article (only available to authorised users)'})
-    @api.doc(params={'url': 'Url to a Who news article. Must not already exist in the database'})
     @api.doc(params={'date_of_publication': "Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. '2020-01-17 13:09:44'"})
     @api.doc(params={'headline': 'Headline of the Who news article'})
     @api.doc(params={'main-text': 'Main text body of the Who news article'})
     @api.response(400, 'Invalid date_of_publication format')
     @api.response(403, 'url already exists')
-    @api.response(401, 'Unathorised id')
+    @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
+    @api.expect(parser3,validate=False)
     def post(self):
         api.abort(401)
 
-    # make parameters required or part of path
     # adds a report to an article
-    @api.doc(params={'id': 'Authorisation id to put a disease report into an existing article (only available to authorised users)'})
-    @api.doc(params={'url': 'Url to the Who news article a report is to be added to. Url must exist in the database'})
     @api.doc(params={'event_date': "The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'"})
     @api.doc(params={'country': 'The country the disease was reported in'})
     @api.doc(params={'location': 'The location within a country the disease was reported in'})
     @api.doc(params={'diseases': 'The disease reported in the article'})
     @api.doc(params={'syndromes': 'The symptoms reported in the article. Separate the symptoms with a comma'})
-    @api.response(401, 'Unathorised id')
+    @api.response(401, 'Unauthorised id')
     @api.response(400, 'url cannot be empty')
     @api.response(200, 'Success')
     @api.response(403, 'url does not exist')
+    @api.expect(parser4,validate=False)
     def put(self):
         api.abort(401)
 
