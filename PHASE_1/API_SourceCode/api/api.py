@@ -17,10 +17,10 @@ class Article(Resource):
         "date_of_publication": fields.DateTime,
         "headline": fields.String,
         "main_text": fields.String,
+        "id":fields.DateTime,
         "event_date": fields.DateTime,
         "locations": fields.String,
         "country": fields.String,
-        "location": fields.String,
         "diseases": fields.String,
         "syndromes": fields.String
         
