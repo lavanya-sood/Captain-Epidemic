@@ -16,6 +16,7 @@ app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
 #api = api.namespace('article', description = 'WHO Disease Article Operations')
+# add description to each request 
 
 class Article(Resource):
     model = api.model('Diseases', {      
@@ -36,7 +37,7 @@ class Article(Resource):
     @api.response(404, 'No data found')
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
     @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
-    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma'})
+    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by commas'})
     @api.doc(params={'location': 'The country where the epidemic takes place'})
     @api.response(400, 'Invalid date format')
     def get(self, start_date,end_date):
@@ -60,27 +61,48 @@ class Article(Resource):
         result = self.get_results(articles)
         return result,200
 
-    @api.response(403, 'Not Authorized')
+    # make parameters required or part of path
+    @app.route('/article/<id><url>')
+    @api.doc(params={'id': 'Authorisation id to delete an existing article (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to the Who news article to be deleted. Url must exist in the database'})
+    @api.response(403, 'url does not exist')
+    @api.response(401, 'Unathorised id')
+    @api.response(200, 'Success')
     def delete(self, id):
-         api.abort(403)
+         api.abort(401)
     
+    # make parameters required or part of path
     @app.route('/article/<id>')
-    @api.doc(params={'id': 'Post request id (only available to authorised users)'})
-    @api.doc(params={'url': 'Url to a WHO news article'})
-    @api.doc(params={'date_of_publication': 'Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. 2020-01-17 13:09:44'})
+    @api.doc(params={'id': 'Authorisation id to post an article (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to a Who news article. Must not already exist in the database'})
+    @api.doc(params={'date_of_publication': "Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. '2020-01-17 13:09:44'"})
     @api.doc(params={'headline': 'Headline of the Who news article'})
     @api.doc(params={'main-text': 'Main text body of the Who news article'})
     @api.response(400, 'Invalid date_of_publication format')
     @api.response(403, 'url already exists')
     @api.response(401, 'Unathorised id')
     @api.response(200, 'Success')
+    # add error for empty inputs
     def post(self):
-        api.abort(403)
+        api.abort(401)
     
-
-    @api.response(403, 'Not Authorized')
+    # make parameters required or part of path
+    # add a report to an article 
+    @app.route('/article/<id>/<url>')
+    @api.doc(params={'id': 'Authorisation id to put a disease report into an existing article (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to the Who news article a report is to be added to. Url must exist in the database'})
+    @api.doc(params={'event_date': "The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'"})
+    @api.doc(params={'country': 'The country the disease was reported in'})
+    @api.doc(params={'location': 'The location within a country the disease was reported in'})
+    @api.doc(params={'diseases': 'The disease reported in the article'})
+    @api.doc(params={'syndromes': 'The symptoms reported in the article. Separate the symptoms with a comma'})
+    # add error for empty inputs
+    @api.response(401, 'Unathorised id')
+    @api.response(400, 'url cannot be empty')
+    @api.response(200, 'Success')
+    @api.response(403, 'url does not exist')
     def put(self):
-        api.abort(403)
+        api.abort(401)
         
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
