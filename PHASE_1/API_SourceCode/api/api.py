@@ -2,38 +2,54 @@ import flask
 from flask import request, jsonify,send_from_directory, make_response, Flask,  Blueprint
 import sqlite3
 from flask_swagger_ui import get_swaggerui_blueprint
-from flask_restplus import Api, Resource, fields
+from flask_restplus import Api, Resource, fields,marshal
 import datetime
 import re
+import json
 
 
 app = Flask(__name__)
 
 app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
-api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
+api = Api(app,default ='Articles', default_label='Articles about epidemics', title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
 
+
+
+locations = api.model('Locations', {
+    "country": fields.String,
+    "location": fields.String
+})
+
+reports = api.model('Report', {
+    "event_date": fields.DateTime,
+    "locations": fields.List(fields.Nested(locations)),
+    "diseases": fields.List(fields.String),
+    "syndromes": fields.List(fields.String)
+})
+
+
+articles = api.model('Article', {      
+    "url": fields.Url,
+    "date_of_publication": fields.DateTime,
+    "headline": fields.String,
+    "main_text": fields.String,
+    "reports": fields.List(fields.Nested(reports)),
+})
+
+
+data = {"name": "pet","description":"Everything about your Pets"}
+
+#"tags":[{"name":"pet","description":"Everything about your Pets"
 
 class Article(Resource):
-    model = api.model('Diseases', {      
-        "url": fields.DateTime,
-        "date_of_publication": fields.DateTime,
-        "headline": fields.String,
-        "main_text": fields.String,
-        "id":fields.DateTime,
-        "event_date": fields.DateTime,
-        "locations": fields.String,
-        "country": fields.String,
-        "diseases": fields.String,
-        "syndromes": fields.String
-        
-    })
-    @api.response(200, 'Success',model)
+    @api.response(200, 'Success',[articles])
     @api.response(404, 'No data found')
-    @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
-    @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
-    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma'})
-    @api.doc(params={'location': 'The country where the epidemic takes place'})
+    @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00'})
+    @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59'})
+    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma. Eg:ebola,virus,HIV'})
+    @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Congo'})
     @api.response(400, 'Invalid date format')
+    @api.doc(summary='Get request gets all the articles given the parameters')
     def get(self, start_date,end_date):
         # check start and end date format
         if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
