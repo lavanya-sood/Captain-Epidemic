@@ -15,7 +15,7 @@ app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Who REST Api - Teletubbies'
 app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
-api = api.namespace('article', description = 'WHO Disease Article Operations')
+#api = api.namespace('article', description = 'WHO Disease Article Operations')
 
 class Article(Resource):
     model = api.model('Diseases', {      
@@ -64,7 +64,16 @@ class Article(Resource):
     def delete(self, id):
          api.abort(403)
     
-    @api.response(403, 'Not Authorized')
+    @app.route('/article/<id>')
+    @api.doc(params={'id': 'Post request id (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to a WHO news article'})
+    @api.doc(params={'date_of_publication': 'Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. 2020-01-17 13:09:44'})
+    @api.doc(params={'headline': 'Headline of the Who news article'})
+    @api.doc(params={'main-text': 'Main text body of the Who news article'})
+    @api.response(400, 'Invalid date_of_publication format')
+    @api.response(403, 'url already exists')
+    @api.response(401, 'Unathorised id')
+    @api.response(200, 'Success')
     def post(self):
         api.abort(403)
     
