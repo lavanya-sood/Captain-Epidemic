@@ -1,8 +1,6 @@
 import flask
 from flask import request, jsonify,send_from_directory, make_response, Flask,  Blueprint
 import sqlite3
-import werkzeug
-werkzeug.cached_property = werkzeug.utils.cached_property
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_restplus import Api, Resource, fields,marshal
 import datetime
@@ -12,14 +10,14 @@ import json
 
 app = Flask(__name__)
 
-
 app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Who REST Api - Teletubbies'
 app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
+#api = Api(app,default='article',default_label='WHO Disease Article Operations',title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
+
 
 api = api.namespace('article', description = 'WHO Disease Article Operations')
-# add description to each request 
 
 
 locations = api.model('Locations', {
@@ -49,12 +47,11 @@ data = {"name": "pet","description":"Everything about your Pets"}
 #"tags":[{"name":"pet","description":"Everything about your Pets"
 
 class Article(Resource):
-
     @api.response(200, 'Success',[articles])
     @api.response(404, 'No data found')
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00'})
     @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59'})
-    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma. Eg:ebola,virus,HIV'})
+    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma. Eg:ebola,virus'})
     @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Congo'})
     @api.response(400, 'Invalid date format')
     @api.doc(summary='Get request gets all the articles given the parameters')
@@ -79,7 +76,7 @@ class Article(Resource):
         result = self.get_results(articles)
         return result,200
 
-    # make parameters required or part of path
+     # make parameters required or part of path
     @app.route('/article/<id><url>')
     @api.doc(params={'id': 'Authorisation id to delete an existing article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to the Who news article to be deleted. Url must exist in the database'})
@@ -238,23 +235,9 @@ def send_static(path):
     return send_from_directory('static',path)
 
 
-### swagger specific ###
-SWAGGER_URL = '/swagger'
-API_URL = '/static/swagger.json'
-SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={
-        'app_name': "Teletubbies-API"
-    }
-)
-app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
-### end swagger specific ###
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-api.add_resource(Article, "/<string:start_date>/<string:end_date>")
+api.add_resource(Article, "/article/<string:start_date>/<string:end_date>")
 app.run(debug=True)
