@@ -1,6 +1,8 @@
 import flask
 from flask import request, jsonify,send_from_directory, make_response, Flask,  Blueprint
 import sqlite3
+import werkzeug
+werkzeug.cached_property = werkzeug.utils.cached_property
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_restplus import Api, Resource, fields,marshal
 import datetime
@@ -77,7 +79,6 @@ class Article(Resource):
         return result,200
 
      # make parameters required or part of path
-    @app.route('/article/<id><url>')
     @api.doc(params={'id': 'Authorisation id to delete an existing article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to the Who news article to be deleted. Url must exist in the database'})
     @api.response(403, 'url does not exist')
@@ -87,7 +88,6 @@ class Article(Resource):
          api.abort(401)
     
     # make parameters required or part of path
-    @app.route('/article/<id>')
     @api.doc(params={'id': 'Authorisation id to post an article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to a Who news article. Must not already exist in the database'})
     @api.doc(params={'date_of_publication': "Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. '2020-01-17 13:09:44'"})
@@ -102,7 +102,6 @@ class Article(Resource):
     
     # make parameters required or part of path
     # adds a report to an article 
-    @app.route('/article/<id>/<url>')
     @api.doc(params={'id': 'Authorisation id to put a disease report into an existing article (only available to authorised users)'})
     @api.doc(params={'url': 'Url to the Who news article a report is to be added to. Url must exist in the database'})
     @api.doc(params={'event_date': "The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'"})
@@ -239,5 +238,5 @@ def send_static(path):
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-api.add_resource(Article, "/article/<string:start_date>/<string:end_date>")
+api.add_resource(Article, "/<string:start_date>/<string:end_date>")
 app.run(debug=True)
