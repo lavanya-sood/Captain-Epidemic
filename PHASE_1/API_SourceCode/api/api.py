@@ -9,13 +9,13 @@ api = Api(app)
 class Article(Resource):
     @api.response(200, 'Success')
     @api.response(404, 'No data found')
-    @api.response(403, 'Invalid date format')
+    @api.response(400, 'Invalid date format')
     def get(self, start_date,end_date):
         # check start and end date format
         if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
-            return "Invalid date input",403
+            return "Invalid date input",400
         if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", end_date):
-            return "Invalid date input",403
+            return "Invalid date input",400
         location = request.args.get('location')
         if not location:
             location = ""
