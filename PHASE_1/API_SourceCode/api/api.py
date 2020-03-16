@@ -32,15 +32,15 @@ class Article(Resource):
         return result,200
 
     @api.response(403, 'Not Authorized')
-    def post(self, id):
+    def post(self):
         api.abort(403)
 
     @api.response(403, 'Not Authorized')
-    def put(self, id):
+    def put(self):
         api.abort(403)
 
     @api.response(403, 'Not Authorized')
-    def delete(self, id):
+    def delete(self):
         api.abort(403)
 
     # check if any data exists for the query
