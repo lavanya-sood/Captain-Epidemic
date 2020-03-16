@@ -1,12 +1,13 @@
-from flask import Flask,jsonify,request
-from flask_restplus import Api, Resource, fields
+import flask
+from flask import request, jsonify,send_from_directory, make_response, Flask,  Blueprint
 import sqlite3
-import datetime
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_restplus import Api, Resource, fields
+import datetime
 
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app,doc=False)
 
 class Article(Resource):
     @api.response(200, 'Success')
@@ -132,6 +133,12 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static',path)
+
 
 ### swagger specific ###
 SWAGGER_URL = '/swagger'

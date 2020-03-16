@@ -14,25 +14,21 @@
       "/article/{start_date}/{end_date}": {
         "get": {
           "tags": [
-            {
-              "name": "Diseases Information"
-            }
-            ],
-          "summary": "Get articles by requested date range",
+            "Epidemic Reports"
+          ],
+          "summary": "This API is used to get information from Epidemics",
           "parameters": [
             {
-              "in": "query",
+              "in": "path",
               "name": "start_date",
               "required": true,
-              "type":"string",
-              "description": "Start date for the articles e.g. 20190809T080909"
+              "description": "Start date for the articles.  Use format YYYY-MM-DDTHH:MM:SS"
             }, 
             {
-              "in": "query",
+              "in": "path",
               "name": "end_date",
               "required": true,
-              "type":"string",
-              "description": "End date for the articles e.g. 20190809T080909"
+              "description": "End date for the articles.  Use format YYYY-MM-DDTHH:MM:SS"
             },
             {
               "in": "query",
@@ -55,44 +51,60 @@
                 "application/json": {
                   "schema": {
                     "type": "object",
-                    "example": {
-                      "url": "https://www.who.int/csr/don/17-january-2020-novel-coronavirus-japan-exchina/en/",
-                      "date_of_publication": "2020-01-17 xx:xx:xx",
-                      "headline": "Novel Coronavirus – Japan (ex-China)",
-                      "main_text": "On 15 January 2020, the Ministry of Health, Labour and Welfare, Japan (MHLW) reported an imported case of laboratory-confirmed 2019-novel coronavirus (2019-nCoV) from Wuhan, Hubei Province, China. The case-patient is male, between the age of 30-39 years, living in Japan. The case-patient travelled to Wuhan, China in late December and developed fever on 3 January 2020 while staying in Wuhan. He did not visit the Huanan Seafood Wholesale Market or any other live animal markets in Wuhan.",
+                    "properties": {
+                      "start_date": {
+                        "type": "string",
+                        "description": "The start date of the articles"
+                      },
+                      "end_date": {
+                        "type": "string",
+                        "description": "The end date of the articles"
+                      },
+                      "location": {
+                        "type": "string",
+                        "description": "The location where the epidemic takes place"
+                      },
+                      "key_terms": {
+                        "type":"string",
+                        "description": "The key terms to look for when finding article"
+                      }
+                    },
+                    "example": [ {
+                      
+                      "url": "string",
+                      "date_of_publication": "date-time",
+                      "headline": "string",
+                      "main_text": "string",
                       "reports": [
                       {
-                      "event_date": "2020-01-03 xx:xx:xx to 2020-01-15",
+                      "event_date": "date-time",
                       "locations": [
                       {
-                      "country": "China",
-                      "location": "Wuhan, Hubei Province"
-                      },
-                      {
-                      "country": "Japan",
-                      "location": ""
+                      "country": "string",
+                      "location": "string"
                       }
                       ],
                       "diseases": [
-                      "2019-nCoV"
+                      "string"
                       ],
                       "syndromes": [
-                      "Fever of unknown Origin"
+                      "string"
                       ]
                       }
                       ]
-                    }
+                    } ]
                   }
                 }
               }
 
             },
-            "400": {
-              "description": "Failed. Misunderstood Request."
-            },
             "404": {
-              "description": "Failed. Request not found."
+              "description": "No data found"
+            },
+            "400": {
+              "description": "Failed. Incorrect information provided."
             }
+            
           }
         }
       }
