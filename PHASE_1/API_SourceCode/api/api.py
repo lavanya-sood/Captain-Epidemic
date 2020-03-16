@@ -54,7 +54,7 @@ class Article(Resource):
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00'})
     @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59'})
     @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma. Eg:ebola,virus'})
-    @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Congo'})
+    @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Guinea'})
     @api.response(400, 'Invalid date format')
     @api.doc(summary='Get request gets all the articles given the parameters')
     def get(self, start_date,end_date):
