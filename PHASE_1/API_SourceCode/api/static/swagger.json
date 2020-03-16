@@ -10,6 +10,12 @@
         "url": "/"
       }
     ],
+    "tags": [
+      {
+        "name": "Book Request",
+        "description": "Example API for requesting and return book requests"
+      }
+    ],
     "paths": {
       "/article/{start_date}/{end_date}": {
         "get": {

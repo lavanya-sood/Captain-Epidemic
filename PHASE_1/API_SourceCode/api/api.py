@@ -1,6 +1,8 @@
 import flask
 from flask import request, jsonify,send_from_directory, make_response, Flask,  Blueprint
 import sqlite3
+import werkzeug
+werkzeug.cached_property = werkzeug.utils.cached_property
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_restplus import Api, Resource, fields
 import datetime
@@ -9,9 +11,11 @@ import re
 
 app = Flask(__name__)
 
-app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
-api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
+app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Who REST Api - Teletubbies'
+app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
+api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
+api = api.namespace('article', description = 'WHO Disease Article Operations')
 
 class Article(Resource):
     model = api.model('Diseases', {      
@@ -27,6 +31,7 @@ class Article(Resource):
         "syndromes": fields.String
         
     })
+
     @api.response(200, 'Success',model)
     @api.response(404, 'No data found')
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
@@ -204,5 +209,5 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-api.add_resource(Article, "/article/<string:start_date>/<string:end_date>")
+api.add_resource(Article, "/<string:start_date>/<string:end_date>")
 app.run(debug=True)
