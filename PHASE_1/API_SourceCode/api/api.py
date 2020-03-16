@@ -12,7 +12,20 @@ app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
 api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
 
 class Article(Resource):
-    @api.response(200, 'Success')
+    model = api.model('Diseases', {      
+        "url": fields.String,
+        "date_of_publication": fields.DateTime,
+        "headline": fields.String,
+        "main_text": fields.String,
+        "event_date": fields.DateTime,
+        "locations": fields.String,
+        "country": fields.String,
+        "location": fields.String,
+        "diseases": fields.String,
+        "syndromes": fields.String
+        
+    })
+    @api.response(200, 'Success',model)
     @api.response(404, 'No data found')
     @api.response(403, 'Invalid format')
     @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
@@ -40,16 +53,20 @@ class Article(Resource):
         return result,200
 
     @api.response(403, 'Not Authorized')
-    def post(self, id):
+    def delete(self, id):
         api.abort(403)
+    
+    
 
     @api.response(403, 'Not Authorized')
     def put(self, id):
         api.abort(403)
-
+    
     @api.response(403, 'Not Authorized')
-    def delete(self, id):
+    def post(self, id):
         api.abort(403)
+
+    
 
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
