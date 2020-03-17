@@ -93,22 +93,29 @@ class ReportbotSpider(scrapy.Spider):
             report_disease = [report_disease]
         # gets proper disease names 
         diseases = get_disease_name(report_disease,maintext)
-
-        # adds basic news reports to list
-        reports = []
-        for d1,d2 in zip(diseases, report_disease):
-            control_list = get_control_list(report_disease,diseases,controls,d2)
-            r_dict = {
-                'event-date': event_date,
-                'disease': d1,
-                'controls': control_list
-            }
-            reports.append(r_dict)
-
         # finds extra disease reports in the maintext
         extra_report_diseases = find_more_diseases(maintext, diseases)
         # gets proper disease names
         extra_diseases = get_disease_name(extra_report_diseases, maintext)
+        all_diseases = report_disease + extra_report_diseases
+
+        # adds basic news reports to list
+        reports = []
+        for d1,d2 in zip(diseases, report_disease):
+            control_list = get_control_list(all_diseases,controls,d2)
+            if (len(diseases) == 1):
+                symptom = get_symptoms(response)
+                if (symptom is None):
+                    symptom = syndrome_helper(response)
+            else:
+                symptom = find_symptoms(response,all_diseases,d2)
+            r_dict = {
+                'event-date': event_date,
+                'disease': d1,
+                'controls': control_list,
+                'syndromes': symptom
+            }
+            reports.append(r_dict)
         
         # gets dates related to the extra diseases by using the paragraph it was found in
         dates = []
@@ -126,11 +133,13 @@ class ReportbotSpider(scrapy.Spider):
 
         # makes new disease reports for extra diseases found and adds to list
         for d1, e, d2 in zip(extra_diseases, dates, extra_report_diseases):
-            control_list = get_control_list(extra_report_diseases, extra_diseases,who_controls,d2)
+            control_list = get_control_list(all_diseases,who_controls,d2)
+            symptom = find_symptoms(response,all_diseases,d2)
             r_dict = {
                 'event-date': e,
                 'disease': d1,
-                'controls': control_list
+                'controls': control_list,
+                'syndromes': symptom
             }
             reports.append(r_dict)
             
@@ -256,9 +265,46 @@ def diseases_helper(text):
                 disease_found = None
     return disease_list
 
-def syndrome_helper(text):
+def get_symptoms(response):
+    text = ''.join(response.css('div#primary p span::text').extract()) 
+    text = text.split('.')
+    symptoms = []
+    for t in text:
+        symptom_found = re.search('symptom',t,re.IGNORECASE)
+        if (symptom_found):
+            re.sub('/\[a-n]','',t)
+            symptoms.append(t)
+    return symptoms
+            
+def find_symptoms(response,all_diseases, curr_disease):
+    paragraph = response.css('div#primary p span::text').extract()
+    all_diseases.remove(curr_disease)
+    other_diseases = '|'.join(all_diseases)
+    symptoms = []
+    for p in paragraph:
+        disease_found = re.search(curr_disease,p,re.IGNORECASE)
+        if (disease_found):
+            line = p.split('.')
+            symptom_para = re.search('symptom',p,re.IGNORECASE)
+            if (symptom_para and re.search(other_diseases, p,re.IGNORECASE)):
+                for l in line:
+                    symptom_found = re.search('symptom',l,re.IGNORECASE)
+                    disease_found = re.search(curr_disease,l,re.IGNORECASE)
+                    if (symptom_found and disease_found):
+                        re.sub('/\[a-n]','',l)
+                        symptoms.append(l)
+            elif(symptom_para and not re.search(other_diseases, p,re.IGNORECASE)):
+                for l in line:
+                    symptom_found = re.search('symptom',l,re.IGNORECASE)
+                    if (symptom_found):
+                        re.sub('/\[a-n]','',l)
+                        symptoms.append(l)
+    return symptoms
+
+def syndrome_helper(response):
+    text = ''.join(response.css('div#primary p span::text').extract()) 
     syndrome_list = []
-    symptoms = 'haemorrhagic|fever|flacid|paralysis|gastroenterities|gastro|respiratory|syndrome|influenza-like|illness|rash|encephalitis|meningitis|diarrhea|coughing|diarrhoea|diarrheal|diarrhoeal|itch|itchy|itchiness|red skin|irritated|headache|headaches|seizure|seizures|nausea|vomiting|lethargy|runny nose|muscle pain|muscle ache|muscle aches|confusion|cold hands|cold feet|mottled skin|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|comas|sores|paralytic|dehydrated|stomach cramp|cramp'
+    symptoms = 'haemorrhagic|feverish|paralysis|gastroenterities|gastro|respiratory|influenza-like|rash|encephalitis|meningitis|diarrhea|coughing|diarrhoea|itch|red skin|headache|seizure|nausea|vomiting|runny nose|muscle pain|muscle ache|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|paralytic|stomach cramp'
     symptom_found = re.search(symptoms, text)
     if (symptom_found):
         symptom_found = symptom_found.group()
@@ -511,6 +557,7 @@ def find_who_controls(response):
     for t in text.split('.'):
         control = re.search("WHO encourages |WHO recommends |WHO advises ",t)
         if (control):
+            re.sub('/\[a-n]','',t)
             controls.append(t)
     return controls
 
@@ -534,16 +581,17 @@ def find_all_controls(response):
                     else:
                         index = t.index('<')
                     control = t[:index]
+                    re.sub('/\[a-n]','',control)
                     controls.append(control)
     controls = find_who_controls(response) + controls
     return controls
 
 
-def get_control_list(report_disease, diseases,controls,d2):
+def get_control_list(report_disease,controls,d2):
     # add check location
     control_list = []
     check_diseases = '|'.join(report_disease)
-    if (len(diseases) == 1):
+    if (len(report_disease) == 1):
         control_list = controls
     else:
         for c in controls:
