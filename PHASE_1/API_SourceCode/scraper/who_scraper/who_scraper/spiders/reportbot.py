@@ -7,7 +7,7 @@ from text2digits import text2digits #need to pip install
 
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
-    start_urls = ['https://www.who.int/csr/don/2010_10_25a/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/2014_07_17_polio/en/','https://www.who.int/csr/don/2014_08_06_ebola/en/','https://www.who.int/csr/don/2014_07_17_ebola/en/','https://www.who.int/csr/don/05-March-2020-ebola-drc/en/','https://www.who.int/csr/don/1996_11_28c/en/','https://www.who.int/csr/don/2014_6_23polio/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/04-march-2020-measles-car/en/', 'https://www.who.int/csr/don/2008_12_26a/en/', 'https://www.who.int/csr/don/2013_11_26polio/en/', 'https://www.who.int/csr/don/28-september-2015-cholera/en/', 'https://www.who.int/csr/don/05-october-2018-monkeypox-nigeria/en/', 'https://www.who.int/csr/don/2010_04_30a/en/', 'https://www.who.int/csr/don/2008_01_02/en/', 'https://www.who.int/csr/don/2006_08_21/en/', 'https://www.who.int/csr/don/2003_09_30/en/', 'https://www.who.int/csr/don/2001_07_18/en/', 'https://www.who.int/csr/don/1999_12_22/en/', 'https://www.who.int/csr/don/1996_02_29b/en/', 'https://www.who.int/csr/don/19-december-2016-1-mers-saudi-arabia/en/', 'https://www.who.int/csr/don/06-october-2016-polio-nigeria/en/', 'https://www.who.int/csr/don/12-january-2020-novel-coronavirus-china/en/','https://www.who.int/csr/don/03-june-2016-oropouche-peru/en/']
+    start_urls = ['https://www.who.int/csr/don/6-november-2017-dengue-burkina-faso/en/','https://www.who.int/csr/don/2010_10_25a/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/2014_07_17_polio/en/','https://www.who.int/csr/don/2014_08_06_ebola/en/','https://www.who.int/csr/don/2014_07_17_ebola/en/','https://www.who.int/csr/don/05-March-2020-ebola-drc/en/','https://www.who.int/csr/don/1996_11_28c/en/','https://www.who.int/csr/don/2014_6_23polio/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/04-march-2020-measles-car/en/', 'https://www.who.int/csr/don/2008_12_26a/en/', 'https://www.who.int/csr/don/2013_11_26polio/en/', 'https://www.who.int/csr/don/28-september-2015-cholera/en/', 'https://www.who.int/csr/don/05-october-2018-monkeypox-nigeria/en/', 'https://www.who.int/csr/don/2010_04_30a/en/', 'https://www.who.int/csr/don/2008_01_02/en/', 'https://www.who.int/csr/don/2006_08_21/en/', 'https://www.who.int/csr/don/2003_09_30/en/', 'https://www.who.int/csr/don/2001_07_18/en/', 'https://www.who.int/csr/don/1999_12_22/en/', 'https://www.who.int/csr/don/1996_02_29b/en/', 'https://www.who.int/csr/don/19-december-2016-1-mers-saudi-arabia/en/', 'https://www.who.int/csr/don/06-october-2016-polio-nigeria/en/', 'https://www.who.int/csr/don/12-january-2020-novel-coronavirus-china/en/','https://www.who.int/csr/don/03-june-2016-oropouche-peru/en/']
 
     def parse(self, response):
         headline = response.css(".headline::text").extract()[0]
@@ -34,7 +34,6 @@ class ReportbotSpider(scrapy.Spider):
         cases = find_cases(response, text2digits.Text2Digits().convert(alltext))
         deaths = find_deaths(response,text2digits.Text2Digits().convert(alltext))
         controls = find_all_controls(response)
-        who_controls = find_who_controls(response)
 
         if len(maintext) == 1: 
             maintext = maintext[0]
@@ -107,13 +106,16 @@ class ReportbotSpider(scrapy.Spider):
                 symptom = get_symptoms(response)
                 if (symptom is None):
                     symptom = syndrome_helper(response)
+                sources = get_sources(response,0,d2)
             else:
                 symptom = find_symptoms(response,all_diseases,d2)
+                sources = get_sources(response,1,d2)
             r_dict = {
                 'event-date': event_date,
                 'disease': d1,
                 'controls': control_list,
-                'syndromes': symptom
+                'syndromes': symptom,
+                'source': sources
             }
             reports.append(r_dict)
         
@@ -133,13 +135,14 @@ class ReportbotSpider(scrapy.Spider):
 
         # makes new disease reports for extra diseases found and adds to list
         for d1, e, d2 in zip(extra_diseases, dates, extra_report_diseases):
-            control_list = get_control_list(all_diseases,who_controls,d2)
             symptom = find_symptoms(response,all_diseases,d2)
+            sources = get_sources(response,1,d2)
             r_dict = {
                 'event-date': e,
                 'disease': d1,
-                'controls': control_list,
-                'syndromes': symptom
+                'controls': [],
+                'syndromes': symptom,
+                'source': sources
             }
             reports.append(r_dict)
             
@@ -551,16 +554,6 @@ def find_more_diseases(maintext, disease_list):
                         result.append(f)
     return result
 
-def find_who_controls(response):
-    controls = []
-    text = ''.join(response.css('div#primary p span::text').extract()) 
-    for t in text.split('.'):
-        control = re.search("WHO encourages |WHO recommends |WHO advises ",t)
-        if (control):
-            re.sub('/\[a-n]','',t)
-            controls.append(t)
-    return controls
-
 def find_all_controls(response):
     controls = []
     text = response.css('div#primary').extract()[0].split('</h3>')
@@ -583,7 +576,12 @@ def find_all_controls(response):
                     control = t[:index]
                     re.sub('/\[a-n]','',control)
                     controls.append(control)
-    controls = find_who_controls(response) + controls
+    paragraph = response.css('div#primary p span::text').extract()
+    for p in paragraph:
+        for l in p.split('.'):
+            if (re.search('control measures|protective measures', l, re.IGNORECASE)):
+                re.sub('/\[a-n]','',l)
+                controls.append(l)
     return controls
 
 
@@ -602,4 +600,17 @@ def get_control_list(report_disease,controls,d2):
                 control_list.append(c)
             # add if location found in control then add to control list      
     return control_list
-    
+
+def get_sources(response, many, disease):
+    sources = []
+    paragraph = response.css('div#primary p span::text').extract()
+    for p in paragraph:
+        for l in p.split('.'):
+            if (re.search('(caused|transmitted|contributed)( primarily)? (by|through|to)',l)):
+                re.sub('/\[a-n]','',l)
+                if (many):
+                    if (re.search(disease,l,re.IGNORECASE)):
+                        sources.append(l)
+                else:
+                    sources.append(l)
+    return sources
