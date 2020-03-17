@@ -7,7 +7,7 @@ from text2digits import text2digits #need to pip install
 
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
-    start_urls = ['https://www.who.int/csr/don/2010_10_25a/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/2014_07_17_polio/en/','https://www.who.int/csr/don/2014_08_06_ebola/en/','https://www.who.int/csr/don/2014_07_17_ebola/en/','https://www.who.int/csr/don/05-March-2020-ebola-drc/en/','https://www.who.int/csr/don/1996_11_28c/en/','https://www.who.int/csr/don/2014_6_23polio/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/04-march-2020-measles-car/en/', 'https://www.who.int/csr/don/2008_12_26a/en/', 'https://www.who.int/csr/don/2013_11_26polio/en/', 'https://www.who.int/csr/don/28-september-2015-cholera/en/', 'https://www.who.int/csr/don/05-october-2018-monkeypox-nigeria/en/', 'https://www.who.int/csr/don/2010_04_30a/en/', 'https://www.who.int/csr/don/2008_01_02/en/', 'https://www.who.int/csr/don/2006_08_21/en/', 'https://www.who.int/csr/don/2003_09_30/en/', 'https://www.who.int/csr/don/2001_07_18/en/', 'https://www.who.int/csr/don/1999_12_22/en/', 'https://www.who.int/csr/don/1996_02_29b/en/', 'https://www.who.int/csr/don/19-december-2016-1-mers-saudi-arabia/en/', 'https://www.who.int/csr/don/06-october-2016-polio-nigeria/en/', 'https://www.who.int/csr/don/12-january-2020-novel-coronavirus-china/en/']
+    start_urls = ['https://www.who.int/csr/don/2010_10_25a/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/2014_07_17_polio/en/','https://www.who.int/csr/don/2014_08_06_ebola/en/','https://www.who.int/csr/don/2014_07_17_ebola/en/','https://www.who.int/csr/don/05-March-2020-ebola-drc/en/','https://www.who.int/csr/don/1996_11_28c/en/','https://www.who.int/csr/don/2014_6_23polio/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/04-march-2020-measles-car/en/', 'https://www.who.int/csr/don/2008_12_26a/en/', 'https://www.who.int/csr/don/2013_11_26polio/en/', 'https://www.who.int/csr/don/28-september-2015-cholera/en/', 'https://www.who.int/csr/don/05-october-2018-monkeypox-nigeria/en/', 'https://www.who.int/csr/don/2010_04_30a/en/', 'https://www.who.int/csr/don/2008_01_02/en/', 'https://www.who.int/csr/don/2006_08_21/en/', 'https://www.who.int/csr/don/2003_09_30/en/', 'https://www.who.int/csr/don/2001_07_18/en/', 'https://www.who.int/csr/don/1999_12_22/en/', 'https://www.who.int/csr/don/1996_02_29b/en/', 'https://www.who.int/csr/don/19-december-2016-1-mers-saudi-arabia/en/', 'https://www.who.int/csr/don/06-october-2016-polio-nigeria/en/', 'https://www.who.int/csr/don/12-january-2020-novel-coronavirus-china/en/','https://www.who.int/csr/don/03-june-2016-oropouche-peru/en/']
 
     def parse(self, response):
         headline = response.css(".headline::text").extract()[0]
@@ -60,177 +60,81 @@ class ReportbotSpider(scrapy.Spider):
                 maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
         
         #should \n and \r be removed from output?? should it be one block of text?
-        #ask about this link https://www.who.int/csr/don/1996_11_28c/en/ 
-        #figure out link https://www.who.int/csr/don/2010_10_25a/en/
 
-        # only the diseases mentioned in the title
-        disease_temp = response.css(".headline::text").extract()[0]
-        disease_temp = re.sub(' [^0-9A-Za-z] | in |,', '!', disease_temp)
-        disease = disease_temp.split('!')[0]
-        if (re.search("^[0-9 ]+$", disease)):
-            disease = disease_temp.split('!')[1]
-        if (re.search(" and ",disease)):
-            if (re.search("hand",disease) and re.search("foot",disease) and re.search("mouth",disease)):
-                disease = re.sub("foot and",'foot !', disease)
-            disease = disease.split(" and ")
-            for d in disease:
-                d = re.sub('!', 'and', d)
-        else:
-            disease = [disease]
         
         # WHO already separated reports per article mostly 
-        # date: go through the first paragraph for the event dates
+        # creates reports based on diseases found in title and separates them if more than one is found
+        
+        # finds event dates
         paragraph = maintext.split('\n')
         event_dates = event_date_helper(paragraph[0])
         i = 1
         while (len(event_dates) == 0 and i < len(paragraph)):
             event_dates = event_date_helper(paragraph[i])
             i += 1
+        # puts event dates into proper format
+        event_date = event_date_range(event_dates,response,headline)
         
-        
-        new_dates = []
-        temp_event_dates = []
-        for e in event_dates:
-            if (re.search('and ',e,re.IGNORECASE)):
-                date_2 = e.split('and ')[1]
-                date_1 = e.split('and ')[0] + ' '.join(date_2.split(' ')[1:])
-                temp_event_dates.append(date_1)
-                temp_event_dates.append(date_2)
-            else:
-                temp_event_dates.append(e)
-        new_dates = convert_dates(temp_event_dates, ' ', headline, response)
-        if (len(new_dates) == 0):
-            event_date = re.findall('\d{4}_\d{2}_\d{2}', response.url)
-            if len(event_date) == 0:
-                event_date = response.url.split('don/')[1].split('-')[:3]
-                month = convert_month(event_date[1])
-                event_date = event_date[2]+'-'+month+'-'+event_date[0]+' xx:xx:xx'
-            else:
-                event_date = re.sub(r'_','-',event_date[0])+' xx:xx:xx'
+        # finds diseases mentioned in the title
+        disease_temp = response.css(".headline::text").extract()[0]
+        disease_temp = re.sub(' [^0-9A-Za-z] | in |,', '!', disease_temp)
+        report_disease = disease_temp.split('!')[0]
+        if (re.search("^[0-9 ]+$", report_disease)):
+            report_disease = disease_temp.split('!')[1]
+        if (re.search(" and ",report_disease)):
+            if (re.search("hand",report_disease) and re.search("foot",report_disease) and re.search("mouth",report_disease)):
+                report_disease = re.sub("foot and",'foot !', report_disease)
+            report_disease = report_disease.split(" and ")
+            for d in report_disease:
+                d = re.sub('!', 'and', d)
         else:
-            new_dates.sort()
-            first_date = new_dates[0]
-            last_date = new_dates[len(new_dates)-1]
-            if (first_date != last_date):
-                date1 = format_date(first_date)
-                date2 = format_date(last_date)
-                event_date = date1 + ' to ' + date2
-            else:
-                event_date = format_date(first_date)
+            report_disease = [report_disease]
+        # gets proper disease names 
+        diseases = get_disease_name(report_disease,maintext)
 
+        # adds basic news reports to list
+        reports = []
+        for d in diseases:
+            r_dict = {
+                'event-date': event_date,
+                'disease': d
+            }
+            reports.append(r_dict)
 
-
-
-        # link diseases to the disease list given and then check for more diseases in the main text
-            # if found that means there's more reports and need to scan the paragraph it was found in for more report details 
-        diseases = get_disease_name(disease,maintext)
+        # finds extra disease reports in the maintext
+        extra_report_diseases = find_more_diseases(maintext, diseases)
+        # gets proper disease names
+        extra_diseases = get_disease_name(extra_report_diseases, maintext)
         
-        # find symptoms: scan whole main text if no other diseases exist, or read all paragraphs up to the other diseases paragraph 
-        # find sources: scan whole main text if no other diseases exist, or read all paragraphs up to the other diseases paragraph
+        # gets dates related to the extra diseases by using the paragraph it was found in
+        dates = []
+        p_found = -1
+        for d in extra_report_diseases:
+            i = 0
+            for p in paragraph:
+                if (re.search(d, p, re.IGNORECASE)):
+                    date = event_date_helper(paragraph[i])
+                    # puts dates into proper formats
+                    date = event_date_range(date,response,headline)
+                    dates.append(date)
+                    break
+                i += 1
 
-        # TOO COMPLICATED 
-        # find by cases to find different reports and sort them properly 
-        # but it's hard and idk if it'll work
-
-        # potential method
-        # list of reports [
-        #   {
-        #       paragraph: int
-        #       line: ''
-        #       disease: []
-        #       symptom: []
-        #       event-date: []
-        #       source: ''
-        #   }
-        # ] 
-
-        # go through each paragraph and keep a count 
-        # check per sentence for 'case' (repeats don't matter)
-            # check whether it says no, none, 0, zero before the 'case' was found and remove these lines
-            # if there's no number of cases mentioned in the sentence, remove the line
-            # store what paragraph count it has come from in a list
-            # store the paragraph and line into a list of dict
-        # look at lines found of cases and get data commonly found in the same line e.g. date, disease, symptoms
-        # figure out same reports and combine them or different reports and divide them
-        # remove dud/useless data found
-        # add missing parts by going through paragraph before the line with cases and checking for date, disease, location
-        # if no disease or location can be found still, add in disease and location found in
-
-       
-        #report_list = []
-        #matches = 'one|two|three|four|five|six|seven|eight|nine|ten|twenty|eleven|twelve|thirt|fift|ninth|increas|decreas|laboratory[- ]confirm|new|upsurge|rise|latest|first|second|third|hundred|thousand'
-        
-        #paragraphs = response.css('div#primary p span::text').extract()
-        #paragraph_counter = 0
-        #for p in paragraphs:
-        #    for s in p.split('.'):
-        #        cases = re.search('(\n)?case(s)? ',s, re.IGNORECASE)
-        #        index = 0
-        #        while (cases):
-        #            case = cases.group()
-        #            start_index = index
-        #            index = s.find(case)
-        #            bef_s = s[start_index:index]
-        #            no_cases = re.search(' (no|none|0|zero) ',bef_s, re.IGNORECASE)
-        #            if (not no_cases):
-        #                num_cases = re.search('[0-9]+', bef_s)
-        #                # having these made too many matches
-        #                #diseases_check = re.search(diseases, s, re.IGNORECASE)
-        #                #symptoms_check = re.search(symptoms, s, re.IGNORECASE)
-        #                matches_check = re.search(matches, bef_s, re.IGNORECASE)
-        #                if (num_cases or matches_check):
-        #                    report_dict = {
-        #                        'paragraph': paragraph_counter,
-        #                        'line': s
-        #                    }
-        #                    report_list.append(report_dict)
-        #                    break
-        #            s = s.replace(case, '')
-        #            cases = re.search(' case(s)? ',s, re.IGNORECASE)
-        #    paragraph_counter+=1
-
-        #for r in report_list: 
-        #    r['event-date'] = event_date_helper(r['line'])
-        #    r['diseases'] = diseases_helper(r['line'])
-        #    r['syndromes'] = syndrome_helper(r['line'])
-        
-        # find by cases to find different reports and sort them properly 
-        # but it's hard and idk if it'll work
-
-        # potential method
-        # list of reports [
-        #   {
-        #       paragraph: int
-        #       line: ''
-        #       disease: []
-        #       symptom: []
-        #       event-date: []
-        #       source: ''
-        #   }
-        # ] 
-
-        # go through each paragraph and keep a count 
-        # check per sentence for 'case' (repeats don't matter)
-            # check whether it says no, none, 0, zero before the 'case' was found and remove these lines
-            # if there's no number of cases mentioned in the sentence, remove the line
-            # store what paragraph count it has come from in a list
-            # store the paragraph and line into a list of dict
-        # look at lines found of cases and get data commonly found in the same line e.g. date, disease, symptoms
-        # figure out same reports and combine them or different reports and divide them
-        # remove dud/useless data found
-        # add missing parts by going through paragraph before the line with cases and checking for date, disease, location
-        # if no disease or location can be found still, add in disease and location found in
-
-        #print(report_list)
-        
+        # makes new disease reports for extra diseases found and adds to list
+        for d, e in zip(extra_diseases, dates):
+            r_dict = {
+                'event-date': e,
+                'disease': d
+            }
+            reports.append(r_dict)
+            
+        print(reports)
 
         scraped_info = {
             'url': response.url,
             'headline': headline,
             'publication-date': publication_date,
             'maintext': maintext,
-            'disease': diseases,
-            'event-date': event_date,
             'key_terms': key_terms,
             'cases': cases,
             'deaths': deaths
@@ -243,7 +147,75 @@ class ReportbotSpider(scrapy.Spider):
         
         yield scraped_info
 
-        
+disease_dict = [
+    { "name": "anthrax cutaneous" },
+    { "name": "anthrax gastrointestinous" },
+    { "name": "anthrax inhalation" },
+    { "name": "botulism" },
+    { "name": "brucellosis" },
+    { "name": "chikungunya" },
+    { "name": "cholera" },
+    { "name": "cryptococcosis" },
+    { "name": "cryptosporidiosis" },
+    { "name": "crimean-congo haemorrhagic fever" },
+    { "name": "dengue" },
+    { "name": "diphteria" },
+    { "name": "ebola haemorrhagic fever" },
+    { "name": "ehec (e.coli)" },
+    { "name": "enterovirus 71 infection" },
+    { "name": "influenza a/h5n1" },
+    { "name": "influenza a/h7n9" },
+    { "name": "influenza a/h9n2" },
+    { "name": "influenza a/h1n1" },
+    { "name": "influenza a/h1n2" },
+    { "name": "influenza a/h3n5" },
+    { "name": "influenza a/h3n2" },
+    { "name": "influenza a/h2n2" },
+    { "name": "hand, foot and mouth disease" },
+    { "name": "hantavirus" },
+    { "name": "hepatitis a" },
+    { "name": "hepatitis b" },
+    { "name": "hepatitis c" },
+    { "name": "hepatitis d" },
+    { "name": "hepatitis e" },
+    { "name": "histoplasmosis" },
+    { "name": "hiv/aids" },
+    { "name": "lassa fever" },
+    { "name": "malaria" },
+    { "name": "marburg virus disease" },
+    { "name": "measles" },
+    { "name": "mers-cov" },
+    { "name": "mumps" },
+    { "name": "nipah virus" },
+    { "name": "norovirus infection" },
+    { "name": "pertussis" },
+    { "name": "plague" },
+    { "name": "pneumococcus pneumonia" },
+    { "name": "poliomyelitis" },
+    { "name": "q fever" },
+    { "name": "rabies" },
+    { "name": "rift valley fever" },
+    { "name": "rotavirus infection" },
+    { "name": "rubella" },
+    { "name": "salmonellosis" },
+    { "name": "sars" },
+    { "name": "shigellosis" },
+    { "name": "smallpox" },
+    { "name": "staphylococcal enterotoxin b" },
+    { "name": "thypoid fever" },
+    { "name": "tuberculosis" },
+    { "name": "tularemia" },
+    { "name": "vaccinia and cowpox" },
+    { "name": "varicella" },
+    { "name": "west nile virus" },
+    { "name": "yellow fever" },
+    { "name": "yersiniosis" },
+    { "name": "zika" },
+    { "name": "legionares" },
+    { "name": "listeriosis" },
+    { "name": "monkeypox" },
+    { "name": "COVID-19" }
+]    
     
 def event_date_helper(text):
     event_date_list = []
@@ -303,75 +275,6 @@ def find_influenza_type(maintext, text):
             return 'influenza a/' + t
 
 def get_disease_name(disease,maintext):
-    disease_dict = [
-        { "name": "anthrax cutaneous" },
-        { "name": "anthrax gastrointestinous" },
-        { "name": "anthrax inhalation" },
-        { "name": "botulism" },
-        { "name": "brucellosis" },
-        { "name": "chikungunya" },
-        { "name": "cholera" },
-        { "name": "cryptococcosis" },
-        { "name": "cryptosporidiosis" },
-        { "name": "crimean-congo haemorrhagic fever" },
-        { "name": "dengue" },
-        { "name": "diphteria" },
-        { "name": "ebola haemorrhagic fever" },
-        { "name": "ehec (e.coli)" },
-        { "name": "enterovirus 71 infection" },
-        { "name": "influenza a/h5n1" },
-        { "name": "influenza a/h7n9" },
-        { "name": "influenza a/h9n2" },
-        { "name": "influenza a/h1n1" },
-        { "name": "influenza a/h1n2" },
-        { "name": "influenza a/h3n5" },
-        { "name": "influenza a/h3n2" },
-        { "name": "influenza a/h2n2" },
-        { "name": "hand, foot and mouth disease" },
-        { "name": "hantavirus" },
-        { "name": "hepatitis a" },
-        { "name": "hepatitis b" },
-        { "name": "hepatitis c" },
-        { "name": "hepatitis d" },
-        { "name": "hepatitis e" },
-        { "name": "histoplasmosis" },
-        { "name": "hiv/aids" },
-        { "name": "lassa fever" },
-        { "name": "malaria" },
-        { "name": "marburg virus disease" },
-        { "name": "measles" },
-        { "name": "mers-cov" },
-        { "name": "mumps" },
-        { "name": "nipah virus" },
-        { "name": "norovirus infection" },
-        { "name": "pertussis" },
-        { "name": "plague" },
-        { "name": "pneumococcus pneumonia" },
-        { "name": "poliomyelitis" },
-        { "name": "q fever" },
-        { "name": "rabies" },
-        { "name": "rift valley fever" },
-        { "name": "rotavirus infection" },
-        { "name": "rubella" },
-        { "name": "salmonellosis" },
-        { "name": "sars" },
-        { "name": "shigellosis" },
-        { "name": "smallpox" },
-        { "name": "staphylococcal enterotoxin b" },
-        { "name": "thypoid fever" },
-        { "name": "tuberculosis" },
-        { "name": "tularemia" },
-        { "name": "vaccinia and cowpox" },
-        { "name": "varicella" },
-        { "name": "west nile virus" },
-        { "name": "yellow fever" },
-        { "name": "yersiniosis" },
-        { "name": "zika" },
-        { "name": "legionares" },
-        { "name": "listeriosis" },
-        { "name": "monkeypox" },
-        { "name": "COVID-19" }
-    ]
     new_diseases = []
     for f in disease:
         influenza = 0
@@ -392,6 +295,8 @@ def get_disease_name(disease,maintext):
                 proper_diseases.append("poliomyelitis")
             if (re.search('corona',f,re.IGNORECASE)):
                 proper_diseases.append('COVID-19')
+            if (re.search('Legionellosis',f,re.IGNORECASE)):
+                proper_diseases.append('legionares')
         if (len(proper_diseases) > 0):
             disease_count = Counter(proper_diseases)
             dis, count = disease_count.most_common(1)[0]
@@ -421,6 +326,38 @@ def key_terms_helper(text, terms_list):
             else:
                 terms_found = None
     return terms_list
+
+def event_date_range(event_dates,response,headline):
+    new_dates = []
+    temp_event_dates = []
+    for e in event_dates:
+        if (re.search('and ',e,re.IGNORECASE)):
+            date_2 = e.split('and ')[1]
+            date_1 = e.split('and ')[0] + ' '.join(date_2.split(' ')[1:])
+            temp_event_dates.append(date_1)
+            temp_event_dates.append(date_2)
+        else:
+            temp_event_dates.append(e)
+    new_dates = convert_dates(temp_event_dates, ' ', headline, response)
+    if (len(new_dates) == 0):
+        event_date = re.findall('\d{4}_\d{2}_\d{2}', response.url)
+        if len(event_date) == 0:
+            event_date = response.url.split('don/')[1].split('-')[:3]
+            month = convert_month(event_date[1])
+            event_date = event_date[2]+'-'+month+'-'+event_date[0]+' xx:xx:xx'
+        else:
+            event_date = re.sub(r'_','-',event_date[0])+' xx:xx:xx'
+    else:
+        new_dates.sort()
+        first_date = new_dates[0]
+        last_date = new_dates[len(new_dates)-1]
+        if (first_date != last_date):
+            date1 = format_date(first_date)
+            date2 = format_date(last_date)
+            event_date = date1 + ' to ' + date2
+        else:
+            event_date = format_date(first_date)
+    return event_date
 
 def format_date(date):
     date = str(date)
@@ -527,3 +464,38 @@ def find_deaths(response, alltext):
         death = int(''.join(filter(str.isdigit, death)))
         return death
     return death #none
+
+# find any extra diseases mentioned = new report
+def find_more_diseases(maintext, disease_list):
+    diseases = []
+    for d in disease_dict:
+        diseases.append(list(d.values())[0])
+    diseases = '|'.join(diseases)
+    diseases = 'polio|coronavirus|influenza|anthrax|ebola|ehec|ecoli|enterovirus|hiv|aids|lassa|marbug|mers|mipah|norovirus|pneumonia|rotavirus|thypoid|cowpox' + diseases
+    diseases = '(' + diseases + ')'
+    found = re.findall(diseases,maintext,re.IGNORECASE)
+    found = [tuple(j for j in i if j)[-1] for i in found]
+    remove = []
+    for d in disease_list:
+        i = 0
+        for f in found:
+            if (re.search(f,d,re.IGNORECASE)):
+                remove.append(i)
+            else:
+                if (d == 'COVID-19' and re.search('coronavirus',f,re.IGNORECASE)):
+                    remove.append(i)
+            i += 1
+    remove.sort(reverse=True)
+    for i in remove:
+        del found[i]
+    result = []
+    for f in found:
+        f = f.lower()
+    found = list(set(found))
+    for f in found:
+        for m in maintext.split('.'):
+            if (re.search(f,m,re.IGNORECASE)):
+                if (re.search('case|outbreak',m,re.IGNORECASE)):
+                    if (f not in result):
+                        result.append(f)
+    return result
