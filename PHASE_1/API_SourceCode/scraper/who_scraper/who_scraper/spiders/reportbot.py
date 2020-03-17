@@ -33,7 +33,8 @@ class ReportbotSpider(scrapy.Spider):
         alltext = re.sub('(?<=\d),(?=\d)', '', alltext)
         cases = find_cases(response, text2digits.Text2Digits().convert(alltext))
         deaths = find_deaths(response,text2digits.Text2Digits().convert(alltext))
-        controls = find_phs_controls(response)
+        controls = find_all_controls(response)
+        who_controls = find_who_controls(response)
 
         if len(maintext) == 1: 
             maintext = maintext[0]
@@ -95,10 +96,12 @@ class ReportbotSpider(scrapy.Spider):
 
         # adds basic news reports to list
         reports = []
-        for d in diseases:
+        for d1,d2 in zip(diseases, report_disease):
+            control_list = get_control_list(report_disease,diseases,controls,d2)
             r_dict = {
                 'event-date': event_date,
-                'disease': d
+                'disease': d1,
+                'controls': control_list
             }
             reports.append(r_dict)
 
@@ -122,10 +125,12 @@ class ReportbotSpider(scrapy.Spider):
                 i += 1
 
         # makes new disease reports for extra diseases found and adds to list
-        for d, e in zip(extra_diseases, dates):
+        for d1, e, d2 in zip(extra_diseases, dates, extra_report_diseases):
+            control_list = get_control_list(extra_report_diseases, extra_diseases,who_controls,d2)
             r_dict = {
                 'event-date': e,
-                'disease': d
+                'disease': d1,
+                'controls': control_list
             }
             reports.append(r_dict)
             
@@ -398,7 +403,6 @@ def convert_month(string):
     return month
 
 def convert_dates(temp_event_dates, string, headline, response):
-   
     new_dates = []
     for e in temp_event_dates:
         day = '00'
@@ -501,7 +505,16 @@ def find_more_diseases(maintext, disease_list):
                         result.append(f)
     return result
 
-def find_phs_controls(response):
+def find_who_controls(response):
+    controls = []
+    text = ''.join(response.css('div#primary p span::text').extract()) 
+    for t in text.split('.'):
+        control = re.search("WHO encourages |WHO recommends |WHO advises ",t)
+        if (control):
+            controls.append(t)
+    return controls
+
+def find_all_controls(response):
     controls = []
     text = response.css('div#primary').extract()[0].split('</h3>')
     i = 0
@@ -522,13 +535,23 @@ def find_phs_controls(response):
                         index = t.index('<')
                     control = t[:index]
                     controls.append(control)
-    text = ''.join(response.css('div#primary p span::text').extract()) 
-    for t in text.split('.'):
-        control = re.search("WHO is |WHO's |WHO does |WHO encourages |WHO recommends |WHO advises ",t)
-        if (control):
-            controls.append(t)
+    controls = find_who_controls(response) + controls
     return controls
 
-                    
 
+def get_control_list(report_disease, diseases,controls,d2):
+    # add check location
+    control_list = []
+    check_diseases = '|'.join(report_disease)
+    if (len(diseases) == 1):
+        control_list = controls
+    else:
+        for c in controls:
+            if (not re.search(check_diseases,c)):
+                # add if no location matched as well
+                control_list.append(c)
+            if (re.search(d2,c,re.IGNORECASE)):
+                control_list.append(c)
+            # add if location found in control then add to control list      
+    return control_list
     
