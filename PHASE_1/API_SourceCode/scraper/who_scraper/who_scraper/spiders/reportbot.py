@@ -33,7 +33,8 @@ class ReportbotSpider(scrapy.Spider):
         alltext = re.sub('(?<=\d),(?=\d)', '', alltext)
         cases = find_cases(response, text2digits.Text2Digits().convert(alltext))
         deaths = find_deaths(response,text2digits.Text2Digits().convert(alltext))
-        
+        controls = find_phs_controls(response)
+
         if len(maintext) == 1: 
             maintext = maintext[0]
             section_check = re.search('<h5 class="section_head3">', maintext)
@@ -499,3 +500,35 @@ def find_more_diseases(maintext, disease_list):
                     if (f not in result):
                         result.append(f)
     return result
+
+def find_phs_controls(response):
+    controls = []
+    text = response.css('div#primary').extract()[0].split('</h3>')
+    i = 0
+    check = 0
+    for t in text:
+        if (re.search('public health response', t, re.IGNORECASE)):
+            check = 1
+            break
+        i += 1
+    if (check is 1):
+        text = text[i+1]
+        if (re.search('<li>',text)):
+            for t in text.split('<li>')[1:]:
+                if (re.search('</li>',t)):
+                    if (re.search(';',t)):
+                        index = t.index(';')
+                    else:
+                        index = t.index('<')
+                    control = t[:index]
+                    controls.append(control)
+    text = ''.join(response.css('div#primary p span::text').extract()) 
+    for t in text.split('.'):
+        control = re.search("WHO is |WHO's |WHO does |WHO encourages |WHO recommends |WHO advises ",t)
+        if (control):
+            controls.append(t)
+    return controls
+
+                    
+
+    
