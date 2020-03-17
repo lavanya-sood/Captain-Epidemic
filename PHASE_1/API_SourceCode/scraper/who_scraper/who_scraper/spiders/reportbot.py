@@ -98,6 +98,9 @@ class ReportbotSpider(scrapy.Spider):
         extra_diseases = get_disease_name(extra_report_diseases, maintext)
         all_diseases = report_disease + extra_report_diseases
 
+        # MAKING DISEASE REPORTS
+        # need to add locations, country, cases, deaths by reports
+
         # adds basic news reports to list
         reports = []
         for d1,d2 in zip(diseases, report_disease):
@@ -145,14 +148,13 @@ class ReportbotSpider(scrapy.Spider):
                 'source': sources
             }
             reports.append(r_dict)
-            
-        print(reports)
 
         scraped_info = {
             'url': response.url,
             'headline': headline,
             'publication-date': publication_date,
             'maintext': maintext,
+            'reports': reports,
             'key_terms': key_terms,
             'cases': cases,
             'deaths': deaths
