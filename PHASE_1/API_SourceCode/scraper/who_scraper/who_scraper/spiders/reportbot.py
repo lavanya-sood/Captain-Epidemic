@@ -121,6 +121,7 @@ class ReportbotSpider(scrapy.Spider):
                 'source': sources
             }
             reports.append(r_dict)
+            print(get_syndrome_name(symptom))
         
         # gets dates related to the extra diseases by using the paragraph it was found in
         dates = []
@@ -309,7 +310,7 @@ def find_symptoms(response,all_diseases, curr_disease):
 def syndrome_helper(response):
     text = ''.join(response.css('div#primary p span::text').extract()) 
     syndrome_list = []
-    symptoms = 'haemorrhagic|feverish|paralysis|gastroenterities|gastro|respiratory|influenza-like|rash|encephalitis|meningitis|diarrhea|coughing|diarrhoea|itch|red skin|headache|seizure|nausea|vomiting|runny nose|muscle pain|muscle ache|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|paralytic|stomach cramp'
+    symptoms = 'haemorrhagic|feverish|paralysis|gastro|respiratory|influenza-like|rash|encephalitis|meningitis|diarrhea|diarrhoea|itch|red skin|headache|seizure|nausea|vomiting|runny nose|muscle pain|muscle ache|congestion|rhinorrhea|sneezing|sore throat|scratchy throat|cough|odynophagia|painful swallowing|drowsiness|coma|paralytic|stomach cramp'
     symptom_found = re.search(symptoms, text)
     if (symptom_found):
         symptom_found = symptom_found.group()
@@ -323,6 +324,58 @@ def syndrome_helper(response):
             else:
                 symptom_found = None
     return syndrome_list
+
+def get_syndrome_name(syndromes):
+    new_syndromes = []
+    fever_check = 0
+    for i in syndromes:
+        if 'acute' in i.lower():
+                fever_type = re.findall('respiratory|paral|gastro|fever|rash',i,re.IGNORECASE)
+                if (fever_type):
+                    fever_type = ' '.join(fever_type)
+                    if 'respiratory' in fever_type.lower():
+                        new_syndromes.append("Acute respiratory syndrome")
+                    if 'paral' in fever_type.lower():
+                        new_syndromes.append("Acute Flacid Paralysis")
+                    if 'gastro' in fever_type.lower():
+                        new_syndromes.append("Acute gastroenteritis")
+                    if 'fever' in fever_type.lower() and 'rash' in fever_type.lower():
+                        new_syndromes.append("Acute fever and rash")
+        elif 'respiratory' in i.lower() or 'pneumonia' in i.lower() or 'lung' in i.lower():
+            new_syndromes.append("Acute respiratory syndrome")
+        elif 'influenza-like' in i.lower() or re.search('flu|cough|runny nose|congestion|rhinorrhea|sneez|thraot|shiver',i,re.IGNORECASE):
+            new_syndromes.append("Influenza-like illness")
+            fever_check = 1
+        elif re.search('meningitis|nausea|cold (hand|feet)|bulging',i,re.IGNORECASE) or 'fever' in i.lower() and 'headache' in i.lower() and 'neck' in i.lower():
+            new_syndromes.append("Meningitis")
+            fever_check = 1
+        elif ('fever' in i.lower() and 'headache' in i.lower()) or re.search('encephalitis|drows(y|iness)|confusion|seizure|halluc|coma|irritab',i,re.IGNORECASE):
+            new_syndromes.append("Encephalitis")
+            fever_check = 1
+        elif re.search('gastro|diarrhea|diarrhoea|abdominal|cramps|stomach|vomit',i,re.IGNORECASE):
+            new_syndromes.append("Acute gastroenteritis")
+            fever_check = 1
+        elif re.search('paral|eye|weakness|swallowing|slurred|muscle',i,re.IGNORECASE):
+            new_syndromes.append("Acute Flacid Paralysis")
+        if 'fever' in i.lower():
+            fever_type = re.findall('rash|haemorrhagic',i,re.IGNORECASE)
+            if (fever_type):
+                fever_type = ' '.join(fever_type)
+                if 'rash' in fever_type.lower():
+                    new_syndromes.append("Acute fever and rash")
+                if 'haemorrhagic' in fever_type.lower():
+                    new_syndromes.append("Haemorrhagic Fever")
+        if 'rash' in i.lower():
+            if ('Meningitis' not in new_syndromes and 'Acute fever and rash' not in new_syndromes):
+                new_syndromes.append('Meningitis')
+                fever_check = 1
+        if 'fever' in i.lower():
+            if (fever_check == 0 and 'Haemorrhagic Fever' not in new_syndromes and 'Acute fever and rash' not in new_syndromes):
+                    new_syndromes.append("Fever of Unknown Origin")
+    new_syndromes = list(set(new_syndromes))
+    if fever_check == 1 and 'Fever of Unknown Origin' in new_syndromes:
+        new_syndromes.remove('Fever of Unknown Origin')
+    return new_syndromes
 
 def find_influenza_type(maintext, text):
     types = ['h5n1','h7n9','h9n2','h1n1','h1n2','h3n5','h3n2','h2n2']
