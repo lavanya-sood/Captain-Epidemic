@@ -8,7 +8,7 @@ from text2digits import text2digits #need to pip install
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
     start_urls = ['https://www.who.int/csr/don/6-november-2017-dengue-burkina-faso/en/','https://www.who.int/csr/don/2010_10_25a/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/2014_07_17_polio/en/','https://www.who.int/csr/don/2014_08_06_ebola/en/','https://www.who.int/csr/don/2014_07_17_ebola/en/','https://www.who.int/csr/don/05-March-2020-ebola-drc/en/','https://www.who.int/csr/don/1996_11_28c/en/','https://www.who.int/csr/don/2014_6_23polio/en/','https://www.who.int/csr/don/2014_01_09_h5n1/en/','https://www.who.int/csr/don/04-march-2020-measles-car/en/', 'https://www.who.int/csr/don/2008_12_26a/en/', 'https://www.who.int/csr/don/2013_11_26polio/en/', 'https://www.who.int/csr/don/28-september-2015-cholera/en/', 'https://www.who.int/csr/don/05-october-2018-monkeypox-nigeria/en/', 'https://www.who.int/csr/don/2010_04_30a/en/', 'https://www.who.int/csr/don/2008_01_02/en/', 'https://www.who.int/csr/don/2006_08_21/en/', 'https://www.who.int/csr/don/2003_09_30/en/', 'https://www.who.int/csr/don/2001_07_18/en/', 'https://www.who.int/csr/don/1999_12_22/en/', 'https://www.who.int/csr/don/1996_02_29b/en/', 'https://www.who.int/csr/don/19-december-2016-1-mers-saudi-arabia/en/', 'https://www.who.int/csr/don/06-october-2016-polio-nigeria/en/', 'https://www.who.int/csr/don/12-january-2020-novel-coronavirus-china/en/','https://www.who.int/csr/don/03-june-2016-oropouche-peru/en/']
-
+    
     def parse(self, response):
         headline = response.css(".headline::text").extract()[0]
         
@@ -35,33 +35,7 @@ class ReportbotSpider(scrapy.Spider):
         deaths = find_deaths(response,text2digits.Text2Digits().convert(alltext))
         controls = find_all_controls(response)
 
-        if len(maintext) == 1: 
-            maintext = maintext[0]
-            section_check = re.search('<h5 class="section_head3">', maintext)
-            if (section_check):
-                maintext = maintext.split('<h5 class="section_head3">')[0]
-            section_check = re.search('<ul class="list">', maintext)
-            if (section_check):
-                maintext = maintext.split('<ul class="list">')[0]
-            if (len(response.css('.dateline').extract()) > 0):
-                maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[0:]).replace('\t','').split('\n')[1:]))))
-            else: 
-                maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[1:]).replace('\t','').split('\n')[1:]))))
-        else:
-            maintext = maintext[1]
-            section_check = re.search('<h5 class="section_head3">', maintext)
-            if (section_check):
-                maintext = maintext.split('<h5 class="section_head3">')[0]
-            section_check = re.search('<ul class="list">', maintext)
-            if (section_check):
-                maintext = maintext.split('<ul class="list">')[0]
-            maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
-            if maintext is '': 
-                maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[1]
-                maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
-        
-        #should \n and \r be removed from output?? should it be one block of text?
-
+        maintext = format_maintext(maintext,response)
         
         # WHO already separated reports per article mostly 
         # creates reports based on diseases found in title and separates them if more than one is found
@@ -240,7 +214,38 @@ disease_dict = [
     { "name": "monkeypox" },
     { "name": "COVID-19" }
 ]    
-    
+
+def format_maintext(maintext,response):
+    if len(maintext) == 1: 
+        maintext = maintext[0]
+        section_check = re.search('<h5 class="section_head3">', maintext)
+        if (section_check):
+            maintext = maintext.split('<h5 class="section_head3">')[0]
+        section_check = re.search('<ul class="list">', maintext)
+        if (section_check):
+            maintext = maintext.split('<ul class="list">')[0]
+        if (len(response.css('.dateline').extract()) > 0):
+            maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[0:]).replace('\t','').split('\n')[1:]))))
+        else: 
+            maintext = re.sub('^ ', '', re.sub(' +', ' ', re.sub(r'<[^>]*?>', '', '\n'.join(''.join(maintext.replace('\n', ' ').replace('<span>','\n').split('</span>')[1:]).replace('\t','').split('\n')[1:]))))
+    else:
+        maintext = maintext[1]
+        section_check = re.search('<h5 class="section_head3">', maintext)
+        if (section_check):
+            maintext = maintext.split('<h5 class="section_head3">')[0]
+        section_check = re.search('<ul class="list">', maintext)
+        if (section_check):
+            maintext = maintext.split('<ul class="list">')[0]
+        maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
+        if maintext is '': 
+            maintext = response.css('div#primary').extract()[0].split('<h3 class="section_head1"')[1]
+            maintext = re.sub(r'<[^>]*?>', '', "\n".join(maintext.split('<span>')[1:])).replace('\n\t\t\n  \t\t\n  \t\t\n', '\n').rstrip()
+    maintext = maintext.replace('\n','')
+    maintext = maintext.replace('\r','')
+    maintext = re.sub(r'\.(?=\S)','. ', maintext)
+    maintext = maintext.replace('  ',' ')
+    return maintext
+
 def event_date_helper(text):
     event_date_list = []
     date_found = re.search(r'([0-9]{1,2}((-)|( (to|and) )))?([0-9]{1,2}((th|rd|st) of)? )?(January|February|March|April|May|June|July|August|September|October|November|December)( (and|to) (January|February|March|April|May|June|July|August|September|October|November|December))?( [0-9]{4})?', text)
@@ -396,6 +401,12 @@ def get_disease_name(disease,maintext):
         for d in disease_dict:
             words = f.split( )
             for w in words:
+                w = w.replace('(','')
+                w = w.replace(')','')
+                w = w.replace(']','')
+                w = w.replace('[','')
+                w = w.replace('{','')
+                w = w.replace('}','')
                 if (re.search(w, 'fever|virus|infection|disease', re.IGNORECASE)):
                     continue
                 if (re.search(w, d["name"],re.IGNORECASE)):
@@ -456,8 +467,21 @@ def event_date_range(event_dates,response,headline):
         event_date = re.findall('\d{4}_\d{2}_\d{2}', response.url)
         if len(event_date) == 0:
             event_date = response.url.split('don/')[1].split('-')[:3]
-            month = convert_month(event_date[1])
-            event_date = event_date[2]+'-'+month+'-'+event_date[0]+' xx:xx:xx'
+            if (len(event_date) < 2):
+                dateline = response.css('div#primary p .dateline::text').extract()
+                if (dateline):
+                    month = convert_month(dateline[0].split(' ')[1])
+                    if (len(dateline[0].split(' ')[0]) == 1):
+                        day = '0' + dateline[0].split(' ')[0]
+                    else:
+                        day = dateline[0].split(' ')[0]
+                    year = dateline[0].split(' ')[2]
+                    event_date = year + '-' + month + '-' + day + ' xx:xx:xx'
+                else:
+                    event_date = 'xxxx-xx-xx xx:xx:xx'
+            else:
+                month = convert_month(event_date[1])
+                event_date = event_date[2]+'-'+month+'-'+event_date[0]+' xx:xx:xx'
         else:
             event_date = re.sub(r'_','-',event_date[0])+' xx:xx:xx'
     else:
@@ -515,8 +539,11 @@ def convert_dates(temp_event_dates, string, headline, response):
         day = '00'
         month = '00'
         year = '0000'
+        
         dates_expanded = e.split(string)
         for d in dates_expanded:
+            if (not re.search('[a-zA-Z0-9]',d)):
+                continue
             date_int = re.search('[0-9]+',d,re.IGNORECASE)
             if (date_int):
                 if (len(date_int.group()) > 2):
@@ -622,7 +649,7 @@ def find_all_controls(response):
             check = 1
             break
         i += 1
-    if (check is 1):
+    if (check is 1 and len(text) > i+1):
         text = text[i+1]
         if (re.search('<li>',text)):
             for t in text.split('<li>')[1:]:
@@ -644,7 +671,6 @@ def find_all_controls(response):
 
 
 def get_control_list(report_disease,controls,d2):
-    # add check location
     control_list = []
     check_diseases = '|'.join(report_disease)
     if (len(report_disease) == 1):
@@ -652,11 +678,9 @@ def get_control_list(report_disease,controls,d2):
     else:
         for c in controls:
             if (not re.search(check_diseases,c)):
-                # add if no location matched as well
                 control_list.append(c)
             if (re.search(d2,c,re.IGNORECASE)):
                 control_list.append(c)
-            # add if location found in control then add to control list      
     return control_list
 
 def get_sources(response, many, disease):
