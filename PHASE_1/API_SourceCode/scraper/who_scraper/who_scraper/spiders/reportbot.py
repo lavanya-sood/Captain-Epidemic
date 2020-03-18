@@ -117,7 +117,7 @@ class ReportbotSpider(scrapy.Spider):
             r_dict = {
                 'event-date': event_date,
                 'disease': d1,
-                'controls': control_list,
+                'controls': format_controls(control_list),
                 'syndromes': proper_symptoms,
                 'source': sources
             }
@@ -140,13 +140,14 @@ class ReportbotSpider(scrapy.Spider):
 
         # makes new disease reports for extra diseases found and adds to list
         for d1, e, d2 in zip(extra_diseases, dates, extra_report_diseases):
+            control_list = get_control_list(all_diseases,controls,d2)
             symptom = find_symptoms(response,all_diseases,d2)
             proper_symptoms = get_syndrome_name(symptom)
             sources = get_sources(response,1,d2)
             r_dict = {
                 'event-date': e,
                 'disease': d1,
-                'controls': [],
+                'controls': format_controls(control_list),
                 'syndromes': proper_symptoms,
                 'source': sources
             }
@@ -671,3 +672,19 @@ def get_sources(response, many, disease):
                 else:
                     sources.append(l)
     return sources
+
+def format_controls(controls_list):
+    new_controls = []
+    for c in controls_list:
+        c = c.strip()
+        c = c.replace('\n',' ')
+        c = c.replace('\r',' ')
+        c = re.sub('(.|,|;|:)$','',c)
+        new_controls.append(c)
+    controls = ', '.join(new_controls)
+    controls = controls.strip()
+    re.sub(',$','',controls)
+    controls = controls.strip()
+    return controls
+
+    
