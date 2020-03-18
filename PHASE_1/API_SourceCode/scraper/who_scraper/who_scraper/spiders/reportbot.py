@@ -113,15 +113,16 @@ class ReportbotSpider(scrapy.Spider):
             else:
                 symptom = find_symptoms(response,all_diseases,d2)
                 sources = get_sources(response,1,d2)
+            proper_symptoms = get_syndrome_name(symptom)
             r_dict = {
                 'event-date': event_date,
                 'disease': d1,
                 'controls': control_list,
-                'syndromes': symptom,
+                'syndromes': proper_symptoms,
                 'source': sources
             }
             reports.append(r_dict)
-            print(get_syndrome_name(symptom))
+            
         
         # gets dates related to the extra diseases by using the paragraph it was found in
         dates = []
@@ -140,12 +141,13 @@ class ReportbotSpider(scrapy.Spider):
         # makes new disease reports for extra diseases found and adds to list
         for d1, e, d2 in zip(extra_diseases, dates, extra_report_diseases):
             symptom = find_symptoms(response,all_diseases,d2)
+            proper_symptoms = get_syndrome_name(symptom)
             sources = get_sources(response,1,d2)
             r_dict = {
                 'event-date': e,
                 'disease': d1,
                 'controls': [],
-                'syndromes': symptom,
+                'syndromes': proper_symptoms,
                 'source': sources
             }
             reports.append(r_dict)
