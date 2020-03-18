@@ -117,9 +117,9 @@ class ReportbotSpider(scrapy.Spider):
             r_dict = {
                 'event-date': event_date,
                 'disease': d1,
-                'controls': format_controls(control_list),
+                'controls': format_controls_sources(control_list),
                 'syndromes': proper_symptoms,
-                'source': sources
+                'source': format_controls_sources(sources)
             }
             reports.append(r_dict)
             
@@ -147,9 +147,9 @@ class ReportbotSpider(scrapy.Spider):
             r_dict = {
                 'event-date': e,
                 'disease': d1,
-                'controls': format_controls(control_list),
+                'controls': format_controls_sources(control_list),
                 'syndromes': proper_symptoms,
-                'source': sources
+                'source': format_controls_sources(sources),
             }
             reports.append(r_dict)
 
@@ -673,13 +673,13 @@ def get_sources(response, many, disease):
                     sources.append(l)
     return sources
 
-def format_controls(controls_list):
+def format_controls_sources(controls_list):
     new_controls = []
     for c in controls_list:
         c = c.strip()
         c = c.replace('\n',' ')
         c = c.replace('\r',' ')
-        c = re.sub('(.|,|;|:)$','',c)
+        c = re.sub('(\.|,|;|:)$','',c)
         new_controls.append(c)
     controls = ', '.join(new_controls)
     controls = controls.strip()
