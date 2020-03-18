@@ -143,6 +143,7 @@ class ReportbotSpider(scrapy.Spider):
         #    json.dump(report_list, f)
         #    f.write('\n')
         
+        # INSTEAD OF YIELD NEED TO INSERT DATA INTO DATABASES
         yield scraped_info
 
 disease_dict = [
