@@ -1,10 +1,21 @@
 import flask
 from flask import request, jsonify
 import sqlite3
-import os
+
+import atexit
+from apscheduler.scheduler import Scheduler
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+
+update = Scheduler(daemonic=True)
+
+@update.cron_schedule(day_of_week='0-6', hour='1')
+def job_function():
+    print('hi')
+    return
+
+update.start()
 
 @app.route('/', methods=['GET'])
 def home():
