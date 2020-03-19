@@ -4,6 +4,9 @@ import re
 import json
 from collections import Counter
 from text2digits import text2digits #need to pip install
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import string
 
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
@@ -131,7 +134,7 @@ class ReportbotSpider(scrapy.Spider):
             'url': response.url,
             'headline': headline,
             'publication-date': publication_date,
-            'maintext': maintext,
+            'maintext': get_first_paragraph(response.url),
             'reports': reports,
             'key_terms': key_terms,
             'cases': cases,
@@ -707,4 +710,21 @@ def format_controls_sources(controls_list):
     controls = controls.strip()
     return controls
 
+def get_first_paragraph(url):
+    c = urlopen('https://www.who.int/csr/don/2010_10_25a/en/')
+    contents = c.read()
+    soup = BeautifulSoup(contents,'html.parser')
+    content = soup.find('div',{'id': 'primary'})
+    for div in content.find_all('div',{'class':'meta'}):
+        div.decompose()
+    span = content.find_all('span')
+    for s in span:
+        if (not s.select('b')):
+            if (len(s.text.split(' ')) > 10):
+                printable = set(string.printable)
+                first_paragraph = ''.join(filter(lambda x: x in printable, s.text))
+                text = first_paragraph.replace('\n', ' ')
+                text = re.sub(' +', ' ',text)
+                return text
+    return ''
     
