@@ -2,6 +2,10 @@ import flask
 from flask import request, jsonify
 import sqlite3
 
+import sys
+sys.path.insert(1,'../scraper/who_scraper')
+from updatebot import UpdateBot
+
 import atexit
 from apscheduler.scheduler import Scheduler
 
@@ -12,10 +16,16 @@ update = Scheduler(daemonic=True)
 
 @update.cron_schedule(day_of_week='0-6', hour='1')
 def job_function():
-    print('hi')
+    u = UpdateBot()
+    u.scrape_new_reports()
     return
 
 update.start()
+
+# in each route where you want to update the database with any new reports
+# use the following commands
+# u = UpdateBot()
+# u.scrape_new_reports()
 
 @app.route('/', methods=['GET'])
 def home():

@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerRunner
 from who_scraper.spiders.reportbot import ReportbotSpider
+from twisted.internet import reactor
 import sqlite3
 import os
 import re
@@ -19,7 +20,6 @@ class UpdateBot:
 
     def get_database_path(self):
         current_dir = os.getcwd()
-        print(current_dir)
         if ('scraper' in current_dir):
             index = current_dir.index('scraper')
             database_path = current_dir[:index] + 'api\\who.db'
@@ -54,9 +54,10 @@ class UpdateBot:
 
     def scrape_new_reports(self):
         unscraped_links = self.get_new_reports()
-        process = CrawlerProcess()
-        process.crawl(ReportbotSpider, start_urls=unscraped_links)
-        process.start()
+        process = CrawlerRunner()
+        d = process.crawl(ReportbotSpider, start_urls=unscraped_links)
+        d.addBoth(lambda _: reactor.stop())
+        reactor.run()
 
 t = UpdateBot()
 t.scrape_new_reports()

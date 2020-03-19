@@ -138,10 +138,9 @@ class ReportbotSpider(scrapy.Spider):
             'deaths': deaths
         }
 
-        #report_list.append(scraped_info)
-        #with open ('report_output', 'a') as f:
-        #    json.dump(report_list, f)
-        #    f.write('\n')
+        with open ('report_output', 'a') as f:
+            json.dump(scraped_info, f)
+            f.write('\n')
         
         # INSTEAD OF YIELD NEED TO INSERT DATA INTO DATABASES
         yield scraped_info
