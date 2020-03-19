@@ -59,5 +59,5 @@ class UpdateBot:
         d.addBoth(lambda _: reactor.stop())
         reactor.run()
 
-t = UpdateBot()
-t.scrape_new_reports()
+#t = UpdateBot()
+#t.scrape_new_reports()
