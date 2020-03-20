@@ -45,11 +45,7 @@ class ReportbotSpider(scrapy.Spider):
         
         # finds event dates
         paragraph = maintext.split('\n')
-        event_dates = event_date_helper(paragraph[0])
-        i = 1
-        while (len(event_dates) == 0 and i < len(paragraph)):
-            event_dates = event_date_helper(paragraph[i])
-            i += 1
+        event_dates = event_date_helper(get_first_paragraph(response.url))
         # puts event dates into proper format
         event_date = event_date_range(event_dates,response,headline)
         
@@ -486,6 +482,14 @@ def event_date_range(event_dates,response,headline):
     else:
         new_dates.sort()
         first_date = new_dates[0]
+        # checks if there's a date that mentions the day
+        temp_first = str(first_date)
+        if (temp_first[-2:] == '00'):
+            for n in new_dates:
+                curr = str(n)
+                if curr[-2:] != '00' and temp_first[:-2] == curr[:-2]:
+                    first_date = n
+                    break
         last_date = new_dates[len(new_dates)-1]
         if (first_date != last_date):
             date1 = format_date(first_date)
@@ -711,7 +715,7 @@ def format_controls_sources(controls_list):
     return controls
 
 def get_first_paragraph(url):
-    c = urlopen('https://www.who.int/csr/don/2010_10_25a/en/')
+    c = urlopen(url)
     contents = c.read()
     soup = BeautifulSoup(contents,'html.parser')
     content = soup.find('div',{'id': 'primary'})
