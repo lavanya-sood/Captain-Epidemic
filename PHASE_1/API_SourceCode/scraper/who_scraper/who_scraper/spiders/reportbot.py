@@ -273,7 +273,8 @@ def find_locations(text):
             #if there's no more specific info given
             if not subdiv and found_state == "no":
                 location = create_location(country.name, "")
-            locations.append(location)
+            if (seen_location(locations,location) == False):
+                locations.append(location)
     return locations
 
 #only grab sentences with disease
