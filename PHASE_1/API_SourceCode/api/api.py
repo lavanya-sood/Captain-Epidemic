@@ -75,11 +75,11 @@ parser3.add_argument('syndrome', help="The syndrome of the disease. Eg: Fever", 
 parser4 = api.parser()
 parser4.add_argument('id', help='Authorisation id to put a disease report into an existing article (only available to authorised users)', location='args', required=True)
 parser4.add_argument('url', help='Url to the Who news article a report is to be added to. Url must exist in the database', location='args', required=True)
-parser4.add_argument('event_date', help="The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'", location='args')   
-parser4.add_argument('country', help='The country the disease was reported in', location='args')
-parser4.add_argument('location', help='The location within a country the disease was reported in', location='args')
-parser4.add_argument('diseases', help='The disease reported in the article', location='args')
-parser4.add_argument('syndromes', help='The symptoms reported in the article. Separate the symptoms with a comma', location='args')
+parser4.add_argument('event_date', help="The date the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03'", location='args')   
+parser4.add_argument('country', help='The country the disease was reported in. Eg: Italy', location='args')
+parser4.add_argument('location', help='The location within a country the disease was reported in. Eg: Milan', location='args')
+parser4.add_argument('diseases', help='The disease reported in the article. Eg: Ebola', location='args')
+parser4.add_argument('syndromes', help='The symptoms reported in the article. Separate the symptoms with a comma. Eg: Fever', location='args')
 
 class Article(Resource):
     @api.response(200, 'Success',[articles])
@@ -224,6 +224,7 @@ class Article(Resource):
     @api.response(400, 'url cannot be empty')
     @api.response(200, 'Success')
     @api.response(403, 'url does not exist')
+    @api.response(404, 'Invalid date input')
     @api.expect(parser4,validate=False)
     def put(self):
         # api.abort(401)
@@ -235,7 +236,9 @@ class Article(Resource):
         # return 400 if url is empty
         if not url:
             return "Url can't be empty", 400
-        
+        if args['event_date'] and not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", args['event_date']):
+            return "Invalid date input", 404
+
         article = self.check_url_exists(url)
         print(article)
         if article == False:
