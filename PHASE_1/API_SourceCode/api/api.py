@@ -12,7 +12,7 @@ import json
 
 
 app = Flask(__name__)
-
+authentication_code = "1810051939"
 app.config.SWAGGER_UI_OAUTH_APP_NAME = 'WHO REST Api - Teletubbies'
 app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
@@ -207,9 +207,23 @@ class Article(Resource):
     @api.response(403, 'url does not exist')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
+    @api.response(500, 'Url was not deleted')
     @api.expect(parser2,validate=False)
-    def delete(self, id):
-         api.abort(401)
+    def delete(self):
+        args = parser2.parse_args()
+        au_key = args['id']
+        url = args['url']
+        if authentication_code == au_key:
+            article = self.check_url_exists(url)
+            print(article)
+            if article == False:
+                return "Url does not exist",403
+            result = self.delete_result(url)
+            if result == False:
+                return "Couldn't delete Url",500
+            return "Url Successfully deleted",200
+        else:
+            return "Incorrect Authorization Key",401
 
 
     # adds a report to an article
@@ -225,6 +239,34 @@ class Article(Resource):
     @api.expect(parser4,validate=False)
     def put(self):
         api.abort(401)
+
+   # check if any data exists for the url
+    def check_url_exists(self,url):
+        conn = sqlite3.connect('who.db')
+        cur = conn.cursor()
+        query = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        result = cur.execute(query).fetchall()
+        conn.close()
+        if len(result) == 0:
+            return False
+        return result
+        
+
+    def delete_result(self,url):
+        conn = sqlite3.connect('who.db')
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        query = 'DELETE from Article WHERE url = \'' + url + '\';'
+        cur.execute(query)
+        conn.commit()
+        query2 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        cur.execute(query2)
+        records = cur.fetchall()
+        conn.close()
+        if len(records) != 0:
+            return False
+        return True
+
 
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
