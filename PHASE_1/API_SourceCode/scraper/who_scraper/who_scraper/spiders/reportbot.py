@@ -245,7 +245,62 @@ disease_dict = [
     { "name": "listeriosis" },
     { "name": "monkeypox" },
     { "name": "COVID-19" }
-]    
+]   
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
+
+def find_locations(text):
+    locations = []
+    found_state = "no"
+    for country in pycountry.countries:
+        if country.name in text: #found a country
+            #print(country)
+            #get ISO code and find all states/cities in country
+            #pycountry's subdivision isn't specific enough
+            subdiv = GeoText(text, country.alpha_2).cities
+            #for every city mentioned save {"country": "location"}
+            #if sub1 is empty save location as empty string
+            # TO DO: IDK SOMEHOW GET STATES AND PROVINCE MENTIONS TOO even if it matches slightly? need a way to string match
+            for cities in subdiv:
+                location = create_location(country.name, cities)
+            foundState = "no"
+            for sub in pycountry.subdivisions.get(country_code = country.alpha_2):
+                if remove_accents(sub.name) in text or sub.name in text:
+                    location = create_location(country.name, sub.name)
+                    found_state = "yes"
+            #if there's no more specific info given
+            if not subdiv and found_state == "no":
+                location = create_location(country.name, "")
+            locations.append(location)
+    return locations
+
+#only grab sentences with disease
+def find_mult_locations(text, d2):
+    locations = []
+    text = re.sub(r'<h1.*?>.*?h1>','',text)
+    text_list = list(map(str.strip, re.split(r"[.!?](?!$)", text)))
+    for texts in text_list:
+        if d2.lower() in texts.lower():
+            loc1 = find_locations(texts)
+            for location in loc1:
+                if seen_location(locations, location) is False:
+                    locations.append(location)
+    return locations
+
+def create_location(country, location):
+    loc = LocationsItem()
+    loc['country'] = country
+    loc['location'] = location
+    return loc
+
+def seen_location(locations, location):
+    seen = False
+    for loc in locations:
+        if loc['country'] == location['country'] and loc['location'] == location['location']:
+            seen = True
+    return seen
 
 def format_maintext(maintext,response):
     if len(maintext) == 1: 
@@ -611,33 +666,91 @@ def find_cases(response, alltext):
     table = response.xpath('//*[@class="borderOn"]//tbody')
     if (table): #if there is a table outlining cases use this
         rows = table.xpath('//tr')
-        row = rows[-3]
+        row = rows[-4]
         case = row.xpath('td//text()')[-1].extract()
         return case
     #otherwise look through all text and find 'totals' (find confirmed here too)
-    case = re.search('total (of )?[ 0-9]+| ^(\(H1N1\)) [ 0-9]+ confirmed case(s)?', alltext) #finds first one only automatically
+    case = re.search('total (of )?[ 0-9]+| (\(H1N1\) )?[ 0-9]+ confirmed case(s)?', alltext) #finds first one only automatically
     #H1n1 case is because some reports name it h1n1 2009 (reports sometimes say h1n1 2009 confirmed cases)
     if (case):
         case = case.group()
-        case = int(''.join(filter(str.isdigit, case)))
-        return case
+        year = re.search('\(H1N1\)', case)
+        if (year):
+            case = None
+        else:
+            case = int(''.join(filter(str.isdigit, case)))
+            return case
     #otherwise look for all other ways of saying cases
-    case = re.search(' ^(\(H1N1\)) [ 0-9]+( suspected| new| laboratory-confirmed| confirmed)? case(s)?| ^(\(H1N1\)) [ 0-9]+(st|rd|nd|th) case| ^(\(H1N1\)) [ 0-9]+ laboratory confirmed', alltext)
+    case = re.search(' (\(H1N1\) )?[0-9]+( suspected| new| laboratory-confirmed| confirmed| laboratory confirmed)? case(s)?| (\(H1N1\) )?[ 0-9]+(st|rd|nd|th) case| (\(H1N1\) )?[ 0-9]+ laboratory confirmed| (\(H1N1\) )?[ 0-9]+ patients with clinical symptoms', alltext)
     if (case):
         case = case.group()
-        case = int(''.join(filter(str.isdigit, case)))
-        return case
+        year = re.search('\(H1N1\)', case)
+        if (year):
+            case = None
+        else:
+            case = int(''.join(filter(str.isdigit, case)))
+            return case
     return case #None
+
+#in the 2 cases this happens: cases of f2
+def get_mult_cases(response, d2, alltext):
+    #otherwise look for all other ways of saying cases
+    case = re.search('(\(H1N1\) )?[0-9]+( suspected| new| laboratory-confirmed| confirmed)? case(s)?.*? of.*?\.|\..*?(\(H1N1\) )?[ 0-9]+ patients with clinical symptoms consistent with.*?\.', alltext)
+    if (case):
+        case = case.group()
+        year = re.search('\(H1N1\)', case)
+        if (year) or d2.lower().replace('-',' ') not in case.lower():
+            #remove what we found from alltext and find again
+            while True:
+                alltext1 = alltext.replace(case,"")
+                case = re.search('(\(H1N1\) )?[0-9]+( suspected| new| laboratory-confirmed| confirmed| laboratory confirmed)? case(s)?.*? of.*?\.|\..*?(\(H1N1\) )?[ 0-9]+ patients with clinical symptoms consistent with.*?\.', alltext1)
+                if (case):
+                    case = case.group()
+                    if d2.lower() in case.lower():
+                        case = re.search('(\(H1N1\) )?[0-9]+( suspected| new| laboratory-confirmed| confirmed| laboratory confirmed)? case(s)? of| (\(H1N1\) )?[ 0-9]+(st|rd|nd|th) case| (\(H1N1\) )?[ 0-9]+ laboratory confirmed| (\(H1N1\) )?[ 0-9]+ patients with clinical symptoms', case)
+                        case = case.group()
+                        case = int(''.join(filter(str.isdigit, case)))
+                        return case
+        else:
+            case = re.search('(\(H1N1\) )?[0-9]+( suspected| new| laboratory-confirmed| confirmed|laboratory confirmed)? case(s)?| (\(H1N1\) )?[ 0-9]+(st|rd|nd|th) case| (\(H1N1\) )?[ 0-9]+ laboratory confirmed| (\(H1N1\) )?[ 0-9]+ patients with clinical symptoms', case)
+            case = case.group()
+            case = int(''.join(filter(str.isdigit, case)))
+            return case
+    return case #None
+
+def get_mult_deaths(response, d2, alltext):
+    #otherwise look for all other ways of saying cases
+    deaths = re.search('(\.|>).*?[0-9]+ death(s)?.*?\.|(\.|>).*?[0-9]+ case(s)? died.*?\.|(\.|>).*?[0-9]+ of fatal.*?\.|(\.|>).*?[0-9]+ fatal.*?\.|(\.|>).*?[0-9]+ (were|was) fatal.*?\.|(\.|>).*?[ 0-9]+ related death(s)?.*?\.|(\.|>).*?[ 0-9]+ ha(ve|s) been fatal.*?\.|(\.|>).*?[ 0-9]+ of these cases have died.*?\.|(\.|>).*?[ 0-9]+ ha(ve|s) died.*?\.', alltext)
+    if (deaths):
+        deaths = deaths.group()
+        if d2.lower().replace('-',' ') not in deaths.lower():
+            #remove what we found from alltext and find again
+            while True:
+                alltext1 = alltext.replace(deaths,"")
+                deaths = re.search('(\.|>|<).*?[0-9]+ death(s)?.*?\.|(\.|>).*?[0-9]+ case(s)? died.*?\.|(\.|>).*?[0-9]+ of fatal.*?\.|(\.|>).*?[0-9]+ fatal.*?\.|(\.|>).*?[0-9]+ (were|was) fatal.*?\.|(\.|>).*?[ 0-9]+ related death(s)?.*?\.|(\.|>).*?[ 0-9]+ ha(ve|s) been fatal.*?\.|(\.|>).*?[ 0-9]+ of these cases have died.*?\.|(\.|>).*?[ 0-9]+ ha(ve|s) died.*?\.', alltext1)
+                if (deaths):
+                    deaths = deaths.group()
+                    if d2.lower() in deaths.lower():
+                        deaths = re.search(' [0-9]+ death(s)?| [0-9]+ case(s)? died| [0-9]+ of fatal| [0-9]+ fatal| [0-9]+ (were|was) fatal| [ 0-9]+ related death(s)?| [ 0-9]+ ha(ve|s) been fatal| [ 0-9]+ of these cases have died| [ 0-9]+ ha(ve|s) died', deaths)
+                        deaths = deaths.group()
+                        deaths = int(''.join(filter(str.isdigit, deaths)))
+                        return deaths
+        else:
+            deaths = re.search(' [0-9]+ death(s)?| [0-9]+ case(s)? died| [0-9]+ of fatal| [0-9]+ fatal| [0-9]+ (were|was) fatal| [ 0-9]+ related death(s)?| [ 0-9]+ ha(ve|s) been fatal| [ 0-9]+ of these cases have died| [ 0-9]+ ha(ve|s) died', deaths)
+            deaths = deaths.group()
+            deaths = int(''.join(filter(str.isdigit, deaths)))
+            return deaths
+    return deaths #None
 
 def find_deaths(response, alltext):
     table = response.xpath('//*[@class="borderOn"]//tbody')
     if (table): #if there is a table outlining cases use this
         rows = table.xpath('//tr')
-        row = rows[-2]
+        row = rows[-3]
         death = row.xpath('td//text()')[-1].extract()
         return death
     #otherwise look through all text and find 'ways of saying death'
-    death = re.search(' [ 0-9]+ death(s)?| [ 0-9]+ case(s)? died | [ 0-9]+ of fatal | [ 0-9]+ fatal | [ 0-9]+ (were|was) fatal | [ 0-9]+ related death(s)? | [ 0-9]+ ha(ve|s) been fatal | [ 0-9]+ of these cases have died | [ 0-9]+ ha(ve|s) died ', alltext) #finds first one only automatically
+    death = re.search(' [0-9]+ death(s)?| [0-9]+ case(s)? died| [0-9]+ of fatal| [0-9]+ fatal| [0-9]+ (were|was) fatal| [ 0-9]+ related death(s)?| [ 0-9]+ ha(ve|s) been fatal| [ 0-9]+ of these cases have died| [ 0-9]+ ha(ve|s) died', alltext) #finds first one only automatically
     if (death):
         death = death.group()
         death = int(''.join(filter(str.isdigit, death)))
