@@ -1,47 +1,74 @@
 import flask
 from flask import request, jsonify,send_from_directory, make_response, Flask,  Blueprint
 import sqlite3
+import werkzeug
+werkzeug.cached_property = werkzeug.utils.cached_property
 from flask_swagger_ui import get_swaggerui_blueprint
-from flask_restplus import Api, Resource, fields
+from flask_restplus import Api, Resource, fields,marshal
 import datetime
 import re
+import json
+import enum
 
 
 app = Flask(__name__)
 
-app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Teletubbies Api'
-api = Api(app, title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This is API developed by the team Teletubbies using a database with information from WHO ")
+app.config.SWAGGER_UI_OAUTH_APP_NAME = 'Who REST Api - Teletubbies'
+app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
+api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
+
+#api = Api(app,default='article',default_label='WHO Disease Article Operations',title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
 
+api = api.namespace('article', description = 'WHO Disease Article Operations')
+
+
+locations = api.model('Locations', {
+    "country": fields.String,
+    "location": fields.String
+})
+
+reports = api.model('Report', {
+    "event_date": fields.DateTime,
+    "locations": fields.List(fields.Nested(locations)),
+    "diseases": fields.List(fields.String),
+    "syndromes": fields.List(fields.String)
+})
+
+
+articles = api.model('Article', {      
+    "url": fields.Url,
+    "date_of_publication": fields.DateTime,
+    "headline": fields.String,
+    "main_text": fields.String,
+    "reports": fields.List(fields.Nested(reports)),
+})
+
+
+data = {"name": "pet","description":"Everything about your Pets"}
+
+#"tags":[{"name":"pet","description":"Everything about your Pets"
+
+
+class EnumTimeZone(enum.Enum):
+    blank = ' '
+    a = 'a'
+    b = 'b'
+    other = 'Other'
 
 class Article(Resource):
-    model = api.model('Diseases', {      
-        "url": fields.DateTime,
-        "date_of_publication": fields.DateTime,
-        "headline": fields.String,
-        "main_text": fields.String,
-        "id":fields.DateTime,
-        "event_date": fields.DateTime,
-        "locations": fields.String,
-        "country": fields.String,
-        "diseases": fields.String,
-        "syndromes": fields.String
-        
-    })
-
-
-    @api.response(200, 'Success',model)
+    @api.response(200, 'Success',[articles])
     @api.response(404, 'No data found')
-    @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
-    @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS'})
-    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma'})
-    @api.doc(params={'location': 'The country where the epidemic takes place'})
-    # @api.doc(params={'time_zone': fields.String(description='Time Zone of the article. Could be empty', enum=['A', 'B'])})
+    @api.doc(params={'start_date': 'Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00'})
+    @api.doc(params={'end_date': 'End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59'})
+    @api.doc(params={'key_terms': 'The key terms to look for when finding article. Separate multiple key terms by comma. Eg:ebola,virus'})
+    @api.doc(params={'location': 'The country where the epidemic takes place. Eg: Guinea'})
+    @api.doc({'time_zone': fields.String(description='The object type', enum=EnumTimeZone._member_names_})
+    # @api.doc(params={'time_zone': fields.String(enum=['A', 'B'])})
     # @api.doc(params={'time_zone':'Time Zone of the article. Could be empty', "enum":['A', 'B']})
     # @api.doc(params={'time_zone': fields.String(description="Time Zone of the article. Could be empty")})
     @api.response(400, 'Invalid date format')
-
-
+    @api.doc(summary='Get request gets all the articles given the parameters')
     def get(self, start_date,end_date):
         
         # check start and end date format
@@ -64,18 +91,43 @@ class Article(Resource):
         result = self.get_results(articles)
         return result,200
 
-    @api.response(403, 'Not Authorized')
+     # make parameters required or part of path
+    @api.doc(params={'id': 'Authorisation id to delete an existing article (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to the Who news article to be deleted. Url must exist in the database'})
+    @api.response(403, 'url does not exist')
+    @api.response(401, 'Unathorised id')
+    @api.response(200, 'Success')
     def delete(self, id):
-         api.abort(403)
+         api.abort(401)
     
-    @api.response(403, 'Not Authorized')
+    # make parameters required or part of path
+    @api.doc(params={'id': 'Authorisation id to post an article (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to a Who news article. Must not already exist in the database'})
+    @api.doc(params={'date_of_publication': "Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. '2020-01-17 13:09:44'"})
+    @api.doc(params={'headline': 'Headline of the Who news article'})
+    @api.doc(params={'main-text': 'Main text body of the Who news article'})
+    @api.response(400, 'Invalid date_of_publication format')
+    @api.response(403, 'url already exists')
+    @api.response(401, 'Unathorised id')
+    @api.response(200, 'Success')
     def post(self):
-        api.abort(403)
+        api.abort(401)
     
-
-    @api.response(403, 'Not Authorized')
+    # make parameters required or part of path
+    # adds a report to an article 
+    @api.doc(params={'id': 'Authorisation id to put a disease report into an existing article (only available to authorised users)'})
+    @api.doc(params={'url': 'Url to the Who news article a report is to be added to. Url must exist in the database'})
+    @api.doc(params={'event_date': "The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'"})
+    @api.doc(params={'country': 'The country the disease was reported in'})
+    @api.doc(params={'location': 'The location within a country the disease was reported in'})
+    @api.doc(params={'diseases': 'The disease reported in the article'})
+    @api.doc(params={'syndromes': 'The symptoms reported in the article. Separate the symptoms with a comma'})
+    @api.response(401, 'Unathorised id')
+    @api.response(400, 'url cannot be empty')
+    @api.response(200, 'Success')
+    @api.response(403, 'url does not exist')
     def put(self):
-        api.abort(403)
+        api.abort(401)
         
     # check if any data exists for the query
     def check_data_exists(self,start_date,end_date,location,key_terms):
@@ -195,23 +247,9 @@ def send_static(path):
     return send_from_directory('static',path)
 
 
-### swagger specific ###
-SWAGGER_URL = '/swagger'
-API_URL = '/static/swagger.json'
-SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={
-        'app_name': "Teletubbies-API"
-    }
-)
-app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
-### end swagger specific ###
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-api.add_resource(Article, "/article/<string:start_date>/<string:end_date>")
+api.add_resource(Article, "/<string:start_date>/<string:end_date>")
 app.run(debug=True)
