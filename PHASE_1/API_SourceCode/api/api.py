@@ -239,10 +239,25 @@ class Article(Resource):
         if args['event_date'] and not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", args['event_date']):
             return "Invalid date input", 404
 
-        article = self.check_url_exists(url)
-        print(article)
-        if article == False:
-            return "Url does not exist",403
+        # article = self.check_url_exists(url)
+
+        conn = sqlite3.connect('who.db')
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        # only date given
+        query = 'SELECT * from Article where url = \'' + args['url'] + '\';'
+        results = cur.execute(query).fetchall()
+        if not results:
+            return {
+                'message' : 'Url not exists',
+                'status' : 403
+            }
+        cur.close()
+        print(results)
+
+        # print(article, url)
+        # if article == False:
+        #     return "Url does not exist",403
         result = self.add_report(url, args['event_date'], args['country'], args['location'], args['diseases'], args['syndromes'])
         return "Url Successfully added",200
 
