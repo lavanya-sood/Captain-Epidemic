@@ -7,6 +7,11 @@ from text2digits import text2digits #need to pip install
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import string
+import pycountry
+#from Location import * this doesnt work with scrapy?
+from geotext import GeoText
+import unicodedata
+from who_scraper.items import *
 
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
@@ -83,17 +88,33 @@ class ReportbotSpider(scrapy.Spider):
                 if (symptom is None):
                     symptom = syndrome_helper(response)
                 sources = get_sources(response,0,d2)
+                cases = find_cases(response, text2digits.Text2Digits().convert(alltext))
+                locations = find_locations(alltext)
+                deaths = find_deaths(response,text2digits.Text2Digits().convert(alltext))
             else:
                 symptom = find_symptoms(response,all_diseases,d2)
                 sources = get_sources(response,1,d2)
+                cases = get_mult_cases(response, d2, text2digits.Text2Digits().convert(alltext))
+                deaths = get_mult_deaths(response, d2, text2digits.Text2Digits().convert(alltext))
+                locations = find_mult_locations(alltext, d2)
             proper_symptoms = get_syndrome_name(symptom)
-            r_dict = {
-                'event-date': event_date,
-                'disease': d1,
-                'controls': format_controls_sources(control_list),
-                'syndromes': proper_symptoms,
-                'source': format_controls_sources(sources)
-            }
+            #r_dict = {
+            #    'event-date': event_date,
+           #     'disease': d1,
+            #    'controls': format_controls_sources(control_list),
+             #   'syndromes': proper_symptoms,
+              #  'source': format_controls_sources(sources)
+            #}
+            r_dict = ReportsItem()
+            r_dict['event_date'] = event_date
+            r_dict['disease'] = d1
+            r_dict['controls'] = format_controls_sources(control_list)
+            r_dict['syndromes'] = proper_symptoms
+            r_dict['source'] = format_controls_sources(sources)
+            r_dict['cases'] = cases
+            r_dict['deaths'] = deaths
+            r_dict['key_terms'] = key_terms
+            r_dict['locations'] = locations
             reports.append(r_dict)
             
         
@@ -117,25 +138,41 @@ class ReportbotSpider(scrapy.Spider):
             symptom = find_symptoms(response,all_diseases,d2)
             proper_symptoms = get_syndrome_name(symptom)
             sources = get_sources(response,1,d2)
-            r_dict = {
-                'event-date': e,
-                'disease': d1,
-                'controls': format_controls_sources(control_list),
-                'syndromes': proper_symptoms,
-                'source': format_controls_sources(sources),
-            }
+            #r_dict = {
+            #    'event-date': e,
+            #    'disease': d1,
+           #     'controls': format_controls_sources(control_list),
+           #     'syndromes': proper_symptoms,
+           #     'source': format_controls_sources(sources),
+           # }
+            r_dict = ReportsItem()
+            r_dict['event_date'] = e
+            r_dict['disease'] = d1
+            r_dict['controls'] = format_controls_sources(control_list)
+            r_dict['syndromes'] = proper_symptoms
+            r_dict['source'] = format_controls_sources(sources)
+            r_dict['cases'] = None
+            r_dict['deaths'] = None
+            r_dict['key_terms'] = key_terms
+            r_dict['locations'] = locations
             reports.append(r_dict)
 
-        scraped_info = {
-            'url': response.url,
-            'headline': headline,
-            'publication-date': publication_date,
-            'maintext': get_first_paragraph(response.url),
-            'reports': reports,
-            'key_terms': key_terms,
-            'cases': cases,
-            'deaths': deaths
-        }
+        #scraped_info = {
+        #    'url': response.url,
+        #    'headline': headline,
+        #    'publication-date': publication_date,
+        #    'maintext': get_first_paragraph(response.url),
+        #    'reports': reports,
+        #    'key_terms': key_terms,
+        #    'cases': cases,
+        #    'deaths': deaths
+        #}
+        scraped_info = WhoScraperItem()
+        scraped_info['url'] = response.url
+        scraped_info['headline'] = headline
+        scraped_info['publication_date'] = publication_date
+        scraped_info['maintext'] = get_first_paragraph(response.url)
+        scraped_info['reports'] = reports
 
         # INSTEAD OF YIELD NEED TO INSERT DATA INTO DATABASES
         yield scraped_info
