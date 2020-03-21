@@ -22,16 +22,16 @@ class WhoScraperPipeline(object):
         result = self.cursor.fetchone()
         if result: #already in database
             print("record already in database")
-            self.connection.close()
+            #self.connection.close()
             return item
         else:
             self.cursor.execute(
-                "insert into article (URL, Headline, MainText, PublicationDate) values (?, ?, ?, ?)",
+                "insert into article (URL, Headline, Main_Text, Date_of_publication) values (?, ?, ?, ?)",
                     (item['url'], item['headline'], item['maintext'], pub))
             self.connection.commit()
             for reports in item['reports']:
                 self.cursor.execute(
-                    "insert into report (URL, EventDate) values (?, ?)",
+                    "insert into report (URL, Event_Date) values (?, ?)",
                     (item['url'], reports['event_date'])
                     )
                 self.connection.commit()
@@ -85,5 +85,5 @@ class WhoScraperPipeline(object):
         #for each location : add(id, location, country)
         #for each search term: add(id,term)
         #add (id,symptom)
-        self.connection.close()
+        #self.connection.close()
         return item
