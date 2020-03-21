@@ -26,7 +26,7 @@ def test_get_req_date():
         'status' : 200
     }
     assert expected == output
-    
+
 def test_get_req_article():
     # empty data found
     output = get("2019-09-09T07:09:09","2019-09-09T07:09:09",False)
@@ -36,6 +36,26 @@ def test_get_req_article():
     }
     assert expected == output
 
+def test_post_req():
+    # test for incorrect authentication id
+    output = post('18100')
+    expected = {
+        'message' : 'Invalid authentication id',
+        'status' : 401
+    }
+    assert expected == output
+    output = post('1810051939')
+    expected = {
+        'message' : 'Invalid input key in body',
+        'status' : 400
+    }
+    assert expected == output
+    output = post('1810051939','http//url.com')
+    expected = {
+        'message': 'Article successfully added ',
+        'code' : 200
+    }
+    assert expected == output
 def get(start_date,end_date,articles=True):
     # check start and end date format
     if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
@@ -65,6 +85,24 @@ def get(start_date,end_date,articles=True):
         'status' : 200
     }
 
+def post(id,url=None):
+    # return 401 if authorization code is wrong
+    if id != '1810051939':
+        return {
+            'message' : 'Invalid authentication id',
+            'status' : 401
+        }
+    # return 400 if url is empty
+    if url is None:
+        return {
+            'message' : 'Invalid input key in body',
+            'status' : 400
+        }
+    return {
+        'message': 'Article successfully added ',
+        'code' : 200
+    }
+
 def convert_date_to_int(start_date,end_date):
     start_day,start_time = start_date.split('T')
     end_day,end_time = end_date.split('T')
@@ -79,3 +117,4 @@ def convert_date_to_int(start_date,end_date):
 if __name__== "__main__":
   test_get_req_date()
   test_get_req_article()
+  test_post_req()
