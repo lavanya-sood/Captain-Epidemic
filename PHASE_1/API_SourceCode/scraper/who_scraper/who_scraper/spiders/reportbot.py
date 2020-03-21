@@ -264,17 +264,27 @@ def find_locations(text):
             #if sub1 is empty save location as empty string
             # TO DO: IDK SOMEHOW GET STATES AND PROVINCE MENTIONS TOO even if it matches slightly? need a way to string match
             for cities in subdiv:
-                location = create_location(country.name, cities)
+                if (seen_location1(locations, country.name, cities) == False):
+                    location = create_location(country.name, cities)
             foundState = "no"
             for sub in pycountry.subdivisions.get(country_code = country.alpha_2):
                 if remove_accents(sub.name) in text or sub.name in text:
-                    location = create_location(country.name, sub.name)
+                    if (seen_location1(locations, country.name, sub.name) == False):
+                        location = create_location(country.name, sub.name)
                     found_state = "yes"
             #if there's no more specific info given
             if not subdiv and found_state == "no":
-                location = create_location(country.name, "")
+                if (seen_location1(locations, country.name, "") == False):
+                    location = create_location(country.name, "")
             locations.append(location)
     return locations
+
+def seen_location1(locations, country, city):
+    seen = False
+    for location in locations:
+        if location['country'] == country and location['location'] == city:
+            seen = True
+    return seen
 
 #only grab sentences with disease
 def find_mult_locations(text, d2):
