@@ -106,8 +106,8 @@ class Article(Resource):
                 return "Url does not exist",403
             result = self.delete_result(url)
             if result == False:
-                return result,500
-            return result,200
+                return "Couldn't delete Url",500
+            return "Url Successfully deleted",200
         else:
             return "Incorrect Authorization Key",401
 
