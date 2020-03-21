@@ -75,7 +75,7 @@ parser3.add_argument('syndrome', help="The syndrome of the disease. Eg: Fever", 
 parser4 = api.parser()
 parser4.add_argument('id', help='Authorisation id to put a disease report into an existing article (only available to authorised users)', location='args', required=True)
 parser4.add_argument('url', help='Url to the Who news article a report is to be added to. Url must exist in the database', location='args', required=True)
-parser4.add_argument('event_date', help="The date the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03'", location='args')   
+parser4.add_argument('event_date', help="The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'", location='args')   
 parser4.add_argument('country', help='The country the disease was reported in. Eg: Italy', location='args')
 parser4.add_argument('location', help='The location within a country the disease was reported in. Eg: Milan', location='args')
 parser4.add_argument('diseases', help='The disease reported in the article. Eg: Ebola', location='args')
@@ -235,31 +235,32 @@ class Article(Resource):
             return "Incorrect Authorization Key",401
         # return 400 if url is empty
         if not url:
-            return "Url can't be empty", 400
-        if args['event_date'] and not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", args['event_date']):
-            return "Invalid date input", 404
-
-        # article = self.check_url_exists(url)
-
-        conn = sqlite3.connect('who.db')
-        conn.row_factory = dict_factory
-        cur = conn.cursor()
-        # only date given
-        query = 'SELECT * from Article where url = \'' + args['url'] + '\';'
-        results = cur.execute(query).fetchall()
-        if not results:
             return {
-                'message' : 'Url not exists',
-                'status' : 403
+                'message' : "Url can't be empty",
+                'status' : 400
             }
-        cur.close()
-        print(results)
+        if args['event_date'] and not self.check_match_date_range(args['event_date']):
+            return {
+                'message' : "Invalid date input",
+                'status' : 404
+            }    
 
-        # print(article, url)
-        # if article == False:
-        #     return "Url does not exist",403
+        article = self.check_url_exists(url)
+        print(article, url)
+        if article == False:
+            return {
+                'message' : "Url does not exist",
+                'status' : 403                
+            }
         result = self.add_report(url, args['event_date'], args['country'], args['location'], args['diseases'], args['syndromes'])
-        return "Url Successfully added",200
+        return {
+            'message' : "Url Successfully added",
+            'status' : 200
+        }
+
+    # check if the input match for the date or date range
+    def check_match_date_range(self, input):
+        return re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
 
             
     # put new report to article
