@@ -74,7 +74,7 @@ def test_post_req_invalid_authkey():
 def test_post_req_missing_url():
     # test if required fields are inputted
     output = post('1810051939')
-    return {
+    expected =  {
         'message' : 'Missing required url field & date of publication in body',
         'status' : 400
     },400
@@ -82,7 +82,7 @@ def test_post_req_missing_url():
 
 def test_post_req_publication_date():
     output = post('1810051939','url')
-    return {
+    expected =  {
         'message' : 'Missing required url field & date of publication in body',
         'status' : 400
     },400
