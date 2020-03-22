@@ -99,11 +99,29 @@ def test_post_req_correct_input():
 
 def test_delete_incorrect_id():
     # test for incorrect authentication id
-    output = post('13454')
+    output = delete('13454','test')
     expected = {
-        'message' : 'Invalid authentication id',
+        'message' : 'Incorrect Authorization Key',
         'status' : 401
     },401
+    assert expected == output
+
+def test_delete_unavailable_url():
+    # test for incorrect authentication id
+    output = delete('1810051939',"test")
+    expected = {
+        'message': 'Url does not exist',
+        'status' : 403
+        },403
+    assert expected == output
+
+def test_delete_req_correct_input():
+    # test article added when url and date of publcation is given
+    output = delete('1810051939','newurl')
+    expected =  {
+        'message': 'Article and linked reports successfully deleted' ,
+        'status' : 200
+    },200
     assert expected == output
 
 def get(start_date,end_date,articles=True):
@@ -175,19 +193,60 @@ def delete(id,url) :
             'message' : 'Incorrect Authorization Key',
             'status' : 401
         },401
-    conn = sqlite3.connect('who.db')
-    with conn:
+    conn3 = sqlite3.connect('who.db')
+    with conn3:
         #look for url in the database
         query1 = 'SELECT url from Article WHERE url = \'' + url + '\';'
-        cur3 = conn.cursor()
-        result = cur3.execute(query1).fetchall()
-        conn.close()
-
+        cur4 = conn3.cursor()
+        result = cur4.execute(query1).fetchall()
         if len(result) == 0:
             return {
                 'message': 'Url does not exist',
                 'status' : 403
             },403
+
+        #look for reports with same url in the database
+        query4 = 'SELECT id from Report WHERE url = \'' + url + '\';'
+        cur4.execute(query4)
+        ids = cur4.fetchall()
+        for value in ids:
+            id = value['id']
+            q1 = 'DELETE from Disease WHERE ReportID = ' + str(id) + ';'
+            cur4.execute(q1)
+            conn3.commit()
+            q2 = 'DELETE from Description WHERE ReportID = ' + str(id) + ';'
+            cur4.execute(q2)
+            conn3.commit()
+            q3 = 'DELETE from Location WHERE ReportID = ' + str(id) + ';'
+            cur4.execute(q3)
+            conn3.commit()
+            q4 = 'DELETE from Syndrome WHERE ReportID = ' + str(id) + ';'
+            cur4.execute(q4)
+            conn3.commit()
+            q5 = 'DELETE from SearchTerm WHERE ReportID = ' + str(id) + ';'
+            cur4.execute(q5)
+            conn3.commit()
+
+        query2 = 'DELETE from Report WHERE url = \'' + url + '\';'
+        cur4.execute(query2)
+        conn3.commit()
+        query3 = 'DELETE from Article WHERE url = \'' + url + '\';'
+        cur4.execute(query3)
+        conn3.commit()
+        query4 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        cur4.execute(query4)
+        records = cur4.fetchall()
+        cur4.close()
+        if len(records) != 0:
+            return {
+                'message': 'Could not delete url',
+                'status' : 500
+            },500
+        return {
+            'message': 'Article and linked reports successfully deleted',
+            'status' : 200
+            },200
+
 
 
 
