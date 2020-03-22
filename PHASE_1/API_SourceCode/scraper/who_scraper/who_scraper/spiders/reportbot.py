@@ -669,7 +669,34 @@ def find_cases(response, alltext):
         rows = table.xpath('//tr')
         row = rows[-4]
         case = row.xpath('td//text()')[-1].extract()
+        case= re.sub('[^0-9]', '', case)
+        if (case == ""):
+            row = rows[-3]
+            case = row.xpath('td//text()')[-1].extract()
+            case= re.sub('[^0-9]', '', case)
         return case
+    tables = response.xpath('//*[@class="tableData"]//tbody')
+    if (tables): #if there is a table outlining cases use this
+        rows = tables[0].xpath('//tr')
+        row = rows[1]
+        case = row.xpath('td//text()')[0].extract()
+        if (case == "Cases"):
+            rows = tables[0].xpath('//tr')
+            row = rows[-1]
+            case = row.xpath('td//text()')[1].extract()
+            case= re.sub('[^0-9]', '', case)
+            return case
+    tables = response.xpath('//div[@id="primary"]//table')
+    if (tables):
+        rows = tables[0].xpath('//tr')
+        row = rows[1]
+        case = row.xpath('td//text()')[1].extract()
+        if (case == "Cases"):
+            rows = tables[0].xpath('//tr')
+            row = rows[-1]
+            case = row.xpath('td//text()')[1].extract()
+            case= re.sub('[^0-9]', '', case)
+            return case
     #otherwise look through all text and find 'totals' (find confirmed here too)
     case = re.search('total (of )?[ 0-9]+| (\(H1N1\) )?[ 0-9]+ confirmed case(s)?', alltext) #finds first one only automatically
     #H1n1 case is because some reports name it h1n1 2009 (reports sometimes say h1n1 2009 confirmed cases)
@@ -691,7 +718,7 @@ def find_cases(response, alltext):
         else:
             case = int(''.join(filter(str.isdigit, case)))
             return case
-    return case #None
+    return None
 
 #in the 2 cases this happens: cases of f2
 def get_mult_cases(response, d2, alltext):
@@ -747,10 +774,40 @@ def find_deaths(response, alltext):
     table = response.xpath('//*[@class="borderOn"]//tbody')
     if (table): #if there is a table outlining cases use this
         rows = table.xpath('//tr')
-        row = rows[-3]
-        death = row.xpath('td//text()')[-1].extract()
+        row = rows[-2]
+        if (len(row.xpath('td//text()')) >= 2):
+            death = row.xpath('td//text()')[-1].extract()
+            death = re.sub('[^0-9]', '', death)
+        else:
+            row = rows[-3]
+            death = row.xpath('td//text()')[-1].extract()
+            death = re.sub('[^0-9]', '', death)
         return death
     #otherwise look through all text and find 'ways of saying death'
+    tables = response.xpath('//*[@class="tableData"]//tbody')
+    if (tables): #if there is a table outlining cases use this
+        rows = tables[0].xpath('//tr')
+        row = rows[1]
+        death = row.xpath('td//text()')[1].extract()
+        if (death == "Deaths"):
+            rows = tables[0].xpath('//tr')
+            row = rows[-1]
+            death = row.xpath('td//text()')[2].extract()
+            death = re.sub('[^0-9]', '', death)
+            return death
+    tables = response.xpath('//div[@id="primary"]//table')
+    if (tables):
+        rows = tables[0].xpath('//tr')
+        row = rows[1]
+        death = row.xpath('td//text()')
+        if (len(death) >= 3):
+            death = death[2].extract()
+            if (death == "Deaths"):
+                rows = tables[0].xpath('//tr')
+                row = rows[-1]
+                death = row.xpath('td//text()')[2].extract()
+                death = re.sub('[^0-9]', '', death)
+                return death
     death = re.search(' [0-9]+ death(s)?| [0-9]+ case(s)? died| [0-9]+ of fatal| [0-9]+ fatal| [0-9]+ (were|was) fatal| [ 0-9]+ related death(s)?| [ 0-9]+ ha(ve|s) been fatal| [ 0-9]+ of these cases have died| [ 0-9]+ ha(ve|s) died', alltext) #finds first one only automatically
     if (death):
         death = death.group()
