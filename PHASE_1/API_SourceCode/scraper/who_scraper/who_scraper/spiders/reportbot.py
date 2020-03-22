@@ -696,10 +696,12 @@ def find_cases(response, alltext):
     tables = response.xpath('//div[@id="primary"]//table')
     if (tables):
         rows = tables[0].xpath('//tr')
+        # errors in line below, list index out of range https://www.who.int/csr/don/2002_08_23a/en/ (a lot of errors in 2002 and below)
         row = rows[1]
         case = row.xpath('td//text()')[0].extract()
         if (len(row.xpath('td//text()')) >= 2):
             case1 = row.xpath('td//text()')[1].extract()
+        # errors in line below as case1 isn't assigned sometimes
         if (case == "Cases" or case1 == "Cases"):
             rows = tables[0].xpath('//tr')
             row = rows[-1]
@@ -739,6 +741,7 @@ def get_mult_cases(response, d2, alltext):
         if (year) or d2.lower().replace('-',' ') not in case.lower():
             #remove what we found from alltext and find again
             while True:
+                # line below has errors, says case is None somtimes
                 alltext1 = alltext.replace(case,"")
                 case = re.search('(\(H1N1\) )?[0-9]+( suspected| new| laboratory-confirmed| confirmed| laboratory confirmed)? case(s)?.*? of.*?\.|\..*?(\(H1N1\) )?[ 0-9]+ patients with clinical symptoms consistent with.*?\.', alltext1)
                 if (case):
