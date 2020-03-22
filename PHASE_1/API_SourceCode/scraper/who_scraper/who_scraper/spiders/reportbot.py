@@ -680,7 +680,8 @@ def find_cases(response, alltext):
         rows = tables[0].xpath('//tr')
         row = rows[1]
         case = row.xpath('td//text()')[0].extract()
-        if (case == "Cases"):
+        case1 = row.xpath('td//text()')[1].extract()
+        if (case == "Cases" or case1 == "Cases"):
             rows = tables[0].xpath('//tr')
             row = rows[-1]
             case = row.xpath('td//text()')[1].extract()
@@ -690,8 +691,10 @@ def find_cases(response, alltext):
     if (tables):
         rows = tables[0].xpath('//tr')
         row = rows[1]
-        case = row.xpath('td//text()')[1].extract()
-        if (case == "Cases"):
+        case = row.xpath('td//text()')[0].extract()
+        if (len(row.xpath('td//text()')) >= 2):
+            case1 = row.xpath('td//text()')[1].extract()
+        if (case == "Cases" or case1 == "Cases"):
             rows = tables[0].xpath('//tr')
             row = rows[-1]
             case = row.xpath('td//text()')[1].extract()
@@ -718,7 +721,7 @@ def find_cases(response, alltext):
         else:
             case = int(''.join(filter(str.isdigit, case)))
             return case
-    return None
+    return case
 
 #in the 2 cases this happens: cases of f2
 def get_mult_cases(response, d2, alltext):
@@ -801,8 +804,10 @@ def find_deaths(response, alltext):
         row = rows[1]
         death = row.xpath('td//text()')
         if (len(death) >= 3):
-            death = death[2].extract()
-            if (death == "Deaths"):
+            death2 = death[2].extract()
+        if (len(death) >= 4):
+            death1 = death[3].extract()
+            if (death2 == "Deaths" or death1 == "Deaths"):
                 rows = tables[0].xpath('//tr')
                 row = rows[-1]
                 death = row.xpath('td//text()')[2].extract()
