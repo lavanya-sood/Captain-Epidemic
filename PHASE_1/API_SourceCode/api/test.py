@@ -9,7 +9,7 @@ def test_get_req_date():
     expected = {
         'message' : 'Invalid date input',
         'status' : 400
-    }
+    },400
     assert expected == output
     output = get("2019-09-09T07:09:09","20190909T07:09:09")
     assert expected == output
@@ -24,7 +24,7 @@ def test_get_req_date():
     expected = {
         'result' : "result",
         'status' : 200
-    }
+    },200
     assert expected == output
 
 def test_get_req_article():
@@ -33,7 +33,7 @@ def test_get_req_article():
     expected = {
         'message' : 'No data found',
         'status' : 404
-    }
+    },404
     assert expected == output
 
 def test_post_req():
@@ -42,66 +42,71 @@ def test_post_req():
     expected = {
         'message' : 'Invalid authentication id',
         'status' : 401
-    }
+    },401
     assert expected == output
+    # test if required fields are inputted
     output = post('1810051939')
-    expected = {
-        'message' : 'Invalid input key in body',
+    return {
+        'message' : 'Missing required url field & date of publication in body',
         'status' : 400
-    }
+    },400
+    assert expected == output
+    output = post('1810051939','url')
     assert expected == output
     output = post('1810051939','http//url.com')
     expected = {
         'message': 'Article successfully added ',
         'code' : 200
-    }
+    },200
     assert expected == output
+
+
 def get(start_date,end_date,articles=True):
     # check start and end date format
     if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", start_date):
         return {
             'message' : 'Invalid date input',
             'status' : 400
-        }
+        },400
     if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", end_date):
         return {
             'message' : 'Invalid date input',
             'status' : 400
-        }
+        },400
     final_start,final_end = convert_date_to_int(start_date,end_date)
     if final_end < final_start:
         return {
             'message' : 'End date must be larger than start date',
             'status' : 400
-        }
+        },400
     if articles == False:
         return {
             'message' : 'No data found',
             'status' : 404
-        }
+        },404
     result = "result"
     return {
         'result' : result,
         'status' : 200
-    }
+    },200
 
-def post(id,url=None):
+def post(id,url=None,date_of_publication=None):
     # return 401 if authorization code is wrong
     if id != '1810051939':
         return {
             'message' : 'Invalid authentication id',
             'status' : 401
-        }
+        },401
     # return 400 if url is empty
-    if url is None:
+    if url is None or date_of_publication is None:
         return {
-            'message' : 'Invalid input key in body',
+            'message' : 'Missing required url field & date of publication in body',
             'status' : 400
-        }
+        },400
     return {
         'message': 'Article successfully added ',
         'code' : 200
-    }
+    },200
 
 def convert_date_to_int(start_date,end_date):
     start_day,start_time = start_date.split('T')
