@@ -97,6 +97,14 @@ def test_post_req_correct_input():
     },200
     assert expected == output
 
+def test_delete_incorrect_id():
+    # test for incorrect authentication id
+    output = post('13454')
+    expected = {
+        'message' : 'Invalid authentication id',
+        'status' : 401
+    },401
+    assert expected == output
 
 def get(start_date,end_date,articles=True):
     # check start and end date format
@@ -167,6 +175,20 @@ def delete(id,url) :
             'message' : 'Incorrect Authorization Key',
             'status' : 401
         },401
+    conn = sqlite3.connect('who.db')
+    with conn:
+        #look for url in the database
+        query1 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        cur3 = conn.cursor()
+        result = cur3.execute(query1).fetchall()
+        conn.close()
+
+        if len(result) == 0:
+            return {
+                'message': 'Url does not exist',
+                'status' : 403
+            },403
+
 
 
 
