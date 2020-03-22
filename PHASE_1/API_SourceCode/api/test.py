@@ -159,6 +159,17 @@ def post(id,url=None,date_of_publication=None,headline=None,main_text=None):
         },404
 
 
+
+def delete(id,url) :
+    # return 401 if authorization code is wrong
+    if id != '1810051939':
+        return {
+            'message' : 'Incorrect Authorization Key',
+            'status' : 401
+        },401
+
+
+
 def convert_date_to_int(start_date,end_date):
     start_day,start_time = start_date.split('T')
     end_day,end_time = end_date.split('T')
