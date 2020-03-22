@@ -45,13 +45,17 @@ reports = api.model('Report', {
     "description": fields.List(fields.Nested(description))
 })
 
+updated_reports = api.model('UpdatedReport', {
+    "url": fields.Url,
+    "reports": fields.List(fields.Nested(reports))
+})
 
 articles = api.model('Article', {
     "url": fields.Url,
     "date_of_publication": fields.String,
     "headline": fields.String,
     "main_text": fields.String,
-    "reports": fields.List(fields.Nested(reports)),
+    "reports": fields.List(fields.Nested(reports))
 })
 
 parser1 = api.parser()
@@ -72,12 +76,12 @@ parser3.add_argument('id', help='Authorisation id to post an article (only avail
 #PUT
 parser4 = api.parser()
 parser4.add_argument('id', help='Authorisation id to put a disease report into an existing article (only available to authorised users)', location='args', required=True)
-parser4.add_argument('url', help='Url to the Who news article a report is to be added to. Url must exist in the database', location='args', required=True)
-parser4.add_argument('event_date', help="The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'", location='args')   
-parser4.add_argument('country', help='The country the disease was reported in. Eg: Italy', location='args')
-parser4.add_argument('location', help='The location within a country the disease was reported in. Eg: Milan', location='args')
-parser4.add_argument('diseases', help='The disease reported in the article. Eg: Ebola', location='args')
-parser4.add_argument('syndromes', help='The symptoms reported in the article. Separate the symptoms with a comma. Eg: Fever', location='args')
+# parser4.add_argument('url', help='Url to the Who news article a report is to be added to. Url must exist in the database', location='args', required=True)
+# parser4.add_argument('event_date', help="The date or date range the diseases were reported. Use format YYYY-MM-DD e.g. '2020-01-03' or '2018-12-01 to 2018-12-10'", location='args')   
+# parser4.add_argument('country', help='The country the disease was reported in. Eg: Italy', location='args')
+# parser4.add_argument('location', help='The location within a country the disease was reported in. Eg: Milan', location='args')
+# parser4.add_argument('diseases', help='The disease reported in the article. Eg: Ebola', location='args')
+# parser4.add_argument('syndromes', help='The symptoms reported in the article. Separate the symptoms with a comma. Eg: Fever', location='args')
 
 class Article(Resource):
     @api.response(200, 'Success',[articles])
@@ -234,38 +238,53 @@ class Article(Resource):
     @api.response(200, 'Success')
     @api.response(403, 'url does not exist')
     @api.response(404, 'Invalid date input')
-    @api.expect(parser4,validate=False)
+    @api.expect(parser4,updated_reports,validate=False)
     def put(self):
-        # api.abort(401)
-        args = parser4.parse_args()
+        args = {}
+        a = parser4.parse_args()
+        args['id'] = a['id']
+        args['url'] = request.json['url']
+        args['event_date'] = request.json['reports'][0].get("event_date")
+        args['country'] = request.json['reports'][0].get("locations")[0].get('country')
+        args['location'] = request.json['reports'][0].get("locations")[0].get('location')
+        args['disease'] = request.json['reports'][0].get("diseases")[0]
+        args['syndrome'] = request.json['reports'][0].get("syndromes")[0]
+        args['source'] = request.json['reports'][0].get("description")[0].get('source')
+        args['cases'] = request.json['reports'][0].get("description")[0].get('cases')
+        args['deaths'] = request.json['reports'][0].get("description")[0].get('deaths')
+        args['controls'] = request.json['reports'][0].get("description")[0].get('controls')
+        
         url = args['url']
         # return 401 if authorization code is wrong
         if authentication_code != args['id']:
-            return "Incorrect Authorization Key",401
+            return {
+                'message' : "Incorrect Authorization Key",
+                'status' : 401
+            },401
         # return 400 if url is empty
         if not url:
             return {
                 'message' : "Url can't be empty",
                 'status' : 400
-            }
-        if args['event_date'] and not self.check_match_date_range(args['event_date']):
+            },400
+        if not args['event_date']:# and not self.check_match_date_range(args['event_date']):
             return {
                 'message' : "Invalid date input",
                 'status' : 404
-            }    
-
+            },404
+        print(args['event_date'])
         article = self.check_url_exists(url)
         print(article, url)
         if article == False:
             return {
                 'message' : "Url does not exist",
                 'status' : 403                
-            }
-        result = self.add_report(url, args['event_date'], args['country'], args['location'], args['diseases'], args['syndromes'])
+            },403
+        self.add_report(url, args['event_date'], args['country'], args['location'], args['diseases'], args['syndromes'], args['source'], args['cases'], args['deaths'], args['controls'])
         return {
             'message' : "Url Successfully added",
             'status' : 200
-        }
+        },200
 
     # check if the input match for the date or date range
     def check_match_date_range(self, input):
@@ -273,7 +292,7 @@ class Article(Resource):
 
             
     # put new report to article
-    def add_report(self, url, event_date, country, location, disease, syndrome):
+    def add_report(self, url, event_date, country, location, disease, syndrome, source, case, death, control):
         conn = sqlite3.connect('who.db')
         with conn:
             # insert report
@@ -299,7 +318,11 @@ class Article(Resource):
                 val = (syndrome, cur.lastrowid);
                 cur5 = conn.cursor()
                 cur5.execute(sql, val)
-
+            if case or death or control or source:
+                sql = ''' INSERT INTO Description(Source,Cases,Deaths,Controls,ReportID) VALUES(?,?,?,?,?) '''
+                val = (source,case,death,control, cur.lastrowid);
+                cur5 = conn.cursor()
+                cur5.execute(sql, val)
 
     # check if any data exists for the url
     def check_url_exists(self,url):
