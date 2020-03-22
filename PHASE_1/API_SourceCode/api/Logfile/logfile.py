@@ -6,7 +6,7 @@ class LogFile:
         logfile.write('Elapsed Time: ' + str(end_time - start_time) + '\n')
         logfile.write('Request Method: ' + '<[' + method + ']>' + '\n')
         logfile.write('Request URL: ' + url + '\n')
-        logfile.write('API Endpoint: ' + '\\article' + '\n')
+        logfile.write('API Endpoint: ' + '/article' + '\n')
         logfile.write('Request Body: ' + str(request_body) + '\n')
         logfile.write('Response Description: ' + response_body + '\n')
         logfile.write('Response Code: ' + code + '\n')
