@@ -12,6 +12,7 @@ import pycountry
 from geotext import GeoText
 import unicodedata
 from who_scraper.items import *
+import pytz
 
 class ReportbotSpider(scrapy.Spider):
     name = 'reportbot'
@@ -52,7 +53,8 @@ class ReportbotSpider(scrapy.Spider):
         paragraph = maintext.split('\n')
         event_dates = event_date_helper(get_first_paragraph(response.url))
         # puts event dates into proper format
-        event_date = event_date_range(event_dates,response,headline)
+        time = get_time_and_zone(response.url)
+        event_date = event_date_range(event_dates,response,headline,time)
         
         # finds diseases mentioned in the title
         disease_temp = response.css(".headline::text").extract()[0]
@@ -105,6 +107,7 @@ class ReportbotSpider(scrapy.Spider):
              #   'syndromes': proper_symptoms,
               #  'source': format_controls_sources(sources)
             #}
+
             r_dict = ReportsItem()
             r_dict['event_date'] = event_date
             r_dict['disease'] = d1
@@ -115,6 +118,7 @@ class ReportbotSpider(scrapy.Spider):
             r_dict['deaths'] = deaths
             r_dict['key_terms'] = key_terms
             r_dict['locations'] = locations
+            r_dict['timezone'] = get_zone(time)
             reports.append(r_dict)
             
         
@@ -127,7 +131,7 @@ class ReportbotSpider(scrapy.Spider):
                 if (re.search(d, p, re.IGNORECASE)):
                     date = event_date_helper(paragraph[i])
                     # puts dates into proper formats
-                    date = event_date_range(date,response,headline)
+                    date = event_date_range(date,response,headline,None)
                     dates.append(date)
                     break
                 i += 1
@@ -155,6 +159,7 @@ class ReportbotSpider(scrapy.Spider):
             r_dict['deaths'] = None
             r_dict['key_terms'] = key_terms
             r_dict['locations'] = locations
+            r_dict['timezone'] = get_zone(time)
             reports.append(r_dict)
 
         #scraped_info = {
@@ -174,7 +179,7 @@ class ReportbotSpider(scrapy.Spider):
         scraped_info['maintext'] = get_first_paragraph(response.url)
         scraped_info['reports'] = reports
 
-        # INSTEAD OF YIELD NEED TO INSERT DATA INTO DATABASES
+        # YIELD INSERTS DATA INTO DATABASES
         yield scraped_info
 
 disease_dict = [
@@ -539,7 +544,7 @@ def key_terms_helper(text, terms_list):
                 terms_found = None
     return terms_list
 
-def event_date_range(event_dates,response,headline):
+def event_date_range(event_dates,response,headline,time):
     new_dates = []
     temp_event_dates = []
     for e in event_dates:
@@ -585,14 +590,14 @@ def event_date_range(event_dates,response,headline):
                     break
         last_date = new_dates[len(new_dates)-1]
         if (first_date != last_date):
-            date1 = format_date(first_date)
-            date2 = format_date(last_date)
+            date1 = format_date(first_date, time)
+            date2 = format_date(last_date, 'xx:xx:xx')
             event_date = date1 + ' to ' + date2
         else:
-            event_date = format_date(first_date)
+            event_date = format_date(first_date, time)
     return event_date
 
-def format_date(date):
+def format_date(date, time):
     date = str(date)
     year = date[:4]
     if (year == '0000'):
@@ -603,7 +608,8 @@ def format_date(date):
     day = date[6:]
     if (day == '00'):
         day = 'xx'
-    return year + '-' + month + '-' + day + ' xx:xx:xx'
+    time = get_event_time(time)
+    return year + '-' + month + '-' + day + ' ' + time
 
 def convert_month(string):
     months = [
@@ -957,4 +963,48 @@ def get_first_paragraph(url):
             text = re.sub(' +', ' ',text)
             return text.strip()
     return ''
+
+def get_time_and_zone(url):
+    c = urlopen(url)
+    contents = c.read()
+    soup = BeautifulSoup(contents,'html.parser')
+    content = soup.find('div',{'id': 'primary'})
+    for div in content.find_all('div',{'class':'meta'}):
+        div.decompose()
+    span = content.find_all('span')
+    for s in span:
+        time_zone = re.search('([0-9]{4}|[0-9]{2}:[0-9]{2}) [A-Z]{3,4}',s.text)
+        cases = re.search('([0-9]{4}|[0-9]{2}:[0-9]{2}) [A-Z]{3,4} case',s.text)
+        if (time_zone and not cases):
+            time = time_zone.group().split(' ')[0]
+            zone = time_zone.group().split(' ')[1]
+            if (zone in pytz.all_timezones):
+                if (':' in time):
+                    hour = time.split(':')[0]  
+                    minute = time.split(':')[1]
+                else:
+                    hour = time[:2]
+                    minute = time[2:4]
+                if (hour and int(hour) < 24):
+                    if (minute and int(minute) < 60):
+                        return time_zone.group()
+
+def get_event_time(time_zone):
+    if (time_zone):
+        hour = 'xx'
+        minute = 'xx'
+        time = time_zone.split(' ')[0]
+        if (':' in time):
+            hour = time.split(':')[0]  
+            minute = time.split(':')[1]
+        else:
+            hour = time[:2]
+            minute = time[2:4]
+        return hour + ':' + minute + ':xx'
+    return 'xx:xx:xx'
+
+def get_zone(time_zone):
+    if (time_zone):
+        return time_zone.split(' ')[1]  
+
     

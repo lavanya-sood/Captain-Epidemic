@@ -13,7 +13,7 @@ class LinkBot:
         links = []
         for l in date_links[0].find_all('li'):
             for a in l.find_all('a'):
-                if ('2008' in a['href']):
+                if ('2020' in a['href']):
                     links.append('https://www.who.int' + a['href'])
         return links
 

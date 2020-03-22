@@ -14,14 +14,14 @@ class WhoScraperPipeline(object):
         #log.msg("Established connection with database") is this log file??
 
     def process_item(self, item, spider):
-        print((item['reports'][0]['syndromes']))
+        #print((item['reports'][0]['syndromes']))
         #remove spaces and - in publication_date
         pub = int(''.join(filter(str.isdigit, item['publication_date'])))
-        print(pub)
+        #print(pub)
         self.cursor.execute("select * from article where url=?", (item['url'],))
         result = self.cursor.fetchone()
         if result: #already in database
-            print("record already in database")
+            #print("record already in database")
             #self.connection.close()
             return item
         else:
@@ -38,7 +38,7 @@ class WhoScraperPipeline(object):
                 self.cursor.execute("select id from report order by id desc limit 1 ")
                 result = self.cursor.fetchone()
                 report_id = result[0]
-                print(report_id)
+                #print(report_id)
                 if not reports['source']: #if empty
                     source = None
                 else:
@@ -58,6 +58,13 @@ class WhoScraperPipeline(object):
                     (report_id, reports['disease'])
                 )
                 self.connection.commit()
+
+                if reports['timezone']:
+                    self.cursor.execute(
+                        "insert into timezone (ReportID, Timezone) values (?, ?)",
+                        (report_id, reports['timezone'])
+                    )
+                    self.connection.commit()
 
                 for location in reports['locations']:
                     self.cursor.execute(

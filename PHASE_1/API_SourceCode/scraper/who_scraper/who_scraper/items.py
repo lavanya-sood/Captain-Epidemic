@@ -27,6 +27,7 @@ class ReportsItem(Item):
     deaths = Field()
     key_terms = Field()
     locations = Field()
+    timezone = Field()
 
 class LocationsItem(Item):
     country = Field()
