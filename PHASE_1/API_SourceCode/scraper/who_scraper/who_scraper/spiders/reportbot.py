@@ -945,16 +945,16 @@ def get_first_paragraph(url):
                 printable = set(string.printable)
                 first_paragraph = ''.join(filter(lambda x: x in printable, s.text))
                 text = first_paragraph.replace('\n', ' ')
-                text = first_paragraph.replace('\r', ' ')
+                text = text.replace('\r', ' ')
                 text = re.sub(' +', ' ',text)
-                return text
+                return text.strip()
         content = soup.find('h5', {'class': 'section_head3'})
         if (s.select('table') and content):
             printable = set(string.printable)
             first_paragraph = ''.join(filter(lambda x: x in printable, content.text))
             text = first_paragraph.replace('\n', ' ')
-            text = first_paragraph.replace('\r', ' ')
+            text = text.replace('\r', ' ')
             text = re.sub(' +', ' ',text)
-            return text
+            return text.strip()
     return ''
     

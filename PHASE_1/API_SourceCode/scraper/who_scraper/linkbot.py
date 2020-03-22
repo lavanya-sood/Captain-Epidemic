@@ -13,9 +13,8 @@ class LinkBot:
         links = []
         for l in date_links[0].find_all('li'):
             for a in l.find_all('a'):
-                if ('2009' in a['href']):
-                    return links
-                links.append('https://www.who.int' + a['href'])
+                if ('2008' in a['href']):
+                    links.append('https://www.who.int' + a['href'])
         return links
 
     def get_all_reports(self):
@@ -35,7 +34,7 @@ class LinkBot:
         disease_links = self.get_all_reports()
         settings = get_project_settings()
         process = CrawlerProcess(settings)
-        process.crawl(ReportbotSpider, start_urls=disease_links[840:])
+        process.crawl(ReportbotSpider, start_urls=disease_links)
         process.start()
 
         
