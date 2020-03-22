@@ -1,9 +1,9 @@
 import pytest
 import re
-
+import sqlite3
 # command in terminal : py.test test.py
 
-def test_get_req_date():
+def test_get_req_invalid_date():
     # Test invalid date
     output = get("20190909T07:09:09","20190909T07:09:09")
     expected = {
@@ -11,14 +11,40 @@ def test_get_req_date():
         'status' : 400
     },400
     assert expected == output
+
+def test_get_req_invalid_date_2():
     output = get("2019-09-09T07:09:09","20190909T07:09:09")
+    expected = {
+        'message' : 'Invalid date input',
+        'status' : 400
+    },400
     assert expected == output
+
+def test_get_req_invalid_date_3():
     output = get("20190909T07:09:09","2019-09-09T07:09:09")
+    expected = {
+        'message' : 'Invalid date input',
+        'status' : 400
+    },400
     assert expected == output
+
+def test_get_req_invalid_date_4():
     output = get("20190909T07:09:09","2019-09-09T07:09:09")
+    expected = {
+        'message' : 'Invalid date input',
+        'status' : 400
+    },400
     assert expected == output
+
+def test_get_req_invalid_date_5():
     output = get("2019090907:09:09","2019-09-0907:09:09")
+    expected = {
+        'message' : 'Invalid date input',
+        'status' : 400
+    },400
     assert expected == output
+
+def test_get_req_correct_date():
     # correct date input
     output = get("2019-09-09T07:09:09","2019-09-09T07:09:09")
     expected = {
@@ -36,7 +62,7 @@ def test_get_req_article():
     },404
     assert expected == output
 
-def test_post_req():
+def test_post_req_invalid_authkey():
     # test for incorrect authentication id
     output = post('18100')
     expected = {
@@ -44,6 +70,8 @@ def test_post_req():
         'status' : 401
     },401
     assert expected == output
+
+def test_post_req_missing_url():
     # test if required fields are inputted
     output = post('1810051939')
     return {
@@ -51,10 +79,19 @@ def test_post_req():
         'status' : 400
     },400
     assert expected == output
+
+def test_post_req_publication_date():
     output = post('1810051939','url')
+    return {
+        'message' : 'Missing required url field & date of publication in body',
+        'status' : 400
+    },400
     assert expected == output
-    output = post('1810051939','http//url.com')
-    expected = {
+
+def test_post_req_correct_input():
+    # test article added when url and date of publcation is given
+    output = post('1810051939','newurl','20190909')
+    expected =  {
         'message': 'Article successfully added ',
         'code' : 200
     },200
@@ -90,7 +127,7 @@ def get(start_date,end_date,articles=True):
         'status' : 200
     },200
 
-def post(id,url=None,date_of_publication=None):
+def post(id,url=None,date_of_publication=None,headline=None,main_text=None):
     # return 401 if authorization code is wrong
     if id != '1810051939':
         return {
@@ -103,10 +140,24 @@ def post(id,url=None,date_of_publication=None):
             'message' : 'Missing required url field & date of publication in body',
             'status' : 400
         },400
-    return {
-        'message': 'Article successfully added ',
-        'code' : 200
-    },200
+    conn = sqlite3.connect('who.db')
+    with conn:
+        # insert article
+        sql = ''' INSERT INTO Article(url,headline,date_of_publication,main_text) VALUES(?,?,?,?) '''
+        val = (url, headline,date_of_publication,main_text);
+        cur2 = conn.cursor()
+        cur2.execute(sql, val)
+        if cur2.lastrowid:
+            cur2.close()
+            return {
+                'message': 'Article successfully added ',
+                'code' : 200
+            },200
+        return {
+            'message': 'Article not added ',
+            'code' : 404
+        },404
+
 
 def convert_date_to_int(start_date,end_date):
     start_day,start_time = start_date.split('T')
@@ -118,8 +169,3 @@ def convert_date_to_int(start_date,end_date):
     final_start = sd + st
     final_end = ed + et
     return final_start,final_end
-
-if __name__== "__main__":
-  test_get_req_date()
-  test_get_req_article()
-  test_post_req()
