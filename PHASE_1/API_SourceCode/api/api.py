@@ -128,14 +128,25 @@ class Article(Resource):
     def post(self):
         args = {}
         a = parser3.parse_args()
+        # return 401 if authorization code is wrong
+        if 'id' not in a:
+            return {
+                'message' : 'Unable to access authorised data',
+                'status' : 400
+            },400
+        if a['id'] != authentication_code:
+            return {
+                'message' : 'Invalid authentication id',
+                'status' : 401
+            },401
         args['id'] = a['id']
-
         # return 400 if url or date of publication is empty
         if 'url' not in request.json or 'date_of_publication' not in request.json:
             return {
                 'message' : 'Missing required url field & date of publication in body',
                 'status' : 400
             },400
+
         args['url'] = request.json['url']
         args['date_of_publication'] = request.json['date_of_publication']
         args['headline'] = request.json['headline']
@@ -149,12 +160,13 @@ class Article(Resource):
         args['cases'] = request.json['reports'][0].get("description")[0].get('cases')
         args['deaths'] = request.json['reports'][0].get("description")[0].get('deaths')
         args['controls'] = request.json['reports'][0].get("description")[0].get('controls')
-        # return 401 if authorization code is wrong
-        if args['id'] != authentication_code:
+
+        # if url or publication date is empty
+        if args['url'] == "" or args['date_of_publication'] == "":
             return {
-                'message' : 'Invalid authentication id',
-                'status' : 401
-            },401
+                'message' : 'Missing required url field & date of publication in body',
+                'status' : 400
+            },400
 
         # check if url exist already
         conn = sqlite3.connect('who.db')
@@ -211,11 +223,11 @@ class Article(Resource):
                 cur5.execute(sql, val)
         return {
             'message': 'Article successfully added ',
-            'code' : 200
+            'status' : 200
         },200
 
 
-    @api.response(403, 'url does not exist')
+    @api.response(403, 'Url does not exist')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
     @api.response(500, 'Url was not deleted')
@@ -228,13 +240,26 @@ class Article(Resource):
             article = self.check_url_exists(url)
             print(article)
             if article == False:
-                return "Url does not exist",403
+                return {
+                'message': 'Url does not exist',
+                'status' : 403
+                },403
             result = self.delete_result(url)
             if result == False:
-                return "Couldn't delete Url",500
-            return "Url Successfully deleted",200
+                return {
+                'message': 'Could not delete url',
+                'status' : 500
+                },500
+
+            return {
+            'message': 'Article and linked reports successfully deleted ',
+            'status' : 200
+            },200
         else:
-            return "Incorrect Authorization Key",401
+            return {
+            'message': 'Incorrect Authorization Key',
+            'status' : 401
+            },401
 
 
     # adds a report to an article
@@ -267,11 +292,35 @@ class Article(Resource):
         conn = sqlite3.connect('who.db')
         conn.row_factory = dict_factory
         cur = conn.cursor()
-        query = 'DELETE from Article WHERE url = \'' + url + '\';'
-        cur.execute(query)
-        conn.commit()
-        query2 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        query1 = 'SELECT id from Report WHERE url = \'' + url + '\';'
+        cur.execute(query1)
+        ids = cur.fetchall()
+        for value in ids:
+            id = value['id']
+            q1 = 'DELETE from Disease WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q1)
+            conn.commit()
+            q2 = 'DELETE from Description WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q2)
+            conn.commit()
+            q3 = 'DELETE from Location WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q3)
+            conn.commit()
+            q4 = 'DELETE from Syndrome WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q4)
+            conn.commit()
+            q5 = 'DELETE from SearchTerm WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q5)
+            conn.commit()
+
+        query2 = 'DELETE from Report WHERE url = \'' + url + '\';'
         cur.execute(query2)
+        conn.commit()
+        query3 = 'DELETE from Article WHERE url = \'' + url + '\';'
+        cur.execute(query3)
+        conn.commit()
+        query4 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        cur.execute(query4)
         records = cur.fetchall()
         conn.close()
         if len(records) != 0:
