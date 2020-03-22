@@ -215,7 +215,7 @@ class Article(Resource):
         },200
 
 
-    @api.response(403, 'url does not exist')
+    @api.response(403, 'Url does not exist')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
     @api.response(500, 'Url was not deleted')
@@ -228,13 +228,26 @@ class Article(Resource):
             article = self.check_url_exists(url)
             print(article)
             if article == False:
-                return "Url does not exist",403
+                return {
+                'message': 'Url does not exist',
+                'code' : 403
+                },403
             result = self.delete_result(url)
             if result == False:
-                return "Couldn't delete Url",500
-            return "Url Successfully deleted",200
+                return {
+                'message': 'Could not delete url',
+                'code' : 500
+                },500
+            
+            return {
+            'message': 'Article and linked reports successfully deleted ',
+            'code' : 200
+            },200
         else:
-            return "Incorrect Authorization Key",401
+            return {
+            'message': 'Incorrect Authorization Key',
+            'code' : 401
+            },401
 
 
     # adds a report to an article
@@ -267,11 +280,35 @@ class Article(Resource):
         conn = sqlite3.connect('who.db')
         conn.row_factory = dict_factory
         cur = conn.cursor()
-        query = 'DELETE from Article WHERE url = \'' + url + '\';'
-        cur.execute(query)
-        conn.commit()
-        query2 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        query1 = 'SELECT id from Report WHERE url = \'' + url + '\';'
+        cur.execute(query1)
+        ids = cur.fetchall()
+        for value in ids:
+            id = value['id']
+            q1 = 'DELETE from Disease WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q1)
+            conn.commit()
+            q2 = 'DELETE from Description WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q2)
+            conn.commit()
+            q3 = 'DELETE from Location WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q3)
+            conn.commit()
+            q4 = 'DELETE from Syndrome WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q4)
+            conn.commit()
+            q5 = 'DELETE from SearchTerm WHERE ReportID = ' + str(id) + ';'
+            cur.execute(q5)
+            conn.commit()
+        
+        query2 = 'DELETE from Report WHERE url = \'' + url + '\';'
         cur.execute(query2)
+        conn.commit()
+        query3 = 'DELETE from Article WHERE url = \'' + url + '\';'
+        cur.execute(query3)
+        conn.commit()
+        query4 = 'SELECT url from Article WHERE url = \'' + url + '\';'
+        cur.execute(query4)
         records = cur.fetchall()
         conn.close()
         if len(records) != 0:
