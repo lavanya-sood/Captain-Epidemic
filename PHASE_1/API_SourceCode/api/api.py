@@ -29,17 +29,25 @@ locations = api.model('Locations', {
     "location": fields.String
 })
 
+description = api.model('Description', {
+    "source": fields.String,
+    "cases": fields.Integer,
+    "deaths":fields.Integer,
+    "controls":fields.String
+})
+
 reports = api.model('Report', {
-    "event_date": fields.DateTime,
+    "event_date": fields.String,
     "locations": fields.List(fields.Nested(locations)),
     "diseases": fields.List(fields.String),
-    "syndromes": fields.List(fields.String)
+    "syndromes": fields.List(fields.String),
+    "description": fields.List(fields.Nested(description))
 })
 
 
 articles = api.model('Article', {
     "url": fields.Url,
-    "date_of_publication": fields.DateTime,
+    "date_of_publication": fields.String,
     "headline": fields.String,
     "main_text": fields.String,
     "reports": fields.List(fields.Nested(reports)),
@@ -58,17 +66,7 @@ parser2.add_argument('url', help='Url to the Who news article to be deleted. Url
 
 #POST
 parser3 = api.parser()
-parser3.add_argument('id', help='Authorisation id to post an article (only available to authorised users)', location='args', required=True)
-parser3.add_argument('url', help='Url to a Who news article. Must not already exist in the database', location='args', required=True)
-parser3.add_argument('date_of_publication', help="Date the Who news article was published. Use format YYYY-MM-DD hh:mm:ss e.g. '2020-01-17 13:09:44'", location='args')
-parser3.add_argument('headline', help="Headline of the Who news article", location='args')
-parser3.add_argument('main_text', help="Main text body of the Who news article", location='args')
-parser3.add_argument('event_date', help="Event date of the Who news report. Use format YYYY-MM-DD hh:mm:ss", location='args')
-parser3.add_argument('location', help="The location where the epidemic takes place. Eg: Milan", location='args')
-parser3.add_argument('country', help="The country where the epidemic takes place. Eg: Italy", location='args')
-parser3.add_argument('disease', help="The name of the disease. Eg: Ebola", location='args')
-parser3.add_argument('syndrome', help="The syndrome of the disease. Eg: Fever", location='args')
-
+parser3.add_argument('id', help='Authorisation id to post an article (only available to authorised users) (string)', location='args', required=True)
 
 #PUT
 parser4 = api.parser()
@@ -91,12 +89,12 @@ class Article(Resource):
             return {
                 'message' : 'Invalid date input',
                 'status' : 400
-            }
+            },400
         if not re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", end_date):
             return {
                 'message' : 'Invalid date input',
                 'status' : 400
-            }
+            },400
         location = request.args.get('location')
         if not location:
             location = ""
@@ -108,51 +106,56 @@ class Article(Resource):
             return {
                 'message' : 'End date must be larger than start date',
                 'status' : 400
-            }
+            },400
         articles = self.check_data_exists(final_start,final_end,location,key_terms)
-        #return articles
         if articles == False:
             return {
                 'message' : 'No data found',
                 'status' : 404
-            }
+            },404
         result = self.get_results(articles)
         return {
             'result' : result,
             'status' : 200
-        }
+        },200
 
 
     @api.response(400, 'Invalid data given')
-    @api.response(403, 'url already exists')
+    @api.response(403, 'Url already exists')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
-    @api.expect(parser3,validate=True)
+    @api.expect(articles,parser3,validate=True)
     def post(self):
-        parser.add_argument('url', type=str)
-        parser.add_argument('id', type=str)
-        parser.add_argument('date_of_publication', type=str)
-        parser.add_argument('headline', type=str)
-        parser.add_argument('main_text', type=str)
-        parser.add_argument('event_date', type=str)
-        parser.add_argument('location', type=str)
-        parser.add_argument('country', type=str)
-        parser.add_argument('disease', type=str)
-        parser.add_argument('syndrome', type=str)
+        args = {}
+        a = parser3.parse_args()
+        args['id'] = a['id']
 
-        args = parser.parse_args()
+        # return 400 if url or date of publication is empty
+        if 'url' not in request.json or 'date_of_publication' not in request.json:
+            return {
+                'message' : 'Missing required url field & date of publication in body',
+                'status' : 400
+            },400
+        args['url'] = request.json['url']
+        args['date_of_publication'] = request.json['date_of_publication']
+        args['headline'] = request.json['headline']
+        args['main_text'] = request.json['main_text']
+        args['event_date'] = request.json['reports'][0].get("event_date")
+        args['country'] = request.json['reports'][0].get("locations")[0].get('country')
+        args['location'] = request.json['reports'][0].get("locations")[0].get('location')
+        args['disease'] = request.json['reports'][0].get("diseases")[0]
+        args['syndrome'] = request.json['reports'][0].get("syndromes")[0]
+        args['source'] = request.json['reports'][0].get("description")[0].get('source')
+        args['cases'] = request.json['reports'][0].get("description")[0].get('cases')
+        args['deaths'] = request.json['reports'][0].get("description")[0].get('deaths')
+        args['controls'] = request.json['reports'][0].get("description")[0].get('controls')
         # return 401 if authorization code is wrong
         if args['id'] != '1810051939':
             return {
                 'message' : 'Invalid authentication id',
                 'status' : 401
-            }
-        # return 400 if url is empty
-        if not args['url'] :
-            return {
-                'message' : 'Invalid input key in body',
-                'status' : 400
-            }
+            },401
+
         # check if url exist already
         conn = sqlite3.connect('who.db')
         conn.row_factory = dict_factory
@@ -164,7 +167,7 @@ class Article(Resource):
             return {
                 'message' : 'Url already exists',
                 'status' : 403
-            }
+            },403
         cur.close()
         # insert data into db
         conn = sqlite3.connect('who.db')
@@ -185,6 +188,10 @@ class Article(Resource):
                 val = (args['disease'], cur.lastrowid);
                 cur3 = conn.cursor()
                 cur3.execute(sql, val)
+                sql = ''' INSERT INTO SearchTerm(SearchTerm,ReportID) VALUES(?,?) '''
+                val = (args['disease'], cur.lastrowid);
+                cur3 = conn.cursor()
+                cur3.execute(sql, val)
             # insert Country/location
             if args['country'] or args['location']:
                 sql = ''' INSERT INTO Location(Location,Country,ReportID) VALUES(?,?,?) '''
@@ -197,11 +204,15 @@ class Article(Resource):
                 val = (args['syndrome'], cur.lastrowid);
                 cur5 = conn.cursor()
                 cur5.execute(sql, val)
-
+            if args['cases'] or args['deaths'] or args['controls'] or args['source']:
+                sql = ''' INSERT INTO Description(Source,Cases,Deaths,Controls,ReportID) VALUES(?,?,?,?,?) '''
+                val = (args['source'],args['cases'],args['deaths'],args['controls'], cur.lastrowid);
+                cur5 = conn.cursor()
+                cur5.execute(sql, val)
         return {
-            'message': 'Article successfully added ',#as id = ' + str(cur.lastrowid),
+            'message': 'Article successfully added ',
             'code' : 200
-        }
+        },200
 
 
     @api.response(403, 'url does not exist')
@@ -250,7 +261,7 @@ class Article(Resource):
         if len(result) == 0:
             return False
         return result
-        
+
 
     def delete_result(self,url):
         conn = sqlite3.connect('who.db')
@@ -343,7 +354,7 @@ class Article(Resource):
             date = str(data[0]['date_of_publication'])
             data[0]['date_of_publication'] = date[0:4] + '-' + date[4:6] + '-' + date[6:8] + ' ' + date[8:10] + ':' + date[10:12] + ':' + date[12:14]
             for id in articles[key]:
-                query = 'SELECT * from Report r left join Syndrome s on s.ReportID = r.id left join Location l on l.ReportID = r.id left join Disease d on d.ReportID = r.id where r.id =' + str(id) + ';'
+                query = 'SELECT * from Report r left join Description ds on ds.ReportID = r.id left join Syndrome s on s.ReportID = r.id left join Location l on l.ReportID = r.id left join Disease d on d.ReportID = r.id where r.id =' + str(id) + ';'
                 report = cur.execute(query).fetchall()
                 b = {}
                 if len(report) > 0:
@@ -352,6 +363,7 @@ class Article(Resource):
                 b['locations'] = []
                 b['diseases'] = []
                 b['syndromes'] = []
+                b['description'] = []
                 for l in report:
                     if l['Country'] or l['Location']:
                         places = {}
@@ -375,6 +387,22 @@ class Article(Resource):
                             b['syndromes'].append(l['Symptom'])
                     else:
                         b['syndromes'] = ""
+                    if l['Source'] or l['Cases'] or l['Deaths'] or l['Controls'] :
+                        desc = {}
+                        if not l['Source']:
+                            l['Source'] = ""
+                        if not l['Cases']:
+                            l['Cases']= ""
+                        if not l['Deaths']:
+                            l['Deaths']= ""
+                        if not l['Controls']:
+                            l['Controls']= ""
+                        desc['Source'] = l['Source']
+                        desc['Cases'] = l['Cases']
+                        desc['Deaths'] = l['Deaths']
+                        desc['Controls'] = l['Controls']
+                        if desc not in b['description']:
+                            b['description'].append(desc)
                 data[0]['reports'].append(b)
             res.append(data[0])
         return res
