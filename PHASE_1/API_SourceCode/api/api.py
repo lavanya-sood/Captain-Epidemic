@@ -267,7 +267,7 @@ class Article(Resource):
                 'message' : "Url can't be empty",
                 'status' : 400
             },400
-        if not args['event_date']:# and not self.check_match_date_range(args['event_date']):
+        if args['event_date'] and not self.check_match_date_range(args['event_date']):
             return {
                 'message' : "Invalid date input",
                 'status' : 404
@@ -280,7 +280,7 @@ class Article(Resource):
                 'message' : "Url does not exist",
                 'status' : 403                
             },403
-        self.add_report(url, args['event_date'], args['country'], args['location'], args['diseases'], args['syndromes'], args['source'], args['cases'], args['deaths'], args['controls'])
+        self.add_report(url, args['event_date'], args['country'], args['location'], args['disease'], args['syndrome'], args['source'], args['cases'], args['deaths'], args['controls'])
         return {
             'message' : "Url Successfully added",
             'status' : 200
