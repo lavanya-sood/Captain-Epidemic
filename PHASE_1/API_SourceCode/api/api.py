@@ -215,7 +215,7 @@ class Article(Resource):
         },200
 
 
-    @api.response(403, 'url does not exist')
+    @api.response(403, 'Url does not exist')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
     @api.response(500, 'Url was not deleted')
@@ -228,13 +228,26 @@ class Article(Resource):
             article = self.check_url_exists(url)
             print(article)
             if article == False:
-                return "Url does not exist",403
+                return {
+                'message': 'Url does not exist',
+                'code' : 403
+                },403
             result = self.delete_result(url)
             if result == False:
-                return "Couldn't delete Url",500
-            return "Url Successfully deleted",200
+                return {
+                'message': 'Could not delete url',
+                'code' : 500
+                },500
+            
+            return {
+            'message': 'Article and linked reports successfully deleted ',
+            'code' : 200
+            },200
         else:
-            return "Incorrect Authorization Key",401
+            return {
+            'message': 'Incorrect Authorization Key',
+            'code' : 401
+            },401
 
 
     # adds a report to an article
