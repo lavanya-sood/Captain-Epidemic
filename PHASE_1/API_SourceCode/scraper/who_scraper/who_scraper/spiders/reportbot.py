@@ -912,16 +912,18 @@ def get_sources(response, many, disease):
 def format_controls_sources(controls_list):
     new_controls = []
     for c in controls_list:
+        if ('a href' in c):
+            continue
         c = c.strip()
         c = c.replace('\n',' ')
         c = c.replace('\r',' ')
         c = re.sub('(\.|,|;|:)$','',c)
         c = re.sub(r'<[^>]*?>', '', c)
         new_controls.append(c)
-    controls = ', '.join(new_controls)
+    controls = ' & '.join(new_controls)
+    controls = re.sub(' & $','',controls)
     controls = controls.strip()
-    re.sub(',$','',controls)
-    controls = controls.strip()
+    controls = re.sub('^[^A-Za-z0-9]+', '', controls)
     return controls
 
 def get_first_paragraph(url):
@@ -933,12 +935,21 @@ def get_first_paragraph(url):
         div.decompose()
     span = content.find_all('span')
     for s in span:
-        if (not s.select('b')):
+        if (not s.select('b') and not s.select('table')):
             if (len(s.text.split(' ')) > 10):
                 printable = set(string.printable)
                 first_paragraph = ''.join(filter(lambda x: x in printable, s.text))
                 text = first_paragraph.replace('\n', ' ')
+                text = first_paragraph.replace('\r', ' ')
                 text = re.sub(' +', ' ',text)
                 return text
+        content = soup.find('h5', {'class': 'section_head3'})
+        if (s.select('table') and content):
+            printable = set(string.printable)
+            first_paragraph = ''.join(filter(lambda x: x in printable, content.text))
+            text = first_paragraph.replace('\n', ' ')
+            text = first_paragraph.replace('\r', ' ')
+            text = re.sub(' +', ' ',text)
+            return text
     return ''
     
