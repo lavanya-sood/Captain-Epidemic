@@ -121,7 +121,7 @@ class Article(Resource):
 
 
     @api.response(400, 'Invalid data given')
-    @api.response(403, 'url already exists')
+    @api.response(403, 'Url already exists')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
     @api.expect(articles,parser3,validate=True)
@@ -129,6 +129,13 @@ class Article(Resource):
         args = {}
         a = parser3.parse_args()
         args['id'] = a['id']
+
+        # return 400 if url or date of publication is empty
+        if 'url' not in request.json or not 'date_of_publication' not in request.json:
+            return {
+                'message' : 'Missing required url field & date of publication in body',
+                'status' : 400
+            },400
         args['url'] = request.json['url']
         args['date_of_publication'] = request.json['date_of_publication']
         args['headline'] = request.json['headline']
@@ -148,12 +155,7 @@ class Article(Resource):
                 'message' : 'Invalid authentication id',
                 'status' : 401
             },401
-        # return 400 if url is empty
-        if not args['url'] or not args['date_of_publication']:
-            return {
-                'message' : 'Invalid input key in body',
-                'status' : 400
-            },400
+
         # check if url exist already
         conn = sqlite3.connect('who.db')
         conn.row_factory = dict_factory
