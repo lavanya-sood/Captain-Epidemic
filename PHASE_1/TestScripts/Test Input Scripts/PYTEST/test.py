@@ -429,6 +429,3 @@ def convert_date_to_int(start_date,end_date):
     final_start = sd + st
     final_end = ed + et
     return final_start,final_end
-
-
-
