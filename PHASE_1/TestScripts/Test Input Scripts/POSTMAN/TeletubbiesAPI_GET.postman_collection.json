@@ -270,12 +270,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?start_date=2000-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=West Africa,Congo&key_term=dengue,ebola",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2000-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=West Africa,Congo&key_term=dengue,ebola",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
@@ -324,12 +325,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?start_date=2000-12-0608:08:08&end_date=2020-12-0608:08:08",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2000-12-0608:08:08&end_date=2020-12-0608:08:08",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
@@ -380,12 +382,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?location=Congo",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
@@ -409,6 +412,10 @@
 							"key": "key_term",
 							"value": "dengue,ebola",
 							"disabled": true
+						},
+						{
+							"key": "location",
+							"value": "Congo"
 						}
 					]
 				}
@@ -438,12 +445,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?start_date=2000-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=East Africa",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2000-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=East Africa",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
