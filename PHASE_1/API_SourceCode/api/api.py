@@ -10,6 +10,16 @@ import datetime
 import re
 import json
 import enum
+# import sys
+# sys.path.insert(1,'../scraper/who_scraper')
+# from updatebot import UpdateBot
+#
+# import atexit
+# from apscheduler.scheduler import Scheduler
+
+app = flask.Flask(__name__)
+app.config["DEBUG"] = True
+
 
 
 app = Flask(__name__)
@@ -19,6 +29,16 @@ app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
 
 #api = Api(app,default='article',default_label='WHO Disease Article Operations',title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database.")
+#
+# update = Scheduler(daemonic=True)
+#
+# @update.cron_schedule(day_of_week='0-6', hour='1')
+# def job_function():
+#     u = UpdateBot()
+#     u.scrape_new_reports()
+#     return
+#
+# update.start()
 
 parser = reqparse.RequestParser()
 
@@ -437,8 +457,8 @@ class Article(Resource):
                     i+=1
                 query = query + ';'
             else:
-                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location.title() + '\'  and d.Disease = \'' + key_terms.lower() + '\' '
-                query = query + ' UNION SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN Disease d on d.ReportID = r.id JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and s.SearchTerm = \'' + key_terms.lower() + '\'and l.country = \'' + location.title() + '\';'
+                query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN SearchTerm s on s.ReportID = r.id JOIN Location l on l.ReportID = r.id JOIN Disease d on d.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location.title() + '\'  and d.Disease = \'' + key_terms.lower() + '\' '
+                query = query + ' UNION SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date,d.disease from Article a JOIN Report r on r.url = a.url JOIN SearchTerm s on s.ReportID = r.id JOIN Disease d on d.ReportID = r.id JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and s.SearchTerm = \'' + key_terms.lower() + '\'and l.country = \'' + location.title() + '\';'
         #location only
         elif location != '':
             query = 'SELECT r.id,a.headline,a.main_text,a.date_of_publication,a.url,r.event_date from Article a JOIN Report r on r.url = a.url JOIN Location l on l.ReportID = r.id where a.date_of_publication >=' + start_date + ' and a.date_of_publication <=' + end_date + ' and l.location = \'' + location.title() + '\' '
