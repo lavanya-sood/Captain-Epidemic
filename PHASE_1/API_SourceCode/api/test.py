@@ -127,7 +127,7 @@ def test_delete_req_correct_input():
     assert expected == output
 
 def test_put_correct_date():
-    output = put('1810051939','newurl','2020-01-01T00:00:00')
+    output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01 00:00:00')
     expected =  {
         'message' : 'Url Successfully added',
         'status' : 200
@@ -136,7 +136,7 @@ def test_put_correct_date():
     assert expected == output
 
 def test_put_correct_date1():
-    output = put('1810051939','newurl','2020-01-01T00:00:00 to 2020-02-01T00:00:00')
+    output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01 00:00:00 to 2020-02-01 00:00:00')
     expected =  {
         'message' : 'Url Successfully added',
         'status' : 200
@@ -145,7 +145,7 @@ def test_put_correct_date1():
     assert expected == output
 
 def test_put_wrong_id():
-    output = put('1111','newurl','2020-01-01T00:00:00')
+    output = put('1111','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01 00:00:00')
     expected =  {
             'message' : "Incorrect Authorization Key",
             'status' : 401
@@ -154,9 +154,9 @@ def test_put_wrong_id():
     assert expected == output
 
 def test_put_wrong_date_format():
-    output = put('1810051939','newurl','2020-01-01 00:00:00')
+    output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01T00:00:00')
     expected =  {
-            'message' : "Invalid date input. Example input: '2020-01-01T00:00:00' or '2020-01-01T00:00:00 to 2020-02-01T00:00:00'",
+            'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
             'status' : 400
     },400
     # print(output)
@@ -164,18 +164,18 @@ def test_put_wrong_date_format():
 
 
 def test_put_wrong_date_format1():
-    output = put('1810051939','newurl','2020-01-01')
+    output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01')
     expected =  {
-            'message' : "Invalid date input. Example input: '2020-01-01T00:00:00' or '2020-01-01T00:00:00 to 2020-02-01T00:00:00'",
+            'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
             'status' : 400
     },400
     # print(output)
     assert expected == output
 
 def test_put_wrong_date_format2():
-    output = put('1810051939','newurl','2020-01-01 00:00:00 to 2020-01-01 00:00:00')
+    output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01T00:00:00 to 2020-01-01T00:00:00')
     expected =  {
-            'message' : "Invalid date input. Example input: '2020-01-01T00:00:00' or '2020-01-01T00:00:00 to 2020-02-01T00:00:00'",
+            'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
             'status' : 400
     },400
     # print(output)
@@ -183,7 +183,7 @@ def test_put_wrong_date_format2():
 
 
 def test_put_empty_url():
-    output = put('1810051939','','2020-01-01T00:00:00')
+    output = put('1810051939','','2020-01-01 00:00:00')
     expected = {
             'message' : "Url can't be empty",
             'status' : 400
@@ -192,7 +192,7 @@ def test_put_empty_url():
     assert expected == output
 
 def test_put_url_not_exist():
-    output = put('1810051939','notexisturl','2020-01-01T00:00:00')
+    output = put('1810051939','notexisturl','2020-01-01 00:00:00')
     expected = {
             'message' : "Url does not exist",
             'status' : 403
@@ -361,7 +361,7 @@ def put(id, url, event_date):
         },403
     if event_date and not check_match_date_range(event_date):
         return {
-            'message' : "Invalid date input. Example input: '2020-01-01T00:00:00' or '2020-01-01T00:00:00 to 2020-02-01T00:00:00'",
+            'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
             'status' : 400
         },400
     add_report(url, event_date, None, None, None, None, None, None, None, None)
@@ -372,7 +372,7 @@ def put(id, url, event_date):
 
 # check if the input match for the date or date range
 def check_match_date_range(input):
-    return re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
+    return re.match(r"^(\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx)$", input) or re.match(r"^(\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx) to (\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx)$", input)
 
 
 # put new report to article
