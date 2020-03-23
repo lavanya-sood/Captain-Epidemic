@@ -4,14 +4,20 @@
 
 ### Design Details
 
+Within the design report the structure of the API and the web application is defined. The different languages and libraries used for the implementation of the software have been described as well
+
 ### Management Information
 
-## Deliverable 2 - Swagger documentation and a working API endpoint
+The Management Report describes the roles of the people within the team for each deliverable as well as the different methods of communication being used by the team throughout the development process
+
+## Deliverable 2 - API	Documentation, Implementation	and	Report	
 
 ### Functions implemented
 * Deployment as a REST Web service with a clearly documented API
-* Ability to make request to the API
-* Generating an output file 
+* Ability to make GET requests to the API
+* Ability to make POST, PUT and DELETE requests to API by authorized users
+* API Testing through Postman and Pytests
+* Log files
 
 The API has been documented in Swagger and hosted online using the following link https://teletubbies-who-api.herokuapp.com/
 
