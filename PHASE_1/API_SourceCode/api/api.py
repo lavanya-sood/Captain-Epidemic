@@ -6,7 +6,7 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_restplus import Api, Resource, fields,marshal
 from flask_restful import reqparse
-from datetime import datetime 
+from datetime import datetime
 import re
 import json
 import enum
@@ -61,7 +61,7 @@ articles = api.model('Article', {
 })
 
 parser1 = api.parser()
-parser1.add_argument('start_date', help='Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00', location='args',required=True)
+parser1.add_argument('start_date', help='Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2018-01-01T00:00:00', location='args',required=True)
 parser1.add_argument('end_date', help='End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59', location='args',required=True)
 parser1.add_argument('timezone', type=str,
                                 choices=('GMT', 'CET'),
@@ -148,13 +148,14 @@ class Article(Resource):
     @api.response(403, 'Url already exists')
     @api.response(401, 'Unauthorised id')
     @api.response(200, 'Success')
+    @api.doc(description='Post an article with a report. Required fields: url & date_of_publication')
     @api.expect(articles,parser3,validate=True)
     def post(self):
         # log file
         now = datetime.now()
         accessed_time = now.strftime('%A, %d %B %Y %H:%M:%S AEDT')
         start_time = process_time()
-        
+
         args = {}
         a = parser3.parse_args()
         # return 401 if authorization code is wrong
@@ -192,12 +193,6 @@ class Article(Resource):
         args['cases'] = request.json['reports'][0].get("description")[0].get('cases')
         args['deaths'] = request.json['reports'][0].get("description")[0].get('deaths')
         args['controls'] = request.json['reports'][0].get("description")[0].get('controls')
-        if args['event_date'] and not self.check_match_date_range(args['event_date']):
-            log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
-            return {
-                'message' : "Invalid date input",
-                'status' : 400
-            },400
         # if url or publication date is empty
         if args['url'] == "" or args['date_of_publication'] == "":
             log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, 'Missing required url field & date of publication in body', '400', 'False', 'False')
@@ -205,7 +200,18 @@ class Article(Resource):
                 'message' : 'Missing required url field & date of publication in body',
                 'status' : 400
             },400
-
+        if args['event_date'] and not self.check_match_date_range(args['event_date']):
+            log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
+            return {
+                'message' : "Invalid date input",
+                'status' : 400
+            },400
+        if args['date_of_publication'] and not self.check_match_date_range(args['date_of_publication']):
+            log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
+            return {
+                'message' : "Invalid date input",
+                'status' : 400
+            },400             
         # check if url exist already
         conn = sqlite3.connect('who.db')
         conn.row_factory = dict_factory
@@ -315,6 +321,7 @@ class Article(Resource):
     @api.response(400, 'Url cannot be empty')
     @api.response(200, 'Success')
     @api.response(403, 'Url does not exist')
+    @api.doc(description='Update a new report to an existing article. Required field: url')
     @api.expect(parser4,updated_reports,validate=False)
     def put(self):
         # log file
@@ -373,7 +380,7 @@ class Article(Resource):
 
     # check if the input match for the date or date range
     def check_match_date_range(self, input):
-        return re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
+        return re.match(r"^(\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx)$", input) or re.match(r"^(\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx) to (\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx)$", input)
 
 
     # put new report to article

@@ -1,0 +1,483 @@
+{
+	"info": {
+		"_postman_id": "1e50cb5f-3f73-4cf0-a9cf-c3aaf9e4632f",
+		"name": "TeletubbiesAPI_GET",
+		"description": "GET requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request with correct start and end date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b8b7019-877a-4a30-937d-ab381e293357",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2018-12-06T08:08:08&end_date=2020-12-06T08:08:08",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2018-12-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct start_date,end_date and location(country)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2019-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=China",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2019-12-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						},
+						{
+							"key": "location",
+							"value": "China"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct start_date,end_date and location (location)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2018-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=Congo",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2018-12-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						},
+						{
+							"key": "location",
+							"value": "Congo"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct start_date,end_date, 1 key_term and location (location)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2020-01-06T08:08:08&end_date=2020-12-06T08:08:08&key_terms=dengue&location=France",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2020-01-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						},
+						{
+							"key": "key_terms",
+							"value": "dengue"
+						},
+						{
+							"key": "location",
+							"value": "France"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct start_date,end_date, location and more than 1 key_term",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2010-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=China&key_term=dengue,ebola",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2010-12-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						},
+						{
+							"key": "location",
+							"value": "China"
+						},
+						{
+							"key": "key_term",
+							"value": "dengue,ebola"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct start_date,end_date, more than 1 key_term and more than 1 location given",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2000-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=West Africa,Congo&key_term=dengue,ebola",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2000-12-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						},
+						{
+							"key": "location",
+							"value": "West Africa,Congo"
+						},
+						{
+							"key": "key_term",
+							"value": "dengue,ebola"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with invalid start_date and end_date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2000-12-0608:08:08&end_date=2020-12-0608:08:08",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2000-12-0608:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-0608:08:08"
+						},
+						{
+							"key": "location",
+							"value": "West Africa",
+							"disabled": true
+						},
+						{
+							"key": "key_term",
+							"value": "dengue,ebola",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with no dates given",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?location=Congo",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2000-12-0608:08:08",
+							"disabled": true
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-0608:08:08",
+							"disabled": true
+						},
+						{
+							"key": "location",
+							"value": "West Africa",
+							"disabled": true
+						},
+						{
+							"key": "key_term",
+							"value": "dengue,ebola",
+							"disabled": true
+						},
+						{
+							"key": "location",
+							"value": "Congo"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with no matching data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ba29298-6a91-4fcd-87bc-ff7501e94c55",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?start_date=2000-12-06T08:08:08&end_date=2020-12-06T08:08:08&location=East Africa",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2000-12-06T08:08:08"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-06T08:08:08"
+						},
+						{
+							"key": "location",
+							"value": "East Africa"
+						},
+						{
+							"key": "key_term",
+							"value": "dengue,ebola",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

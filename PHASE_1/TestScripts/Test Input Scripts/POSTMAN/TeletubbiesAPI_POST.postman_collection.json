@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "534ab4d5-9bd4-4896-9408-bafc5eefa451",
+		"name": "TeletubbiesAPI_POST",
+		"description": "Post requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request with invalid authorization id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"string\",\n  \"date_of_publication\": \"string\",\n  \"headline\": \"string\",\n  \"main_text\": \"string\",\n  \"reports\": [\n    {\n      \"event_date\": \"string\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=18",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with missing authorization key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"string\",\n  \"date_of_publication\": \"string\",\n  \"headline\": \"string\",\n  \"main_text\": \"string\",\n  \"reports\": [\n    {\n      \"event_date\": \"string\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "18",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with required url missing",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n            \"date_of_publication\": \"2020-03-06 09:41:22\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03 xx:xx:xx\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with required publication date missing",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n            \"url\":\"http//:url/com\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03 xx:xx:xx\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with empty publication date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n            \"url\":\"http//:url/com\",\n            \"date_of_publication\":\"\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03 xx:xx:xx\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with invalid event date format",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n            \"url\":\"http//:url/com\",\n            \"date_of_publication\":\"20190807\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with empty url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n            \"url\":\"\",\n            \"date_of_publication\":\"20190909\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03 xx:xx:xx\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with url already exist in database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n   \t\t\t\"url\": \"https://www.who.int/csr/don/1996_12_06b/en/\",\n            \"date_of_publication\": \"2020-03-06 09:41:22\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03T02:02:02\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Article url is not given"
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct authorization key and data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39bd5cfe-0efd-452e-9318-98ea469ac587",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n   {         \n   \t\t\t\"url\": \"string\",\n            \"date_of_publication\": \"2020-03-06 09:41:22\",\n            \"headline\": \"Ebola virus disease – Democratic Republic of the Congo\",\n            \"main_text\": \"No new cases of Ebola virus disease have been reported since 17 February, and on 3 March, the only person confirmed to have EVD in the last 21 days (Figure 1) was discharged from an Ebola Treatment Centre after recovering and testing negative twice for the virus. This is an important milestone in the outbreak. However, there is still a high risk of re-emergence of EVD, and a critical need to maintain response operations – as outlined in the WHO recommended criteria for declaring the end of the EVD outbreak.\\n\\nAs of 3 March 2020, a total of 3444 EVD cases were reported from 29 health zones (Table 1, Figure 2), including 3310 confirmed and 134 probable cases, of which 2264 cases died (overall case fatality ratio 66%). Of the total confirmed and probable cases, 56% (n=1927) were female, 28% (n=973) were children aged less than 18 years, and 5% (n=171) were health care workers.\\n\\nWHO’s financial need for the Ebola Response for January to June 2020 (SRP 4.1) is US $83 million. Thanks to the generosity of donors during 2019, WHO had some carry-over funding available, however, WHO now requires US$ 40 million to ensure continuity of activities.\",\n            \"reports\": [\n                {\n                    \"event_date\": \"2020-03-03T02:02:02\",\n                    \"locations\": [\n                        {\n                            \"country\": \"Central Africa\",\n                            \"location\": \"Congo\"\n                        }\n                    ],\n                    \"diseases\": [\n                        \"ebola\",\n                        \"rashes\"\n                    ],\n                    \"syndromes\": [\n                        \"vomitting blood\"\n                    ],\n                    \"description\": [\n                        {\n                            \"Source\": \"Bats\",\n                            \"Cases\": 3310,\n                            \"Deaths\": 2264,\n                            \"Controls\": \"WHO advises against any restriction of travel to, and trade with, the Democratic Republic of the Congo based on the currently available information\"\n                        }\n                    ]\n                }\n            ]\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Artciel url is not given"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
