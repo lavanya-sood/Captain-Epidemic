@@ -1,5 +1,9 @@
 # SENG3011_TeleTubbies
 
+## API URL
+The API can be accessed using the following link
+https://teletubbies-who-api.herokuapp.com/
+
 ## Deliverable 2
 
 ### Part 1 - Swagger documentation and a working API endpoint
@@ -11,9 +15,9 @@ It should be noted that the data returned is sample data from the WHO website wh
 
 The API has been documented in Swagger and it is callable through the 'Try it' buttons which returns incomplete results. Multiple parameter combinations can also be inputed with the required start and end dates and the optional parameters including the key terms and locations. 
 
-### URL for the API
-The API can be accessed using the following link
-https://teletubbies-who-api.herokuapp.com/
+
+WEB SCRAPING --
+
 
 ## Collaborators:
 * **Yin Huey Tan** z5211373
