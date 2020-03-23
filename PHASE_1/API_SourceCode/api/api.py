@@ -320,7 +320,7 @@ class Article(Resource):
     @api.response(401, 'Unauthorised id')
     @api.response(400, 'Url cannot be empty')
     @api.response(200, 'Success')
-    @api.response(402, "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'")
+    @api.response(400, "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'")
     @api.response(403, 'Url does not exist')
     @api.doc(description='Update a new report to an existing article. Required field: url')
     @api.expect(parser4,updated_reports,validate=False)
@@ -370,8 +370,8 @@ class Article(Resource):
             log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
             return {
                 'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
-                'status' : 402
-            },402
+                'status' : 400
+            },400
         self.add_report(url, args['event_date'], args['country'], args['location'], args['disease'], args['syndrome'], args['source'], args['cases'], args['deaths'], args['controls'])
         log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Url Successfully added", '200', 'True', 'True')
         return {

@@ -157,8 +157,8 @@ def test_put_wrong_date_format():
     output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01T00:00:00')
     expected =  {
             'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
-            'status' : 402
-    },402
+            'status' : 400
+    },400
     # print(output)
     assert expected == output
 
@@ -167,8 +167,8 @@ def test_put_wrong_date_format1():
     output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01')
     expected =  {
             'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
-            'status' : 402
-    },402
+            'status' : 400
+    },400
     # print(output)
     assert expected == output
 
@@ -176,8 +176,8 @@ def test_put_wrong_date_format2():
     output = put('1810051939','https://www.who.int/csr/don/12-March-2020-ebola-drc/en/','2020-01-01T00:00:00 to 2020-01-01T00:00:00')
     expected =  {
             'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
-            'status' : 402
-    },402
+            'status' : 400
+    },400
     # print(output)
     assert expected == output
 
@@ -362,8 +362,8 @@ def put(id, url, event_date):
     if event_date and not check_match_date_range(event_date):
         return {
             'message' : "Invalid date input. Example input: '2020-01-01 00:00:00' or '2020-01-01 00:00:00 to 2020-02-01 00:00:00'",
-            'status' : 402
-        },402
+            'status' : 400
+        },400
     add_report(url, event_date, None, None, None, None, None, None, None, None)
     return {
         'message' : "Url Successfully added",
@@ -429,3 +429,6 @@ def convert_date_to_int(start_date,end_date):
     final_start = sd + st
     final_end = ed + et
     return final_start,final_end
+
+
+
