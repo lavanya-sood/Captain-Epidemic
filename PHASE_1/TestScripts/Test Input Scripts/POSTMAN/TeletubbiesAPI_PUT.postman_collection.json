@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "b0f85918-8e1a-4d25-a234-91e67dd8e3b5",
+		"name": "TeletubbiesAPI_PUT",
+		"description": "PUT requests\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request with invalid authorization id ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"string\",\n  \"reports\": [\n    {\n      \"event_date\": \"string\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with missing authorization id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"string\",\n  \"reports\": [\n    {\n      \"event_date\": \"string\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request with invalid url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"data-url\",\n  \"reports\": [\n    {\n      \"event_date\": \"2019-09-09T07:09:09\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Article url does not exist in database"
+			},
+			"response": []
+		},
+		{
+			"name": "Request with empty url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"\",\n  \"reports\": [\n    {\n      \"event_date\": \"string\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Article url does not exist in database"
+			},
+			"response": []
+		},
+		{
+			"name": "Request with missing url field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"reports\": [\n    {\n      \"event_date\": \"string\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Article url does not exist in database"
+			},
+			"response": []
+		},
+		{
+			"name": "Request with invalid date format",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"https://www.who.int/csr/don/1996_12_06b/en/\",\n  \"reports\": [\n    {\n      \"event_date\": \"10292909\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Article url does not exist in database"
+			},
+			"response": []
+		},
+		{
+			"name": "Request with correct input and authorization key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "edfef603-449c-45d7-96f3-5bbe941ac358",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"https://www.who.int/csr/don/1996_12_06b/en/\",\n  \"reports\": [\n    {\n      \"event_date\": \"2012-09-09T08:09:09\",\n      \"locations\": [\n        {\n          \"country\": \"string\",\n          \"location\": \"string\"\n        }\n      ],\n      \"diseases\": [\n        \"string\"\n      ],\n      \"syndromes\": [\n        \"string\"\n      ],\n      \"description\": [\n        {\n          \"source\": \"string\",\n          \"cases\": 0,\n          \"deaths\": 0,\n          \"controls\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+					"protocol": "http",
+					"host": [
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"article"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1810051939"
+						}
+					]
+				},
+				"description": "Article url does not exist in database"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
