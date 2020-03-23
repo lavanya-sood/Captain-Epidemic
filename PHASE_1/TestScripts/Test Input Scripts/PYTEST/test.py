@@ -250,7 +250,7 @@ def post(id,url=None,date_of_publication=None,headline=None,main_text=None):
             'message' : 'Missing required url field & date of publication in body',
             'status' : 400
         },400
-    conn = sqlite3.connect('who.db')
+    conn = sqlite3.connect('./../../../API_SourceCode/api/who.db')
     with conn:
         # insert article
         sql = ''' INSERT INTO Article(url,headline,date_of_publication,main_text) VALUES(?,?,?,?) '''
@@ -277,7 +277,7 @@ def delete(id,url) :
             'message' : 'Incorrect Authorization Key',
             'status' : 401
         },401
-    conn3 = sqlite3.connect('who.db')
+    conn3 = sqlite3.connect('./../../../API_SourceCode/api/who.db')
     with conn3:
         #look for url in the database
         query1 = 'SELECT url from Article WHERE url = \'' + url + '\';'
@@ -377,7 +377,7 @@ def check_match_date_range(input):
 
 # put new report to article
 def add_report(url, event_date, country, location, disease, syndrome, source, case, death, control):
-    conn = sqlite3.connect('who.db')
+    conn = sqlite3.connect('./../../../API_SourceCode/api/who.db')
     with conn:
         # insert report
         sql = ''' INSERT INTO Report (url,event_date) VALUES(?,?) '''
@@ -410,7 +410,7 @@ def add_report(url, event_date, country, location, disease, syndrome, source, ca
 
 # check if any data exists for the url
 def check_url_exists(url):
-    conn = sqlite3.connect('who.db')
+    conn = sqlite3.connect('./../../../API_SourceCode/api/who.db')
     cur = conn.cursor()
     query = 'SELECT url from Article WHERE url = \'' + url + '\';'
     result = cur.execute(query).fetchall()
@@ -429,6 +429,3 @@ def convert_date_to_int(start_date,end_date):
     final_start = sd + st
     final_end = ed + et
     return final_start,final_end
-
-
-
