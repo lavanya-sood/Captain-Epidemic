@@ -360,7 +360,7 @@ class Article(Resource):
         if args['event_date'] and not self.check_match_date_range(args['event_date']):
             log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
             return {
-                'message' : "Invalid date input",
+                'message' : "Invalid date input. Example input: '2020-01-01T00:00:00' or '2020-01-01T00:00:00 to 2020-02-01T00:00:00'",
                 'status' : 400
             },400
         self.add_report(url, args['event_date'], args['country'], args['location'], args['disease'], args['syndrome'], args['source'], args['cases'], args['deaths'], args['controls'])
@@ -372,7 +372,7 @@ class Article(Resource):
 
     # check if the input match for the date or date range
     def check_match_date_range(self, input):
-        return re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
+        return re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
 
 
     # put new report to article
