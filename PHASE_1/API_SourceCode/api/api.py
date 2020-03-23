@@ -21,7 +21,7 @@ app = Flask(__name__)
 authentication_code = "1810051939"
 app.config.SWAGGER_UI_OAUTH_APP_NAME = 'WHO REST Api - Teletubbies'
 app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
-api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database. Link to Github repo: https://github.com/lavanya-sood/SENG3011_TeleTubbies/")
+api = Api(app,title=app.config.SWAGGER_UI_OAUTH_APP_NAME,description="This API can be used to access news articles from the WHO website. The WHO news articles have been scraped and separated into disease reports in the hopes of detecting epidemics by collecting global disease data. Disease reports can be accessed using GET requests whilst the POST, PUT and DELETE request can be accessed by authorised users which manipulates the scraped data stored within an SQL database. Link to Project Github repo: https://github.com/lavanya-sood/SENG3011_TeleTubbies/. Link to Heroku Deployment Github repo: https://github.com/sarahoakman/who-api-web-service")
 parser = reqparse.RequestParser()
 
 api = api.namespace('article', description = 'WHO Disease Article and Report Operations')
