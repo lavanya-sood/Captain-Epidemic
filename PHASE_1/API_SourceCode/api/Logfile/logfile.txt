@@ -8,3 +8,43 @@ Response Description: Success
 Response Code: 200
 Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
 
+API Accessed Timestamp: Monday, 23 March 2020 17:25:11 AEDT
+Elapsed Time: 0.020658000000000065
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:25:23 AEDT
+Elapsed Time: 0.0031400000000001427
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:25:37 AEDT
+Elapsed Time: 0.001923000000000119
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00&timezone=GMT&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': 'GMT'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:25:46 AEDT
+Elapsed Time: 0.0016329999999999956
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+

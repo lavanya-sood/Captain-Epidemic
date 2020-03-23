@@ -63,8 +63,8 @@ articles = api.model('Article', {
 parser1 = api.parser()
 parser1.add_argument('start_date', help='Start date for the articles. Use format YYYY-MM-DDTHH:MM:SS. Eg:2001-01-01T00:00:00', location='args',required=True)
 parser1.add_argument('end_date', help='End date for the articles. Use format YYYY-MM-DDTHH:MM:SS Eg:2019-12-31T11:59:59', location='args',required=True)
-parser1.add_argument('timezone', type=str, default='AEDT',
-                                choices=('ADT', 'AEDT', 'AEST', 'AET', 'MEST', 'UTC', 'WAST', 'WAT', 'WEST', 'WGT', 'WST'),
+parser1.add_argument('timezone', type=str,
+                                choices=('GMT', 'CET'),
                                 help='Timezone to filter Who news articles by')
 #DELETE
 parser2 = api.parser()
