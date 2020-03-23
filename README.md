@@ -14,6 +14,7 @@ The Management Report describes the roles of the people within the team for each
 
 ### Functions implemented
 * Deployment as a REST Web service with a clearly documented API
+* Database implementation by using information collected through web scraping of the WHO Website
 * Ability to make GET requests to the API
 * Ability to make POST, PUT and DELETE requests to API by authorized users
 * API Testing through Postman and Pytests
