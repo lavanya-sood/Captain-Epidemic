@@ -34,7 +34,7 @@ class LinkBot:
         disease_links = self.get_all_reports()
         settings = get_project_settings()
         process = CrawlerProcess(settings)
-        process.crawl(ReportbotSpider, start_urls=disease_links[238:])
+        process.crawl(ReportbotSpider, start_urls=disease_links)
         process.start()
 
         
