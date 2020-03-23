@@ -418,3 +418,33 @@ Response Description: Success
 Response Code: 200
 Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
 
+API Accessed Timestamp: Monday, 23 March 2020 19:44:25 AEDT
+Elapsed Time: 2.390554
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2018-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59
+API Endpoint: /article
+Request Body: {'start_date': '2018-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 20:45:18 AEDT
+Elapsed Time: 0.004558000000002949
+Request Method: <[POST]>
+Request URL: http://127.0.0.1:5000/article?id=1810051939
+API Endpoint: /article
+Request Body: {'id': '1810051939', 'url': '123', 'date_of_publication': '2018-01-01T00:00:00', 'headline': 'yay', 'main_text': 'string', 'event_date': '2018-01-01T00:00:00', 'country': 'string', 'location': 'string', 'disease': 'string', 'syndrome': 'string', 'source': 'string', 'cases': 0, 'deaths': 0, 'controls': 'string'}
+Response Description: Invalid date input
+Response Code: 400
+Resource Utilisation: {'database_accessed': 'False', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 20:46:59 AEDT
+Elapsed Time: 2.405799000000002
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2018-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59
+API Endpoint: /article
+Request Body: {'start_date': '2018-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
