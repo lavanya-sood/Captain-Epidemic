@@ -48,3 +48,373 @@ Response Description: No data found
 Response Code: 404
 Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
 
+API Accessed Timestamp: Monday, 23 March 2020 17:27:44 AEDT
+Elapsed Time: 0.0038699999999999846
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:27:50 AEDT
+Elapsed Time: 0.002029000000000003
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00&timezone=GMT&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': 'GMT'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:27:55 AEDT
+Elapsed Time: 0.0015700000000000713
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2001-01-01T00%3A00%3A00&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2001-01-01T00:00:00', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:45:14 AEDT
+Elapsed Time: 0.004885000000000028
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=gun
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:45:22 AEDT
+Elapsed Time: 30.41039
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:47:26 AEDT
+Elapsed Time: 0.0609579999999994
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=Western
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:47:35 AEDT
+Elapsed Time: 18.449322999999996
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:48:19 AEDT
+Elapsed Time: 18.514536
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=Madrid&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:48:45 AEDT
+Elapsed Time: 0.9979280000000017
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=Madrid&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:48:52 AEDT
+Elapsed Time: 0.9469250000000073
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&location=Madrid&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:49:40 AEDT
+Elapsed Time: 0.6014420000000058
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&location=China
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:50:03 AEDT
+Elapsed Time: 0.5012470000000064
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&location=China
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:50:48 AEDT
+Elapsed Time: 0.010671000000002095
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=Ha
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:51:10 AEDT
+Elapsed Time: 18.236142
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:51:43 AEDT
+Elapsed Time: 0.9519149999999996
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=Northern&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:52:41 AEDT
+Elapsed Time: 18.177081
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:53:11 AEDT
+Elapsed Time: 0.9268650000000029
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=Lagos&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:54:37 AEDT
+Elapsed Time: 0.7083680000000001
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:54:44 AEDT
+Elapsed Time: 0.7138199999999999
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:54:56 AEDT
+Elapsed Time: 0.7009889999999999
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:55:15 AEDT
+Elapsed Time: 0.706407
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 17:55:44 AEDT
+Elapsed Time: 18.501416
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:04:51 AEDT
+Elapsed Time: 30.397723
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:05:36 AEDT
+Elapsed Time: 40.805288999999995
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=China
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:05:22 AEDT
+Elapsed Time: 65.631648
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:07:15 AEDT
+Elapsed Time: 0.0025899999999978718
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=Milan
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:07:20 AEDT
+Elapsed Time: 0.0785979999999995
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=Madrid
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:07:37 AEDT
+Elapsed Time: 1.4674669999999992
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=Madrid&key_terms=dengue
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:07:50 AEDT
+Elapsed Time: 8.830577000000005
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&location=Madrid&key_terms=dengue%2Cfever
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': None}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:15:14 AEDT
+Elapsed Time: 0.6342949999999999
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=Madrid&key_terms=dengue%2Cfever
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:15:21 AEDT
+Elapsed Time: 0.569685
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&location=Madrid&key_terms=dengue%2Cfever
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: No data found
+Response Code: 404
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:15:28 AEDT
+Elapsed Time: 0.1723079999999999
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:15:36 AEDT
+Elapsed Time: 0.5558949999999998
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:15:56 AEDT
+Elapsed Time: 0.32527300000000015
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=China
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:16:14 AEDT
+Elapsed Time: 0.17583500000000019
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&location=China
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:16:31 AEDT
+Elapsed Time: 1.1192370000000005
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=CET&location=China&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'CET'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Monday, 23 March 2020 18:16:41 AEDT
+Elapsed Time: 1.1868220000000003
+Request Method: <[GET]>
+Request URL: http://127.0.0.1:5000/article?start_date=2001-01-01T00%3A00%3A00&end_date=2019-12-31T11%3A59%3A59&timezone=GMT&location=China&key_terms=virus
+API Endpoint: /article
+Request Body: {'start_date': '2001-01-01T00:00:00', 'end_date': '2019-12-31T11:59:59', 'timezone': 'GMT'}
+Response Description: Success
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
