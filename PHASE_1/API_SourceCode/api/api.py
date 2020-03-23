@@ -198,6 +198,12 @@ class Article(Resource):
                 'message' : "Invalid date input",
                 'status' : 400
             },400
+        if args['date_of_publication'] and not self.check_match_date_range(args['date_of_publication']):
+            log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
+            return {
+                'message' : "Invalid date input",
+                'status' : 400
+            },400    
         # if url or publication date is empty
         if args['url'] == "" or args['date_of_publication'] == "":
             log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, 'Missing required url field & date of publication in body', '400', 'False', 'False')
@@ -374,11 +380,7 @@ class Article(Resource):
 
     # check if the input match for the date or date range
     def check_match_date_range(self, input):
-<<<<<<< HEAD
-        return re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
-=======
-        return re.match(r"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$", input) or re.match(r"^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} to [0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$", input)
->>>>>>> api-backend
+        return re.match(r"^(\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx)$", input) or re.match(r"^(\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx) to (\d{4})-(\d\d|xx)-(\d\d|xx) (\d\d|xx):(\d\d|xx):(\d\d|xx)$", input)
 
 
     # put new report to article
