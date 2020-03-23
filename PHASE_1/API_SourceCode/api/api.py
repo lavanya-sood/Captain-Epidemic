@@ -192,12 +192,7 @@ class Article(Resource):
         args['cases'] = request.json['reports'][0].get("description")[0].get('cases')
         args['deaths'] = request.json['reports'][0].get("description")[0].get('deaths')
         args['controls'] = request.json['reports'][0].get("description")[0].get('controls')
-        if args['event_date'] and not self.check_match_date_range(args['event_date']):
-            log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
-            return {
-                'message' : "Invalid date input",
-                'status' : 400
-            },400
+
         # if url or publication date is empty
         if args['url'] == "" or args['date_of_publication'] == "":
             log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, 'Missing required url field & date of publication in body', '400', 'False', 'False')
@@ -205,7 +200,12 @@ class Article(Resource):
                 'message' : 'Missing required url field & date of publication in body',
                 'status' : 400
             },400
-
+        if args['event_date'] and not self.check_match_date_range(args['event_date']):
+            log.make_log_entry(accessed_time, start_time, process_time(), request.method, request.url, args, "Invalid date input", '400', 'False', 'False')
+            return {
+                'message' : "Invalid date input",
+                'status' : 400
+            },400
         # check if url exist already
         conn = sqlite3.connect('who.db')
         conn.row_factory = dict_factory

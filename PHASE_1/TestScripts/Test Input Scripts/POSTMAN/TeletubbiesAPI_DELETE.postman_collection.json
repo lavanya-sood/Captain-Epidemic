@@ -26,12 +26,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?id=1810051939&url=hhh",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939&url=hhh",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
@@ -70,12 +71,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?id=18&url=https://www.who.int/csr/don/2012_10_17/en/",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=18&url=https://www.who.int/csr/don/2012_10_17/en/",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
@@ -114,12 +116,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/article?id=1810051939&url=https://www.who.int/csr/don/2012_10_17/en/",
+					"raw": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939&url=string",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"teletubbies-who-api",
+						"herokuapp",
+						"com"
 					],
-					"port": "5000",
 					"path": [
 						"article"
 					],
@@ -130,7 +133,7 @@
 						},
 						{
 							"key": "url",
-							"value": "https://www.who.int/csr/don/2012_10_17/en/"
+							"value": "string"
 						}
 					]
 				},
