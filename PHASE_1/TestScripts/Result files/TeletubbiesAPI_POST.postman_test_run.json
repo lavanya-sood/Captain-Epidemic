@@ -1,0 +1,296 @@
+{
+	"id": "f7b220ec-d2d7-471c-894a-1eb335ba3c96",
+	"name": "TeletubbiesAPI_POST",
+	"timestamp": "2020-03-23T05:21:40.344Z",
+	"collection_id": "534ab4d5-9bd4-4896-9408-bafc5eefa451",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 9,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "74ea8fbe-6571-4e92-9948-55919802e984",
+			"name": "Request with invalid authorization id",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=18",
+			"time": 245,
+			"responseCode": {
+				"code": 401,
+				"name": "UNAUTHORIZED"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				245
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "05b04a07-96d0-4555-8e43-3f348f9c86f9",
+			"name": "Request with missing authorization key",
+			"url": "http://teletubbies-who-api.herokuapp.com/article",
+			"time": 242,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				242
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "6380e904-26ee-46c7-90c2-f2cfce8be98e",
+			"name": "Request with required url missing",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 315,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				315
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "1e1fc8a6-50d8-4503-820d-ad6cc062bc48",
+			"name": "Request with required publication date missing",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 272,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				272
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "3e3ba100-e44a-4219-a60b-48e5a4db2056",
+			"name": "Request with empty publication date",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 237,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				237
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "39291e29-ec11-4213-84b4-128fbccb4c8d",
+			"name": "Request with invalid event date format",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 316,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				316
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "3f6035db-5c9d-4a87-b14d-2de3f847c222",
+			"name": "Request with empty url",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 241,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				241
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "1e2a2dfd-f456-4fd6-8edb-982274b55113",
+			"name": "Request with url already exist in database",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 244,
+			"responseCode": {
+				"code": 403,
+				"name": "FORBIDDEN"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				244
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "514542ad-21e6-488e-8cb5-3a7a6f7887a5",
+			"name": "Request with correct authorization key and data Copy",
+			"url": "http://teletubbies-who-api.herokuapp.com/article?id=1810051939",
+			"time": 253,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				253
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"collection": {
+		"requests": [
+			{
+				"id": "74ea8fbe-6571-4e92-9948-55919802e984",
+				"method": "POST"
+			},
+			{
+				"id": "05b04a07-96d0-4555-8e43-3f348f9c86f9",
+				"method": "POST"
+			},
+			{
+				"id": "6380e904-26ee-46c7-90c2-f2cfce8be98e",
+				"method": "POST"
+			},
+			{
+				"id": "1e1fc8a6-50d8-4503-820d-ad6cc062bc48",
+				"method": "POST"
+			},
+			{
+				"id": "3e3ba100-e44a-4219-a60b-48e5a4db2056",
+				"method": "POST"
+			},
+			{
+				"id": "39291e29-ec11-4213-84b4-128fbccb4c8d",
+				"method": "POST"
+			},
+			{
+				"id": "3f6035db-5c9d-4a87-b14d-2de3f847c222",
+				"method": "POST"
+			},
+			{
+				"id": "1e2a2dfd-f456-4fd6-8edb-982274b55113",
+				"method": "POST"
+			},
+			{
+				"id": "514542ad-21e6-488e-8cb5-3a7a6f7887a5",
+				"method": "POST"
+			}
+		]
+	}
+}
