@@ -6,8 +6,6 @@ https://teletubbies-who-api.herokuapp.com/
 
 ## Deliverable 2
 
-### Part 1 - Swagger documentation and a working API endpoint
-
 ### Functions implemented
 The clearly documented API has been deployed as a REST Web service and requests can be made to it. The GET request required allows a client to find and access diseases reports by key terms such as diseases, and locations for a given period of time. These requests can be made to the API using the input format outlined in the project specification and related disease articles are returned with the output format defined as well. The POST, DELETE and PUT requests can also be used by users to edit the information inside the database however these functions can only be accessed by people with the authentication code.
 
