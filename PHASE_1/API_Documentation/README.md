@@ -15,6 +15,9 @@ The clearly documented API has been deployed as a REST Web service and requests 
 
 The API has been documented in Swagger and it is callable through the 'Try it' buttons which returns incomplete results. Multiple parameter combinations can also be inputed with the required start and end dates and the optional parameters including the key terms and locations. 
 
+## Github Repo linked to Heroku 
+https://github.com/sarahoakman/who-api-web-service
+
 
 ## Collaborators:
 * **Yin Huey Tan** z5211373
