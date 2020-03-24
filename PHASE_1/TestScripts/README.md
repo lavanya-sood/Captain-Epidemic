@@ -2,8 +2,6 @@
 
 ## Deliverable 2
 
-### Part 2 - API	Documentation, Implementation	and	Report
-
 ### URL for the API
 The API can be accessed using the following link
 https://teletubbies-who-api.herokuapp.com/
