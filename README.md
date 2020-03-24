@@ -22,6 +22,8 @@ The Management Report describes the roles of the people within the team for each
 
 The API has been documented in Swagger and hosted online using the following link https://teletubbies-who-api.herokuapp.com/
 
+The Github repo linked to the heroku deployment: https://github.com/sarahoakman/who-api-web-service
+
 More detailed information on Deliverable 2 has been provided in PHASE_1/API_SourceCode/readme.md file.
 
 ## Collaborators:
