@@ -9,7 +9,7 @@ https://teletubbies-who-api.herokuapp.com/
 ### Functions implemented
 The clearly documented API has been deployed as a REST Web service and requests can be made to it. The GET request required allows a client to find and access diseases reports by key terms such as diseases, and locations for a given period of time. These requests can be made to the API using the input format outlined in the project specification and related disease articles are returned with the output format defined as well. The POST, DELETE and PUT requests can also be used by users to edit the information inside the database however these functions can only be accessed by people with the authentication code.
 
-The data from the WHO website which has been stored within the database and includes all reports found on the website through web scraping.
+Web scraping was implemented to filter and collect data from WHO websites needed for GET requests using Scrapy and Beautiful Soup, which is then stored in the database through SQLite3. 
 
 The API has been documented in Swagger and it is callable through the 'Try it' buttons which returns incomplete results. Multiple parameter combinations can also be inputed with the required start and end dates and the optional parameters including the key terms and locations. 
 
