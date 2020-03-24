@@ -2,7 +2,7 @@
 
 ## Deliverable 2
 
-### Part 1 - Swagger documentation and a working API endpoint
+### Part 2 - API	Documentation, Implementation	and	Report
 
 ### URL for the API
 The API can be accessed using the following link
