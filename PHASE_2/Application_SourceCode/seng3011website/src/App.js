@@ -1,11 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import NavigationMenu from './components/NavigationMenu.js';
+import Main from './Main.js';
 function App() {
   return (
     <div className="App">
-      <NavigationMenu />
+      <Main />
     </div>
   );
 }
