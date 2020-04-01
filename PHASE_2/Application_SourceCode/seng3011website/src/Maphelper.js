@@ -105,6 +105,7 @@ function getMapInfo() {
     for (var i = 0; i < info.articles.length; i++) {
         for (var j = 0; j < info.articles[i].reports.length;j++) {
             var disease = info.articles[i].reports[j].diseases[0]
+            var country = info.articles[i].reports[j].locations[0].country
             var location = info.articles[i].reports[j].locations[0].coords.split(', ')
             var lat = location[0]
             var lng = location[1]
@@ -114,7 +115,7 @@ function getMapInfo() {
             var day = date.split('-')[0]
             date = year+'/'+month+'/'+day
             var text = info.articles[i].headline
-            result.push({"disease": disease, "lat": lat, "lng": lng, "date": date, "text": text})
+            result.push({"disease": disease, "lat": lat, "lng": lng, "date": date, "text": text, "country": country})
         }
     }
     return result

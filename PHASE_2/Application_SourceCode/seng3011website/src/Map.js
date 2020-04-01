@@ -33,6 +33,34 @@ function resetHighlight(e) {
     }
 }
 
+function getTopDiseases(country) {
+    var topDiseases = {}
+    for (var i = 0; i < mapResult.length; i++) {
+        if (mapResult[i].country === country) {
+            var name = mapResult[i].name
+            if (topDiseases[name]) {
+                topDiseases[name]++;
+            } else {
+                topDiseases[name] = 1;
+            }
+        }
+    }
+    var items = Object.keys(topDiseases).map(function(key) {
+        return [key, topDiseases[key]];
+    });
+    items.sort(function(first, second) {
+        return second[1] - first[1];
+    });
+    items = items.slice(0, 5)
+    var result = ''
+    for (i = 0; i < items.length; i++) {
+        var index = i + 1
+        result += '<p>'+ index + '. ' + items[i][0] + '</p>'
+    }
+    return result
+
+}
+
 class MapContainer extends Component<{}, State> {
     state = {
         lat: -33.865143,
@@ -59,7 +87,7 @@ class MapContainer extends Component<{}, State> {
             mouseover: highlightFeature,
             mouseout: resetHighlight,
         });
-        layer.bindPopup('<h1>'+feature.properties.name+'</h1><p>Add top diseases and make countries and diseases clickable</p>') 
+        layer.bindPopup('<h6>'+feature.properties.name + ' - Monthly Disease Ranking</h6><p>Make country and diseases clickable to page</p>' + getTopDiseases(feature.properties.name) + '</p>') 
     }
     
     palmIconSmall = L.icon({
