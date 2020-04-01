@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Map, TileLayer, Marker, GeoJSON } from 'react-leaflet'
+import { Map, TileLayer, Marker, GeoJSON, Popup } from 'react-leaflet'
 import './css/Map.css';
 import { geolocated } from "react-geolocated";
 import L from 'leaflet';
-import countries from './countries.js'
+import countries from './Countries.js'
+import { mapResult }from './Maphelper.js'
+import { virusIcon, germIcon, bacteriaIcon, parasiteIcon, fungusIcon } from './Icons.js'
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -36,8 +38,9 @@ class MapContainer extends Component<{}, State> {
         lat: -33.865143,
         lng: 151.209900,
         zoom: 3,
-        min: 2,
-        max: 4
+        min: 3,
+        max: 5,
+        markers: mapResult
     }
 
     getCountries(){
@@ -56,13 +59,9 @@ class MapContainer extends Component<{}, State> {
             mouseover: highlightFeature,
             mouseout: resetHighlight,
         });
-        layer.bindPopup('<h1>'+feature.properties.name+'</h1><p>Add top diseases and make countries and diseases clickable</p>')
-        
-        
+        layer.bindPopup('<h1>'+feature.properties.name+'</h1><p>Add top diseases and make countries and diseases clickable</p>') 
     }
-
     
-
     palmIconSmall = L.icon({
         iconUrl: require('./img/palm-tree.png'),
         iconSize:[15,20],
@@ -127,31 +126,6 @@ class MapContainer extends Component<{}, State> {
         iconUrl: require('./img/mountain.png'),
         iconSize:[120,80],
         iconAnchor: [20,20],
-    })
-    virusIcon = L.icon({
-        iconUrl: require('./img/virus.png'),
-        iconSize:[30,30],
-        iconAnchor: [30,30],
-    })
-    microbeIcon = L.icon({
-        iconUrl: require('./img/microbe.png'),
-        iconSize:[30,30],
-        iconAnchor: [30,30],
-    })
-    bacteriaIcon = L.icon({
-        iconUrl: require('./img/bacteria.png'),
-        iconSize:[20,20],
-        iconAnchor: [20,20],
-    })
-    cellIcon = L.icon({
-        iconUrl: require('./img/cell.png'),
-        iconSize:[30,30],
-        iconAnchor: [20,20],
-    })
-    pathogenIcon = L.icon({
-        iconUrl: require('./img/pathogen.png'),
-        iconSize:[30,30],
-        iconAnchor: [30,30],
     })
     kiwiIcon = L.icon({
         iconUrl: require('./img/kiwi.png'),
@@ -298,7 +272,6 @@ class MapContainer extends Component<{}, State> {
         iconSize:[20,20],
         iconAnchor: [30,30],
     })
-
   render() {
     if (this.props.coords) {
         this.setState({
@@ -308,6 +281,54 @@ class MapContainer extends Component<{}, State> {
     }
     const position = [this.state.lat, this.state.lng]
     const bounds = [[-Infinity, -180],[Infinity, 180]]
+    const markers = this.state.markers.map(({lat, lng, type, name, text, date}) => {
+        if (type === 'virusIcon') 
+            return (
+                <Marker position={[lat, lng]} icon={ virusIcon }>
+                    <Popup>
+                        <p>{date} {name}</p>
+                        <h5>{text}</h5>
+                    </Popup>
+                </Marker>
+            )
+        if (type === 'bacteriaIcon') 
+            return (
+                <Marker position={[lat, lng]} icon={ bacteriaIcon }>
+                    <Popup>
+                        <p>{date} {name}</p>
+                        <h5>{text}</h5>
+                    </Popup>
+                </Marker>
+            )
+        if (type === 'fungusIcon') 
+            return (
+                <Marker position={[lat, lng]} icon={ fungusIcon }>
+                    <Popup>
+                        <p>{date} {name}</p>
+                        <h5>{text}</h5>
+                    </Popup>
+                </Marker>
+            )
+        if (type === 'parasiteIcon') 
+            return (
+                <Marker position={[lat, lng]} icon={ parasiteIcon }>
+                    <Popup>
+                        <p>{date} {name}</p>
+                        <h5>{text}</h5>
+                    </Popup>
+                </Marker>
+            )
+        return (
+            <Marker position={[lat, lng]} icon={ germIcon }>
+                <Popup>
+                    <p>{text}</p>
+                    <p>Date: {date}</p>
+                    <p>Disease: {name}</p>
+                </Popup>
+            </Marker>
+        )
+    })
+    
     return (
         <Map center={position} zoom={this.state.zoom} minZoom={this.state.min} maxZoom={this.state.max} worldCopyJump='true' maxBounds={bounds}>
             <TileLayer
@@ -316,7 +337,20 @@ class MapContainer extends Component<{}, State> {
             noWrap='true'
             />
             <GeoJSON data={this.getCountries()} onEachFeature={this.onEachFeature} style={this.style}></GeoJSON>
-            <Marker position={[-34,151]} icon={this.palmIconSmall}></Marker>
+            {markers}
+        </Map>
+    )
+  }
+}
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+})(MapContainer);
+
+/*
+<Marker position={[-34,151]} icon={this.palmIconSmall}></Marker>
             <Marker position={[-25,125]} icon={this.palmIconLarge}></Marker>
             <Marker position={[68,112]} icon={this.palmIconSmall}></Marker>
             <Marker position={[-17,-44]} icon={this.palmIconSmall}></Marker>
@@ -378,28 +412,6 @@ class MapContainer extends Component<{}, State> {
 
             <Marker position={[-76,30]} icon={this.mountainIcon}></Marker>
 
-            <Marker position={[-9,-62]} icon={this.virusIcon}></Marker>
-            <Marker position={[76,-36]} icon={this.virusIcon}></Marker>
-            <Marker position={[45,120]} icon={this.virusIcon}></Marker>
-
-            <Marker position={[20,7]} icon={this.bacteriaIcon}></Marker>
-            <Marker position={[-21,134]} icon={this.bacteriaIcon}></Marker>
-            <Marker position={[75,-80]} icon={this.bacteriaIcon}></Marker>
-            <Marker position={[43,45]} icon={this.bacteriaIcon}></Marker>
-
-            <Marker position={[34,-93]} icon={this.microbeIcon}></Marker>
-            <Marker position={[62,13]} icon={this.microbeIcon}></Marker>
-            <Marker position={[-16,48]} icon={this.microbeIcon}></Marker>
-
-            <Marker position={[-77,-107]} icon={this.cellIcon}></Marker>
-            <Marker position={[-73,116]} icon={this.cellIcon}></Marker>
-            <Marker position={[70,88]} icon={this.cellIcon}></Marker>
-            <Marker position={[66,-45]} icon={this.cellIcon}></Marker>
-
-            <Marker position={[34,101]} icon={this.pathogenIcon}></Marker>
-            <Marker position={[17,22]} icon={this.pathogenIcon}></Marker>
-            <Marker position={[59,-100]} icon={this.pathogenIcon}></Marker>
-
             <Marker position={[-46,171.3]} icon={this.kiwiIcon}></Marker>
 
             <Marker position={[-21,146]} icon={this.koalaIcon}></Marker>
@@ -437,13 +449,4 @@ class MapContainer extends Component<{}, State> {
             <Marker position={[-32,-58]} icon={this.slothIcon}></Marker>
             <Marker position={[-52,-68]} icon={this.toucanIcon}></Marker>
             <Marker position={[-3,-39]} icon={this.monkeyIcon}></Marker>
-        </Map>
-    )
-  }
-}
-export default geolocated({
-    positionOptions: {
-        enableHighAccuracy: false,
-    },
-    userDecisionTimeout: 5000,
-})(MapContainer);
+            */
