@@ -3,11 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import SignUp from './Signup.js';
+import Login from './Login.js';
+
+const routing = (
+  <Router>
+    <div>
+      <Route exact path = "/" component = {App}/>
+      <Route path = "/login" component = {Login}/>
+      <Route path = "/signup" component = {SignUp}/>
+    </div>
+  </Router>
+)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  routing,
   document.getElementById('root')
 );
 

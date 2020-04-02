@@ -3,19 +3,11 @@ import React from 'react';
 import './App.css';
 import Main from './Main.js';
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import MapContainer from "./Map.js";
-
 function App() {
   return (
-    <Router>
     <div className="App">
-      <Main />
+      <Main/>
     </div>
-    <Switch>
-      <Route exact path='/map' component={MapContainer} />
-    </Switch>
-    </Router>
   );
 }
 

@@ -1,0 +1,117 @@
+
+img.bg {
+    /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+div.admin-bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.pure-form {
+    border: none;
+    background: #FFFFFF;
+    width: 450px;
+    height: 400px;
+    border-radius: 10%;
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.7), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+}
+input {
+    width: 300px;
+    border-radius: 15px !important;
+}
+.pure-form {
+    text-align: center;
+}
+.login-form {
+    margin-top: 60px;
+}
+.signup-form {
+    margin-top: 60px;
+}
+.login-fieldset {
+    position: relative;
+    top: 30px;
+}
+.signup-fieldset {
+    position: relative;
+    top: 17px;
+}
+.login-button {
+    position: relative;
+    top: 10px;
+    border-radius: 10px;
+    background-color: #02c8a7;
+}
+.login-nav{
+    padding: 20px;
+}
+.welcome {
+    position: relative;
+    top: -10px;
+}
+.login-logo {
+    width: 100px;
+    height: 100px;
+    animation: bounce 1.5s;
+    animation-iteration-count: infinite;
+}
+.signup-logo {
+    width: 113px;
+    height: 113px;
+    animation: bounce 1.5s;
+    animation-iteration-count: infinite;
+    padding: 15px;
+}
+@keyframes bounce {
+    0% { transform: translate(0px, 2px) }
+    10% { transform: translate(0px, 4px) }
+    20% { transform: translate(0px, 6px) }
+    30% { transform: translate(0px, 8px) }
+    40% { transform: translate(0px, 10px) }
+    50% { transform: translate(0px, 12px) }
+    60% { transform: translate(0px, 10px) }
+    70% { transform: translate(0px, 8px) }
+    80% { transform: translate(0px, 6px) }
+    90% { transform: translate(0px, 4px) }
+    100% { transform: translate(0px, 2px) }
+}
+.title {
+    color: #02c8a7 !important;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.font {
+    color: white !important;
+    font-weight: 600;
+    font-size: 15px;
+	text-transform: uppercase;
+}
+.nav-link {
+    color: #02c8a7;
+}
+.nav-link:hover {
+    color: #37836f;
+}
+
