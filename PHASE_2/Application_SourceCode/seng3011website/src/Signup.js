@@ -14,7 +14,7 @@ export default class SignUp extends Component {
                 <div class="signup-form" align = "center">
                     <form class="pure-form pure-form-aligned">
                         <fieldset class="signup-fieldset">
-                        <a href='/home'><img src={logo} class='logo' href='/home'alt="Website logo"/></a>
+                        <a href='/home'><img src={logo} class='logo-signup' href='/home'alt="Website logo"/></a>
                             <div class="welcome">
                                 <img class = "signup-logo" src={signup_logo} alt=""/>
                                 <p class="title">Get Started!</p>

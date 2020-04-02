@@ -14,7 +14,7 @@ export default class Login extends Component {
                 <div class="login-form" align = "center">
                     <form class="pure-form pure-form-aligned">
                         <fieldset class="login-fieldset">
-                        <a href='/home'><img src={logo} class='logo' href='/home'alt="Website logo"/></a>
+                        <a href='/home'><img src={logo} class='logo-login' href='/home'alt="Website logo"/></a>
                             <div class="welcome">
                                 <img class = "login-logo" src={login_logo} alt=""/>
                                 <p class="title">Welcome Back!</p>
