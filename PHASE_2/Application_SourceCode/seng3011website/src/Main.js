@@ -7,6 +7,7 @@ import {
 import Home from "./Home";
 import Game from "./Game";
 import Profile from "./Profile";
+import Quiz from "./Quiz";
 
 
 class Main extends Component {
@@ -24,7 +25,7 @@ class Main extends Component {
             <Route exact path="/" component={Home}/>
             <Route path="/Game" component={Game}/>
             <Route path="/Profile" component={Profile}/>
-
+            <Route path="/Quiz" component={Quiz}/>
           </div>
         </div>
       </HashRouter>

@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-
+import { Link} from "react-router-dom";
+import logo from './img/virus.png';
 class Game extends Component {
+
   render() {
     return (
       <div>
-        <h2>Game</h2>
-        <p>Mauris sem velit, vehicula eget sodales vitae,
-        rhoncus eget sapien:</p>
-        <ol>
-          <li>Nulla pulvinar diam</li>
-          <li>Facilisis bibendum</li>
-          <li>Vestibulum vulputate</li>
-          <li>Eget erat</li>
-          <li>Id porttitor</li>
-        </ol>
+        <h2>The Virus Game</h2>
+        <div>
+        <img src={logo} alt="Logo" width="110" height="100" />
+        </div>
+        <div className = "divSpacing">
+         <Link to="/Quiz" className="btn btn-primary">Play Now</Link>
+
+       </div>
       </div>
     );
   }
