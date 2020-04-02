@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import heading from './img/webheading.png';
 import logo from './img/Logo.png';
 import userimg from './img/user.png';
@@ -11,7 +10,7 @@ class Main extends Component {
   render() {
     return (
         <div>
-          <a href='/home'><img src={heading} id='heading'/></a>
+          <a href='/home'><img src={heading} id='heading' alt=""/></a>
           <Navbar id='navbar' expand="lg" href='/home'>
             <a href='/home' className="d-inline-block align-top" ><img src={logo} id="logo" href='/home'alt="Website logo"/> </a>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -20,7 +19,7 @@ class Main extends Component {
                 <Nav.Link class='searchbar'>
                   <Form inline>
                     <FormControl type="text" placeholder="Search" className="searchbox" />
-                    <Button className='navbutton'> < img className="nav-image" src={search} /></Button>
+                    <Button className='navbutton'> < img className="nav-image" src={search} alt=""/></Button>
                   </Form>
                 </Nav.Link>
               </Nav>
