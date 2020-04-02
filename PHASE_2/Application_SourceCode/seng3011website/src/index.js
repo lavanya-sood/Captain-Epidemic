@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SignUp from './Signup.js';
 import Login from './Login.js';
+import MapContainer from './Map.js';
 
 const routing = (
   <Router>
@@ -13,6 +14,7 @@ const routing = (
       <Route exact path = "/" component = {App}/>
       <Route path = "/login" component = {Login}/>
       <Route path = "/signup" component = {SignUp}/>
+      <Route path = "/map" component = {MapContainer}/>
     </div>
   </Router>
 )
