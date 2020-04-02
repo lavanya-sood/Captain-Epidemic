@@ -109,7 +109,7 @@ ul.header li a {
 	/* width: 100%; */
   /* height: 30vh; */
   padding-top: 66%;
-	border: 1px solid #f1f1f1;
+	/* border: 1px solid #f1f1f1; */
 	/* box-shadow: 3px 3px #eeeeee; */
 	perspective: 1000px; /* Remove this if you don't want the 3D effect */
   }
@@ -135,17 +135,23 @@ ul.header li a {
   
   /* Position the front and back side */
   .flip-card-front, .flip-card-back {
+  background-image: url('./img/titlecard.jpg');
+  background-size: contain;
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	-webkit-backface-visibility: hidden; /* Safari */
-	backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 10%;
   }
   
   /* Style the front side (fallback if image is missing) */
   .flip-card-front {
-	background-color: #bbb;
-	color: black;
+  
+  text-align: center;
+  color: white;
+  padding-top: 12vh;
+  text-shadow: 2px 2px #000000;
   }
   
   /* Style the back side */
@@ -154,7 +160,6 @@ ul.header li a {
 	padding-left: 5px;
   padding-right: 5px;
   text-align: center;
-	background-color: #dddddd;
 	/* color: #5c5e5c; */
 	transform: rotateY(180deg);
   }
@@ -181,6 +186,7 @@ ul.header li a {
 
   #trending {
     padding-bottom: 8vh;
+    padding-top: 3vh;
   }
 
   #trending-topics {
@@ -188,7 +194,7 @@ ul.header li a {
   }
 
   #map-location {
-    background-color: #7CDBD5;
+    background-color: #b93738;
     padding-top: 10vh;
     padding-bottom: 10vh;
     color: white;
@@ -208,27 +214,38 @@ ul.header li a {
   }
 
   .button-map:hover {
-    box-shadow: 5px 10px rgba(86, 153, 149,0.8);
+    box-shadow: 5px 10px #9b2727c2;
     background-color: #ffffff;
     color: rgb(117, 117, 117);
   }
 
   #categories {
     padding-top: 1vh;
+    padding-bottom: 10vh;
   }
 
   .button-category {
-    background-color: #b93738;
+    background-image: url('./img/titlecard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     width:80%;
-    padding-top: 10vh;
+    padding-top: 12vh;
     padding-bottom: 10vh;
 	  border: 1px solid #f1f1f1;
     perspective: 1000px; 
     border: none;
-    border-radius: 5px;
+    border-radius: 5%;
+    text-shadow: 2px 2px #000000;
   }
 
   .button-category:hover {
-    box-shadow: 5px 10px #9b2727c2;
-    background-color: #b93738;
+    box-shadow: 5px 10px #b1afafc2;
+    background-image: url('./img/titlecard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
+
+  .headingpage {
+    color: rgb(117, 117, 117);
+  }
+    
