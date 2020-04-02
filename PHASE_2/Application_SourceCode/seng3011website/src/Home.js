@@ -14,7 +14,7 @@ class Home extends Component {
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <img src={logo} class="project-image"/>
+                  <img src={logo} class="project-image" alt=""/>
                 </div>
               
                 <div class="flip-card-back">
@@ -29,7 +29,7 @@ class Home extends Component {
               <div class="flip-card">
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
-                    <img src={logo} class="project-image"/>
+                    <img src={logo} class="project-image" alt=""/>
                   </div>
                 
                   <div class="flip-card-back">
@@ -44,7 +44,7 @@ class Home extends Component {
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <img src={logo} class="project-image"/>
+                  <img src={logo} class="project-image" alt=""/>
                 </div>
               
                 <div class="flip-card-back">
