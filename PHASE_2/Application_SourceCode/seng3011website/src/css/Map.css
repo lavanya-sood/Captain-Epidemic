@@ -1,4 +1,8 @@
 .leaflet-container {
     height: 100vh;
     background-color: #d5e8eb;
-  }
+}
+
+.animals {
+    cursor: grab;
+}

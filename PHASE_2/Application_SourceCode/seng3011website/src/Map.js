@@ -177,18 +177,18 @@ class MapContainer extends Component<{}, State> {
             />
             <GeoJSON data={this.getCountries()} onEachFeature={this.onEachFeature} style={this.style}></GeoJSON>
             {markers}
-            <Marker class='animals' position={[30,170]} icon={ ausBoat }></Marker>
-            <Marker class='animals' position={[75,3]} icon={ foxBoat }></Marker>
-            <Marker class='animals' position={[-47,-97]} icon={ foxBoat }></Marker>
-            <Marker class='animals' position={[-55,114]} icon={ mooseBoat }></Marker>
-            <Marker class='animals' position={[40,-50]} icon={ mooseBoat }></Marker>
-            <Marker class='animals' position={[-30,198]} icon={ snakeBoat }></Marker>
-            <Marker class='animals' position={[83,43]} icon={ snakeBoat }></Marker>
-            <Marker class='animals' position={[-46,30]} icon={ rhinoBoat }></Marker>
-            <Marker class='animals' position={[83,-135]} icon={ rhinoBoat }></Marker>
-            <Marker class='animals' position={[-57,-29]} icon={ parrotJet }></Marker>
-            <Marker class='animals' position={[83,128]} icon={ parrotJet }></Marker>
-            <Marker class='animals' position={[7,-145]} icon={ rabbitJet }></Marker>
+            <Marker position={[30,170]} icon={ ausBoat }></Marker>
+            <Marker position={[75,3]} icon={ foxBoat }></Marker>
+            <Marker position={[-47,-97]} icon={ foxBoat }></Marker>
+            <Marker position={[-55,114]} icon={ mooseBoat }></Marker>
+            <Marker position={[40,-50]} icon={ mooseBoat }></Marker>
+            <Marker position={[-30,198]} icon={ snakeBoat }></Marker>
+            <Marker position={[83,43]} icon={ snakeBoat }></Marker>
+            <Marker position={[-46,30]} icon={ rhinoBoat }></Marker>
+            <Marker position={[83,-135]} icon={ rhinoBoat }></Marker>
+            <Marker position={[-57,-29]} icon={ parrotJet }></Marker>
+            <Marker position={[83,128]} icon={ parrotJet }></Marker>
+            <Marker position={[7,-145]} icon={ rabbitJet }></Marker>
 
             <Marker position={[-80,-96]} icon={snowIcon}></Marker>
             <Marker position={[-87,-6]} icon={snowIcon}></Marker>
@@ -216,9 +216,6 @@ class MapContainer extends Component<{}, State> {
             <Marker position={[-58,-150]} icon={fishIcon}></Marker>
             <Marker position={[75,165]} icon={starfishIcon}></Marker>
             <Marker position={[-41,-121]} icon={starfishIcon}></Marker>
-
-
-
         </Map>
     )
   }
