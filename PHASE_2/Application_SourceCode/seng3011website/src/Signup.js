@@ -4,6 +4,7 @@ import './css/Login.css';
 import background from './img/login-background.png';
 import { NavLink } from "react-router-dom";
 import signup_logo from './img/signup-logo.png';
+import logo from './img/Logo.png';
 
 export default class SignUp extends Component {
     render() {
@@ -13,6 +14,7 @@ export default class SignUp extends Component {
                 <div class="signup-form" align = "center">
                     <form class="pure-form pure-form-aligned">
                         <fieldset class="signup-fieldset">
+                        <a href='/home'><img src={logo} class='logo' href='/home'alt="Website logo"/></a>
                             <div class="welcome">
                                 <img class = "signup-logo" src={signup_logo} alt=""/>
                                 <p class="title">Get Started!</p>
@@ -26,8 +28,8 @@ export default class SignUp extends Component {
                                 </input>
                             </div>
                             <NavLink class = " nav-link pure-button login-button font" to="/">Signup</NavLink>
-                            <div class="login-nav">
-                                <NavLink class = "nav-link" to="/login">Already have an account? Login now!</NavLink>
+                            <div class="signup-nav">
+                                <NavLink class = "nav-link login-link" to="/login">Already have an account? Login now!</NavLink>
                             </div>
                         </fieldset>
                     </form>
