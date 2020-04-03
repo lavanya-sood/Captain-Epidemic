@@ -8,6 +8,7 @@
     background-color: #d5e8eb;
     top: 25px;
     border-radius: 5%;
+    z-index: 0;
 }
 
 .animals {
