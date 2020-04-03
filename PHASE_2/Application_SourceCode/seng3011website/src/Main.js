@@ -5,9 +5,7 @@ import {
   HashRouter
 } from "react-router-dom";
 import Home from "./Home";
-import Game from "./Games/Game";
 import Profile from "./Profile";
-import Quiz from "./Games/Quiz";
 import heading from './img/webheading.png';
 import logo from './img/Logo.png';
 import userimg from './img/user.png';
@@ -44,8 +42,6 @@ class Main extends Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                <Dropdown.Item href="/game">Game</Dropdown.Item>
-                  <Dropdown.Divider />
                   <Dropdown.Item href="/profile">Profile</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item href="/login">Logout</Dropdown.Item>
