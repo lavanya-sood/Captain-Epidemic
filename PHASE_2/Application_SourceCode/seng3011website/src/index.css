@@ -1,16 +1,29 @@
 @font-face {
   font-family: 'My Kids Handwritten Basic';
-  src: local('My Kids Handwritten Basic'), url(./fonts/MyKidsHandwrittenBasic-gxxZY.ttf) format('ttf');
+  src: url(./fonts/MyKidsHandwrittenBasic-gxxZY.ttf) format('truetype');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stella';
+  src: url(./fonts/Stella\ Demo.otf) format('opentype');
+  font-style: normal;
 }
 
 body {
   background-color: #FFFFFF;
+  font-family: 'My Kids Handwritten Basic';
   /* padding: 20px; */
   margin: 0;
 }
-h1, h2, p, ul, li {
-  font-family: "Helvetica Neue";
-  /* font-family: My Kids Handwritten Basic; */
+
+h1, h2, h3 {
+  font-family: 'Stella';
+}
+
+p, ul, li {
+  /* font-family: "Helvetica Neue"; */
+  font-family: 'My Kids Handwritten Basic';
 }
 
 
@@ -188,4 +201,37 @@ ul.header li a {
   width: 100px;
   padding: 20px 20px 20px 20px;
   border: none;
+}
+
+/* LANDING */
+
+#main {
+	width: 100%;
+  background-image: url('./img/Landing\ Background.jpg');	
+  background-size: contain;
+  background-repeat: no-repeat;
+	color: #ffffff;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+  flex-direction: column;
+  padding-top: 30%;
+}
+
+.startedbutton {
+  position: relative;
+  margin-top: -30%;
+  margin-left: 36%;
+  width: 30%;
+  font-family: 'My Kids Handwritten Basic';
+  font-size: 30px;
+  background-color: #b93738;
+  border: none;
+  padding: 10px 20px 10px 20px; 
+}
+
+.startedbutton:hover {
+  box-shadow: 2px 5px #9b2727c2;
+    background-color: #b93738;
 }
