@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Main from './Main.js';
-
+import PageFooter from './PageFooter.js';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SignUp from './Signup.js';
 import Login from './Login.js';
@@ -23,6 +23,7 @@ function App() {
         <Route path = "/map" component = {MapContainer}/>
         <Route path = "/login" component = {Login}/>
         <Route path = "/signup" component = {SignUp}/>
+        <PageFooter />
     </div>
     </Router>
   );
