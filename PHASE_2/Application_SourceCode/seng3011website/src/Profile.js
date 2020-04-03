@@ -30,6 +30,7 @@ import virus2 from './img/virus2.png';
 import virus3 from './img/virus3.png';
 import virus4 from './img/virus4.png';
 import virus5 from './img/virus5.png';
+import mainLayout from './MainLayout';
 
 class Profile extends Component {
   render() {
@@ -206,3 +207,4 @@ class Profile extends Component {
 
 
 export default Profile;
+export default mainLayout(Profile);

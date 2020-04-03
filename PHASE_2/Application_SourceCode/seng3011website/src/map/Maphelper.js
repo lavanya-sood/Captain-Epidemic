@@ -115,7 +115,7 @@ function getMapInfo() {
             var day = date.split('-')[0]
             date = year+'/'+month+'/'+day
             var text = info.articles[i].headline
-            result.push({"disease": disease, "lat": lat, "lng": lng, "date": date, "text": text, "country": country})
+            result.push({"disease": disease, "lat": lat, "lng": lng, "date": date, "text": text, "country": country, "key": i})
         }
     }
     return result

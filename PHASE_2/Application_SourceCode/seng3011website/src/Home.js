@@ -1,69 +1,111 @@
 import React, { Component } from "react";
-import logo from './img/Logo.png';
-import {Container,Row,Col} from 'react-bootstrap';
-
+import mainLayout from "./MainLayout.js";
+import './css/Home.css';
+import {
+  Link
+} from "react-router-dom";
+import {Container,Row,Col,Button} from 'react-bootstrap';
 
 class Home extends Component {
   render() {
     return (
       <div>
-        <h2>Trending</h2>
-        <Container>
-          <Row>
-            <Col>
-            <div class="flip-card">
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src={logo} class="project-image" alt=""/>
+        <div id="trending">
+          <h2 className="headingpage">Discover</h2>
+          <Container id="trending-topics">
+            <Row>
+              <Col>
+              <div className="flip-card">
+                <div className="flip-card-inner">
+                  <div className="flip-card-front">
+                    {/* <img src={title} className="project-image"/> */}
+                    <h2> CORONAVIRUS </h2>
                 </div>
-              
-                <div class="flip-card-back">
-                  <h3>GlobeShoppers</h3> 
-                  <p>A online trading platform that allows it's users to purchase items from overseas and avoid shipping costs</p> 
-                  <button onclick="window.location.href = 'https://github.com/lavanya-sood/GlobeShoppers-SENG2021';" class="button-primary"> See Project Files </button>
-                </div>
-              </div>
-            </div>
-            </Col>
-            <Col>
-              <div class="flip-card">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                    <img src={logo} class="project-image" alt=""/>
-                  </div>
-                
-                  <div class="flip-card-back">
-                    <h3>GlobeShoppers</h3> 
-                    <p>A online trading platform that allows it's users to purchase items from overseas and avoid shipping costs</p> 
-                    <button onclick="window.location.href = 'https://github.com/lavanya-sood/GlobeShoppers-SENG2021';" class="button-primary"> See Project Files </button>
+
+                  <div className="flip-card-back">
+                      <Link to='/Profile'>
+                      <Button className="button-primary-flip"> Learn More </Button>
+                      </Link>
+                      <br/>
+                      <Link to='/Quiz'>
+                      <Button className="button-primary-flip"> Play Quiz </Button>
+                      </Link>
                   </div>
                 </div>
               </div>
-            </Col>
-            <Col>
-            <div class="flip-card">
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src={logo} class="project-image" alt=""/>
+              </Col>
+              <Col>
+                <div className="flip-card">
+                  <div className="flip-card-inner">
+                    <div className="flip-card-front">
+                        <h2> EBOLA </h2>
+                    </div>
+
+                    <div className="flip-card-back">
+                      <Link to='/Profile'>
+                      <Button  className="button-primary-flip"> Learn More </Button>
+                      </Link>
+                      <br/>
+                      <Link to='/Quiz'>
+                      <Button className="button-primary-flip"> Play Quiz </Button>
+                      </Link>
+                  </div>
+                  </div>
                 </div>
-              
-                <div class="flip-card-back">
-                  <h3>GlobeShoppers</h3> 
-                  <p>A online trading platform that allows it's users to purchase items from overseas and avoid shipping costs</p> 
-                  <button onclick="window.location.href = 'https://github.com/lavanya-sood/GlobeShoppers-SENG2021';" class="button-primary"> See Project Files </button>
+              </Col>
+              <Col>
+              <div className="flip-card">
+                <div className="flip-card-inner">
+                  <div className="flip-card-front">
+                      <h2> YELLOW FEVER </h2>
+                  </div>
+
+                  <div className="flip-card-back">
+                      <Link to='/Profile'>
+                      <Button  className="button-primary-flip"> Learn More </Button>
+                      </Link>
+                      <br/>
+                      <Link to='/Quiz'>
+                      <Button className="button-primary-flip"> Play Quiz </Button>
+                      </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-            </Col>
-          </Row>
-        </Container>
-        
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        <div id="map-location">
+        <Link to='/map'>
+          <Button className="button-map"> <h2> Learn about the disease around the world </h2> </Button>
+        </Link>
+
+        </div>
+
+        <div id="categories">
+          <h2 className="headingpage"> Categories</h2>
+          <Container id="trending-topics">
+            <Row>
+              <Col>
+                <Link to='/Profile'>
+                  <Button className="button-category"> <h3>DISEASES</h3> </Button>
+                </Link>
+              </Col>
+              <Col>
+                <Link to='/Profile'>
+                  <Button className="button-category"> <h3>LOCATIONS</h3> </Button>
+                </Link>
+              </Col>
+            </Row>
+          </Container>
 
 
-        <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
+
+        </div>
+
       </div>
     );
   }
 }
 
-export default Home;
+export default mainLayout(Home);
