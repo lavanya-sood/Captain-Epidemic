@@ -1,7 +1,8 @@
 
 import React, { Component, Fragment } from "react";
 import quizdata from './question'
-import Answer from "./Answer";
+import Answer from "../Answer";
+import logo from '../img/virus.png';
 
 class Quiz extends Component{
 
@@ -28,7 +29,9 @@ class Quiz extends Component{
 
     return(
       <Fragment>
-      <div>
+      <div className="quiz-div">
+      <img src={logo} className = "quiz-img" alt="Logo" width="110" height="100" />
+      <h3 className = "quiz-name">Quiz</h3>
       </div>
          {
           this.state.dataQuestion.map( data => {

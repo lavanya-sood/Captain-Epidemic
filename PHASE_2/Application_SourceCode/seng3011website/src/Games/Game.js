@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link} from "react-router-dom";
-import logo from './img/virus.png';
+import logo from '../img/virus.png';
 class Game extends Component {
 
   render() {

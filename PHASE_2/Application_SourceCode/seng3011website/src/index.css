@@ -49,12 +49,6 @@ ul.header li a {
   border-radius: 5px;
 }
 
-.question {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
 .questionBox {
   position: relative;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -67,7 +61,7 @@ ul.header li a {
 .answerBtn {
   position: relative;
   padding: 10px;
-  background-color: rgb(250, 151, 37);
+  background-color: #b93738;
   display: inline;
   margin: 10px;
   outline: none;
@@ -80,32 +74,43 @@ ul.header li a {
 }
 
 .question {
-  background-color: #7CDBD5;
-  margin: auto;
+  background-color: #F9BE02;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
   width: 500px;
   min-width:500px;
   border-radius: 20px;
 
 }
 
-.playBtn {
-  position: absolute;
-  font-size: 1.4em;
-  padding: 10px;
-  top: 350px;
-  background-color: rgb(46, 182, 46);
-  color: rgb(255, 255, 255);
-  width: 150px;
-  left: 0px;
-  right: 0px;
-  margin: auto;
-  outline: none;
-  cursor: pointer;
+.quiz-div{
+  margin:30px;
+  display:inline-flex;
+}
+
+.quiz-name{
+    margin:auto;
+    padding: 20px;
+    font-size:50px;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50px); }
 }
 
 .Logo {
   background-image: url(./img/virus.png);
   size:15px;
+}
+
+.quiz-img{
+  animation: bounce 0.8s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
 }
 
 .divSpacing {
@@ -376,7 +381,3 @@ ul.header li a {
   .comingapp {
     width: 20%;
   }
-
-
-
->>>>>>> master

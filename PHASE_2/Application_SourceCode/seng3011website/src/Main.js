@@ -5,9 +5,9 @@ import {
   HashRouter
 } from "react-router-dom";
 import Home from "./Home";
-import Game from "./Game";
+import Game from "./Games/Game";
 import Profile from "./Profile";
-import Quiz from "./Quiz";
+import Quiz from "./Games/Quiz";
 import heading from './img/webheading.png';
 import logo from './img/Logo.png';
 import userimg from './img/user.png';
@@ -27,7 +27,7 @@ class Main extends Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link class='searchbar'>
+                <Nav.Link className='searchbar'>
                   <Form inline>
                     <FormControl type="text" placeholder="Search" className="searchbox" />
                     <Button className='navbutton'> < img className="nav-image" src={search} /></Button>
@@ -63,11 +63,7 @@ class Main extends Component {
             <form> <input type="text" name="name" /> <input type="submit" value="Submit"/> </form>
             </li>
             <li><NavLink to="/profile">Profile</NavLink></li>
-<<<<<<< HEAD
-          </ul>
-          <div className="content">
-          </div>*/}
-=======
+
           </ul> */}
           {/* <div className="content">
             <Route exact path="/" component={Home}/>
@@ -75,8 +71,6 @@ class Main extends Component {
             <Route path="/Profile" component={Profile}/>
           </div> */}
 
-
->>>>>>> master
         </div>
       </HashRouter>
     );

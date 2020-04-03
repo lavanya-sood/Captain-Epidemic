@@ -7,9 +7,9 @@ import SignUp from './Signup.js';
 import Login from './Login.js';
 import MapContainer from './Map.js';
 import Home from "./Home";
-import Game from "./Game";
+import Game from "./Games/Game";
 import Profile from "./Profile";
-import Quiz from "./Quiz";
+import Quiz from "./Games/Quiz";
 function App() {
   return (
     <Router>
