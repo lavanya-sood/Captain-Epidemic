@@ -1,3 +1,20 @@
+@font-face {
+  font-family: 'My Kids Handwritten Basic';
+  src: url(../fonts/MyKidsHandwrittenBasic-gxxZY.ttf) format('truetype');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stella';
+  src: url(../fonts/Stella\ Demo.otf) format('opentype');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stupid Meeting';
+  src: url(../fonts/Stupid\ Meeting_D.otf) format('opentype');
+  font-style: normal;
+}
 
 .flip-card {
 	background-color: transparent;
@@ -43,16 +60,16 @@
 
 
   .flip-card-back {
-	padding-top: 20%;
+	padding-top: 12%;
 	padding-left: 5px;
   padding-right: 5px;
   text-align: center;
 	transform: rotateY(180deg);
   }
 
-
-
   .button-primary-flip {
+    font-family: 'My Kids Handwritten Basic';
+    font-size: 30px;
     background-color: #b93738;
     border: none;
     margin-top: 5px;
@@ -88,11 +105,18 @@
     color: rgb(117, 117, 117);
     border: none;
     margin-top: 2vh;
-    width: 60%;
+    width: 70%;
     padding-top: 2vh;
-    padding-bottom: 2vh;
+    padding-bottom: 1vh;
     font-size: 100%;
     border-radius: 5px;
+    font-family: 'My Kids Handwritten Basic';
+    font-size: 30px;
+  }
+
+  #mapheading {
+    font-family: 'My Kids Handwritten Basic';
+    font-size: 50px;
   }
 
   .button-map:hover {
@@ -107,6 +131,7 @@
   }
 
   .button-category {
+    font-family: 'Stella'; 
     background-image: url('../img/titlecard.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -129,4 +154,5 @@
 
   .headingpage {
     color: rgb(117, 117, 117);
+    font-size: 80px;
   }

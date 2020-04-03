@@ -77,7 +77,7 @@ class Home extends Component {
         </div>
         <div id="map-location">
         <Link to='/map'>
-          <Button className="button-map"> <h2> Learn about the disease around the world </h2> </Button>
+          <Button className="button-map"> <p id="mapheading">Learn about the disease around the world </p> </Button>
         </Link>
 
         </div>
@@ -88,12 +88,12 @@ class Home extends Component {
             <Row>
               <Col>
                 <Link to='/Profile'>
-                  <Button className="button-category"> <h3>DISEASES</h3> </Button>
+                  <Button className="button-category"> <h2>DISEASES</h2> </Button>
                 </Link>
               </Col>
               <Col>
                 <Link to='/Profile'>
-                  <Button className="button-category"> <h3>LOCATIONS</h3> </Button>
+                  <Button className="button-category"> <h2>LOCATIONS</h2> </Button>
                 </Link>
               </Col>
             </Row>
