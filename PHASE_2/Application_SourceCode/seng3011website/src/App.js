@@ -7,8 +7,9 @@ import SignUp from './Signup.js';
 import Login from './Login.js';
 import MapContainer from './Map.js';
 import Home from "./Home";
-import Game from "./Game";
+import Game from "./Games/Game";
 import Profile from "./Profile";
+import Quiz from "./Games/Quiz";
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" component={Home}/>
         <Route path="/game" component={Game}/>
         <Route path="/profile" component={Profile}/>
+        <Route path="/quiz" component={Quiz}/>
         <Route path = "/map" component = {MapContainer}/>
         <Route path = "/login" component = {Login}/>
         <Route path = "/signup" component = {SignUp}/>
