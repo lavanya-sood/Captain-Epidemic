@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import mainLayout from './MainLayout';
 
 class Profile extends Component {
   render() {
@@ -12,4 +13,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default mainLayout(Profile);

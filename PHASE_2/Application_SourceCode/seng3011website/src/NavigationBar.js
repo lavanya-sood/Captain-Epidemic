@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import heading from './img/webheading.png';
 import logo from './img/Logo.png';
 import userimg from './img/user.png';
 import search from './img/search.png';
 import {Navbar,Nav,Form,FormControl,Button,Dropdown} from 'react-bootstrap';
 
 
-class Main extends Component {
-  render() {
-    return (
-      <Router>
-        <div>
-          <a href='/'><img src={heading} id='heading' alt=''/></a>
-          
-          <Navbar id='navbar' expand="lg" href='/'>
-            <a href='/' className="d-inline-block align-top" ><img src={logo} id="logo" href='/'alt="Website logo"/> </a>
+class NavigationBar extends Component {
+    render() {
+        return (
+            <Navbar id='navbar' expand="lg" href='/'>
+            <a href='/home' className="d-inline-block align-top" ><img src={logo} id="logo" href='/'alt="Website logo"/> </a>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
@@ -45,25 +39,8 @@ class Main extends Component {
 
             </Navbar.Collapse>
           </Navbar>
-
-          {/* <ul className="header">
-            <li><NavLink exact to="/"><img src={logo} id='logo'/></NavLink></li>
-            <li><NavLink to="/game">Game</NavLink></li>
-            <li>
-            <form> <input type="text" name="name" /> <input type="submit" value="Submit"/> </form>
-            </li>
-            <li><NavLink to="/profile">Profile</NavLink></li>
-
-          </ul> */}
-          {/* <div className="content">
-            <Route exact path="/" component={Home}/>
-            <Route path="/Game" component={Game}/>
-            <Route path="/Profile" component={Profile}/>
-          </div> */}
-
-        </div>
-      </Router>
-    );
-  }
+        );
+    }
 }
-export default Main;
+
+export default NavigationBar;
