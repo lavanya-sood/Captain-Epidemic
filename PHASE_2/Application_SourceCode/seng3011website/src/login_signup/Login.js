@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import './css/pure-min.css';
-import './css/Login.css';
-import { NavLink } from "react-router-dom";
-import login_logo from './img/login-logo.png';
-import background from './img/login-background.png';
-import logo from './img/Logo.png'
+import React, { Component } from "../../node_modules/react";
+import '../css/pure-min.css';
+import '../css/Login.css';
+import { NavLink } from "../../node_modules/react-router-dom";
+import login_logo from '../img/login-logo.png';
+import background from '../img/login-background.png';
+import logo from '../img/Logo.png'
 
 export default class Login extends Component {
     render() {

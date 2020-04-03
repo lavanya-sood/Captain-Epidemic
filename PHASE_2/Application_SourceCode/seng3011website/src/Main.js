@@ -19,7 +19,7 @@ class Main extends Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link class='searchbar'>
+                <Nav.Link className='searchbar'>
                   <Form inline>
                     <FormControl type="text" placeholder="Search" className="searchbox" />
                     <Button className='navbutton'> < img className="nav-image" src={search} alt=''/></Button>
