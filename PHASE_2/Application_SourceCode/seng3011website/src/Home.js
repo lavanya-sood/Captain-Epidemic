@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import title from './img/titlecard.jpg';
-import Profile from "./Profile";
-import MapContainer from './Map.js';
 import {
   Link
 } from "react-router-dom";

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, Marker, GeoJSON, Popup } from 'react-leaflet'
-import './css/Map.css';
+import '../css/Map.css';
 import { geolocated } from "react-geolocated";
 import L from 'leaflet';
 import countries from './Countries.js'
