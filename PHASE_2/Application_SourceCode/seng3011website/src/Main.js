@@ -25,7 +25,7 @@ class Main extends Component {
                     <Button className='navbutton'> < img className="nav-image" src={search} alt=''/></Button>
                   </Form>
                 </Nav.Link>
-              
+
               </Nav>
               <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-custom">
@@ -36,14 +36,12 @@ class Main extends Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                <Dropdown.Item href="/game">Game</Dropdown.Item>
-                  <Dropdown.Divider />
                   <Dropdown.Item href="/profile">Profile</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item href="/login">Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              
+
 
             </Navbar.Collapse>
           </Navbar>
@@ -51,10 +49,11 @@ class Main extends Component {
           {/* <ul className="header">
             <li><NavLink exact to="/"><img src={logo} id='logo'/></NavLink></li>
             <li><NavLink to="/game">Game</NavLink></li>
-            <li> 
+            <li>
             <form> <input type="text" name="name" /> <input type="submit" value="Submit"/> </form>
             </li>
             <li><NavLink to="/profile">Profile</NavLink></li>
+
           </ul> */}
           {/* <div className="content">
             <Route exact path="/" component={Home}/>
@@ -62,7 +61,6 @@ class Main extends Component {
             <Route path="/Profile" component={Profile}/>
           </div> */}
 
-          
         </div>
       </Router>
     );
