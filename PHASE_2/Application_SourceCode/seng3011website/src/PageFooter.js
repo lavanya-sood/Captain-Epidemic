@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import {Container,Row,Col} from 'react-bootstrap';
 import pageheading from './img/bigheading.png';
+import './css/PageFooter.css';
 
 class PageFooter extends Component {
     render() {
@@ -18,11 +19,6 @@ class PageFooter extends Component {
                                 <NavLink className="outro-buttons" to="/profile">How TAOCE works</NavLink>
                                 <NavLink className="outro-buttons" to="/profile">Terms of Use</NavLink>
                                 <NavLink className="outro-buttons" to="/profile">Privacy Policy</NavLink>
-                                {/* <Button className="outro-buttons" > About Us </Button>
-                                <Button className="outro-buttons" > How GlobeShoppers works </Button>
-                                <Button className="outro-buttons" > Terms of Use </Button>
-                                <Button className="outro-buttons"> Privacy Policy </Button>
-                             */}
                             </div>
                         </Col>
                         <Col>

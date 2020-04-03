@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link} from "react-router-dom";
 import logo from '../img/virus.png';
+import mainLayout from '../MainLayout.js';
 class Game extends Component {
 
   render() {
@@ -19,4 +20,4 @@ class Game extends Component {
   }
 }
 
-export default Game;
+export default mainLayout(Game);

@@ -1,5 +1,6 @@
 
 import React, { Component, Fragment } from "react";
+import mainLayout from '../MainLayout.js';
 import quizdata from './question'
 import Answer from "../Answer";
 import logo from '../img/virus.png';
@@ -47,4 +48,4 @@ class Quiz extends Component{
   }
 }
 
-export default Quiz;
+export default mainLayout(Quiz);

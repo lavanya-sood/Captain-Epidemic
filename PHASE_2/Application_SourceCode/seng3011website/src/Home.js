@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import mainLayout from "./MainLayout.js";
+import './css/Home.css';
 import {
   Link
 } from "react-router-dom";
@@ -106,4 +108,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default mainLayout(Home);

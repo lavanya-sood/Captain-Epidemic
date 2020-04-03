@@ -128,3 +128,10 @@ input {
     margin-left: -150px;
 }
 
+.login-form {
+    padding-top: 20%;
+}
+
+.signup-form {
+    padding-top: 20%;
+}

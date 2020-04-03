@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, Marker, GeoJSON, Popup } from 'react-leaflet'
+import mainLayout from '../MainLayout.js';
 import '../css/Map.css';
 import { geolocated } from "react-geolocated";
 import L from 'leaflet';
@@ -220,9 +221,9 @@ class MapContainer extends Component<{}, State> {
     )
   }
 }
-export default geolocated({
+export default mainLayout(geolocated({
     positionOptions: {
         enableHighAccuracy: false,
     },
     userDecisionTimeout: 5000,
-})(MapContainer);
+})(MapContainer));
