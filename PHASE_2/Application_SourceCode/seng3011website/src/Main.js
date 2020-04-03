@@ -43,8 +43,6 @@ class Main extends Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                <Dropdown.Item href="/game">Game</Dropdown.Item>
-                  <Dropdown.Divider />
                   <Dropdown.Item href="/profile">Profile</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item href="/login">Logout</Dropdown.Item>
