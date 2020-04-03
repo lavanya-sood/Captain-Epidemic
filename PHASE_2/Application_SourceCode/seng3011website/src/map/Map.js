@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, Marker, GeoJSON, Popup } from 'react-leaflet'
-import './css/Map.css';
+import '../css/Map.css';
 import { geolocated } from "react-geolocated";
 import L from 'leaflet';
 import countries from './Countries.js'
@@ -120,10 +120,10 @@ class MapContainer extends Component<{}, State> {
     }
     const position = [this.state.lat, this.state.lng]
     const bounds = [[-Infinity, -180],[Infinity, 180]]
-    const markers = this.state.markers.map(({lat, lng, type, name, text, date}) => {
+    const markers = this.state.markers.map(({lat, lng, type, name, text, date, key}) => {
         if (type === 'virusIcon') 
             return (
-                <Marker position={[lat, lng]} icon={ virusIcon }>
+                <Marker position={[lat, lng]} icon={ virusIcon } key={ key }>
                     <Popup>
                         <p>{date} {name}</p>
                         <h5>{text}</h5>
@@ -132,7 +132,7 @@ class MapContainer extends Component<{}, State> {
             )
         if (type === 'bacteriaIcon') 
             return (
-                <Marker position={[lat, lng]} icon={ bacteriaIcon }>
+                <Marker position={[lat, lng]} icon={ bacteriaIcon } key={ key }>
                     <Popup>
                         <p>{date} {name}</p>
                         <h5>{text}</h5>
@@ -141,7 +141,7 @@ class MapContainer extends Component<{}, State> {
             )
         if (type === 'fungusIcon') 
             return (
-                <Marker position={[lat, lng]} icon={ fungusIcon }>
+                <Marker position={[lat, lng]} icon={ fungusIcon } key={ key }>
                     <Popup>
                         <p>{date} {name}</p>
                         <h5>{text}</h5>
@@ -150,7 +150,7 @@ class MapContainer extends Component<{}, State> {
             )
         if (type === 'parasiteIcon') 
             return (
-                <Marker position={[lat, lng]} icon={ parasiteIcon }>
+                <Marker position={[lat, lng]} icon={ parasiteIcon } key={ key }>
                     <Popup>
                         <p>{date} {name}</p>
                         <h5>{text}</h5>
@@ -158,7 +158,7 @@ class MapContainer extends Component<{}, State> {
                 </Marker>
             )
         return (
-            <Marker position={[lat, lng]} icon={ germIcon }>
+            <Marker position={[lat, lng]} icon={ germIcon } key={ key }>
                 <Popup>
                     <p>{text}</p>
                     <p>Date: {date}</p>

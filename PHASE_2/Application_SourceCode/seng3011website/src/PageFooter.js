@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import {
-    Route,
-    NavLink,
-    HashRouter
-  } from "react-router-dom";
-import {Container,Row,Col,Button} from 'react-bootstrap';
+import { NavLink } from "react-router-dom";
+import {Container,Row,Col} from 'react-bootstrap';
 import pageheading from './img/bigheading.png';
 
 class PageFooter extends Component {

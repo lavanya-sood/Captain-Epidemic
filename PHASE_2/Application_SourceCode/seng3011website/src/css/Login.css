@@ -103,7 +103,7 @@ input {
     90% { transform: translate(0px, 4px) }
     100% { transform: translate(0px, 2px) }
 }
-.title {
+.login-signup-title {
     color: #02c8a7 !important;
 	font-weight: 600;
     text-transform: uppercase;
