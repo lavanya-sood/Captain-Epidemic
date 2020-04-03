@@ -17,7 +17,7 @@ export default class SignUp extends Component {
                         <a href='/home'><img src={logo} className='logo-signup' href='/home'alt="Website logo"/></a>
                             <div className="welcome">
                                 <img className = "signup-logo" src={signup_logo} alt=""/>
-                                <p className="title">Get Started!</p>
+                                <p className="login-signup-title">Get Started!</p>
                             </div>
                             <div className="pure-control-group">
                                 <input id="username" type="text" placeholder="Username">
