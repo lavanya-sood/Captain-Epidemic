@@ -58,7 +58,7 @@ function resetHighlight(e) {
 function getTopDiseases(country) {
     var topDiseases = {}
     for (var i = 0; i < mapResult.length; i++) {
-        if (country.indexOf(mapResult[i].country) != -1) {
+        if (country.indexOf(mapResult[i].country) !== -1) {
             var name = mapResult[i].name
             if (topDiseases[name]) {
                 topDiseases[name]++;
@@ -76,7 +76,7 @@ function getTopDiseases(country) {
     items = items.slice(0, 5)
     var result = ''
     for (i = 0; i < items.length; i++) {
-        result +=  '<a href="/" class="disease-map-link">' + items[i][0] + '</a><br>'
+        result +=  '<a href="/info" class="disease-map-link">' + items[i][0] + '</a><br>'
     }
     return result
 
@@ -117,9 +117,9 @@ class MapContainer extends Component<{}, State> {
             mouseout: resetHighlight,
         });
         if (getTopDiseases(feature.properties.name).length > 0) {
-            layer.bindPopup('<h3 class="monthly-title"><a href="/" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
+            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
         } else {
-            layer.bindPopup('<h3 class="monthly-title"><a href="/" class="country-map-link">'+feature.properties.name+'</a></h3>'+ '<p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3>'+ '<p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
         }
     }
 
@@ -137,9 +137,9 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ virusIcon } key={ key }>
                     <Popup>
-                        <h3 className="disease-map"><a href="/" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
-                        <p className="report-title">{text}</p>
+                        <p className="report-title-maps">{text}</p>
                     </Popup>
                 </Marker>
             )
@@ -147,8 +147,9 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ bacteriaIcon } key={ key }>
                     <Popup>
-                        <h3 className="disease-date">{date} {name}</h3>
-                        <p className="report-title">{text}</p>
+                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <p className="date-map">{date}</p>
+                        <p className="report-title-maps">{text}</p>
                     </Popup>
                 </Marker>
             )
@@ -156,8 +157,9 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ fungusIcon } key={ key }>
                     <Popup>
-                        <h3 className="disease-date">{date} {name}</h3>
-                        <p className="report-title">{text}</p>
+                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <p className="date-map">{date}</p>
+                        <p className="report-title-maps">{text}</p>
                     </Popup>
                 </Marker>
             )
@@ -165,16 +167,18 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ parasiteIcon } key={ key }>
                     <Popup>
-                        <h3 className="disease-date">{date} {name}</h3>
-                        <p className="report-title">{text}</p>
+                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <p className="date-map">{date}</p>
+                        <p className="report-title-maps">{text}</p>
                     </Popup>
                 </Marker>
             )
         return (
             <Marker position={[lat, lng]} icon={ germIcon } key={ key }>
                 <Popup>
-                    <h3 className="disease-date">{date} {name}</h3>
-                    <p className="report-title">{text}</p>
+                    <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                    <p className="date-map">{date}</p>
+                    <p className="report-title-maps">{text}</p>
                 </Popup>
             </Marker>
         )
