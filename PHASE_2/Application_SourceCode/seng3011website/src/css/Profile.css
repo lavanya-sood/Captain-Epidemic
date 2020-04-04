@@ -96,6 +96,7 @@
     font-family:"Top Secret";
     font-size: 20px;
     color: #1e4b57;
+    transform:  rotate(-5deg);
   }
 
   .rank-name-disabled {
@@ -110,6 +111,7 @@
     font-family:"Top Secret";
     font-size: 20px;
     color: #aab4b3;
+    transform:  rotate(-5deg);
   }
 
   .edit-button {
@@ -126,9 +128,14 @@
      line-height: 40px;
   }
 
+  .edit-button:hover {
+    box-shadow: 2px 5px #37836f;
+    background-color:  #02C8A7;
+  }
+
   .missions {
     background-color: #F9BE02;
-    padding-bottom: 10px;
+    padding-bottom: 80px;
     padding-top:10px;
   }
 
@@ -163,6 +170,11 @@
   border-radius: 25px;
   border: 5px solid white;
   line-height:30px;
+}
+
+.disease-button:hover {
+  box-shadow: 2px 5px #37836f;
+  background-color:  #02C8A7;
 }
 
 .star {

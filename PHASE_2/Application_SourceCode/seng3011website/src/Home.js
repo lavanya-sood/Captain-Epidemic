@@ -23,7 +23,7 @@ class Home extends Component {
                 </div>
 
                   <div className="flip-card-back">
-                      <Link to='/Profile'>
+                      <Link to='/Disease'>
                       <Button className="button-primary-flip"> Learn More </Button>
                       </Link>
                       <br/>
@@ -42,7 +42,7 @@ class Home extends Component {
                     </div>
 
                     <div className="flip-card-back">
-                      <Link to='/Profile'>
+                      <Link to='/Disease'>
                       <Button  className="button-primary-flip"> Learn More </Button>
                       </Link>
                       <br/>
@@ -61,7 +61,7 @@ class Home extends Component {
                   </div>
 
                   <div className="flip-card-back">
-                      <Link to='/Profile'>
+                      <Link to='/Disease'>
                       <Button  className="button-primary-flip"> Learn More </Button>
                       </Link>
                       <br/>
