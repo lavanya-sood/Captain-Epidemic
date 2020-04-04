@@ -22,7 +22,7 @@ class PageFooter extends Component {
                             </div>
                         </Col>
                         <Col>
-                            <h4> FOR INQUIRES: </h4>
+                            <h4> FOR INQUIRIES: </h4>
                             <p className="footertext"> support@taoce.com </p>
                             <p className="footertext"> +61 123 456 789</p>
                             <h4> FOR PARTNERSHIP: </h4>
