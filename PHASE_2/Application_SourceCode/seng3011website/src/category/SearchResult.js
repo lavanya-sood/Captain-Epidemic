@@ -5,11 +5,11 @@ import logo from "../img/virus5.png";
 import "../css/pure-min.css";
 import "../css/SearchResult.css";
 
-class Result extends Component {
+class SearchResult extends Component {
   render() {
     return (
       <div className="result-div">
-        <div className="header-div" width="100%">
+        <div className="header-div">
           <img
             src={logo}
             className="logo-img"
@@ -17,21 +17,16 @@ class Result extends Component {
             width="110"
             height="100"
           />
-          <h3 className="header-name">Search Result</h3>
+          <h2 className="header-name">Search Result</h2>
         </div>
-
-        <div className="result">
-          <h3>hello world testing</h3>
-        </div>
-        <div className="result">
-          <h3>hello world testing2</h3>
-        </div>
-        <div className="result">
-          <h3>hello world testing3</h3>
-        </div>
+        <Link to="profile" className="result-link">
+          <div className="result">
+            <h3 className="result-content">CORONAVIRUS</h3>
+          </div>
+        </Link>
       </div>
     );
   }
 }
 
-export default mainLayout(Result);
+export default mainLayout(SearchResult);

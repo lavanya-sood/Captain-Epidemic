@@ -9,7 +9,7 @@ import Home from "./Home";
 import Game from "./Games/Game";
 import Profile from "./Profile";
 import Quiz from "./Games/Quiz";
-import SearchResult from "./category/Result";
+import SearchResult from "./category/SearchResult";
 import Country from "./category/Country";
 import Disease from "./category/Disease";
 function App() {
