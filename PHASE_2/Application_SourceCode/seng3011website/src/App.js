@@ -9,7 +9,7 @@ import Home from "./Home";
 import Game from "./Games/Game";
 import Profile from "./Profile";
 import Quiz from "./Games/Quiz";
-import Disease from "./Disease";
+import Info from "./Info";
 import SearchResult from "./category/SearchResult";
 import Country from "./category/Country";
 import Disease from "./category/Disease";
@@ -22,7 +22,7 @@ function App() {
           <Route path="/home" component={Home}/>
           <Route path="/game" component={Game}/>
           <Route path="/profile" component={Profile}/>
-          <Route path="/disease" component={Disease}/>
+          <Route path="/info" component={Info}/>
           <Route path="/quiz" component={Quiz}/>
           <Route path = "/map" component = {MapContainer}/>
           <Route path = "/login" component = {Login}/>

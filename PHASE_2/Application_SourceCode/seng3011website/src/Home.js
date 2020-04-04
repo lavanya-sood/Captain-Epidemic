@@ -20,18 +20,12 @@ class Home extends Component {
                       <h2> CORONAVIRUS </h2>
                     </div>
 
-<<<<<<< HEAD
                   <div className="flip-card-back">
-                      <Link to='/Disease'>
-                      <Button className="button-primary-flip"> Learn More </Button>
-=======
-                    <div className="flip-card-back">
-                      <Link to="/Profile">
-                        <Button className="button-primary-flip">
-                          {" "}
-                          Learn More{" "}
-                        </Button>
->>>>>>> ffa5462d49b8879f4f7334a40b0e809d63c6b02f
+                      <Link to='/Info'>
+                      <Button className="button-primary-flip">
+                      {" "}
+                      Learn More{" "}
+                    </Button>
                       </Link>
                       <br />
                       <Link to="/Quiz">
@@ -52,16 +46,12 @@ class Home extends Component {
                     </div>
 
                     <div className="flip-card-back">
-<<<<<<< HEAD
-                      <Link to='/Disease'>
-                      <Button  className="button-primary-flip"> Learn More </Button>
-=======
-                      <Link to="/Profile">
+
+                      <Link to="/Info">
                         <Button className="button-primary-flip">
                           {" "}
                           Learn More{" "}
                         </Button>
->>>>>>> ffa5462d49b8879f4f7334a40b0e809d63c6b02f
                       </Link>
                       <br />
                       <Link to="/Quiz">
@@ -81,18 +71,14 @@ class Home extends Component {
                       <h2> YELLOW FEVER </h2>
                     </div>
 
-<<<<<<< HEAD
-                  <div className="flip-card-back">
-                      <Link to='/Disease'>
-                      <Button  className="button-primary-flip"> Learn More </Button>
-=======
+
                     <div className="flip-card-back">
-                      <Link to="/Profile">
+                      <Link to="/Info">
                         <Button className="button-primary-flip">
                           {" "}
                           Learn More{" "}
                         </Button>
->>>>>>> ffa5462d49b8879f4f7334a40b0e809d63c6b02f
+
                       </Link>
                       <br />
                       <Link to="/Quiz">

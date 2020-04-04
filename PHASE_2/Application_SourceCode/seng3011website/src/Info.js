@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
-import './css/Disease.css';
+import './css/Info.css';
 import mainLayout from './MainLayout';
 import virus from './img/virus.png';
 
