@@ -32,6 +32,7 @@ img.bg {
 input {
     width: 300px;
     border-radius: 15px !important;
+    font-size: 20px;
 }
 .pure-form {
     text-align: center;
@@ -50,7 +51,7 @@ input {
     border-radius: 10px;
     background-color: #02c8a7;
     width: 100px;
-    left: -45px;
+    left: -50px;
 }
 .login-nav{
     padding: 15px;
@@ -109,15 +110,16 @@ input {
 }
 .login-signup-title {
     color: #02c8a7 !important;
-	font-weight: 600;
     text-transform: uppercase;
-    font-family: helvetica;
+    font-family: 'Stella';
+    font-size: 25px;
 }
 .font {
     color: white !important;
-    font-weight: 600;
-    font-size: 15px;
+    font-size: 20px;
     text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 600;
 }
 .nav-link {
     color: #02c8a7;
@@ -127,9 +129,11 @@ input {
 }
 .sign-up-link {
     margin-left: -140px;
+    font-size: 25px;
 }
 .login-link {
     margin-left: -150px;
+    font-size: 25px;
 }
 
 .login-form {
