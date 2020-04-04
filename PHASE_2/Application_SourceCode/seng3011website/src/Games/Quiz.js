@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import mainLayout from "../MainLayout.js";
 import quizdata from "./question";
-import Answer from "../Answer";
+import Answer from "./Answer";
 import logo from "../img/virus.png";
 
 class Quiz extends Component {
@@ -31,21 +31,20 @@ class Quiz extends Component {
             width="110"
             height="100"
           />
-          <h3 className="quiz-name">Quiz</h3>
+          <div className="quiz-name">Quiz</div>
         </div>
         {this.state.dataQuestion.map(data => {
           return (
             <div key={data.id}>
-              <div className="question">
-                {" "}
-                <h4> {data.question}</h4>{" "}
+              <div className="question"> {data.question} </div>
+              <div className="answers">
+                <Answer
+                  key={data.id}
+                  id={data.id}
+                  correct={data.correct}
+                  ans={data.answers}
+                />
               </div>
-              <Answer
-                key={data.id}
-                id={data.id}
-                correct={data.correct}
-                ans={data.answers}
-              />
             </div>
           );
         })}

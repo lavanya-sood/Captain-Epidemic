@@ -14,7 +14,6 @@ img.bg {
   z-index: 1;
 }
 .pure-form {
-  position: relative;
   z-index: 1;
   border: none;
   background: #ffffff;
@@ -23,11 +22,17 @@ img.bg {
   border-radius: 10%;
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.7),
     0 12px 40px 0 rgba(0, 0, 0, 0.19);
-  margin-top: -10%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 input {
   width: 300px;
   border-radius: 15px !important;
+  font-size: 20px;
 }
 .pure-form {
   text-align: center;
@@ -46,7 +51,7 @@ input {
   border-radius: 10px;
   background-color: #02c8a7;
   width: 100px;
-  left: -45px;
+  left: -50px;
 }
 .login-nav {
   padding: 15px;
@@ -127,15 +132,16 @@ input {
 }
 .login-signup-title {
   color: #02c8a7 !important;
-  font-weight: 600;
   text-transform: uppercase;
-  font-family: helvetica;
+  font-family: "Stella";
+  font-size: 25px;
 }
 .font {
   color: white !important;
-  font-weight: 600;
-  font-size: 15px;
+  font-size: 20px;
   text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 600;
 }
 .nav-link {
   color: #02c8a7;
@@ -145,9 +151,11 @@ input {
 }
 .sign-up-link {
   margin-left: -140px;
+  font-size: 25px;
 }
 .login-link {
   margin-left: -150px;
+  font-size: 25px;
 }
 
 .login-form {

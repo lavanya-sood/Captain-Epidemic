@@ -95,7 +95,9 @@ class Home extends Component {
           <Link to="/map">
             <Button className="button-map">
               {" "}
-              <h2> Learn about the disease around the world </h2>{" "}
+              <p id="mapheading">
+                Learn about the disease around the world{" "}
+              </p>{" "}
             </Button>
           </Link>
         </div>
@@ -108,7 +110,7 @@ class Home extends Component {
                 <Link to="/disease">
                   <Button className="button-category">
                     {" "}
-                    <h3>DISEASES</h3>{" "}
+                    <h2>DISEASES</h2>{" "}
                   </Button>
                 </Link>
               </Col>
@@ -116,7 +118,7 @@ class Home extends Component {
                 <Link to="/country">
                   <Button className="button-category">
                     {" "}
-                    <h3>LOCATIONS</h3>{" "}
+                    <h2>LOCATIONS</h2>{" "}
                   </Button>
                 </Link>
               </Col>
