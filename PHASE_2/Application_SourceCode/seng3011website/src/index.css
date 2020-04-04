@@ -1,18 +1,34 @@
 @font-face {
-  font-family: 'My Kids Handwritten Basic';
-  src: local('My Kids Handwritten Basic'), url(./fonts/MyKidsHandwrittenBasic-gxxZY.ttf) format('ttf');
+  font-family: "My Kids Handwritten Basic";
+  src: url(./fonts/MyKidsHandwrittenBasic-gxxZY.ttf) format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Stella";
+  src: url(./fonts/Stella\ Demo.otf) format("opentype");
+  font-style: normal;
 }
 
 body {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
+  font-family: "My Kids Handwritten Basic";
   /* padding: 20px; */
   margin: 0;
 }
-h1, h2, p, ul, li {
-  font-family: "Helvetica Neue";
-  /* font-family: My Kids Handwritten Basic; */
+
+h1,
+h2,
+h3 {
+  font-family: "Stella";
 }
 
+p,
+ul,
+li {
+  /* font-family: "Helvetica Neue"; */
+  font-family: "My Kids Handwritten Basic";
+}
 
 ul.header li {
   display: inline;
@@ -31,7 +47,7 @@ ul.header li a {
   display: inline-block;
 }
 .content {
-  background-color: #FFF;
+  background-color: #fff;
   padding: 20px;
 }
 .content h2 {
@@ -72,7 +88,7 @@ ul.header li a {
   margin: 10px;
   outline: none;
   border: none;
-  font-size: 1em;
+  font-size: 2em;
   color: rgb(255, 255, 255);
   font-weight: bold;
   border-radius: 4px;
@@ -80,40 +96,51 @@ ul.header li a {
 }
 
 .question {
-  background-color: #F9BE02;
+  background-color: #f9be02;
   padding: 10px;
+  margin: auto;
+  width: 500px;
+  min-width: 500px;
+  border-radius: 20px;
+  font-size: 40px;
+  font-weight: bold;
+}
+.answers {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
-  width: 500px;
-  min-width:500px;
+  padding: 10px;
   border-radius: 20px;
-
 }
 
-.quiz-div{
-  margin:30px;
-  display:inline-flex;
+.quiz-div {
+  margin: 10px;
+  display: inline-flex;
 }
 
-.quiz-name{
-    margin:auto;
-    padding: 20px;
-    font-size:50px;
+.quiz-name {
+  margin: auto;
+  padding: 10px;
+  font-size: 70px;
+  font-family: "Stella";
 }
 
 @keyframes bounce {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50px);
+  }
 }
 
 .Logo {
   background-image: url(./img/virus.png);
-  size:15px;
+  size: 15px;
 }
 
-.quiz-img{
+.quiz-img {
   animation: bounce 0.8s;
   animation-direction: alternate;
   animation-iteration-count: infinite;
@@ -122,7 +149,6 @@ ul.header li a {
 .divSpacing {
   padding-top: 20px;
   padding-bottom: 20px;
-
 }
 
 #heading {
@@ -134,7 +160,7 @@ ul.header li a {
   width: 50px;
   height: 50px;
   text-align: left;
-  margin:0;
+  margin: 0;
 }
 
 #basic-nav-dropdown {
@@ -147,20 +173,20 @@ ul.header li a {
 }
 
 #dropdown-custom {
-  background-color: #7CDBD5;
+  background-color: #7cdbd5;
   color: white;
   border: none;
 }
 
 #navbar {
-  background-color: #7CDBD5;
+  background-color: #7cdbd5;
   color: white;
 }
 
 .nav-link {
   text-align: center;
   margin-left: 100px;
-  padding:0;
+  padding: 0;
   width: 700px;
 }
 
@@ -169,16 +195,14 @@ ul.header li a {
 }
 
 .navbutton {
-  background-color: #7CDBD5;
+  background-color: #7cdbd5;
   border: none;
 }
 
 .navbutton:hover {
-  background-color: #7CDBD5;
+  background-color: #7cdbd5;
   border: none;
 }
-
-
 
 .form-inline .form-control {
   width: 80%;

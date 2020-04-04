@@ -348,3 +348,53 @@ Response Description: Incorrect Authorization Key
 Response Code: 401
 Resource Utilisation: {'database_accessed': 'False', 'database_updated: 'False'}
 
+API Accessed Timestamp: Tuesday, 24 March 2020 00:12:44 AEDT
+Elapsed Time: 0.0068330000000000335
+Request Method: <[PUT]>
+Request URL: http://127.0.0.1:5000/article?id=1810051939
+API Endpoint: /article
+Request Body: {'id': '1810051939', 'event_date': '2021-01-01 00:00:00', 'country': 'string', 'location': 'string', 'disease': 'string', 'syndrome': 'string', 'source': 'string', 'cases': 0, 'deaths': 0, 'controls': 'string'}
+Response Description: Url Successfully added
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'True'}
+
+API Accessed Timestamp: Tuesday, 24 March 2020 00:15:54 AEDT
+Elapsed Time: 0.0010740000000000194
+Request Method: <[POST]>
+Request URL: http://127.0.0.1:5000/article?id=1810051939
+API Endpoint: /article
+Request Body: {'id': '1810051939', 'url': 'string', 'date_of_publication': 'string', 'headline': 'string', 'main_text': 'string', 'event_date': '2020-01-01 00:00:00', 'country': 'string', 'location': 'string', 'disease': 'string', 'syndrome': 'string', 'source': 'string', 'cases': 0, 'deaths': 0, 'controls': 'string'}
+Response Description: Invalid date input
+Response Code: 400
+Resource Utilisation: {'database_accessed': 'False', 'database_updated: 'False'}
+
+API Accessed Timestamp: Tuesday, 24 March 2020 00:16:45 AEDT
+Elapsed Time: 0.0008829999999999671
+Request Method: <[POST]>
+Request URL: http://127.0.0.1:5000/article?id=1810051939
+API Endpoint: /article
+Request Body: {'id': '1810051939', 'url': 'string', 'date_of_publication': '2020-01-01 00:00:00', 'headline': 'string', 'main_text': 'string', 'event_date': '2020-01-01 00:00:00', 'country': 'string', 'location': 'string', 'disease': 'string', 'syndrome': 'string', 'source': 'string', 'cases': 0, 'deaths': 0, 'controls': 'string'}
+Response Description: Url already exists
+Response Code: 403
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Tuesday, 24 March 2020 00:16:52 AEDT
+Elapsed Time: 0.0008269999999996891
+Request Method: <[POST]>
+Request URL: http://127.0.0.1:5000/article?id=1810051939
+API Endpoint: /article
+Request Body: {'id': '1810051939', 'url': 'string1', 'date_of_publication': '2020-01-01 00:00:00', 'headline': 'string', 'main_text': 'string', 'event_date': '2020-01-01 00:00:00', 'country': 'string', 'location': 'string', 'disease': 'string', 'syndrome': 'string', 'source': 'string', 'cases': 0, 'deaths': 0, 'controls': 'string'}
+Response Description: Url already exists
+Response Code: 403
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'False'}
+
+API Accessed Timestamp: Tuesday, 24 March 2020 00:17:06 AEDT
+Elapsed Time: 0.0040879999999998695
+Request Method: <[POST]>
+Request URL: http://127.0.0.1:5000/article?id=1810051939
+API Endpoint: /article
+Request Body: {'id': '1810051939', 'url': 'string123', 'date_of_publication': '2020-01-01 00:00:00', 'headline': 'string', 'main_text': 'string', 'event_date': '2020-01-01 00:00:00', 'country': 'string', 'location': 'string', 'disease': 'string', 'syndrome': 'string', 'source': 'string', 'cases': 0, 'deaths': 0, 'controls': 'string'}
+Response Description: Article successfully added
+Response Code: 200
+Resource Utilisation: {'database_accessed': 'True', 'database_updated: 'True'}
+
