@@ -58,7 +58,7 @@ function resetHighlight(e) {
 function getTopDiseases(country) {
     var topDiseases = {}
     for (var i = 0; i < mapResult.length; i++) {
-        if (mapResult[i].country === country) {
+        if (country.indexOf(mapResult[i].country) != -1) {
             var name = mapResult[i].name
             if (topDiseases[name]) {
                 topDiseases[name]++;
@@ -116,7 +116,11 @@ class MapContainer extends Component<{}, State> {
             mouseover: highlightFeature,
             mouseout: resetHighlight,
         });
-        layer.bindPopup('<h3 class="monthly-title"><a href="/" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
+        if (getTopDiseases(feature.properties.name).length > 0) {
+            layer.bindPopup('<h3 class="monthly-title"><a href="/" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
+        } else {
+            layer.bindPopup('<h3 class="monthly-title"><a href="/" class="country-map-link">'+feature.properties.name+'</a></h3>'+ '<p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+        }
     }
 
   render() {
