@@ -1,0 +1,55 @@
+.result-div {
+  float: left;
+  margin: 30px;
+}
+.result {
+  padding: 70px 0;
+  margin: 60px;
+  width: 300px;
+  height: 200px;
+  float: left;
+  text-align: center;
+  border: none;
+  background-image: url("../img/titlecard.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-shadow: 2px 2px #000000;
+  border-radius: 25px;
+  font-size: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.logo-img {
+  animation: bounce 0.8s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+.header-div {
+  margin: auto;
+  display: inline-flex;
+  width: 100%;
+}
+
+.header-name {
+  padding: 20px;
+  font-size: 50px;
+  text-align: center;
+  /* margin: auto; */
+}
+.result-content {
+  padding: 20px;
+  margin: auto;
+  color: aliceblue;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 35px;
+}
+
+.result-img {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+.logo-img {
+  margin-left: 30%;
+}

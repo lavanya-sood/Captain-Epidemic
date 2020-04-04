@@ -1,6 +1,5 @@
-
 img.bg {
-    /* Set rules to fill background */
+  /* Set rules to fill background */
   min-height: 100%;
   min-width: 1024px;
 
@@ -15,123 +14,146 @@ img.bg {
   z-index: 1;
 }
 .pure-form {
-    position: relative;
-    z-index: 1;
-    border: none;
-    background: #FFFFFF;
-    width: 450px;
-    height: 400px;
-    border-radius: 10%;
-    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.7), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
-    margin-top: -10%;
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: #ffffff;
+  width: 450px;
+  height: 400px;
+  border-radius: 10%;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.7),
+    0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  margin-top: -10%;
 }
 input {
-    width: 300px;
-    border-radius: 15px !important;
+  width: 300px;
+  border-radius: 15px !important;
 }
 .pure-form {
-    text-align: center;
+  text-align: center;
 }
 .login-fieldset {
-    position: relative;
-    top: 30px;
+  position: relative;
+  top: 30px;
 }
 .signup-fieldset {
-    position: relative;
-    top: 17px;
+  position: relative;
+  top: 17px;
 }
 .login-button {
-    position: relative;
-    top: 10px;
-    border-radius: 10px;
-    background-color: #02c8a7;
-    width: 100px;
-    left: -45px;
+  position: relative;
+  top: 10px;
+  border-radius: 10px;
+  background-color: #02c8a7;
+  width: 100px;
+  left: -45px;
 }
-.login-nav{
-    padding: 15px;
+.login-nav {
+  padding: 15px;
 }
 
 .signup-nav {
-    padding: 23px;
+  padding: 23px;
 }
 .welcome {
-    position: relative;
-    top: -10px;
+  position: relative;
+  top: -10px;
 }
 .logo-signup {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 15px;
-    top: 0px;
-    z-index: 3;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 15px;
+  top: 0px;
+  z-index: 3;
 }
 
 .logo-login {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 15px;
-    top: -13px;
-    z-index: 3;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 15px;
+  top: -13px;
+  z-index: 3;
 }
 .login-logo {
-    width: 100px;
-    height: 100px;
-    animation: bounce 1.5s;
-    animation-iteration-count: infinite;
-    margin-left: 10px;
+  width: 100px;
+  height: 100px;
+  animation: bounce 1.5s;
+  animation-iteration-count: infinite;
+  margin-left: 10px;
 }
 .signup-logo {
-    width: 113px;
-    height: 113px;
-    animation: bounce 1.5s;
-    animation-iteration-count: infinite;
-    padding: 15px;
+  width: 113px;
+  height: 113px;
+  animation: bounce 1.5s;
+  animation-iteration-count: infinite;
+  padding: 15px;
 }
 @keyframes bounce {
-    0% { transform: translate(0px, 2px) }
-    10% { transform: translate(0px, 4px) }
-    20% { transform: translate(0px, 6px) }
-    30% { transform: translate(0px, 8px) }
-    40% { transform: translate(0px, 10px) }
-    50% { transform: translate(0px, 12px) }
-    60% { transform: translate(0px, 10px) }
-    70% { transform: translate(0px, 8px) }
-    80% { transform: translate(0px, 6px) }
-    90% { transform: translate(0px, 4px) }
-    100% { transform: translate(0px, 2px) }
+  0% {
+    transform: translate(0px, 2px);
+  }
+  10% {
+    transform: translate(0px, 4px);
+  }
+  20% {
+    transform: translate(0px, 6px);
+  }
+  30% {
+    transform: translate(0px, 8px);
+  }
+  40% {
+    transform: translate(0px, 10px);
+  }
+  50% {
+    transform: translate(0px, 12px);
+  }
+  60% {
+    transform: translate(0px, 10px);
+  }
+  70% {
+    transform: translate(0px, 8px);
+  }
+  80% {
+    transform: translate(0px, 6px);
+  }
+  90% {
+    transform: translate(0px, 4px);
+  }
+  100% {
+    transform: translate(0px, 2px);
+  }
 }
 .login-signup-title {
-    color: #02c8a7 !important;
-	font-weight: 600;
-    text-transform: uppercase;
-    font-family: helvetica;
+  color: #02c8a7 !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: helvetica;
 }
 .font {
-    color: white !important;
-    font-weight: 600;
-    font-size: 15px;
-    text-transform: uppercase;
+  color: white !important;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
 }
 .nav-link {
-    color: #02c8a7;
+  color: #02c8a7;
 }
 .nav-link:hover {
-    color: #37836f;
+  color: #37836f;
 }
 .sign-up-link {
-    margin-left: -140px;
+  margin-left: -140px;
 }
 .login-link {
-    margin-left: -150px;
+  margin-left: -150px;
 }
 
 .login-form {
-    padding-top: 20%;
+  padding-top: 20%;
 }
 
 .signup-form {
-    padding-top: 20%;
+  padding-top: 20%;
 }
