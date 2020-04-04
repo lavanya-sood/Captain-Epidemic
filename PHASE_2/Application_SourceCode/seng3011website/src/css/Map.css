@@ -14,3 +14,58 @@
 .animals {
     cursor: grab;
 }
+
+.monthly-title {
+    color: #F53240;
+}
+
+a.country-map-link {
+    color: #F53240;
+    text-decoration: none;
+}
+a.country-map-link:hover {
+    color: #b93738;
+}
+
+.country-ranking {
+    font-size: 25px;
+    color: #02c8a7;
+}
+
+.leaflet-popup-content-wrapper {
+    text-align: center;
+}
+
+.disease-map {
+    font-family: 'Stella';
+    color: #F9BE02;
+}
+a.disease-map-link {
+    color: #02c8a7;
+    text-decoration: none;
+}
+a.disease-map-link:hover {
+    color: #37836f;
+}
+
+a.disease-title-map {
+    color: #F9BE02;
+    text-decoration: none;
+}
+a.disease-title-map:hover {
+    color: #c59c35;
+}
+p.date-map {
+    font-size: 20px;
+    color: #F9BE02;
+    position: relative;
+    margin-top: 0;
+    top: -10px;
+}
+
+.report-title {
+    font-size: 20px;
+    color: #00b1b9;
+    position: relative;
+    top: -10px;
+}

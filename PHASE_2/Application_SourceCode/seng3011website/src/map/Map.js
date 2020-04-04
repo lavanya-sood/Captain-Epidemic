@@ -76,11 +76,18 @@ function getTopDiseases(country) {
     items = items.slice(0, 5)
     var result = ''
     for (i = 0; i < items.length; i++) {
-        var index = i + 1
-        result += '<p>'+ index + '. ' + items[i][0] + '</p>'
+        result +=  '<a href="/" class="disease-map-link">' + items[i][0] + '</a><br>'
     }
     return result
 
+}
+
+function getCurrentMonth() {
+    const months = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+    var month = new Date().getMonth()
+    return months[month];
 }
 
 class MapContainer extends Component<{}, State> {
@@ -109,7 +116,7 @@ class MapContainer extends Component<{}, State> {
             mouseover: highlightFeature,
             mouseout: resetHighlight,
         });
-        layer.bindPopup('<h6>'+feature.properties.name + ' - Monthly Disease Ranking</h6><p>Make country and diseases clickable to page</p>' + getTopDiseases(feature.properties.name) + '</p>') 
+        layer.bindPopup('<h3 class="monthly-title"><a href="/" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
     }
 
   render() {
@@ -126,8 +133,9 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ virusIcon } key={ key }>
                     <Popup>
-                        <p>{date} {name}</p>
-                        <h5>{text}</h5>
+                        <h3 className="disease-map"><a href="/" className="disease-title-map">{name}</a></h3>
+                        <p className="date-map">{date}</p>
+                        <p className="report-title">{text}</p>
                     </Popup>
                 </Marker>
             )
@@ -135,8 +143,8 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ bacteriaIcon } key={ key }>
                     <Popup>
-                        <p>{date} {name}</p>
-                        <h5>{text}</h5>
+                        <h3 className="disease-date">{date} {name}</h3>
+                        <p className="report-title">{text}</p>
                     </Popup>
                 </Marker>
             )
@@ -144,8 +152,8 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ fungusIcon } key={ key }>
                     <Popup>
-                        <p>{date} {name}</p>
-                        <h5>{text}</h5>
+                        <h3 className="disease-date">{date} {name}</h3>
+                        <p className="report-title">{text}</p>
                     </Popup>
                 </Marker>
             )
@@ -153,17 +161,16 @@ class MapContainer extends Component<{}, State> {
             return (
                 <Marker position={[lat, lng]} icon={ parasiteIcon } key={ key }>
                     <Popup>
-                        <p>{date} {name}</p>
-                        <h5>{text}</h5>
+                        <h3 className="disease-date">{date} {name}</h3>
+                        <p className="report-title">{text}</p>
                     </Popup>
                 </Marker>
             )
         return (
             <Marker position={[lat, lng]} icon={ germIcon } key={ key }>
                 <Popup>
-                    <p>{text}</p>
-                    <p>Date: {date}</p>
-                    <p>Disease: {name}</p>
+                    <h3 className="disease-date">{date} {name}</h3>
+                    <p className="report-title">{text}</p>
                 </Popup>
             </Marker>
         )
