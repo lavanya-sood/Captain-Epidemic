@@ -20,7 +20,7 @@ class Landing extends Component {
          
         </div>
         <div id="about">
-          <h3> HELLO YOUNG HERO!</h3>
+          <h3> HELLO YOUNG HEROES,</h3>
           <p> Join me in my quest to defeat the evil diseases that are talking over the world.</p>
           <p> BUT HOW CAN YOU HELP ME DEFEAT THEM?</p>
           <p> Through your knowledge Of course! </p>
