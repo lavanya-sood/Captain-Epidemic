@@ -213,36 +213,3 @@ ul.header li a {
   padding: 20px 20px 20px 20px;
   border: none;
 }
-
-/* LANDING */
-
-#main {
-  width: 100%;
-  background-image: url("./img/Landing\ Background.jpg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  color: #ffffff;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  padding-top: 30%;
-}
-
-.startedbutton {
-  position: relative;
-  margin-top: -30%;
-  margin-left: 36%;
-  width: 30%;
-  font-family: "My Kids Handwritten Basic";
-  font-size: 30px;
-  background-color: #b93738;
-  border: none;
-  padding: 10px 20px 10px 20px;
-}
-
-.startedbutton:hover {
-  box-shadow: 2px 5px #9b2727c2;
-  background-color: #b93738;
-}

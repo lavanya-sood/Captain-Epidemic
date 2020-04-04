@@ -1,0 +1,120 @@
+/* LANDING */
+
+#main {
+	width: 100%;
+  background-image: url('../img/Landing\ Background.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+	color: #ffffff;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+  flex-direction: column;
+  padding-top: 30%;
+}
+
+.startedbutton {
+  margin-top: -60%;
+  width: 30%;
+  font-family: 'My Kids Handwritten Basic';
+  font-size: 30px;
+  background-color: #b93738;
+  border: none;
+  padding: 10px 20px 10px 20px;
+}
+
+.startedbutton:hover {
+  box-shadow: 2px 5px #9b2727c2;
+    background-color: #b93738;
+}
+
+
+.notif-btn {
+  margin-top: -45%;
+  margin-left: 48%;
+  width: 6em;
+  height: 6em;
+  padding: 1em;
+  background: #C30F42;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  
+  -webkit-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
+  
+  -webkit-animation: pulse 1.6s infinite;
+  animation: pulse 1.6s infinite;
+}
+
+.notif-btn:hover,
+.notif-btn:active {
+  background: rgba(215, 17, 73, 1);
+  
+  -webkit-animation: none;
+  animation: none;
+}
+
+.notif-btn svg {
+  fill: #fff;
+}
+
+
+/* Animations */
+
+@-webkit-keyframes pulse {
+  
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(215, 17, 73, .85);
+    box-shadow: 0 0 0 0 rgba(215, 17, 73, .85);
+  }
+  
+  70% {
+    -webkit-box-shadow: 0 0 0 2em rgba(215, 17, 73, 0);
+    box-shadow: 0 0 0 2em rgba(215, 17, 73, 0);
+  }
+  
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(215, 17, 73, 0);
+    box-shadow: 0 0 0 0 rgba(215, 17, 73, 0);
+  }
+  
+}
+
+@keyframes pulse {
+  
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(215, 17, 73, .85);
+    box-shadow: 0 0 0 0 rgba(215, 17, 73, .85);
+  }
+  
+  70% {
+    -webkit-box-shadow: 0 0 0 2em rgba(215, 17, 73, 0);
+    box-shadow: 0 0 0 2em rgba(215, 17, 73, 0);
+  }
+  
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(215, 17, 73, 0);
+    box-shadow: 0 0 0 0 rgba(215, 17, 73, 0);
+  }
+  
+}
+
+#about {
+	background-color: #ffffff;
+	width: 100%;
+	text-align: center;
+	color: #b93738;
+	height: 80vh;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+  flex-direction: column;
+  font-family: 'My Kids Handwritten Basic';
+  font-size: 40px;
+}
