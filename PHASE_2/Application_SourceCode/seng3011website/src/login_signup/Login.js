@@ -28,7 +28,7 @@ export default class Login extends Component {
                                 </input>
                             </div>
                             <div className="pure-control-group">
-                                <NavLink className = "nav-link pure-button login-button font" to="/">Login</NavLink>
+                                <NavLink className = "nav-link pure-button login-button font" to="/home">Login</NavLink>
                             </div>
                             <div className="pure-control-group login-nav">
                                 <NavLink className="nav-link sign-up-link" to="/signup">Don't have an account? Sign up now!</NavLink>

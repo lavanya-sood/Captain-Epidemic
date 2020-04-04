@@ -27,7 +27,7 @@ export default class SignUp extends Component {
                                 <input id="password" type="password" placeholder="Password">
                                 </input>
                             </div>
-                            <NavLink className = " nav-link pure-button login-button font" to="/">Signup</NavLink>
+                            <NavLink className = " nav-link pure-button login-button font" to="/home">Signup</NavLink>
                             <div className="signup-nav">
                                 <NavLink className = "nav-link login-link" to="/login">Already have an account? Login now!</NavLink>
                             </div>
