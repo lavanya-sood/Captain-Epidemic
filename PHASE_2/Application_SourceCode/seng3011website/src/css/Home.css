@@ -54,8 +54,13 @@
 
   text-align: center;
   color: white;
-  padding-top: 12vh;
   text-shadow: 2px 2px #000000;
+  }
+
+  .discoverDisease {
+    margin-top: 25%;
+    font-size: 50px;
+    color: #ffffff;
   }
 
 
@@ -156,3 +161,4 @@
     color: rgb(117, 117, 117);
     font-size: 80px;
   }
+

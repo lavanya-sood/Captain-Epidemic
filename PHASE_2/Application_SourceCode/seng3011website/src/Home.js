@@ -19,7 +19,7 @@ class Home extends Component {
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
                     {/* <img src={title} className="project-image"/> */}
-                    <h2> CORONAVIRUS </h2>
+                    <h2 className="discoverDisease"> CORONAVIRUS </h2>
                 </div>
 
                   <div className="flip-card-back">
@@ -38,7 +38,7 @@ class Home extends Component {
                 <div className="flip-card">
                   <div className="flip-card-inner">
                     <div className="flip-card-front">
-                        <h2> EBOLA </h2>
+                        <h2 className="discoverDisease"> EBOLA </h2>
                     </div>
 
                     <div className="flip-card-back">
@@ -57,7 +57,7 @@ class Home extends Component {
               <div className="flip-card">
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
-                      <h2> YELLOW FEVER </h2>
+                      <h2 className="discoverDisease"> YELLOW FEVER </h2>
                   </div>
 
                   <div className="flip-card-back">
