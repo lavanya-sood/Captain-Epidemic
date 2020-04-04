@@ -13,6 +13,7 @@ import Info from "./Info";
 import SearchResult from "./category/SearchResult";
 import Country from "./category/Country";
 import Disease from "./category/Disease";
+import Location from "./Location";
 
 function App() {
   return (
@@ -29,7 +30,9 @@ function App() {
           <Route path = "/signup" component = {SignUp}/>
           <Route path="/searchResult" component={SearchResult} />
           <Route path="/country" component={Country} />
-          <Route path="/Disease" component={Disease} />
+          <Route path="/disease" component={Disease} />
+          <Route path="/location" component={Location} />
+
     </div>
     </Router>
   );

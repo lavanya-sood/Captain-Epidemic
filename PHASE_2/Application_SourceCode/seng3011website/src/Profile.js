@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Table from 'react-bootstrap/Table'
 import './css/Profile.css';
+import { Link } from "react-router-dom";
+
 import recruitImg from './img/recruit.png';
 import cadetImg from './img/cadet.png';
 import corporalImg from './img/corporal.png';
@@ -181,17 +183,17 @@ class Profile extends Component {
               </tr>
 
               <tr>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> COVID-19 </button></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> COVID-19 </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Smallpox </button></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Smallpox </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Ebola </button></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Ebola </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> SARS </button></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> SARS </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Cholera </button></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Cholera </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Dengue </button></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Dengue </button></Link></div>
                 </td>
               </tr>
 

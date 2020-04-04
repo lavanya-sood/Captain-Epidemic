@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Info.css';
+import { Link } from "react-router-dom";
+
 import mainLayout from './MainLayout';
 import virus from './img/virus.png';
 
@@ -23,7 +25,7 @@ import germany from './img/germany.png';
 import spain from './img/spain.png';
 
 
-class Disease extends Component {
+class Info extends Component {
 
   static get CONTAINER_STYLE() {
      return {
@@ -122,7 +124,7 @@ class Disease extends Component {
           <div className = "disease">
             <img src={virus} align = "left" className="virus-image" alt=""/>
             <h1 className = "virus-title" align = "center"> Coronavirus </h1>
-            <button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button>
+            <Link to="/Quiz" style={{ textDecoration: 'none' }}><button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button></Link>
           </div>
           {/*Symptoms*/}
           <div className = "symptoms">
@@ -166,10 +168,10 @@ class Disease extends Component {
         </div>
 
         {/**/}
-        <div className = "missions">
+        <div className = "missions1">
           <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Affected Countries</h1>
           {/*tables holding p*/}
-          <div className="mission-table">
+          <div className="mission1-table">
           <Table borderless size="sm">
             <thead>
               <tr>
@@ -177,32 +179,32 @@ class Disease extends Component {
             </thead>
             <tbody>
               <tr>
-                <td><div className = "circle"><img src={australia} className = "disease"/></div></td>
+                <td><div className = "circle1"><img src={australia} className = "disease1"/></div></td>
 
-                <td><div className = "circle"><img src={china} className = "disease"/></div></td>
+                <td><div className = "circle1"><img src={china} className = "disease1"/></div></td>
 
-                <td><div className = "circle"><img src={italy} className = "disease"/></div></td>
+                <td><div className = "circle1"><img src={italy} className = "disease1"/></div></td>
 
-                <td><div className = "circle"><img src={germany} className = "disease"/></div></td>
+                <td><div className = "circle1"><img src={germany} className = "disease1"/></div></td>
 
-                <td><div className = "circle"><img src={uk} className = "disease"/></div></td>
+                <td><div className = "circle1"><img src={uk} className = "disease1"/></div></td>
 
-                <td><div className = "circle"><img src={spain} className = "disease"/></div></td>
+                <td><div className = "circle1"><img src={spain} className = "disease1"/></div></td>
               </tr>
 
 
               <tr>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Australia </button></div>
+                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Australia </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> China </button></div>
+                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> China </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Italy </button></div>
+                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Italy </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Germany </button></div>
+                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Germany </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> UK </button></div>
+                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> UK </button></Link></div>
                 </td>
-                <td><div className = "back"><button className = "disease-button" type="button" value="Edit"> Spain </button></div>
+                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Spain </button></Link></div>
                 </td>
               </tr>
 
@@ -214,39 +216,39 @@ class Disease extends Component {
         {/**/}
         <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella", "margin" : "70px 0px 0px 0px"}}> Latest News Reports</h1>
 
-        <div style={Disease.CONTAINER_STYLE}>
+        <div style={Info.CONTAINER_STYLE}>
            <ReactCardCarousel autoplay={true} autoplay_speed={5000}>
-             <div style={Disease.CARD_STYLE2}>
+             <div style={Info.CARD_STYLE2}>
               <h1 className = "report-title"> Pandemic Update </h1>
               <p className = "report-date"> 11 March 2020 </p>
               <p className = "report-para">Speaking at the COVID-19 media briefing, the WHO Director-General said:
 "WHO has been assessing this outbreak around the clock and we are deeply concerned both by the alarming levels of spread and severity, and by the alarming levels of inaction.
 We have therefore made the assessment that COVID-19 can be characterized as a pandemic.</p>
-              <button className = "report-button1" type="button"> Read More </button>
+              <a href = "https://www.who.int/dg/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020" ><button className = "report-button1" type="button"> Read More </button></a>
              </div>
-             <div style={Disease.CARD_STYLE1}>
+             <div style={Info.CARD_STYLE1}>
              <h1 className = "report-title"> Korea Update</h1>
              <p className = "report-date"> 21 January 2020 </p>
              <p className = "report-para">On 20 January 2020, National IHR Focal Point (NFP) for Republic of Korea reported the first case of novel coronavirus in the Republic of Korea. The case is a 35-year-old female, Chinese national, residing in Wuhan, Hubei province in China.</p>
-              <button className = "report-button2" type="button"> Read More </button>
+              <a href = "https://www.who.int/csr/don/21-january-2020-novel-coronavirus-republic-of-korea-ex-china/en/" ><button className = "report-button2" type="button"> Read More </button></a>
              </div>
-             <div style={Disease.CARD_STYLE3}>
+             <div style={Info.CARD_STYLE3}>
              <h1 className = "report-title"> Japan Update</h1>
              <p className = "report-date"> 17 January 2020 </p>
              <p className = "report-para">On 15 January 2020, the Ministry of Health, Labour and Welfare, Japan (MHLW) reported an imported case of laboratory-confirmed 2019-novel coronavirus (2019-nCoV) from Wuhan, Hubei Province, China.</p>
-              <button className = "report-button3" type="button"> Read More </button>
+              <a href = "https://www.who.int/csr/don/17-january-2020-novel-coronavirus-japan-ex-china/en/" ><button className = "report-button3" type="button"> Read More </button></a>
              </div>
-             <div style={Disease.CARD_STYLE4}>
+             <div style={Info.CARD_STYLE4}>
              <h1 className = "report-title"> Japan Update</h1>
              <p className = "report-date"> 16 January 2020 </p>
              <p className = "report-para">The Japanese Ministry of Health, Labour and Welfare, today informed the World Health Organization (WHO) of a confirmed case of a novel coronavirus (2019-nCoV) in a person who travelled to Wuhan, China. This is the second confirmed case of 2019-nCoV that has been detected outside of China, following confirmation of a case in Thailand on 13 January.</p>
-             <button className = "report-button4" type="button"> Read More </button>
+             <a href = "https://www.who.int/csr/don/16-january-2020-novel-coronavirus-japan-ex-china/en/" ><button className = "report-button4" type="button"> Read More </button></a>
              </div>
-             <div style={Disease.CARD_STYLE5}>
+             <div style={Info.CARD_STYLE5}>
              <h1 className = "report-title"> Thailand Update</h1>
              <p className = "report-date"> 14 January 2020 </p>
              <p className = "report-para">On 13 January 2020, the Ministry of Public Health (MoPH), Thailand reported the first imported case of lab-confirmed novel coronavirus (2019-nCoV) from Wuhan, Hubei Province, China.</p>
-             <button className = "report-button5" type="button"> Read More </button>
+             <a href = "https://www.who.int/csr/don/14-january-2020-novel-coronavirus-thailand/en/" ><button className = "report-button5" type="button"> Read More </button></a>
              </div>
            </ReactCardCarousel>
          </div>
@@ -287,4 +289,4 @@ We have therefore made the assessment that COVID-19 can be characterized as a pa
 
 
 
-export default mainLayout(Disease);
+export default mainLayout(Info);

@@ -1,7 +1,7 @@
 .passport {
 	background-color: transparent;
 	width: 450px;
-	height: 630px;
+	height: 650px;
 	border: 10px solid #02C8A7;
 	box-shadow: 10px 10px #37836f; /*shadow size and colour*/
 	perspective: 1000px; /* Remove this if you don't want the 3D effect */
@@ -34,10 +34,10 @@
       display: flex;
       align-items: center;
       text-align: center;
-      font-family: "Helvetica Neue";
+      font-family: "handwriting";
       color: #02C8A7;
       padding-top: 5px;
-      font-size: 25px;
+      font-size: 40px;
   }
   .separator::before, .separator::after {
       content: '';
@@ -170,6 +170,7 @@
   border-radius: 25px;
   border: 5px solid white;
   line-height:30px;
+  color: #1e4b57;
 }
 
 .disease-button:hover {
@@ -206,7 +207,12 @@ animation-iteration-count: infinite;
 animation-delay: 1s;
 }
 
-
+a {
+  color: ;
+}
+a:hover {
+   color: #00F
+}
 
 
 .rocket {

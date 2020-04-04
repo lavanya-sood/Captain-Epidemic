@@ -323,18 +323,18 @@ animation-iteration-count: infinite;
 }
 
 
-  .missions {
+  .missions1 {
     background-color: #5fa29e;
     padding-bottom: 80px;
     padding-top:10px;
   }
 
-  .mission-table {
+  .mission1-table {
     margin-left: 50px;
     margin-right: 50px;
   }
 
-  .circle {
+  .circle1 {
     border-radius: 50%;
     border: 10px solid #FFFFFF;
     background-color: #1e4b57;
@@ -346,13 +346,13 @@ animation-iteration-count: infinite;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
-.disease {
+.disease1 {
   height: 80px;
   width: 80px;
   text-align: center;
 }
 
-.disease-button {
+.disease1-button {
   margin-top:20px;
   font-family: "handwriting";
   font-size: 40px;
@@ -361,9 +361,10 @@ animation-iteration-count: infinite;
   border-radius: 25px;
   border: 5px solid white;
   line-height:30px;
+  color: #1e4b57;
 }
 
-.disease-button:hover {
+.disease1-button:hover {
   box-shadow: 2px 5px #37836f;
   background-color:  #F9BE02;
 }
@@ -465,6 +466,7 @@ animation-iteration-count: infinite;
   border-radius: 25px;
   border: 5px solid white;
   line-height:30px;
+  color: white;
 }
 
 .report-button1:hover {

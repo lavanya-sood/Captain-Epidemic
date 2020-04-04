@@ -20,17 +20,17 @@ class Disease extends Component {
           />
           <h1 className="header-name">Diseases</h1>
         </div>
-        <Link to="profile" className="result-link">
+        <Link to="info" className="result-link">
           <div className="result">
             <h3 className="result-content">CORONAVIRUS</h3>
           </div>
         </Link>
-        <Link to="profile" className="result-link">
+        <Link to="info" className="result-link">
           <div className="result">
             <h3 className="result-content">EBOLA</h3>
           </div>
         </Link>
-        <Link to="profile" className="result-link">
+        <Link to="info" className="result-link">
           <div
             className="result"
             // background-image="url('../img/titlecard.jpg')"
