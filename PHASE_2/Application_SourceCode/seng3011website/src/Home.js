@@ -92,14 +92,10 @@ class Home extends Component {
           </Container>
         </div>
         <div id="map-location">
-          <Link to="/map">
-            <Button className="button-map">
-              {" "}
-              <p id="mapheading">
-                Learn about the disease around the world{" "}
-              </p>{" "}
-            </Button>
-          </Link>
+        <Link to='/map'>
+          <Button className="button-map"> <p id="mapheading">Learn about the disease around the world </p> </Button>
+        </Link>
+
         </div>
 
         <div id="categories">
@@ -107,19 +103,13 @@ class Home extends Component {
           <Container id="trending-topics">
             <Row>
               <Col>
-                <Link to="/disease">
-                  <Button className="button-category">
-                    {" "}
-                    <h2>DISEASES</h2>{" "}
-                  </Button>
+                <Link to='/disease'>
+                  <Button className="button-category"> <h2>DISEASES</h2> </Button>
                 </Link>
               </Col>
               <Col>
-                <Link to="/country">
-                  <Button className="button-category">
-                    {" "}
-                    <h2>LOCATIONS</h2>{" "}
-                  </Button>
+                <Link to='/country'>
+                  <Button className="button-category"> <h2>LOCATIONS</h2> </Button>
                 </Link>
               </Col>
             </Row>

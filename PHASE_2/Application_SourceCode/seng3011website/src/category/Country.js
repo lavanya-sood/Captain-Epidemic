@@ -20,7 +20,7 @@ class Country extends Component {
             width="110"
             height="100"
           />
-          <h3 className="header-name">Locations</h3>
+          <h2 className="header-name">Locations</h2>
         </div>
         <Link to="profile" className="result-link">
           <div className="result">

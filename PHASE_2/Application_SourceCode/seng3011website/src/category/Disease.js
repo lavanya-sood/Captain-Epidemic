@@ -18,7 +18,7 @@ class Disease extends Component {
             width="110"
             height="100"
           />
-          <h3 className="header-name">Diseases</h3>
+          <h1 className="header-name">Diseases</h1>
         </div>
         <Link to="profile" className="result-link">
           <div className="result">
