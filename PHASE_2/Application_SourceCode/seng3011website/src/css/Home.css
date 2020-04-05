@@ -93,7 +93,7 @@
   }
 
   #map-location {
-    background-color: #b93738;
+    background-color: #F53240;
     padding-top: 10vh;
     padding-bottom: 10vh;
     color: white;
@@ -120,7 +120,7 @@
   }
 
   .button-map:hover {
-    box-shadow: 5px 10px #9b2727c2;
+    box-shadow: 5px 10px #b93738;
     background-color: #ffffff;
     color: rgb(117, 117, 117);
   }

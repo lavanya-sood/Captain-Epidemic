@@ -96,7 +96,7 @@ class Home extends Component {
         </div>
         <div id="map-location">
         <Link to='/map'>
-          <Button className="button-map"> <p id="mapheading">Learn about the disease around the world </p> </Button>
+          <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button>
         </Link>
 
         </div>

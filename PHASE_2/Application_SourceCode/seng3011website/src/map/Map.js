@@ -119,7 +119,7 @@ class MapContainer extends Component<{}, State> {
         if (getTopDiseases(feature.properties.name).length > 0) {
             layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
         } else {
-            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3>'+ '<p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
         }
     }
 

@@ -32,7 +32,7 @@ class NavigationBar extends Component {
                     </span>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
+                <Dropdown.Menu className="dropdown-menu-nav">
                   <Dropdown.Item href="/profile">Profile</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item href="/login">Logout</Dropdown.Item>

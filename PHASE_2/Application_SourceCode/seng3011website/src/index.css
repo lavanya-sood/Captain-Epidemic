@@ -212,4 +212,9 @@ ul.header li a {
   width: 100px;
   padding: 20px 20px 20px 20px;
   border: none;
+  font-size: 30px;
+}
+
+.dropdown-menu-nav {
+  font-size: 20px;
 }
