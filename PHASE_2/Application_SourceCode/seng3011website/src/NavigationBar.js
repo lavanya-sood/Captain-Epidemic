@@ -3,7 +3,6 @@ import logo from './img/Logo.png';
 import userimg from './img/user.png';
 import search from './img/search.png';
 import {Navbar,Nav,Form,FormControl,Button,Dropdown} from 'react-bootstrap';
-import { Link } from "react-router-dom";
 
 class NavigationBar extends Component {
     onClick(){
