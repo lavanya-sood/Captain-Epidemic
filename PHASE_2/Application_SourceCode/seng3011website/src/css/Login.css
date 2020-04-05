@@ -53,6 +53,11 @@ input {
   width: 100px;
   left: -50px;
 }
+.login-button:hover{
+  color:white;
+  box-shadow: 3px 5px  #1e4b57;
+  background-color:  #02c8a7;
+}
 .login-nav {
   padding: 15px;
 }
