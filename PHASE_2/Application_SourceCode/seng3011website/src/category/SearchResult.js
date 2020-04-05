@@ -19,7 +19,7 @@ class SearchResult extends Component {
           />
           <h2 className="header-name">Search Result</h2>
         </div>
-        <Link to="profile" className="result-link">
+        <Link to="/info" className="result-link">
           <div className="result">
             <h3 className="result-content">CORONAVIRUS</h3>
           </div>
