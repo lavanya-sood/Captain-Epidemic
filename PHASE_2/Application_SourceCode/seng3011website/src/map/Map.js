@@ -5,6 +5,7 @@ import '../css/Map.css';
 import { geolocated } from "react-geolocated";
 import L from 'leaflet';
 import countries from './Countries.js'
+import mapicon from '../img/map.png'
 import { mapResult }from './Maphelper.js'
 import { virusIcon, germIcon, bacteriaIcon, parasiteIcon, fungusIcon } from './Icons.js'
 import {
@@ -117,7 +118,7 @@ class MapContainer extends Component<{}, State> {
             mouseout: resetHighlight,
         });
         if (getTopDiseases(feature.properties.name).length > 0) {
-            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a> - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
+            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
         } else {
             layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
         }
@@ -183,8 +184,9 @@ class MapContainer extends Component<{}, State> {
             </Marker>
         )
     })
-    
     return (
+        <div>
+        <Header />
         <Map center={position} zoom={this.state.zoom} minZoom={this.state.min} maxZoom={this.state.max} worldCopyJump='true' maxBounds={bounds}>
             <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -233,7 +235,8 @@ class MapContainer extends Component<{}, State> {
             <Marker position={[75,165]} icon={starfishIcon}></Marker>
             <Marker position={[-41,-121]} icon={starfishIcon}></Marker>
         </Map>
-    )
+        </div>
+    );
   }
 }
 export default mainLayout(geolocated({
@@ -242,3 +245,14 @@ export default mainLayout(geolocated({
     },
     userDecisionTimeout: 5000,
 })(MapContainer));
+
+class Header extends Component {
+    render() {
+        return (
+            <div> 
+                <img className = "map-icon" src={mapicon} alt=""></img>
+                <h2 className="headingpage map-title">Global Disease Map</h2>
+            </div>
+        );
+    }
+}
