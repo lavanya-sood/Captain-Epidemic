@@ -124,6 +124,7 @@
 /* NEW */
 #landingnav {
   text-align: right;
+  box-shadow: 1px 5px #00000033;
 }
 .LoginLanding {
   position: absolute;
