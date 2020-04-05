@@ -341,7 +341,7 @@ animation-iteration-count: infinite;
     width: 100px;
     height: 100px;
     align-items: center;
-    margin-left: 50px;
+    margin-left: 70px;
     box-shadow: 10px 10px  #1e4b57; /*shadow size and colour*/
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
