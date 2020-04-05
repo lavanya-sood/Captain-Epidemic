@@ -22,10 +22,10 @@ class Landing extends Component {
         </div>
         <div id="about">
           <h3> HELLO YOUNG HEROES,</h3>
-          <p> Join me in my quest to defeat the evil diseases that are talking over the world.</p>
+          <p> Join me in my quest to defeat the evil diseases that are taking over the world.</p>
           <p> BUT HOW CAN YOU HELP ME DEFEAT THEM?</p>
-          <p> Through your knowledge Of course! </p>
-          <p> Learn about all the different diseases by playing the quizzes and the badges. Each badge helps defeat the disease so COLLECT THEM ALL!</p>
+          <p> Through your knowledge of course! </p>
+          <p> Learn about all the different diseases by playing the quizzes and receiving badges. Each badge helps defeat the disease so COLLECT THEM ALL!</p>
           <h3> SIGNED, CAPTAIN EPIDEMIC </h3>
         </div>
         <Footer/>
