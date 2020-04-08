@@ -28,7 +28,7 @@ class Home extends Component {
                     </Button>
                       </Link>
                       <br />
-                      <Link to="/Quiz">
+                      <Link to="/Hangman">
                         <Button className="button-primary-flip">
                           {" "}
                           Play Quiz{" "}

@@ -14,6 +14,7 @@ import SearchResult from "./category/SearchResult";
 import Country from "./category/Country";
 import Disease from "./category/Disease";
 import Location from "./Location";
+import Hangman from "./Games/Hangman"
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/country" component={Country} />
           <Route path="/disease" component={Disease} />
           <Route path="/location" component={Location} />
+          <Route path="/hangman" component={Hangman} />
 
     </div>
     </Router>
