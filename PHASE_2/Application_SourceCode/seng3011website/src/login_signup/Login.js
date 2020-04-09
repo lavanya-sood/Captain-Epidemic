@@ -4,7 +4,12 @@ import '../css/Login.css';
 import { NavLink, Redirect } from "../../node_modules/react-router-dom";
 import login_logo from '../img/login-logo.png';
 import background from '../img/login-background.png';
-import logo from '../img/Logo.png'
+import logo from '../img/Logo.png';
+import getUsers from './Userdb.js';
+
+function Users(rows) {
+    console.log(rows)
+}
 
 export default class Login extends Component {
     clearErrors(div) {
@@ -26,8 +31,12 @@ export default class Login extends Component {
             this.clearValue(username)
             this.clearValue(password)
             div.appendChild(empty)
+        } else {
+            getUsers(Users)
         }
     }
+
+    
 
     render() {
         return (
