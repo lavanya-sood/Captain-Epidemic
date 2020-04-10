@@ -136,7 +136,7 @@ class MapContainer extends Component<{}, State> {
 
   render() {
     if (this.state.api === '') {
-        return <h3>Loading...</h3>
+        return <h3 className="headingpage">Loading...</h3>
     }
     if (this.props.coords) {
         this.setState({

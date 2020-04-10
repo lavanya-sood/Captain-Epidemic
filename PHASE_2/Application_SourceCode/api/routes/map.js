@@ -157,17 +157,31 @@ var curr_date = new Date().getDate();
 var curr_month = new Date().getMonth() + 1; 
 var curr_year = new Date().getFullYear(); 
 var date = curr_year+'-'+curr_month+'-'+curr_date
-const sql = `SELECT * FROM calmclams WHERE accessed = ?`
+var sql = `SELECT * FROM calmclams WHERE accessed = ?`
 db.get(sql, [date], (err, rows) => {
     if (err) {
         throw err;
     }
-    var result = getMapInfo(JSON.parse(rows.response))
-    var mapResult = getMapResult(result)
-    router.get('/', function(req, res, next) {
-        res.json(mapResult);
-    });
+    if (rows) {
+        var result = getMapInfo(JSON.parse(rows.response))
+        var mapResult = getMapResult(result)
+        router.get('/', function(req, res, next) {
+            res.json(mapResult);
+        });
+    // just in case error occurs with calmclams api
+    } else {
+        sql = `SELECT * FROM calmclams ORDER BY accessed DESC LIMIT 1;`
+        db.get(sql, [], (err,rows) => {
+            if (err) {
+                throw err;
+            }
+            var result = getMapInfo(JSON.parse(rows.response))
+            var mapResult = getMapResult(result)
+            router.get('/', function(req, res, next) {
+                res.json(mapResult);
+            });
+        })
+    }
 });
-
 
 module.exports = router;
