@@ -7,12 +7,24 @@ import background from '../img/login-background.png';
 import logo from '../img/Logo.png';
 
 export default class Login extends Component {
+    state = { users : "" }
+    
+   callAPI() {
+        fetch("http://localhost:9000/testAPI")
+            .then(res => res.json())
+            .then(res => this.setState({ users: res}));
+    }
+    componentWillMount() {
+        this.callAPI();
+    }
+    
     clearErrors(div) {
         div.innerHTML = '';
     }
     clearValue(input) {
         input.value = '';
     }
+    
     handleSubmit(event) {
         const div = document.getElementById('error')
         this.clearErrors(div)
@@ -20,17 +32,30 @@ export default class Login extends Component {
         const password = document.getElementById('password');
         const empty = document.createElement('p')
         empty.classList.add('error-p')
-        empty.textContent = 'username and password can not be empty'
         if (username.value === '' || password.value === '') {
+            empty.textContent = 'username and password can not be empty'
             event.preventDefault();
             this.clearValue(username)
             this.clearValue(password)
             div.appendChild(empty)
         } else {
-            //do checking
+            for (var i = 0; i < this.state.users.length; i++) {
+                if (username.value === this.state.users[i].username) {
+                    if (password.value === this.state.users[i].password) {
+                        localStorage.setItem('username', username.value)
+                        localStorage.setItem('dob', this.state.users[i].dob)
+                        localStorage.setItem('image', this.state.users[i].image)
+                        return;
+                    } 
+                }
+            } 
+            empty.textContent = 'incorrect username or password'
+            event.preventDefault();
+            this.clearValue(username)
+            this.clearValue(password)
+            div.appendChild(empty)
         }
     }
-    
 
     render() {
         return (

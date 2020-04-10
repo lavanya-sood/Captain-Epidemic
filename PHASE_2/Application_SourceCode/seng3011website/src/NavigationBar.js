@@ -27,7 +27,7 @@ class NavigationBar extends Component {
                 <Dropdown.Toggle variant="success" id="dropdown-custom">
                     <span>
                       <img className="nav-image" src={userimg} alt="user pic"/>
-                      Username
+                      {localStorage.getItem('username')}
                     </span>
                 </Dropdown.Toggle>
 
