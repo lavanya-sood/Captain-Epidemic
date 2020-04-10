@@ -24,6 +24,16 @@ export default class Login extends Component {
     clearValue(input) {
         input.value = '';
     }
+    authenticate(username, password) {
+        for (var i = 0; i < this.state.users.length; i++) {
+            if (username.value === this.state.users[i].username) {
+                if (password.value === this.state.users[i].password) {
+                    return i;
+                } 
+            }
+        } 
+        return false
+    }
     
     handleSubmit(event) {
         const div = document.getElementById('error')
@@ -39,21 +49,19 @@ export default class Login extends Component {
             this.clearValue(password)
             div.appendChild(empty)
         } else {
-            for (var i = 0; i < this.state.users.length; i++) {
-                if (username.value === this.state.users[i].username) {
-                    if (password.value === this.state.users[i].password) {
-                        localStorage.setItem('username', username.value)
-                        localStorage.setItem('dob', this.state.users[i].dob)
-                        localStorage.setItem('image', this.state.users[i].image)
-                        return;
-                    } 
-                }
-            } 
-            empty.textContent = 'incorrect username or password'
-            event.preventDefault();
-            this.clearValue(username)
-            this.clearValue(password)
-            div.appendChild(empty)
+            const res = this.authenticate(username, password)
+            if (res !== false) {
+                console.log(res)
+                localStorage.setItem('username', username.value)
+                localStorage.setItem('dob', this.state.users[res].dob)
+                localStorage.setItem('image', this.state.users[res].image)
+            } else {
+                empty.textContent = 'incorrect username or password'
+                event.preventDefault();
+                this.clearValue(username)
+                this.clearValue(password)
+                div.appendChild(empty)
+            }
         }
     }
 

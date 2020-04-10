@@ -26,7 +26,11 @@ function App() {
           <Route path="/info" component={Info}/>
           <Route path="/quiz" component={Quiz}/>
           <Route path = "/map" component = {MapContainer}/>
-          <Route path = "/login" component = {Login}/>
+          <Route path="/login" 
+       render={(props)=>{
+            if(localStorage.getItem('username')) return <Home/>;
+            else return <Login/>;
+        }} />
           <Route path = "/signup" component = {SignUp}/>
           <Route path="/searchResult" component={SearchResult} />
           <Route path="/country" component={Country} />
