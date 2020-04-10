@@ -10,7 +10,7 @@ export default class Login extends Component {
     state = { users : "" }
     
    callAPI() {
-        fetch("http://localhost:9000/testAPI")
+        fetch("http://localhost:9000/login")
             .then(res => res.json())
             .then(res => this.setState({ users: res}));
     }
