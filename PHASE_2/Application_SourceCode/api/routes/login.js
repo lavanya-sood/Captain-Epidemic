@@ -10,7 +10,6 @@ db.all(sql, [], (err, rows) => {
     if (err) {
         throw err;
     }
-    console.log(rows);
     router.get('/', function(req, res, next) {
         res.json(rows);
     });
