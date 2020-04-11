@@ -11,7 +11,8 @@ class MapContainer extends Component<{}, State> {
         zoom: 3,
         min: 2,
         max: 5,
-        drag: true
+        drag: true,
+        class: 'map-container'
     }
     render() {
     return (

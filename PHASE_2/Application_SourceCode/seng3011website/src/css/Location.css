@@ -89,12 +89,28 @@ animation-iteration-count: infinite;
   display:inline-block;
   float: right;
   margin-right: 110px;
+  overflow: hidden;
   }
 
 .map-country {
   height:100%;
   width:100%;
   border-radius: 15px;
+}
+
+.map-icon-location {
+  width: 75px;
+  height: 75px;
+  position: relative;
+  float: right;
+  left: 80px;
+  top: 100px;
+}
+
+.map-image {
+  top: 25%;
+  transform: translatey(-25%);
+  width: 100%;
 }
 
 .separator-loc {

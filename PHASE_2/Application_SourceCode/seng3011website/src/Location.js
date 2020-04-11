@@ -15,6 +15,7 @@ import virus3 from './img/virus3.png';
 
 import countries from './map/Countries.js'
 import LeafletMap from './map/Leaflet';
+import mapicon from './img/map.png';
 
 function getCountryCoordinates(country) {
   for (var i = 0; i < countries[0].features.length; i++) {
@@ -54,7 +55,8 @@ class Location extends Component {
     zoom: 4,
     min: 4,
     max: 4,
-    drag: false
+    drag: false,
+    class: 'map-image'
   }
   static get CONTAINER_STYLE() {
      return {
@@ -191,6 +193,7 @@ class Location extends Component {
       <div className = "passport1">
         <LeafletMap className='map-country' data={this.state}/>
       </div>
+      <a href='/map'><img className = "map-icon-location" src={mapicon} alt=""></img></a>
       </div>
 
       <div className = "missions2">

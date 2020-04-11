@@ -7,7 +7,7 @@
     width: 95%;
     background-color: #d5e8eb;
     border-radius: 5%;
-    z-index: 5;
+    z-index: 0;
 }
 .map-title {
     display: inline;

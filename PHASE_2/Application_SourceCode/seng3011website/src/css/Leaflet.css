@@ -7,6 +7,11 @@
     position: relative;
 }
 
+.loading {
+    color: #02c8a7 !important;
+    font-size: 50px !important;
+}
+
 a.country-map-link {
     color: #F53240;
     text-decoration: none;
