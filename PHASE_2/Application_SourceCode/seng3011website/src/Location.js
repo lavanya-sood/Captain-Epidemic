@@ -11,10 +11,51 @@ import virus1 from './img/virus1.png';
 import virus2 from './img/virus2.png';
 import virus3 from './img/virus3.png';
 
-import ausMap from './img/aus-map.png';
+//import ausMap from './img/aus-map.png';
+
+import countries from './map/Countries.js'
+import LeafletMap from './map/Leaflet';
+
+function getCountryCoordinates(country) {
+  for (var i = 0; i < countries[0].features.length; i++) {
+      if (countries[0].features[i].properties.name.indexOf(country) !== -1) {
+          if (countries[0].features[i].geometry.type === 'Polygon') {
+              return countries[0].features[i].geometry.coordinates
+          } else {
+              var area = require('area-polygon')
+              var max = 0
+              var max_j = 0
+              for (var j = 0; j < countries[0].features[i].geometry.coordinates.length; j++) {
+                  console.log(countries[0].features[i].geometry.coordinates[j])
+                  var a  = area(countries[0].features[i].geometry.coordinates[j][0])
+                  if (a > max) {
+                      max = a
+                      max_j = j
+                  }
+              }
+              return countries[0].features[i].geometry.coordinates[max_j]
+          }
+      }
+  }
+}
+
+function getCentre(country) {
+  var polylabel = require("polylabel")
+  var polygon = getCountryCoordinates(country)
+  console.log(polygon)
+  var p = polylabel(polygon, 0.001)
+  return p
+}
 
 class Location extends Component {
-
+  state = {
+    lat: getCentre('Australia')[1],
+    lng: getCentre('Australia')[0],
+    zoom: 4,
+    min: 4,
+    max: 4,
+    drag: false
+  }
   static get CONTAINER_STYLE() {
      return {
        position: "relative",
@@ -148,7 +189,7 @@ class Location extends Component {
       </div>
 
       <div className = "passport1">
-        <img src={ausMap} className = "map-country"/>
+        <LeafletMap className='map-country' data={this.state}/>
       </div>
       </div>
 

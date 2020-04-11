@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import mainLayout from '../MainLayout.js';
-import '../css/Map.css';
 import LeafletMap from './Leaflet.js';
 import mapicon from '../img/map.png';
+import '../css/Map.css';
 
 class MapContainer extends Component<{}, State> {
     state = {
         lat: -33.865143,
         lng: 151.209900,
+        zoom: 3,
+        min: 2,
+        max: 5,
+        drag: true
     }
     render() {
     return (

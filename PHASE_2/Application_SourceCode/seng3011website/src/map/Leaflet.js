@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, Marker, GeoJSON, Popup } from 'react-leaflet'
 import '../css/Map.css';
+import '../css/Leaflet.css';
 import L from 'leaflet';
 import countries from './Countries.js'
 import { virusIcon, germIcon, bacteriaIcon, parasiteIcon, fungusIcon } from './Icons.js'
@@ -88,9 +89,6 @@ function getCurrentMonth() {
 
 class LeafletMap extends Component {
     state = {
-        zoom: 3,
-        min: 2,
-        max: 5,
         api: '',
         loading: 'true'
     }
@@ -104,7 +102,11 @@ class LeafletMap extends Component {
         if (this.props.data) {
             this.setState({
                 lat: this.props.data.lat,
-                lng: this.props.data.lng
+                lng: this.props.data.lng,
+                zoom: this.props.data.zoom,
+                min: this.props.data.min,
+                max: this.props.data.max,
+                drag: this.props.data.drag
             });
         }
     }
@@ -193,8 +195,8 @@ class LeafletMap extends Component {
         )
     })
     return (
-        <div>
-        <Map center={position} zoom={this.state.zoom} minZoom={this.state.min} maxZoom={this.state.max} worldCopyJump='true' maxBounds={bounds}>
+        <div className='map-container'>
+        <Map center={position} zoom={this.state.zoom} minZoom={this.state.min} maxZoom={this.state.max} worldCopyJump='true' maxBounds={bounds} dragging={this.state.drag}>
             <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
