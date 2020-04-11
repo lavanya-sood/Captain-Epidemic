@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import mainLayout from '../MainLayout.js';
 import '../css/Map.css';
-import { geolocated } from "react-geolocated";
 import LeafletMap from './Leaflet.js';
 import mapicon from '../img/map.png';
 
 class MapContainer extends Component<{}, State> {
-  render() {
+    state = {
+        lat: -33.865143,
+        lng: 151.209900,
+    }
+    render() {
     return (
         <div>
         <Header />
-        <LeafletMap />
+        <LeafletMap data={this.state}/>
         </div>
     );
   }
@@ -27,9 +30,4 @@ class Header extends Component {
     }
 }
 
-export default mainLayout(geolocated({
-    positionOptions: {
-        enableHighAccuracyy: false,
-    },
-    userDecisionTimeout: 5000,
-})(MapContainer));
+export default mainLayout(MapContainer);

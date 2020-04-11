@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, Marker, GeoJSON, Popup } from 'react-leaflet'
 import '../css/Map.css';
-import { geolocated } from "react-geolocated";
 import L from 'leaflet';
 import countries from './Countries.js'
 import { virusIcon, germIcon, bacteriaIcon, parasiteIcon, fungusIcon } from './Icons.js'
@@ -89,8 +88,6 @@ function getCurrentMonth() {
 
 class LeafletMap extends Component {
     state = {
-        lat: -33.865143,
-        lng: 151.209900,
         zoom: 3,
         min: 2,
         max: 5,
@@ -104,6 +101,12 @@ class LeafletMap extends Component {
     }
     componentDidMount() {
         this.callAPI();
+        if (this.props.data) {
+            this.setState({
+                lat: this.props.data.lat,
+                lng: this.props.data.lng
+            });
+        }
     }
 
     getCountries(){
@@ -135,12 +138,6 @@ class LeafletMap extends Component {
     render() {
     if (this.state.api === '') {
         return <h3 className="headingpage">Loading...</h3>
-    }
-    if (this.props.coords) {
-        this.setState({
-            lat: this.props.coords.latitude,
-            lng: this.props.coords.longitude
-        });
     }
     const position = [this.state.lat, this.state.lng]
     const bounds = [[-Infinity, -180],[Infinity, 180]]
@@ -250,9 +247,4 @@ class LeafletMap extends Component {
     }
 }
 
-export default geolocated({
-    positionOptions: {
-        enableHighAccuracyy: false,
-    },
-    userDecisionTimeout: 5000,
-})(LeafletMap);
+export default LeafletMap;
