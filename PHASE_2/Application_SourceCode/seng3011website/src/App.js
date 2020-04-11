@@ -14,7 +14,14 @@ import SearchResult from "./category/SearchResult";
 import Country from "./category/Country";
 import Disease from "./category/Disease";
 import Location from "./Location";
+import axios from 'axios';
 import Hangman from "./Games/Hangman"
+// updates map db daily to get current data from calmclams
+var CronJob = require('cron').CronJob;
+var job = new CronJob('0 0 * * *', function() {
+  axios.post('http://localhost:9000/map')
+}, null, true, 'Australia/Sydney');
+job.start();
 
 function App() {
   return (
@@ -27,7 +34,11 @@ function App() {
           <Route path="/info" component={Info}/>
           <Route path="/quiz" component={Quiz}/>
           <Route path = "/map" component = {MapContainer}/>
-          <Route path = "/login" component = {Login}/>
+          <Route path="/login"
+       render={(props)=>{
+            if(localStorage.getItem('username')) return <Home/>;
+            else return <Login/>;
+        }} />
           <Route path = "/signup" component = {SignUp}/>
           <Route path="/searchResult" component={SearchResult} />
           <Route path="/country" component={Country} />
@@ -39,5 +50,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

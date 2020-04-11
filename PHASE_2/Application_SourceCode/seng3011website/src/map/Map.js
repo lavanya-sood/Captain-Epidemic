@@ -6,7 +6,6 @@ import { geolocated } from "react-geolocated";
 import L from 'leaflet';
 import countries from './Countries.js'
 import mapicon from '../img/map.png'
-import { mapResult }from './Maphelper.js'
 import { virusIcon, germIcon, bacteriaIcon, parasiteIcon, fungusIcon } from './Icons.js'
 import {
         ausBoat,
@@ -56,11 +55,11 @@ function resetHighlight(e) {
     }
 }
 
-function getTopDiseases(country) {
+function onEachFeatureHelper(api, country) {
     var topDiseases = {}
-    for (var i = 0; i < mapResult.length; i++) {
-        if (country.indexOf(mapResult[i].country) !== -1) {
-            var name = mapResult[i].name
+    for (var i = 0; i < api.length; i++) {
+        if (country.indexOf(api[i].country) !== -1) {
+            var name = api[i].name
             if (topDiseases[name]) {
                 topDiseases[name]++;
             } else {
@@ -80,7 +79,6 @@ function getTopDiseases(country) {
         result +=  '<a href="/info" class="disease-map-link">' + items[i][0] + '</a><br>'
     }
     return result
-
 }
 
 function getCurrentMonth() {
@@ -98,7 +96,16 @@ class MapContainer extends Component<{}, State> {
         zoom: 3,
         min: 2,
         max: 5,
-        markers: mapResult
+        api: '',
+        loading: 'true'
+    }
+    callAPI() {
+        fetch("http://localhost:9000/map")
+            .then(res => res.json())
+            .then(res => this.setState({ api: res, loading: 'false' }));
+    }
+    componentDidMount() {
+        this.callAPI();
     }
 
     getCountries(){
@@ -112,19 +119,25 @@ class MapContainer extends Component<{}, State> {
         }
     }
 
-    onEachFeature(feature, layer) {
-        layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-        });
-        if (getTopDiseases(feature.properties.name).length > 0) {
-            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + getTopDiseases(feature.properties.name) + '</p>') 
-        } else {
-            layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+    onEachFeatureApi(api) {
+        return function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+            });
+            const result = onEachFeatureHelper(api, feature.properties.name)
+            if (result.length > 0) {
+                layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
+            } else {
+                layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+            }
         }
     }
 
   render() {
+    if (this.state.api === '') {
+        return <h3 className="headingpage">Loading...</h3>
+    }
     if (this.props.coords) {
         this.setState({
             lat: this.props.coords.latitude,
@@ -133,7 +146,7 @@ class MapContainer extends Component<{}, State> {
     }
     const position = [this.state.lat, this.state.lng]
     const bounds = [[-Infinity, -180],[Infinity, 180]]
-    const markers = this.state.markers.map(({lat, lng, type, name, text, date, key}) => {
+    const markers = this.state.api.map(({lat, lng, type, name, text, date, key}) => {
         if (type === 'virusIcon') 
             return (
                 <Marker position={[lat, lng]} icon={ virusIcon } key={ key }>
@@ -193,7 +206,7 @@ class MapContainer extends Component<{}, State> {
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
             noWrap='true'
             />
-            <GeoJSON data={this.getCountries()} onEachFeature={this.onEachFeature} style={this.style}></GeoJSON>
+            <GeoJSON data={this.getCountries()} onEachFeature={this.onEachFeatureApi(this.state.api)} style={this.style}></GeoJSON>
             {markers}
             <Marker position={[30,170]} icon={ ausBoat }></Marker>
             <Marker position={[75,3]} icon={ foxBoat }></Marker>

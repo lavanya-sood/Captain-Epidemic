@@ -4,6 +4,7 @@ import AnswerBox from './component/AnswerBox'
 import FailBox from './component/FailBox'
 import Result from './component/Result'
 import Human from './component/Human'
+import axios from 'axios';
 import {
   Gallow,
   DownPipe,
@@ -110,16 +111,14 @@ export default () => {
   }
 
   const getDataFromAPI = () => {
+    axios.get('/symptoms').then(res => {
+      console.log(res)
+    })
     const params = {
-      hasDictionaryDef: true,
-      minCorpusCount: 0,
-      maxCorpusCount: -1,
-      maxDictionaryCount: -1,
-      minLength: 3,
-      maxLength: 12,
-      api_key: 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
+      start_date:'2018-01-01T00:00:00',
+      end_date:'2019-01-01T00:00:00'
     }
-    let url = new URL('http://api.wordnik.com/v4/words.json/randomWord')
+    let url = new URL('http://teletubbies-who-api.herokuapp.com/article')
     Object.keys(params).forEach(key =>
       url.searchParams.append(key, params[key])
     )
@@ -139,18 +138,7 @@ export default () => {
       })
       .catch(error => {
         console.log(error)
-        const fruits = [
-          'Apple',
-          'Orange',
-          'Pear',
-          'Lemon',
-          'Kiwi',
-          'Watermelon',
-          'Strawberry',
-          'Banana',
-        ]
-        const randomFruit = fruits[Math.floor(Math.random() * fruits.length)]
-        wordSetter(randomFruit)
+        wordSetter('banana')
       })
   }
 

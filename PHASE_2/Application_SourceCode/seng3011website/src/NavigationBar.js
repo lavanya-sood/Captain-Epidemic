@@ -8,6 +8,11 @@ class NavigationBar extends Component {
     onClick(){
       window.location.href="/searchResult";
     }
+    logout() {
+      localStorage.removeItem('username');
+      localStorage.removeItem('dob');
+      localStorage.removeItem('image');
+    }
     render() {
         return (
             <Navbar id='navbar' expand="lg" href='/'>
@@ -27,14 +32,14 @@ class NavigationBar extends Component {
                 <Dropdown.Toggle variant="success" id="dropdown-custom">
                     <span>
                       <img className="nav-image" src={userimg} alt="user pic"/>
-                      Username
+                      {localStorage.getItem('username')}
                     </span>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="dropdown-menu-nav">
                   <Dropdown.Item href="/profile">Profile</Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href="/login">Logout</Dropdown.Item>
+                  <Dropdown.Item href="/login" onClick={this.logout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
