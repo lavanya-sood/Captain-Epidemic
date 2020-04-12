@@ -122,18 +122,19 @@ class Modal extends Component {
         };
       }
 
-    toggle() {
+    toggle(image) {
         this.setState({ vis: false })
         //add to user db
         const userObject = {
             username: this.props.data.username,
             password: this.props.data.password,
-            dob: this.props.data.dob
+            dob: this.props.data.dob,
+            image: image
         };
         axios.post('http://localhost:9000/signup', userObject)
         localStorage.setItem('username', this.props.data.username)
         localStorage.setItem('dob', this.props.data.dob)
-        localStorage.setItem('image', 'todo')
+        localStorage.setItem('image', image)
         setTimeout(function() { //Start the timer
             this.props.history.push('/home');
         }.bind(this), 1000)
@@ -152,103 +153,103 @@ class Modal extends Component {
                     <ReactCardCarousel>
                         <div style={Modal.CARD_STYLE2}>
                             <img width='250px' height='250px' alt='userimage1.png' src={i1}/>
-                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this, 'userimage1.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE1}>
                             <img width='250px' height='250px' alt='userimage2.png' src={i2}/>
-                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this, 'userimage2.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE3}>
                             <img width='250px' height='250px' alt='userimage3.png' src={i3}/>
-                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this, 'userimage3.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE4}>
                             <img width='250px' height='250px' alt='userimage4.png' src={i4}/>
-                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this, 'userimage4.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE5}>
                             <img width='250px' height='250px' alt='userimage5.png' src={i5}/>
-                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this, 'userimage5.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE2}>
                             <img width='250px' height='250px' alt='userimage6.png' src={i6}/>
-                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this, 'userimage6.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE1}>
                             <img width='250px' height='250px' alt='userimage7.png' src={i7}/>
-                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this, 'userimage7.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE3}>
                             <img width='250px' height='250px' alt='userimage8.png' src={i8}/>
-                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this, 'userimage8.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE4}>
                             <img width='250px' height='250px' alt='userimage9.png' src={i9}/>
-                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this, 'userimage9.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE5}>
                             <img width='250px' height='250px' alt='userimage10.png' src={i10}/>
-                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this, 'userimage10.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE2}>
                             <img width='250px' height='250px' alt='userimage11.png' src={i11}/>
-                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this, 'userimage11.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE1}>
                             <img width='250px' height='250px' alt='userimage12.png' src={i12}/>
-                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this, 'userimage12.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE3}>
                             <img width='250px' height='250px' alt='userimage13.png' src={i13}/>
-                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this, 'userimage13.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE4}>
                             <img width='250px' height='250px' alt='userimage14.png' src={i14}/>
-                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this, 'userimage14.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE5}>
                             <img width='250px' height='250px' alt='userimage15.png' src={i15}/>
-                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this, 'userimage15.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE2}>
                             <img width='250px' height='250px' alt='userimage16.png' src={i16}/>
-                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this, 'userimage16.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE1}>
                             <img width='250px' height='250px' alt='userimage17.png' src={i17}/>
-                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this, 'userimage17.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE3}>
                             <img width='250px' height='250px' alt='userimage18.png' src={i18}/>
-                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this, 'userimage18.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE4}>
                             <img width='250px' height='250px' alt='userimage19.png' src={i19}/>
-                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this, 'userimage19.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE5}>
                             <img width='250px' height='250px' alt='userimage20.png' src={i20}/>
-                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this, 'userimage20.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE2}>
                             <img width='250px' height='250px' alt='userimage21.png' src={i21}/>
-                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <button className = "report-button1" type="button" onClick={this.toggle.bind(this, 'userimage21.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE1}>
-                            <img width='250px' height='250px' alt='userimage22.png' src={i22}/>
-                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <img width='250px' height='250px' alt='userimage22' src={i22}/>
+                            <button className = "report-button2" type="button" onClick={this.toggle.bind(this, 'userimage22.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE3}>
-                            <img width='250px' height='250px' alt='userimage23.png' src={i23}/>
-                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <img width='250px' height='250px' alt='userimage23' src={i23}/>
+                            <button className = "report-button3" type="button" onClick={this.toggle.bind(this, 'userimage23.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE4}>
-                            <img width='250px' height='250px' alt='userimage24.png' src={i24}/>
-                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <img width='250px' height='250px' alt='userimage24' src={i24}/>
+                            <button className = "report-button4" type="button" onClick={this.toggle.bind(this, 'userimage24.png')}> Pick Me </button>
                         </div>
                         <div style={Modal.CARD_STYLE5}>
-                            <img width='250px' height='250px' alt='userimage25.png' src={i25}/>
-                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this)}> Pick Me </button>
+                            <img width='250px' height='250px' alt='userimage25' src={i25}/>
+                            <button className = "report-button5" type="button" onClick={this.toggle.bind(this, 'userimage25.png')}> Pick Me </button>
                         </div>
                     </ReactCardCarousel>
                 </div>

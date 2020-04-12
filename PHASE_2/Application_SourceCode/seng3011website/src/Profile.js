@@ -35,6 +35,7 @@ import virus5 from './img/virus5.png';
 import mainLayout from './MainLayout';
 
 class Profile extends Component {
+
   render() {
     return (
       <div>
@@ -47,7 +48,7 @@ class Profile extends Component {
           <img src={passportIcon} align = "left" className="passport-image" alt=""/>
       {/*profile pic*/}
           <div className = "back">
-            <img src={profilePic} align = "left" className="profile-image" alt=""/>
+            <img src={'img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
           </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
           <Table borderless size="sm" style = {{"margin-bottom":"0px"}}>
