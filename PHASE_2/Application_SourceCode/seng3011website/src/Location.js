@@ -42,19 +42,147 @@ function getCountryCoordinates(country) {
 
 function getCentre(country) {
   var polylabel = require("polylabel")
+  if (country === 'Brunei Darussalam') {
+    country = 'Brunei'
+  }
+  if (country === 'Timor-Leste') {
+    country = 'Timor'
+  }
+  if (country === 'Taiwan, Province of China') {
+    country = 'Taiwan'
+  }
+  if (country === 'Russian Federation') {
+    country = 'Russia'
+  }
+  if (country === "Lao People's Democratic Republic") {
+    country = 'Lao'
+  }
+  if (country === 'Syrian Arab Republic') {
+    country = 'Syria'
+  }
+  if (country === 'Iran, Islamic Republic of') {
+    country = 'Iran'
+  }
+  if (country === 'Dominica') {
+    return [-61.5510, 16.2650]
+  }
   var polygon = getCountryCoordinates(country)
-  console.log(polygon)
+  if (polygon === undefined) {
+    if (country === 'American Samoa') {
+      return [-170.700049, -14.292553]
+    }
+    if (country === 'Andorra') {
+      return [1.521801, 42.506287]
+    }
+    if (country === 'Anguilla') {
+      return [-63.068615, 18.220554]
+    }
+    if (country === 'Antigua and Barbuda') {
+      return [-61.796429, 17.060816]
+    }
+    if (country === 'Aruba') {
+      return [-69.968338, 12.521110]
+    }
+    if (country === 'Bahrain') {
+      return [50.400505, 26.156258]
+    }
+    if (country === 'Barbados') {
+      return [-59.543198, 13.193887]
+    }
+    if (country === 'Comoros') {
+      return [44.322191, -12.075001]
+    }
+    if (country === 'Curaçao') {
+      return [-69, 12.1833326]
+    }
+    if (country === "Côte d'Ivoire"){ 
+      return [-5.5471, 7.5400]
+    }
+    if (country === 'French Polynesia') {
+      return [-149.4068, -17.6797]
+    }
+    if (country === 'Guadeloupe') {
+      return [-61.5510, 16.2650]
+    }
+    if (country === 'Hong Kong') {
+      return [114.1694, 22.3193]
+    }
+    if (country === 'Macao') {
+      return [113.5439, 22.1987]
+    }
+    if (country === 'Maldives') {
+      return [73.2207, 3.2028]
+    }
+    if (country === 'Mauritius') {
+      return [57.5522, -20.3484]
+    }
+    if (country === 'Mayotte') {
+      return [45.166, -12.8275]
+    }
+    if (country === 'Réunion') {
+      return [55.5364, -21.1151]
+    }
+    if (country === 'Saint Kitts and Nevis') {
+      return [-62.7830, 17.3578]
+    }
+    if (country === 'Saint Lucia') {
+      return [-60.9789, 13.9094]
+    }
+    if (country === 'Saint Vincent and the Grenadines') {
+      return [-61.2872, 12.9843]
+    }
+    if (country === 'Samoa') {
+      return [-172.1046, -13.7590]
+    }
+    if (country === 'Sao Tome and Principe') {
+      return [6.6131, 0.1864]
+    }
+    if (country === 'Seychelles') {
+      return [55.4920, 4.6796]
+    }
+    if (country === 'Singapore') {
+      return [103.8198, 1.3521]
+    }
+    if (country === 'Tonga') {
+      return [103.8198, 1.3521]
+    }
+  }
   var p = polylabel(polygon, 0.001)
   return p
 }
 
+function getZoom(country) {
+  if (country === 'American Samoa' || country === 'Anguilla' || country === 'Antigua and Barbuda') {
+    return 11
+  }
+  if (country === 'Samoa' || country === 'French Polynesia' || country === 'Curaçao' || country === 'Comoros' || country === 'Barbados' || country === 'Aruba' || country === 'Bahrain') {
+    return 9
+  }
+  if (country === 'Malta' || country === 'Fiji' || country === 'Equatorial Guinea' || country === 'El Salvador' || country === 'Djibouti' || country === 'Cyprus'|| country === 'Brunei Darussalam' || country === 'Bahamas') {
+    return 8
+  }
+  if (country === 'Trinidad and Tobago' || country === 'Rwanda' || country === 'Qatar' || country === 'Puerto Rico' || country === 'Luxembourg' || country === 'Lesotho' || country === 'Kuwait' || country === 'Jamaica' || country === 'Haiti' || country === 'Guadeloupe' || country === 'Dominica'|| country === 'Cambodia' || country === 'Burundi') {
+    return 7
+  }
+  if (country === 'Taiwan, Province of China' || country === 'Sri Lanka' || country === 'Slovenia' || country === 'Serbia' || country === 'Panama' || country === 'Netherlands' || country === 'Montenegro' || country === 'Malawi' || country === 'Macao' || country === 'Lithuania' || country === 'Lebanon' || country === 'Kyrgyzstan' || country === 'Jordan' || country === 'Israel' || country === 'Hungary' || country === 'Honduras' || country === 'Guyana' || country === 'Guinea' || country === 'Guatemala' || country === 'Greece' || country === 'Georgia' || country === 'Gabon'|| country === 'French Guiana' || country === 'Estonia' || country === 'Dominican Republic'|| country === "Côte d'Ivoire" || country === 'Costa Rica' || country === 'Burkina Faso' || country === 'Bulgaria' || country === 'Bosnia and Herzegovina' || country === 'Bhutan' || country === 'Benin' || country === 'Belize' || country === 'Albania' || country === 'Armenia' || country === 'Azerbaijan') {
+    return 6
+  }
+  if (country === 'Vietnam' || country === 'Uruguay' || country === 'United Arab Emirates' || country === 'Uganda' || country === 'Togo' || country === 'Tajikistan' || country === 'Syrian Arab Republic' || country === 'Switzerland' || country === 'Solomon Islands' || country === 'Slovakia' || country === 'Sierra Leone' || country === 'Portugal' || country === 'Philippines' || country === 'Nicaragua' || country === 'Nepal' || country === 'Mozambique' || country === 'Liberia' || country === 'Latvia' || country === "Lao People's Democratic Republic" || country === 'Ireland' || country === 'Ghana' || country === 'Denmark'|| country === 'Cuba' || country === 'Central African Republic' || country === 'Belarus' ||country === 'Bangladesh') {
+    return 5
+  }
+  if (country === 'Russian Federation' || country === 'Finland'|| country === 'China' || country === 'Canada') {
+    return 3
+  }
+  return 4
+}
+
 class Location extends Component {
   state = {
-    lat: getCentre('Australia')[1],
-    lng: getCentre('Australia')[0],
-    zoom: 4,
-    min: 4,
-    max: 4,
+    lat: getCentre("Australia")[1],
+    lng: getCentre("Australia")[0],
+    zoom: getZoom("Australia"),
+    min: getZoom("Australia"),
+    max: getZoom("Australia"),
     drag: false,
     class: 'map-image'
   }

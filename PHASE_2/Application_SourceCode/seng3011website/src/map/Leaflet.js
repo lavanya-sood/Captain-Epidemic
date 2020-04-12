@@ -131,13 +131,13 @@ class LeafletMap extends Component {
             });
             const result = onEachFeatureHelper(api, feature.properties.name)
             if (result.length > 0) {
-                if (map == true) {
+                if (map === true) {
                     layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
                 } else {
                     layer.bindPopup('<h3 class="monthly-title">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + result + '</p>', {autoPan:false}) 
                 }
             } else {
-                if (map == true) {
+                if (map === true) {
                     layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
                 } else {
                     layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>', {autoPan:false})
