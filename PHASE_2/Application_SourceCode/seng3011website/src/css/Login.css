@@ -11,10 +11,8 @@ img.bg {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
 }
 .pure-form {
-  z-index: 1;
   border: none;
   background: #ffffff;
   width: 450px;
@@ -43,7 +41,7 @@ input {
 }
 .signup-fieldset {
   position: relative;
-  top: 17px;
+  top: 10px;
 }
 .login-button {
   position: relative;
@@ -57,6 +55,9 @@ input {
   color:white;
   box-shadow: 3px 5px  #1e4b57;
   background-color:  #02c8a7;
+}
+.signup-button {
+  margin-top: -10px;
 }
 .login-nav {
   padding: 15px;
@@ -75,7 +76,6 @@ input {
   height: 50px;
   left: 15px;
   top: 0px;
-  z-index: 3;
 }
 
 .logo-login {
@@ -84,7 +84,6 @@ input {
   height: 50px;
   left: 15px;
   top: -13px;
-  z-index: 3;
 }
 .login-logo {
   width: 100px;
@@ -156,12 +155,15 @@ input {
   color: #37836f;
 }
 .sign-up-link {
-  margin-left: -140px;
+  margin-left: 90px;
   font-size: 25px;
+  width: 250px;
 }
 .login-link {
-  margin-left: -150px;
+  margin-left: 80px;
   font-size: 25px;
+  width: 250px;
+  margin-top: -18px;
 }
 
 .login-form {
@@ -181,4 +183,34 @@ input {
   padding-right: 5px;
   top: 153px;
   width: 450px;
+}
+.error-s {
+  background: #F53240;
+  color: white;
+  position: fixed;
+  font-size: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
+  top: 145px;
+  width: 450px;
+}
+.dob {
+  height: 40px;
+}
+.inputs {
+  position: relative;
+  top: -5px;
+}
+.pure-form-above {
+  z-index: 3;
+  margin: auto;
+  border: none;
+  background: #ffffff;
+  width: 700px;
+  height: 550px;
+  border-radius: 10%;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.7),
+    0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  top: 90px;
+  position: relative;
 }

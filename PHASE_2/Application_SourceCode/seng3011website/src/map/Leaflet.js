@@ -205,7 +205,7 @@ class LeafletMap extends Component {
     })
     return (
         <div>
-        <Map className={this.state.class} center={position} zoom={this.state.zoom} minZoom={this.state.min} maxZoom={this.state.max} worldCopyJump='true' maxBounds={bounds} dragging={this.state.drag}>
+        <Map className={this.state.class} center={position} zoom={this.state.zoom} minZoom={this.state.min} maxZoom={this.state.max} worldCopyJump='true' maxBounds={bounds} dragging={this.state.drag} doubleClickZoom={this.state.drag} keyboard={this.state.drag}>
             <TileLayer 
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
