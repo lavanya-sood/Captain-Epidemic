@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
     :root {
-        --color-bodybg: #3C3F64;
+        --color-bodybg: #00000;
         --color-blue: #585DFE;
         --color-darkgrey: #53555D;
         --color-lightgrey: #E6E6E7;
@@ -24,7 +24,7 @@ export default createGlobalStyle`
         height: 100%;
         width: 100%;
     }
-    
+
     body {
         font-weight: bold;
         font-size: var(--font-size-default);

@@ -218,3 +218,18 @@ ul.header li a {
 .dropdown-menu-nav {
   font-size: 20px;
 }
+
+.next-button{
+  position: relative;
+  padding: 20px;
+  background-color: #0e2930;
+  display: inline;
+  margin: 10px;
+  outline: none;
+  border: none;
+  font-size: 2em;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}

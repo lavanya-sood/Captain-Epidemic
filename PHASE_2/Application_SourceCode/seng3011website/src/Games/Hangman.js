@@ -111,36 +111,32 @@ export default () => {
   }
 
   const getDataFromAPI = () => {
-    axios.get('/symptoms').then(res => {
-      console.log(res)
-    })
-    const params = {
-      start_date:'2018-01-01T00:00:00',
-      end_date:'2019-01-01T00:00:00'
-    }
-    let url = new URL('http://teletubbies-who-api.herokuapp.com/article')
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    )
-    fetch(url, {
-      method: 'GET',
-    })
-      .then(response => {
-        const responseStatus = response.status
-        if (responseStatus >= 400 && responseStatus <= 500) {
-          throw Error('API error, creating random word localy!')
-        }
-        return response.json()
-      })
-      .then(response => {
-        wordSetter(response.word)
-        return response.status
-      })
-      .catch(error => {
-        console.log(error)
-        wordSetter('banana')
-      })
+    fetch("http://localhost:9000/symptoms")
+        .then(res => res.json())
+        .then(res => {
+          let r = JSON.parse(res);
+          let i = 0;
+          console.log(r['result'])
+          let symptom = r['result'][i]['reports'][0]['syndromes'][0]
+          while (r['result'][i]['reports'][0]['syndromes'].length == 0){
+             i = i + 1
+          }
+          symptom = r['result'][i]['reports'][0]['syndromes'][0]
+          console.log(symptom)
+          console.log(i)
+          wordSetter(symptom)
+          return res.status
+        })
+        .catch(error => {
+            console.log(error)
+            const symptoms = [
+              'Cough'
+            ]
+            const random = symptoms[Math.floor(Math.random() * symptoms.length)]
+            wordSetter(random)
+          })
   }
+
 
   const countCorrectLetters = correctLetters => {
     let uniqueLetters = filterUniqueItems(wordFromAPI)
@@ -148,7 +144,7 @@ export default () => {
       setResultBox({
         disabled: false,
         title: '★ You Won! ★',
-        buttonLabel: 'Restart Game',
+        buttonLabel: 'Play Quiz',
       })
       setIsGameOver(true)
     }
@@ -187,7 +183,7 @@ export default () => {
                 disabled: false,
                 buttonLabel: 'continue',
               })
-            }
+            } 
           }}
         />
       </Gallow>
