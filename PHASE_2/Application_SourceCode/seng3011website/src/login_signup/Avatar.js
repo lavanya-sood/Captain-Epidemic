@@ -131,8 +131,9 @@ class Modal extends Component {
             dob: this.props.data.dob
         };
         axios.post('http://localhost:9000/signup', userObject)
-
-
+        localStorage.setItem('username', this.props.data.username)
+        localStorage.setItem('dob', this.props.data.dob)
+        localStorage.setItem('image', 'todo')
         setTimeout(function() { //Start the timer
             this.props.history.push('/home');
         }.bind(this), 1000)
