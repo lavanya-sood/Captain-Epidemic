@@ -4,6 +4,7 @@ import '../css/Login.css';
 import ReactCardCarousel from "react-card-carousel";
 import {Animated} from "react-animated-css";
 import {withRouter} from 'react-router-dom';
+import axios from 'axios';
 
 import i1 from '../img/userimage1.png';
 import i2 from '../img/userimage2.png';
@@ -32,7 +33,7 @@ import i24 from '../img/userimage24.png';
 import i25 from '../img/userimage25.png';
 
 
-class Modal extends React.Component {
+class Modal extends Component {
     state = {
         vis: true
     }
@@ -124,6 +125,14 @@ class Modal extends React.Component {
     toggle() {
         this.setState({ vis: false })
         //add to user db
+        const userObject = {
+            username: this.props.data.username,
+            password: this.props.data.password,
+            dob: this.props.data.dob
+        };
+        axios.post('http://localhost:9000/signup', userObject)
+
+
         setTimeout(function() { //Start the timer
             this.props.history.push('/home');
         }.bind(this), 1000)
