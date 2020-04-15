@@ -21,6 +21,8 @@ class Quiz extends Component {
 
   componentDidMount() {
     this.setStatefunction();
+    var x = localStorage.getItem('username');
+    console.log(x);
   }
 
   render() {
@@ -53,7 +55,7 @@ class Quiz extends Component {
           );
         })}
         <Link to='/Hangman'>
-        <Button className="next-button">
+        <Button  className="next-button">
         Next
         </Button>
         </Link>

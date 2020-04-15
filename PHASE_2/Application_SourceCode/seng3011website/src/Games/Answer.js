@@ -28,8 +28,8 @@ class Answer extends React.Component {
       <Fragment>
 
         { this.state.Clickcheck  ? this.state.Answers.map(ans => {
-          return <button className = "answerBtn" onClick={(e) => this.checkAnswer(e)}>{ans}</button>;
-        }) : <button className = "answerBtn"> {this.state.rightAnswer}</button>  }
+          return <button key = {ans} className = "answerBtn" onClick={(e) => this.checkAnswer(e)}>{ans}</button>;
+        }) : <button key = "ansbutton" className = "answerBtn"> {this.state.rightAnswer}</button>  }
 
       </Fragment>
 

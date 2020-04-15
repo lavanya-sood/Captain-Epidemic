@@ -124,6 +124,7 @@ export default () => {
           symptom = r['result'][i]['reports'][0]['syndromes'][0]
           console.log(symptom)
           console.log(i)
+          symptom = 'banana'
           wordSetter(symptom)
           return res.status
         })
@@ -147,7 +148,14 @@ export default () => {
         buttonLabel: 'Play Quiz',
       })
       setIsGameOver(true)
+      saveGameData()
+
     }
+  }
+  // save data to database
+  const saveGameData = () => {
+    console.log(localStorage.getItem('game-disease'));
+    console.log(localStorage.getItem('username'));
   }
 
   const filterUniqueItems = items => {
@@ -183,7 +191,7 @@ export default () => {
                 disabled: false,
                 buttonLabel: 'continue',
               })
-            } 
+            }
           }}
         />
       </Gallow>

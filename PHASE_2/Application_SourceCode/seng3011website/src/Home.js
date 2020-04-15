@@ -5,6 +5,13 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 class Home extends Component {
+
+  setGameDisease = (e) => {
+    console.log(e.target.id);
+    localStorage.setItem('game-disease', e.target.id);
+
+  };
+
   render() {
     return (
       <div>
@@ -29,7 +36,7 @@ class Home extends Component {
                       </Link>
                       <br />
                       <Link to="/Hangman">
-                        <Button className="button-primary-flip">
+                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Quiz{" "}
                         </Button>
