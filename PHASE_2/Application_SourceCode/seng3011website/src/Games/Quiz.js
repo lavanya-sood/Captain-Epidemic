@@ -3,16 +3,13 @@ import mainLayout from "../MainLayout.js";
 import quizdata from "./question";
 import Answer from "./Answer";
 import logo from "../img/virus.png";
-import Hangman from "./Hangman";
-import { Link } from "react-router-dom";
-import {  Button } from "react-bootstrap";
 
 class Quiz extends Component {
   state = {
     dataQuestion: []
   };
 
-  setStatefunction = () => {
+  setStatefunstion = () => {
     //  use reactjs setState
     this.setState({
       dataQuestion: quizdata
@@ -20,9 +17,7 @@ class Quiz extends Component {
   };
 
   componentDidMount() {
-    this.setStatefunction();
-    var x = localStorage.getItem('username');
-    console.log(x);
+    this.setStatefunstion();
   }
 
   render() {
@@ -48,18 +43,11 @@ class Quiz extends Component {
                   id={data.id}
                   correct={data.correct}
                   ans={data.answers}
-                  noQues = {this.state.dataQuestion.length}
                 />
               </div>
             </div>
           );
         })}
-        <Link to='/Hangman'>
-        <Button  className="next-button">
-        Next
-        </Button>
-        </Link>
-
       </Fragment>
     );
   }

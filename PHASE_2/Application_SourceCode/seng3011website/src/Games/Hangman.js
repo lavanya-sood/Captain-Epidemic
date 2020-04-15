@@ -154,8 +154,21 @@ export default () => {
   }
   // save data to database
   const saveGameData = () => {
-    console.log(localStorage.getItem('game-disease'));
-    console.log(localStorage.getItem('username'));
+    let disease = localStorage.getItem('game-disease');
+    let username = localStorage.getItem('username');
+
+    // save game into db
+    axios.post('http://localhost:9000/savegame', {
+      username:username,
+      quiz:disease
+    })
+    .then(function (res) {
+      console.log(res);
+    })
+    .catch(function (error) {
+      console.log("error");
+    });
+
   }
 
   const filterUniqueItems = items => {

@@ -35,11 +35,15 @@ function App() {
           <Route path="/quiz" component={Quiz}/>
           <Route path = "/map" component = {MapContainer}/>
           <Route path="/login"
-       render={(props)=>{
-            if(localStorage.getItem('username')) return <Home/>;
-            else return <Login/>;
-        }} />
-          <Route path = "/signup" component = {SignUp}/>
+          render={(props)=>{
+                if(localStorage.getItem('username')) return <Home/>;
+                else return <Login/>;
+            }} />
+          <Route path = "/signup"
+          render={(props)=>{
+              if(localStorage.getItem('username')) return <Home/>;
+              else return <SignUp/>;
+          }} />
           <Route path="/searchResult" component={SearchResult} />
           <Route path="/country" component={Country} />
           <Route path="/disease" component={Disease} />

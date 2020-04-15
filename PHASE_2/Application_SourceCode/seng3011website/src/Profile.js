@@ -35,11 +35,14 @@ import virus5 from './img/virus5.png';
 import mainLayout from './MainLayout';
 
 class Profile extends Component {
+
+  state = 0;
+
   render() {
     return (
       <div>
 
-        <div className = "passport">
+        <div className={"passport " + (this.state == 0 ? 'show' : 'hidden')}>
 
       {/*----PASSPORT---*/}
           <div  className = "separator"> PASSPORT </div>
@@ -47,7 +50,7 @@ class Profile extends Component {
           <img src={passportIcon} align = "left" className="passport-image" alt=""/>
       {/*profile pic*/}
           <div className = "back">
-            <img src={profilePic} align = "left" className="profile-image" alt=""/>
+            <img src={'img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
           </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
           <Table borderless size="sm" style = {{"margin-bottom":"0px"}}>

@@ -3,9 +3,6 @@ var router = express.Router();
 
 const sqlite3 = require('sqlite3').verbose();
 
-const dbPath = __dirname + '/databases/map.db'
-const db = new sqlite3.Database(dbPath)
-
 function getDiseases() {
     var date = new Date().getDate(); 
     var month = new Date().getMonth() + 1; 
@@ -26,12 +23,15 @@ function getDiseases() {
         if (request.status == 200) {
             const a = JSON.parse(request.responseText)
             const articles = JSON.stringify(a.articles)
+            const dbPath = __dirname + '/databases/map.db'
+            const db = new sqlite3.Database(dbPath)
             const sql = `INSERT INTO calmclams(accessed, response) VALUES(?,?)`
             db.run(sql, [year+'-'+month+'-'+date, articles], (err) => {
                 if (err) {
                     throw err;
                 }
             })
+            db.close()
         }
     }
     request.send()
@@ -152,36 +152,36 @@ function getMapResult(result) {
     return result
 }
 
-
-var curr_date = new Date().getDate(); 
-var curr_month = new Date().getMonth() + 1; 
-var curr_year = new Date().getFullYear(); 
-var date = curr_year+'-'+curr_month+'-'+curr_date
-var sql = `SELECT * FROM calmclams WHERE accessed = ?`
-db.get(sql, [date], (err, rows) => {
-    if (err) {
-        throw err;
-    }
-    if (rows) {
-        var result = getMapInfo(JSON.parse(rows.response))
-        var mapResult = getMapResult(result)
-        router.get('/', function(req, res, next) {
-            res.json(mapResult);
-        });
-    // just in case error occurs with calmclams api
-    } else {
-        sql = `SELECT * FROM calmclams ORDER BY accessed DESC LIMIT 1;`
-        db.get(sql, [], (err,rows) => {
-            if (err) {
-                throw err;
-            }
+router.get('/', function(req, res, next) {
+    const dbPath = __dirname + '/databases/map.db'
+    const db = new sqlite3.Database(dbPath)
+    var curr_date = new Date().getDate(); 
+    var curr_month = new Date().getMonth() + 1; 
+    var curr_year = new Date().getFullYear(); 
+    var date = curr_year+'-'+curr_month+'-'+curr_date
+    var sql = `SELECT * FROM calmclams WHERE accessed = ?`
+    db.get(sql, [date], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        if (rows) {
             var result = getMapInfo(JSON.parse(rows.response))
             var mapResult = getMapResult(result)
-            router.get('/', function(req, res, next) {
+            res.json(mapResult);
+        // just in case error occurs with calmclams api
+        } else {
+            sql = `SELECT * FROM calmclams ORDER BY accessed DESC LIMIT 1;`
+            db.get(sql, [], (err,rows) => {
+                if (err) {
+                    throw err;
+                }
+                var result = getMapInfo(JSON.parse(rows.response))
+                var mapResult = getMapResult(result)
                 res.json(mapResult);
-            });
-        })
-    }
+            })
+        }
+    });
+    db.close()
 });
 
 module.exports = router;

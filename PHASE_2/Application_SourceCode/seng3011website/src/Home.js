@@ -35,7 +35,7 @@ class Home extends Component {
                     </Button>
                       </Link>
                       <br />
-                      <Link to="/Hangman">
+                      <Link to="/Quiz">
                         <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Quiz{" "}
