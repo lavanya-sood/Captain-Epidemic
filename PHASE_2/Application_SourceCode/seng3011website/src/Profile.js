@@ -35,14 +35,14 @@ import virus5 from './img/virus5.png';
 import mainLayout from './MainLayout';
 
 class Profile extends Component {
-
-  state = 0;
+  // get data from db
+  state = 5;
 
   render() {
     return (
       <div>
 
-        <div className={"passport " + (this.state == 0 ? 'show' : 'hidden')}>
+        <div className="passport ">
 
       {/*----PASSPORT---*/}
           <div  className = "separator"> PASSPORT </div>
@@ -95,46 +95,46 @@ class Profile extends Component {
                   <h1 className = "rank-name" > Recruit </h1>
                   <p className = "rank-stamp"> [Welcome_Aboard!] </p> </div>
                 </td>
-                <td><img src={lieutenantImgDisabled} className = "rank"/></td>
+                <td><img src= {this.state < 15 ? lieutenantImgDisabled : lieutenantImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = "rank-name-disabled"> Lieutenant </h1>
-                  <p className = "rank-stamp-disabled"> [15_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state < 15 ? '-disabled' : '')}> Lieutenant </h1>
+                  <p className = {"rank-stamp" + (this.state < 15 ? '-disabled' : '')}> [15_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
-                <td><img src={cadetImg} className = "rank"/></td>
+                <td><img src={this.state < 3 ? cadetImgDisabled : cadetImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = "rank-name" > Cadet </h1>
-                  <p className = "rank-stamp"> [3_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state < 3 ? '-disabled' : '')} > Cadet </h1>
+                  <p className = {"rank-stamp" + (this.state < 3 ? '-disabled' : '')}> [3_Missions_Completed] </p> </div>
                 </td>
-                <td><img src={commanderImgDisabled} className = "rank"/></td>
+                <td><img src={this.state < 21 ? commanderImgDisabled : commanderImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = "rank-name-disabled"> Commander </h1>
-                  <p className = "rank-stamp-disabled"> [21_Missions_Completed] </p> </div>
-                </td>
-              </tr>
-              <tr>
-                <td><img src={corporalImg} className = "rank"/></td>
-                <td><div className = "back">
-                  <h1 className = "rank-name" > Corporal </h1>
-                  <p className = "rank-stamp"> [6_Missions_Completed] </p> </div>
-                </td>
-                <td><img src={majorImgDisabled} className = "rank"/></td>
-                <td><div className = "back">
-                  <h1 className = "rank-name-disabled"> Major </h1>
-                  <p className = "rank-stamp-disabled"> [30_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state < 21 ? '-disabled' : '')}> Commander </h1>
+                  <p className = {"rank-stamp" + (this.state < 21 ? '-disabled' : '')}> [21_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
-                <td><img src={sergeantImgDisabled} className = "rank"/></td>
+                <td><img src={this.state < 6 ? corporalImgDisabled : corporalImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = "rank-name-disabled" > Sergeant </h1>
-                  <p className = "rank-stamp-disabled"> [10_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state < 6 ? '-disabled' : '')} > Corporal </h1>
+                  <p className ={"rank-stamp" + (this.state < 6 ? '-disabled' : '')}> [6_Missions_Completed] </p> </div>
                 </td>
-                <td><img src={captainImgDisabled} className = "rank"/></td>
+                <td><img src={this.state < 30 ? majorImgDisabled : majorImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = "rank-name-disabled"> Captain </h1>
-                  <p className = "rank-stamp-disabled"> [40_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state < 30 ? '-disabled' : '')}> Major </h1>
+                  <p className = {"rank-stamp" + (this.state < 30 ? '-disabled' : '')}> [30_Missions_Completed] </p> </div>
+                </td>
+              </tr>
+              <tr>
+                <td><img src={this.state < 10 ? sergeantImgDisabled : sergeantImg} className = "rank"/></td>
+                <td><div className = "back">
+                  <h1 className = {"rank-name" + (this.state < 10 ? '-disabled' : '')} > Sergeant </h1>
+                  <p className = {"rank-stamp" + (this.state < 10 ? '-disabled' : '')} > [10_Missions_Completed] </p> </div>
+                </td>
+                <td><img src={this.state < 40 ? captainImgDisabled : captainImg}  className = "rank"/></td>
+                <td><div className = "back">
+                  <h1 className = {"rank-name" + (this.state < 40 ? '-disabled' : '')}> Captain </h1>
+                  <p className = {"rank-stamp" + (this.state < 40? '-disabled' : '')} > [40_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
