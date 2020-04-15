@@ -1,0 +1,80 @@
+.animals {
+    cursor: grab;
+}
+
+.monthly-title {
+    color: #F53240;
+    position: relative;
+}
+
+.loading {
+    color: #02c8a7 !important;
+    font-size: 50px !important;
+}
+
+a.country-map-link {
+    color: #F53240;
+    text-decoration: none;
+    background-color: transparent;
+    border-radius: 5px;
+    border: none;
+}
+a.country-map-link:hover {
+    color: #F53240;
+    box-shadow: 3px 5px  #b93738;
+    background-color:  #fcc1c5;
+}
+
+.country-ranking {
+    font-size: 25px;
+    color: #02c8a7;
+}
+
+.leaflet-popup-content-wrapper {
+    text-align: center;
+}
+
+.disease-map {
+    font-family: 'Stella';
+    color: #F9BE02;
+}
+a.disease-map-link {
+    color: #00b1b9;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+}
+a.disease-map-link:hover {
+    color: #00b1b9;
+    box-shadow: 3px 5px  #1e4b57;
+    background-color:  #a6e0dd;
+}
+
+a.disease-title-map {
+    color: #F9BE02;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+}
+a.disease-title-map:hover {
+    color: #F9BE02;
+    box-shadow: 3px 5px #c59c35;
+    background-color: #ffe8b8
+}
+
+p.date-map {
+    font-size: 20px;
+    color: #F9BE02;
+    position: relative;
+    margin-top: 0;
+    top: -10px;
+}
+
+.report-title-maps {
+    font-size: 20px;
+    color: #00b1b9;
+    position: relative;
+    top: -10px;
+}

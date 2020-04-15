@@ -1,0 +1,276 @@
+.passport {
+	background-color: transparent;
+	width: 450px;
+	height: 650px;
+	border: 10px solid #02C8A7;
+	box-shadow: 10px 10px #37836f; /*shadow size and colour*/
+	perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  border-radius: 25px;
+  margin-top:50px; /*space from edge of page*/
+  margin-left:70px;
+  display:inline-block;
+  float: left;
+  margin-right: 110px;
+  }
+
+  .profile-image {
+	  width: 300px;
+	  height: 300px;
+    padding-top: 5px;
+    align-items: center;
+  }
+
+  .back {
+    align-items: center;
+  }
+
+  .passport-image {
+    width: 70px;
+    height: 40px;
+    padding-left: 20px;
+  }
+
+  .separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      font-family: "handwriting";
+      color: #02C8A7;
+      padding-top: 5px;
+      font-size: 40px;
+  }
+  .separator::before, .separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 3px solid #02C8A7;
+  }
+  .separator::before {
+      margin-right: .25em;
+      margin-left: 2em;
+  }
+  .separator::after {
+      margin-left: .25em;
+      margin-right: 2em;
+  }
+
+  .divider {
+    border-left: 10px solid #1e4b57;
+    height: 500px;
+  display:inline-block;
+  float: left;
+  margin-top: 120px;
+  border-radius: 25px;
+}
+
+
+  .rank-icon {
+    height: 70px;
+    width: 70px;
+
+  }
+
+  .rank {
+    height: 100px;
+    width: 70px;
+    padding-top: 30px;
+    animation: bounce 1.5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  }
+
+  .rank-table {
+    display: inline-block;
+    margin-top: 55px;
+    margin-right: 30px;
+  }
+
+
+  .rank-name {
+    font-family:"Stella";
+    font-size: 60px;
+    color: #F53240;
+    margin: 10px 0px 0px 0px;
+  }
+
+  .rank-stamp {
+    font-family:"Top Secret";
+    font-size: 20px;
+    color: #1e4b57;
+    transform:  rotate(-5deg);
+  }
+
+  .rank-name-disabled {
+    font-family:"Stella";
+    font-size: 60px;
+    color: #aab4b3;
+    margin: 10px 0px 0px 0px;
+
+  }
+
+  .rank-stamp-disabled {
+    font-family:"Top Secret";
+    font-size: 20px;
+    color: #aab4b3;
+    transform:  rotate(-5deg);
+  }
+
+  .edit-button {
+     margin-left : 160px;
+     display: flex;
+     justify-content: center;
+     font-family: "handwriting";
+     font-size: 40px;
+     background-color: #7cdbd5;
+     border: none;
+     padding: 0px 30px;
+     border-radius: 25px;
+     color: #FFFFFF;
+     line-height: 40px;
+  }
+
+  .edit-button:hover {
+    box-shadow: 2px 5px #37836f;
+    background-color:  #02C8A7;
+  }
+
+  .missions {
+    background-color: #F9BE02;
+    padding-bottom: 80px;
+    padding-top:10px;
+  }
+
+  .mission-table {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .circle {
+    border-radius: 50%;
+    border: 10px solid #FFFFFF;
+    background-color: #1e4b57;
+    width: 100px;
+    height: 100px;
+    align-items: center;
+    margin-left: 70px;
+    box-shadow: 10px 10px #37836f; /*shadow size and colour*/
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+.disease {
+  height: 70px;
+  width: 70px;
+}
+
+.disease-button {
+  margin-top:20px;
+  font-family: "handwriting";
+  font-size: 40px;
+  background-color: #7cdbd5;
+  padding: 5px 30px;
+  border-radius: 25px;
+  border: 5px solid white;
+  line-height:30px;
+  color: #1e4b57;
+}
+
+.disease-button:hover {
+  box-shadow: 2px 5px #37836f;
+  background-color:  #02C8A7;
+}
+
+.star {
+  padding-top: 10px;
+  height: 50px;
+  width: 40px;
+  animation: bounce 1.5s;
+animation-direction: alternate;
+animation-iteration-count: infinite;
+}
+
+.star1 {
+  padding-top: 10px;
+  height: 50px;
+  width: 40px;
+  animation: bounce 1.5s;
+animation-direction: alternate;
+animation-iteration-count: infinite;
+animation-delay: 0.5s;
+}
+
+.star2 {
+  padding-top: 10px;
+  height: 50px;
+  width: 40px;
+  animation: bounce 1.5s;
+animation-direction: alternate;
+animation-iteration-count: infinite;
+animation-delay: 1s;
+}
+
+a {
+  color: ;
+}
+a:hover {
+   color: #00F
+}
+
+
+.rocket {
+  position: absolute;
+  bottom: -600px;
+  left:35%;
+  animation: fly 3s .5s ease-in;
+}
+
+@keyframes fly {
+  0% {
+    bottom: -300px;
+  }
+  100% {
+    bottom: 100%;
+  }
+}
+
+
+
+@keyframes bounce {
+    0% { transform: translate(0px, 2px) }
+    10% { transform: translate(0px, 4px) }
+    20% { transform: translate(0px, 6px) }
+    30% { transform: translate(0px, 8px) }
+    40% { transform: translate(0px, 10px) }
+    50% { transform: translate(0px, 12px) }
+    60% { transform: translate(0px, 10px) }
+    70% { transform: translate(0px, 8px) }
+    80% { transform: translate(0px, 6px) }
+    90% { transform: translate(0px, 4px) }
+    100% { transform: translate(0px, 2px) }
+}
+
+  @font-face {
+    font-family: 'Top Secret';
+    src: url('./fonts/[TOP_SECRET].ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Stella';
+    src: url('./fonts/Stella Demo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Handwriting';
+    src: url('./fonts/handwriting.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'KG Thank You';
+    src: url('./fonts/KGThankYouStamp.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }

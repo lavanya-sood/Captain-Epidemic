@@ -1,0 +1,139 @@
+.country-info {
+  display: inline-block;
+  float: left;
+  margin-left: 50px;
+}
+
+.country-title {
+  font-family: "Stella";
+  font-size: 150px;
+  color: #0e2930;
+  margin-top: 50px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 50px;
+}
+
+.country-para {
+  font-family: "handwriting";
+  font-size: "50px";
+  color: #37836f;
+  margin-top:10px;
+}
+
+.circle-prevention1 {
+  border-radius: 50%;
+  border: 10px solid #F9BE02;
+  background-color: #1e4b57;
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  margin-left: 50px;
+  margin-bottom: 20px;
+  box-shadow: 10px 10px  #37836f; /*shadow size and colour*/
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  animation: bounce 1.5s;
+animation-direction: alternate;
+animation-iteration-count: infinite;
+}
+
+.prevention-img1 {
+  height: 80px;
+  width: 80px;
+}
+
+.disease-button2 {
+  margin-top:10px;
+  font-family: "Stella";
+  font-size: 70px;
+  height: 70px;
+  background-color: transparent;
+  padding-top: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 25px;
+  padding-bottom: 15px;
+  line-height:30px;
+  border: none;
+  color: #1e4b57;
+}
+
+.disease-button2:hover {
+  box-shadow: 2px 10px  #5fa29e;
+  background-color:  #7CDBD5;
+
+}
+
+.country-dis-table {
+  margin-left: 30px;
+  width: 600px;
+}
+
+.missions2 {
+  background-color: #F9BE02;
+  padding-bottom: 80px;
+  padding-top:10px;
+  margin-top: 700px;
+}
+
+.passport1 {
+	background-color: transparent;
+	width: 610px;
+	height: 500px;
+	border: 10px solid #02C8A7;
+	box-shadow: 10px 10px #37836f; /*shadow size and colour*/
+	perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  border-radius: 25px;
+  margin-top: 80px;
+  display:inline-block;
+  float: right;
+  margin-right: 110px;
+  overflow: hidden;
+  }
+
+.map-country {
+  height:100%;
+  width:100%;
+  border-radius: 15px;
+}
+
+.map-icon-location {
+  width: 75px;
+  height: 75px;
+  position: relative;
+  float: right;
+  left: 80px;
+  top: 100px;
+}
+
+.map-image {
+  top: 25%;
+  transform: translatey(-25%);
+  width: 100%;
+}
+
+.separator-loc {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-family: "handwriting";
+    color: #02C8A7;
+    padding-top: 5px;
+    font-size: 40px;
+}
+.separator-loc::before, .separator-loc::after {
+    content: '';
+    flex: 1;
+    border-bottom: 3px solid #02C8A7;
+}
+.separator-loc::before {
+    margin-right: .25em;
+    margin-left: 2em;
+    padding-left: 100px;
+}
+.separator-loc::after {
+    margin-left: .25em;
+    margin-right: 2em;
+    padding-right: 100px;
+}

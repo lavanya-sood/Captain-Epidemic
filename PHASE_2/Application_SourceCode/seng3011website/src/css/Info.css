@@ -1,0 +1,523 @@
+
+.letter {
+    background: #f6f6f6;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3), 0 0 300px 25px rgb(246, 246, 246) inset;
+    width: 1200px;
+    height: 600px;
+    margin: 5% auto;
+    border-radius: 25px;
+    padding: 30px 50px 50px;
+    position: relative;
+}
+
+.letter:before, .letter:after {
+    content: "";
+    background: #f6f6f6;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2), inset 0 0 300px rgb(246, 246, 246);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border-radius: 25px;
+    z-index: -2;
+    transition: .5s;
+}
+
+.letter:before {
+    left: -5px;
+    top: 2px;
+    transform: rotate(-1.5deg);
+}
+
+.letter:after {
+    right: -3px;
+    top: 0px;
+    transform: rotate(2.4deg);
+}
+
+.letter:hover:before {
+transform: rotate(0deg);
+border: solid rgba(111,99,61,0.4);
+border-width: 0px 0px 0px 1px;
+left: -6px;
+top: -6px;
+}
+
+.letter:hover:after {
+transform: rotate(0deg);
+border: solid rgba(111,99,61,0.4);
+border-width: 0px 0px 0px 1px;
+right: 3px;
+top: -3px;
+}
+
+.confidential {
+  font-family: "Top Secret";
+  color: #F53240;
+  transform:  rotate(-5deg);
+}
+
+.disease {
+  margin:0px;
+  padding:0px;
+}
+
+.virus-image {
+  height:300px;
+  width: 320px;
+  float: left;
+  display: inline-block;
+  animation: bounce 1.5s;
+animation-direction: alternate;
+animation-iteration-count: infinite;
+}
+
+.virus-title {
+  font-family: "Stella";
+  font-size: 90px;
+  margin-left: 0px;
+  color: #0e2930;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.quiz-button {
+  display: flex;
+  width: 300px;
+  justify-content: center;
+  font-family: "handwriting";
+  font-size: 40px;
+  background-color: #1e4b57;
+  border: none;
+  padding: 0px 30px;
+  border-radius: 25px;
+  color: #FFFFFF;
+  line-height: 40px;
+}
+
+.quiz-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.quiz-button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.quiz-button:hover span {
+  padding-right: 25px;
+}
+
+.quiz-button:hover {
+  background-color: #7CDBD5;
+}
+
+.quiz-button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.symptoms {
+  float:left;
+  padding-left: 50px;
+  margin-top: -80px;
+}
+
+.symptoms-title {
+  font-family: "Stella";
+  font-size: 70px;
+  color: #37836f;
+  float: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 80px;
+  display: inline-block;
+}
+
+.symptom-image {
+  height: 85px;
+  width: 120px;
+  padding-top: 5px;
+  padding-right: 0px;
+  padding-left: 40px;
+}
+
+.symptom-text {
+  font-family: "handwriting";
+  color: #1e4b57;
+  font-size: 40px;
+  float: left;
+  padding-top: 50px;
+  padding-left: 60px;
+  line-height: 0px;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+.symptoms-table {
+  width: 330px;
+}
+
+.box{
+  width: 350px;
+  height: 380px;
+  display: inline-block;
+  float: right;
+  position: relative;
+}
+.graph {
+  position: relative;
+  width: 450px;
+  height: 90%;
+  left: 5%;
+  display: inline-block;
+
+}
+
+
+.graph:before{
+  content: 'Global Cases';
+  font-family: "handwriting";
+  font-size: 30px;
+  position: absolute;
+  bottom: 50%;
+  left:-64px;
+  color: #BA6161;
+  transform: rotate(-90deg);
+}
+
+.graph-table {
+  width: 95%;
+  padding-left: 5px;
+}
+
+.graph-text {
+  font-family: "handwriting";
+  font-size:25px;
+  display: inline-block;
+  float: left;
+  padding-left: 20px;
+  padding-right: 5px;
+  color: #37836f;
+}
+
+.bar-text {
+  position: relative;
+  font-family: "handwriting";
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+.graph-table td {
+  padding: 0px 0px;
+}
+.dec{
+  height: 5%;
+  width: calc(100% / 10);
+  background: #7CDBD5;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: up1 1s ease-in;
+  border-radius: 25px;
+
+}
+@keyframes up1{
+  0%{
+    height: 0;
+  }
+  100%{
+    height: 5%;
+  }
+}
+.jan{
+  height: 15%;
+  width: calc(100% / 10);
+  background: #F9BE02;
+  position: absolute;
+  bottom: 0;
+  left: 14.2857142857%;
+  animation: up2 1s ease-in;
+  animation-delay: 0.5s;
+  border-radius: 25px;
+}
+@keyframes up2{
+  0%{
+    height: 0;
+  }
+  100%{
+    height: 15%;
+  }
+}
+.feb{
+  height: 25%;
+  width: calc(100% / 10);
+  background: #c59c35;
+  position: absolute;
+  bottom: 0;
+  left: 28.5714285714%;
+  animation: up3 1s ease-in;
+  animation-delay: 1s;
+  border-radius: 25px;
+
+
+}
+@keyframes up3{
+  0%{
+    height: 0;
+  }
+  100%{
+    height: 25%;
+  }
+}
+.mar{
+  height: 50%;
+  width: calc(100% / 10);
+  background:  #F53240;
+  position: absolute;
+  bottom: 0;
+  left: 42.8571428571%;
+  animation: up4 1s ease-in;
+  animation-delay: 1.5s;
+  border-radius: 25px;
+
+
+}
+@keyframes up4{
+  0%{
+    height: 0;
+  }
+  100%{
+    height: 50%;
+  }
+}
+.apr{
+  height: 90%;
+  width: calc(100% / 10);
+  background: #b93738;
+  position: absolute;
+  bottom: 0;
+  left: 57.1428571429%;
+  animation: up5 1s ease-in;
+  animation-delay: 2s;
+  border-radius: 25px;
+
+}
+@keyframes up5{
+  0%{
+    height: 0;
+  }
+  100%{
+    height: 90%;
+  }
+}
+
+
+  .missions1 {
+    background-color: #5fa29e;
+    padding-bottom: 80px;
+    padding-top:10px;
+  }
+
+  .mission1-table {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .circle1 {
+    border-radius: 50%;
+    border: 10px solid #FFFFFF;
+    background-color: #1e4b57;
+    width: 100px;
+    height: 100px;
+    align-items: center;
+    margin-left: 70px;
+    box-shadow: 10px 10px  #1e4b57; /*shadow size and colour*/
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+.disease1 {
+  height: 80px;
+  width: 80px;
+  text-align: center;
+}
+
+.disease1-button {
+  margin-top:20px;
+  font-family: "handwriting";
+  font-size: 40px;
+  background-color: #7CDBD5;
+  padding: 5px 30px;
+  border-radius: 25px;
+  border: 5px solid white;
+  line-height:30px;
+  color: #1e4b57;
+}
+
+.disease1-button:hover {
+  box-shadow: 2px 5px #37836f;
+  background-color:  #F9BE02;
+}
+
+
+@keyframes bounce {
+    0% { transform: translate(0px, 2px) }
+    10% { transform: translate(0px, 4px) }
+    20% { transform: translate(0px, 6px) }
+    30% { transform: translate(0px, 8px) }
+    40% { transform: translate(0px, 10px) }
+    50% { transform: translate(0px, 12px) }
+    60% { transform: translate(0px, 10px) }
+    70% { transform: translate(0px, 8px) }
+    80% { transform: translate(0px, 6px) }
+    90% { transform: translate(0px, 4px) }
+    100% { transform: translate(0px, 2px) }
+}
+
+.prevention {
+  background-color: #02C8A7;
+  padding-bottom: 80px;
+  padding-top:10px;
+}
+
+.prevention-table {
+  margin-left: 50px;
+  margin-right: 100px;
+}
+
+.prevention-img {
+  height: 100px;
+  width: 100px;
+  margin-top: 10px;
+}
+
+.prevention-text {
+  font-family: "handwriting";
+  font-size: 40px;
+  color: #1e4b57;
+  line-height: 40px;
+  margin-top: 40px;
+
+}
+.circle-prevention {
+  border-radius: 50%;
+  border: 10px solid #F9BE02;
+  background-color: white;
+  width: 150px;
+  height: 150px;
+  align-items: center;
+  margin-left: 50px;
+  box-shadow: 10px 10px  #37836f; /*shadow size and colour*/
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  margin-bottom: 50px;
+  animation: bounce 1.5s;
+animation-direction: alternate;
+animation-iteration-count: infinite;
+}
+
+.report-title {
+  font-family: "Stella";
+  font-size: 70px;
+  color: white;
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.report-date {
+  font-family: "handwriting";
+  font-size: 40px;
+  color: white;
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.report-para {
+  font-family: "handwriting";
+  font-size: 30px;
+  color: white;
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  padding-left: 30px;
+  padding-right: 30px
+}
+
+.report-button1, .report-button2 ,.report-button3 ,.report-button4 ,.report-button5 {
+  margin-top:20px;
+  font-family: "handwriting";
+  font-size: 40px;
+  background-color: transparent;
+  padding: 5px 30px;
+  border-radius: 25px;
+  border: 5px solid white;
+  line-height:30px;
+  color: white;
+}
+
+.report-button1:hover {
+  box-shadow: 2px 5px #b93738;
+  background-color:  #F53240;
+}
+
+.report-button2:hover {
+  box-shadow: 2px 5px #0e2930;
+  background-color:   #1e4b57;
+}
+
+.report-button3:hover {
+  box-shadow: 2px 5px #c59c35;
+  background-color:   #F9BE02;
+}
+
+.report-button4:hover {
+  box-shadow: 2px 5px #37836f;
+  background-color:   #02C8A7;
+}
+
+.report-button5:hover {
+  box-shadow: 2px 5px #5fa29e ;
+  background-color:   #7CDBD5;
+}
+
+@font-face {
+  font-family: 'Top Secret';
+  src: url('./fonts/[TOP_SECRET].ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stella';
+  src: url('./fonts/Stella Demo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Handwriting';
+  src: url('./fonts/handwriting.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KG Thank You';
+  src: url('./fonts/KGThankYouStamp.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
