@@ -22,7 +22,7 @@ class Landing extends Component {
     return (
       <div className="Landing">
             <Navbar id='landingnav' expand="lg" href='/'>
-            <a href='/home' className="d-inline-block align-top" ><img src={logo} id="logo" href='/'alt="Website logo"/> </a>        
+            <a href='#/home' className="d-inline-block align-top" ><img src={logo} id="logo" href='/'alt="Website logo"/> </a>        
             <NavLink className="LoginLanding" to="/login">Login</NavLink>
           </Navbar>
           <div className="MainLanding">

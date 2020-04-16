@@ -13,4 +13,8 @@ request.onload = function () {
 }
 request.send()
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> master

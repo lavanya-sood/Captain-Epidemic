@@ -321,7 +321,7 @@ class Location extends Component {
       <div className = "passport1">
         <LeafletMap className='map-country' data={this.state}/>
       </div>
-      <a href='/map'><img className = "map-icon-location" src={mapicon} alt=""></img></a>
+      <a href='#/map'><img className = "map-icon-location" src={mapicon} alt=""></img></a>
       </div>
 
       <div className = "missions2">

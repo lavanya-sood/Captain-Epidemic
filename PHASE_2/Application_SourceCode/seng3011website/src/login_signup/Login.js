@@ -10,7 +10,7 @@ export default class Login extends Component {
     state = { users : "" }
     
    callAPI() {
-        fetch("http://localhost:9000/login")
+        fetch("/login")
             .then(res => res.json())
             .then(res => this.setState({ users: res}));
     }
@@ -71,7 +71,7 @@ export default class Login extends Component {
                 <div className="login-form" align = "center">
                     <form className="pure-form pure-form-aligned">
                         <fieldset className="login-fieldset">
-                        <a href='/home'><img src={logo} className='logo-login' alt="Website logo"/></a>
+                        <a href='#/home'><img src={logo} className='logo-login' alt="Website logo"/></a>
                             <div className="welcome">
                                 <img className = "login-logo" src={login_logo} alt=""/>
                                 <p className="login-signup-title">Welcome Back!</p>

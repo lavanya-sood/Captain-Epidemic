@@ -131,7 +131,7 @@ class Modal extends Component {
             dob: this.props.data.dob,
             image: image
         };
-        axios.post('http://localhost:9000/signup', userObject)
+        axios.post('/signup', userObject)
         localStorage.setItem('username', this.props.data.username)
         localStorage.setItem('dob', this.props.data.dob)
         localStorage.setItem('image', image)

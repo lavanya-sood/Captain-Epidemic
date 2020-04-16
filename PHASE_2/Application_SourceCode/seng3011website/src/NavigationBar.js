@@ -6,7 +6,7 @@ import {Navbar,Nav,Form,FormControl,Button,Dropdown} from 'react-bootstrap';
 
 class NavigationBar extends Component {
     onClick(){
-      window.location.href="/searchResult";
+      window.location.href="#/searchResult";
     }
     logout() {
       localStorage.removeItem('username');
@@ -16,7 +16,7 @@ class NavigationBar extends Component {
     render() {
         return (
             <Navbar id='navbar' expand="lg" href='/'>
-            <a href='/home' className="d-inline-block align-top" ><img src={logo} id="logo" href='/'alt="Website logo"/> </a>
+            <a href='#/home' className="d-inline-block align-top" ><img src={logo} id="logo" href='/'alt="Website logo"/> </a>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
@@ -37,9 +37,9 @@ class NavigationBar extends Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="dropdown-menu-nav">
-                  <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                  <Dropdown.Item href="#/profile">Profile</Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href="/login" onClick={this.logout}>Logout</Dropdown.Item>
+                  <Dropdown.Item href="#/login" onClick={this.logout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 

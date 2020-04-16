@@ -13,7 +13,7 @@ export default class SignUp extends Component {
             }
     
    callAPI() {
-        fetch("http://localhost:9000/login")
+        fetch("/login")
             .then(res => res.json())
             .then(res => this.setState({ users: res}));
     }
@@ -134,7 +134,7 @@ export default class SignUp extends Component {
                 <div id='signup-form' className="signup-form" align = "center" hidden={this.state.avatar}>
                     <form className="pure-form pure-form-aligned">
                         <fieldset className="signup-fieldset">
-                        <a href='/home'><img src={logo} className='logo-signup' href='/home'alt="Website logo"/></a>
+                        <a href='#/home'><img src={logo} className='logo-signup' href='#/home'alt="Website logo"/></a>
                             <div className="welcome">
                                 <img className = "signup-logo" src={signup_logo} alt=""/>
                                 <p className="login-signup-title">Get Started!</p>

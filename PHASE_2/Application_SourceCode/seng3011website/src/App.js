@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Landing from "./Landing.js";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import SignUp from "./login_signup/Signup.js";
 import Login from "./login_signup/Login.js";
 import MapContainer from "./map/Map.js";
@@ -19,7 +19,7 @@ import Hangman from "./Games/Hangman"
 // updates map db daily to get current data from calmclams
 var CronJob = require('cron').CronJob;
 var job = new CronJob('0 0 * * *', function() {
-  axios.post('http://localhost:9000/map')
+  axios.post('/map')
 }, null, true, 'Australia/Sydney');
 job.start();
 

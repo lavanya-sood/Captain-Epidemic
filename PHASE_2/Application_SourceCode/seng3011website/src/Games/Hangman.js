@@ -111,7 +111,7 @@ export default () => {
   }
 
   const getDataFromAPI = () => {
-    fetch("http://localhost:9000/symptoms")
+    fetch("/symptoms")
         .then(res => res.json())
         .then(res => {
           let r = JSON.parse(res);
@@ -158,7 +158,7 @@ export default () => {
     let username = localStorage.getItem('username');
 
     // save game into db
-    axios.post('http://localhost:9000/savegame', {
+    axios.post('/savegame', {
       username:username,
       quiz:disease
     })

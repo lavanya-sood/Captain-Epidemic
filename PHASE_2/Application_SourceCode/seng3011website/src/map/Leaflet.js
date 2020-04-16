@@ -74,7 +74,7 @@ function onEachFeatureHelper(api, country) {
     items = items.slice(0, 5)
     var result = ''
     for (i = 0; i < items.length; i++) {
-        result +=  '<a href="/info" class="disease-map-link">' + items[i][0] + '</a><br>'
+        result +=  '<a href="#/info" class="disease-map-link">' + items[i][0] + '</a><br>'
     }
     return result
 }
@@ -93,7 +93,7 @@ class LeafletMap extends Component {
         loading: 'true'
     }
     callAPI() {
-        fetch("http://localhost:9000/map")
+        fetch("/map")
             .then(res => res.json())
             .then(res => this.setState({ api: res, loading: 'false' }));
     }
@@ -132,15 +132,15 @@ class LeafletMap extends Component {
             const result = onEachFeatureHelper(api, feature.properties.name)
             if (result.length > 0) {
                 if (map === true) {
-                    layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
+                    layer.bindPopup('<h3 class="monthly-title"><a href="#/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
                 } else {
                     layer.bindPopup('<h3 class="monthly-title">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + result + '</p>', {autoPan:false}) 
                 }
             } else {
                 if (map === true) {
-                    layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+                    layer.bindPopup('<h3 class="monthly-title"><a href="#/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
                 } else {
-                    layer.bindPopup('<h3 class="monthly-title"><a href="/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>', {autoPan:false})
+                    layer.bindPopup('<h3 class="monthly-title"><a href="#/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>', {autoPan:false})
                 }
             }
         }
@@ -157,7 +157,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ virusIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -167,7 +167,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ bacteriaIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -177,7 +177,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ fungusIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -187,7 +187,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ parasiteIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -196,7 +196,7 @@ class LeafletMap extends Component {
         return (
             <Marker position={[lat, lng]} icon={ germIcon } key={ key }>
                 <Popup autoPan={this.state.drag}>
-                    <h3 className="disease-map"><a href="/info" className="disease-title-map">{name}</a></h3>
+                    <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
                     <p className="date-map">{date}</p>
                     <p className="report-title-maps">{text}</p>
                 </Popup>
