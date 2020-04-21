@@ -27,6 +27,9 @@ class Quiz extends Component {
     let name = localStorage.getItem('username')
     let disease = localStorage.getItem('game-disease')
     console.log(sc)
+    console.log(name)
+    console.log(disease)
+
     axios.post('/savegame', {
       username:name,
       quiz:disease,
@@ -36,7 +39,7 @@ class Quiz extends Component {
       console.log(res);
     })
     .catch(function (error) {
-      console.log("error");
+      console.log("post error");
     });
   };
 

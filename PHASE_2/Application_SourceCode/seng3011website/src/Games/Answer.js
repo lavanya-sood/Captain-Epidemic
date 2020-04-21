@@ -24,6 +24,9 @@ class Answer extends React.Component {
         localStorage.setItem('score', s);
       }
     }
+    if (localStorage.getItem("score") === null) {
+      localStorage.setItem('score',0);
+    }
     return  <button > {this.props.correct}</button>;
   };
 
