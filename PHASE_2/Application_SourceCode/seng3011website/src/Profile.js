@@ -40,18 +40,9 @@ class Profile extends Component {
 
   callAPI() {
      fetch("/getgame")
-         .then(res => console.log(res))
-         //.then(res => console.log(res));
+         .then(res => res.json())
+         .then(res => console.log(res));
            //.then(res => this.setState({ users: res}));
-      axios.get('/getgame',{
-
-      })
-      .then(function (res) {
-        console.log(res);
-      })
-      .catch(function (error) {
-        console.log("error");
-      });
 
    }
 
