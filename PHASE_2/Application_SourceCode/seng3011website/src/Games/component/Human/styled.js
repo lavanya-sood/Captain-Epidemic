@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-
+// code source : https://github.com/ozluy/react-hangman/tree/master/src/components
 export const Man = styled.div`
   position: relative;
   margin: 70px 0 0 77.5px;

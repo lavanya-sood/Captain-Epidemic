@@ -3,6 +3,7 @@ import mainLayout from "../MainLayout.js";
 import quizdata from "./question";
 import Answer from "./Answer";
 import logo from "../img/virus.png";
+import axios from 'axios';
 
 class Quiz extends Component {
   state = {
@@ -14,11 +15,30 @@ class Quiz extends Component {
     this.setState({
       dataQuestion: quizdata
     });
+    localStorage.removeItem('score')
   };
 
   componentDidMount() {
     this.setStatefunstion();
   }
+
+  submitAnswer = () => {
+    let sc = localStorage.getItem('score')
+    let name = localStorage.getItem('username')
+    let disease = localStorage.getItem('game-disease')
+    console.log(sc)
+    axios.post('/savegame', {
+      username:name,
+      quiz:disease,
+      score:sc
+    })
+    .then(function (res) {
+      console.log(res);
+    })
+    .catch(function (error) {
+      console.log("error");
+    });
+  };
 
   render() {
     return (
@@ -48,6 +68,7 @@ class Quiz extends Component {
             </div>
           );
         })}
+        <button className = "submitBtn" onClick={() => this.submitAnswer()}> Submit </button>
       </Fragment>
     );
   }

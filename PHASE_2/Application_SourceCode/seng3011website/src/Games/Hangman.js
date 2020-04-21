@@ -4,6 +4,9 @@ import AnswerBox from './component/AnswerBox'
 import FailBox from './component/FailBox'
 import Result from './component/Result'
 import Human from './component/Human'
+import boycough from '../img/boycough.jpg';
+import '../index.css';
+
 import axios from 'axios';
 import {
   Gallow,
@@ -124,7 +127,7 @@ export default () => {
           symptom = r['result'][i]['reports'][0]['syndromes'][0]
           console.log(symptom)
           console.log(i)
-          symptom = 'banana'
+          symptom = 'coughing'
           wordSetter(symptom)
           return res.status
         })
@@ -160,7 +163,8 @@ export default () => {
     // save game into db
     axios.post('/savegame', {
       username:username,
-      quiz:disease
+      quiz:disease,
+      score:10
     })
     .then(function (res) {
       console.log(res);
@@ -209,8 +213,11 @@ export default () => {
         />
       </Gallow>
       <Human failedLetterCount={failedLetters.length} />
+      <img src={boycough} width= "400" height = "400" left = "200px" alt = "hangmanpic"/>
 
       <FailBox failedLetters={failedLetters} />
+      <h3> Charlie is showing symptoms for the disease. What symptom is that? </h3>
+
       <AnswerBox
         wordFromAPI={wordFromAPI}
         correctLetters={correctLetters}

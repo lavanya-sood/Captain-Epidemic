@@ -93,6 +93,24 @@ ul.header li a {
   font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
+  animation: bounce 0.8s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+.submitBtn {
+  position: relative;
+  padding: 10px;
+  background-color: #006400;
+  display: inline;
+  margin: 10px;
+  outline: none;
+  border: none;
+  font-size: 2em;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .question {

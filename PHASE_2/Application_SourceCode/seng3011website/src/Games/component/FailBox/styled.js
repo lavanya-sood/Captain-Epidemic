@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+// code source : https://github.com/ozluy/react-hangman/tree/master/src/components
 
 export const Wrapper = styled.div`
   position: absolute;

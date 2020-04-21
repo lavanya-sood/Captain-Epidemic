@@ -25,7 +25,7 @@ import profilePic from './img/profile_pic.png';
 import background from './img/profile_background.png';
 import passportIcon from './img/passport.png';
 import star from './img/star_og.png';
-
+import axios from 'axios';
 import virus from './img/virus.png';
 import virus1 from './img/virus1.png';
 import virus2 from './img/virus2.png';
@@ -36,7 +36,31 @@ import mainLayout from './MainLayout';
 
 class Profile extends Component {
   // get data from db
-  state = 5;
+  state = 0
+
+  callAPI() {
+     fetch("/getgame")
+         .then(res => console.log(res))
+         //.then(res => console.log(res));
+           //.then(res => this.setState({ users: res}));
+      axios.get('/getgame',{
+
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log("error");
+      });
+
+   }
+
+
+
+  componentWillMount() {
+       this.callAPI();
+       console.log(this.state)
+   }
 
   render() {
     return (
@@ -57,7 +81,7 @@ class Profile extends Component {
           <tbody style = {{"margin-top":"0px"}}>
             <tr>
             <td colspan = "2">
-            <h1 style = {{"font-size":"70px","color":"#0e2930", "font-family" : "Stella", 'margin-top': '0px', 'margin-bottom':'0px'}}> Emily <img src={corporalImg} className = "rank-icon" alt=""/></h1>
+            <h1 style = {{"fontSize":"70px","color":"#0e2930", "font-family" : "Stella", 'margin-top': '0px', 'margin-bottom':'0px'}}> Emily <img src={corporalImg} className = "rank-icon" alt=""/></h1>
             </td>
             </tr>
             <tr>

@@ -15,6 +15,7 @@ import {
   Chest,
   Foot,
 } from './styled'
+// code source : https://github.com/ozluy/react-hangman/tree/master/src/components
 
 const VisibilitySetter = ({ visible, component: Component, ...rest }) =>
   visible ? <Component {...rest} /> : null

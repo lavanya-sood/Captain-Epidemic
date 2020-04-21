@@ -61,10 +61,10 @@ class Home extends Component {
                         </Button>
                       </Link>
                       <br />
-                      <Link to="/Quiz">
-                        <Button className="button-primary-flip">
+                      <Link to="/Hangman">
+                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
-                          Play Quiz{" "}
+                          Play Game{" "}
                         </Button>
                       </Link>
                     </div>
@@ -89,7 +89,7 @@ class Home extends Component {
                       </Link>
                       <br />
                       <Link to="/Quiz">
-                        <Button className="button-primary-flip">
+                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Quiz{" "}
                         </Button>
