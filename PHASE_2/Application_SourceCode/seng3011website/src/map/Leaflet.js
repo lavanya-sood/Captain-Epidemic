@@ -118,15 +118,15 @@ class LeafletMap extends Component {
             .then(res => res.json())
             .then(res => this.setState({ countries: res }))
     }
-    callDiseaseAPI() {
+    /*callDiseaseAPI() {
         fetch("/map/diseases")
             .then(res => res.json())
             .then(res => this.setState({ diseases: res }))
-    }
+    }*/
     componentDidMount() {
         this.callAPI();
         this.callLocationAPI();
-        this.callDiseaseAPI();
+        //this.callDiseaseAPI();
         if (this.props.data) {
             this.setState({
                 lat: this.props.data.lat,

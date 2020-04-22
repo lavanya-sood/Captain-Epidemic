@@ -46,8 +46,8 @@ function App() {
           }} />
           <Route path="/searchResult" component={SearchResult} />
           <Route path="/country" component={Country} />
-          <Route path="/disease/:disease" component={Disease} />
-          <Route path="/location/:country" component={Location}/>
+          <Route path="/disease" component={Disease} />
+          <Route path="/location" component={Location}/>
           <Route path="/hangman" component={Hangman} />
 
     </div>
