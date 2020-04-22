@@ -188,7 +188,8 @@ class Location extends Component {
   }
   componentDidMount() {
     const path = window.location.hash
-    const country = path.split('/')[2]
+    var country = path.split('/')[2]
+    country = country.replace('%20', ' ')
     this.setState({
       country: country,
       lat: getCentre(country)[1],

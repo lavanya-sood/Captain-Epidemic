@@ -114,6 +114,18 @@ var diseases = [
     { "name": "COVID-19", "type": "virusIcon", "title": "coronavirus" }
     ]
 
+function getDiseaseNames() {
+    disease_names = []
+    for(var i = 0; i < diseases.length; i++) {
+        if (diseases[i].title) {
+            disease_names.push(diseases[i].title)
+        } else {
+            disease_names.push(diseases[i].name)
+        }
+    }
+    return disease_names
+}
+
 function getMapInfo(info) {
     var result = []
     for (var i = 0; i < info.length; i++) {
@@ -184,6 +196,14 @@ router.get('/', function(req, res, next) {
     db.close()
 });
 
+function getCountries(countries) {
+    country_list = []
+    for(var i = 0; i < countries.length; i++) {
+        country_list.push(countries[i].Country)
+    }
+    return country_list
+}
+
 router.get('/countries', function(req, res, next) {
     const dbPath = __dirname + '/databases/who.db'
     const db = new sqlite3.Database(dbPath)
@@ -192,9 +212,15 @@ router.get('/countries', function(req, res, next) {
         if (err) {
             throw err;
         }
-        res.json(rows)
+        res.json(getCountries(rows))
     });
     db.close()
 });
+
+router.get('/diseases', function(req, res, next) {
+    res.json(getDiseaseNames())
+});
+
+
 
 module.exports = router;

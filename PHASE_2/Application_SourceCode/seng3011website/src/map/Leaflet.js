@@ -74,15 +74,20 @@ function onEachFeatureHelper(api, country) {
     items = items.slice(0, 5)
     var result = ''
     for (i = 0; i < items.length; i++) {
-        result +=  '<a href="#/info" class="disease-map-link">' + items[i][0] + '</a><br>'
+        if (items[i][0] === 'undefined' || items[i][0] === 'other') {
+            result += items[i][0] + '<br>'
+        } else {
+            result +=  '<a href="#/info/' + items[i][0] + '" class="disease-map-link">' + items[i][0] + '</a><br>'
+        }
+        
     }
     return result
 }
 
 function checkCountries(country, countries) {
     for(var i = 0; i < countries.length; i++) {
-        if (countries[i].Country.indexOf(country) !== -1) {
-            return countries[i].Country
+        if (countries[i].indexOf(country) !== -1) {
+            return countries[i]
         }
     }
     return false
@@ -100,7 +105,8 @@ class LeafletMap extends Component {
     state = {
         api: '',
         loading: 'true',
-        countries: ''
+        countries: '',
+        diseases: ''
     }
     callAPI() {
         fetch("/map")
@@ -112,9 +118,15 @@ class LeafletMap extends Component {
             .then(res => res.json())
             .then(res => this.setState({ countries: res }))
     }
+    callDiseaseAPI() {
+        fetch("/map/diseases")
+            .then(res => res.json())
+            .then(res => this.setState({ diseases: res }))
+    }
     componentDidMount() {
         this.callAPI();
         this.callLocationAPI();
+        this.callDiseaseAPI();
         if (this.props.data) {
             this.setState({
                 lat: this.props.data.lat,
@@ -182,11 +194,12 @@ class LeafletMap extends Component {
     const position = [this.state.lat, this.state.lng]
     const bounds = [[-Infinity, -180],[Infinity, 180]]
     const markers = this.state.api.map(({lat, lng, type, name, text, date, key}) => {
+        var ahref = '#/info/' + name
         if (type === 'virusIcon') 
             return (
                 <Marker position={[lat, lng]} icon={ virusIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href={ahref} className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -196,7 +209,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ bacteriaIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href={ahref} className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -206,7 +219,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ fungusIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href={ahref} className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -216,7 +229,7 @@ class LeafletMap extends Component {
             return (
                 <Marker position={[lat, lng]} icon={ parasiteIcon } key={ key }>
                     <Popup autoPan={this.state.drag}>
-                        <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
+                        <h3 className="disease-map"><a href={ahref} className="disease-title-map">{name}</a></h3>
                         <p className="date-map">{date}</p>
                         <p className="report-title-maps">{text}</p>
                     </Popup>
@@ -225,7 +238,7 @@ class LeafletMap extends Component {
         return (
             <Marker position={[lat, lng]} icon={ germIcon } key={ key }>
                 <Popup autoPan={this.state.drag}>
-                    <h3 className="disease-map"><a href="#/info" className="disease-title-map">{name}</a></h3>
+                    <h3 className="disease-map"><a href={ahref} className="disease-title-map">{name}</a></h3>
                     <p className="date-map">{date}</p>
                     <p className="report-title-maps">{text}</p>
                 </Popup>
