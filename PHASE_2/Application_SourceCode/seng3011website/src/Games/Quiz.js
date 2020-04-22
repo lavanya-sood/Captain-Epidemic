@@ -4,13 +4,39 @@ import quizdata from "./question";
 import Answer from "./Answer";
 import logo from "../img/virus.png";
 import axios from 'axios';
+import ReactDOM from "react-dom";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
 
 class Quiz extends Component {
   state = {
-    dataQuestion: []
+    dataQuestion: [],
+    show:false,
+    isOpen: false
   };
 
-  setStatefunstion = () => {
+  hideModal = () => {
+    this.setState({
+      isOpen:false
+    });
+    console.log("hide")
+  };
+
+  showModal = () => {
+    this.setState({
+      isOpen:true
+    });
+    console.log("show")
+    console.log(this.state.isOpen)
+    this.submitAnswer()
+  };
+
+ setStatefunstion = () => {
     //  use reactjs setState
     this.setState({
       dataQuestion: quizdata
@@ -39,7 +65,7 @@ class Quiz extends Component {
       console.log(res);
     })
     .catch(function (error) {
-      console.log("post error");
+      console.log("submit score error");
     });
   };
 
@@ -71,7 +97,29 @@ class Quiz extends Component {
             </div>
           );
         })}
-        <button className = "submitBtn" onClick={() => this.submitAnswer()}> Submit </button>
+        <button className = "submitBtn" onClick={()=>this.showModal()}> Submit </button>
+        <Modal show={this.state.isOpen} onHide={()=>this.hideModal()}>
+          <Modal.Header>
+            <h3>Your score for this mission is </h3>
+          </Modal.Header>
+            <div className="quiz-div">
+          <img
+            src={logo}
+            className="quiz-img"
+            alt="Logo"
+            width="110"
+            height="100"
+          />
+            <div className="quiz-name">{localStorage.getItem('score')}/10</div>
+          </div>
+          <Modal.Footer>
+          <Link to="/Home">
+            <Button className = "submitBtn">
+              Go to Home
+            </Button>
+          </Link>
+          </Modal.Footer>
+        </Modal>
       </Fragment>
     );
   }

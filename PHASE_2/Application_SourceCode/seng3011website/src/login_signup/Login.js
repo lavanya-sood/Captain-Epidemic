@@ -8,7 +8,7 @@ import logo from '../img/Logo.png';
 
 export default class Login extends Component {
     state = { users : "" }
-    
+
    callAPI() {
         fetch("/login")
             .then(res => res.json())
@@ -17,7 +17,7 @@ export default class Login extends Component {
     componentWillMount() {
         this.callAPI();
     }
-    
+
     clearErrors(div) {
         div.innerHTML = '';
     }
@@ -29,12 +29,12 @@ export default class Login extends Component {
             if (username.value === this.state.users[i].username) {
                 if (password.value === this.state.users[i].password) {
                     return i;
-                } 
+                }
             }
-        } 
+        }
         return false
     }
-    
+
     handleSubmit(event) {
         const div = document.getElementById('error')
         this.clearErrors(div)
@@ -54,6 +54,19 @@ export default class Login extends Component {
                 localStorage.setItem('username', username.value)
                 localStorage.setItem('dob', this.state.users[res].dob)
                 localStorage.setItem('image', this.state.users[res].image)
+                fetch("/getgame")
+                    .then(res => res.json())
+                    // .then(res => this.setState({ games: res}));
+                    .then( res => {
+                      let sum = 0
+                      for (var i = 0;i < res.length;i++){
+                        if (res[i]['username'] == localStorage.getItem('username')){
+                          sum ++
+                        }
+                      }
+                      // set number of games played
+                     localStorage.setItem('games',sum)
+                    })
             } else {
                 empty.textContent = 'incorrect username or password'
                 event.preventDefault();

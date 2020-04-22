@@ -15,7 +15,6 @@ router.post('/', function(req, res) {
     })
     db.close()
     console.log("save game!!");
-
 })
 //
 // router.get('/', function(req, res,next) {
