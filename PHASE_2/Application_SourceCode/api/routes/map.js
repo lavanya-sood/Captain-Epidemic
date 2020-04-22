@@ -184,4 +184,17 @@ router.get('/', function(req, res, next) {
     db.close()
 });
 
+router.get('/countries', function(req, res, next) {
+    const dbPath = __dirname + '/databases/who.db'
+    const db = new sqlite3.Database(dbPath)
+    var sql = `SELECT DISTINCT Country FROM Location`
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.json(rows)
+    });
+    db.close()
+});
+
 module.exports = router;

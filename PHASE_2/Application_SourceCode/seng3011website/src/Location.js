@@ -27,7 +27,6 @@ function getCountryCoordinates(country) {
               var max = 0
               var max_j = 0
               for (var j = 0; j < countries[0].features[i].geometry.coordinates.length; j++) {
-                  console.log(countries[0].features[i].geometry.coordinates[j])
                   var a  = area(countries[0].features[i].geometry.coordinates[j][0])
                   if (a > max) {
                       max = a
@@ -178,13 +177,26 @@ function getZoom(country) {
 
 class Location extends Component {
   state = {
-    lat: getCentre("Australia")[1],
-    lng: getCentre("Australia")[0],
-    zoom: getZoom("Australia"),
-    min: getZoom("Australia"),
-    max: getZoom("Australia"),
+    country: '',
+    lat: '',
+    lng: '',
+    zoom: '',
+    min: '',
+    max: '',
     drag: false,
     class: 'map-image'
+  }
+  componentDidMount() {
+    const path = window.location.hash
+    const country = path.split('/')[2]
+    this.setState({
+      country: country,
+      lat: getCentre(country)[1],
+      lng: getCentre(country)[0],
+      zoom: getZoom(country),
+      min: getZoom(country),
+      max: getZoom(country),
+    })
   }
   static get CONTAINER_STYLE() {
      return {
@@ -274,10 +286,13 @@ class Location extends Component {
    }
 
   render() {
+    if (this.state.country === '') {
+        return <h3 className="headingpage loading">Loading...</h3>
+    }
     return (
       <div>
 
-      <h1 className = "country-title" align = "center"> Australia </h1>
+      <h1 className = "country-title" align = "center"> {this.state.country} </h1>
       <h1 className = "confidential">[TOP_SECRET_FILE]</h1>
 
       <div>

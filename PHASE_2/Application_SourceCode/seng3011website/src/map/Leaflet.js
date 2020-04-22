@@ -79,6 +79,15 @@ function onEachFeatureHelper(api, country) {
     return result
 }
 
+function checkCountries(country, countries) {
+    for(var i = 0; i < countries.length; i++) {
+        if (countries[i].Country.indexOf(country) !== -1) {
+            return countries[i].Country
+        }
+    }
+    return false
+}
+
 function getCurrentMonth() {
     const months = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -90,15 +99,22 @@ function getCurrentMonth() {
 class LeafletMap extends Component {
     state = {
         api: '',
-        loading: 'true'
+        loading: 'true',
+        countries: ''
     }
     callAPI() {
         fetch("/map")
             .then(res => res.json())
             .then(res => this.setState({ api: res, loading: 'false' }));
     }
+    callLocationAPI() {
+        fetch("/map/countries")
+            .then(res => res.json())
+            .then(res => this.setState({ countries: res }))
+    }
     componentDidMount() {
         this.callAPI();
+        this.callLocationAPI();
         if (this.props.data) {
             this.setState({
                 lat: this.props.data.lat,
@@ -123,31 +139,44 @@ class LeafletMap extends Component {
         }
     }
 
-    onEachFeatureApi(api, map) {
+    onEachFeatureApi(api, map, countries) {
+        if (!countries) {
+            return
+        }
         return function onEachFeature(feature, layer) {
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
             });
             const result = onEachFeatureHelper(api, feature.properties.name)
+            const country = checkCountries(feature.properties.name, countries)
+            var ahref = '#/location/' + country
             if (result.length > 0) {
                 if (map === true) {
-                    layer.bindPopup('<h3 class="monthly-title"><a href="#/location" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
+                    if (country !== false) {
+                        layer.bindPopup('<h3 class="monthly-title"><a href="'+ahref+'" class="country-map-link">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
+                    } else {
+                        layer.bindPopup('<h3 class="monthly-title">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3></a><p class="country-ranking">' + result + '</p>') 
+                    }
                 } else {
                     layer.bindPopup('<h3 class="monthly-title">'+feature.properties.name+' - '+ getCurrentMonth() + ' Disease Ranking</h3><p class="country-ranking">' + result + '</p>', {autoPan:false}) 
                 }
             } else {
                 if (map === true) {
-                    layer.bindPopup('<h3 class="monthly-title"><a href="#/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+                    if (country !== false) {
+                        layer.bindPopup('<h3 class="monthly-title"><a href="'+ahref+'" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+                    } else {
+                        layer.bindPopup('<h3 class="monthly-title"><class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>')
+                    }
                 } else {
-                    layer.bindPopup('<h3 class="monthly-title"><a href="#/location" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>', {autoPan:false})
+                    layer.bindPopup('<h3 class="monthly-title"><a href="'+ahref+'" class="country-map-link">'+feature.properties.name+'</a></h3><p class="country-ranking">No diseases in ' + getCurrentMonth() + '</p>', {autoPan:false})
                 }
             }
         }
     }
 
     render() {
-    if (this.state.api === '') {
+    if (this.state.api === '' || this.state.countries === '') {
         return <h3 className="headingpage loading">Loading...</h3>
     }
     const position = [this.state.lat, this.state.lng]
@@ -211,7 +240,7 @@ class LeafletMap extends Component {
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
             noWrap='true'
             />
-            <GeoJSON data={this.getCountries()} onEachFeature={this.onEachFeatureApi(this.state.api, this.state.drag)} style={this.style}></GeoJSON>
+            <GeoJSON data={this.getCountries()} onEachFeature={this.onEachFeatureApi(this.state.api, this.state.drag, this.state.countries)} style={this.style}></GeoJSON>
             {markers}
             <Marker position={[30,170]} icon={ ausBoat }></Marker>
             <Marker position={[75,3]} icon={ foxBoat }></Marker>
