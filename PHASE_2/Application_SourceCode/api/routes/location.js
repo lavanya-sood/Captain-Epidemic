@@ -391,4 +391,32 @@ router.post('/reports-calmclams', function(req, res, next) {
     db.close()
 })
 
+
+function checkCountries(country, countries) {
+    console.log(country)
+    for(var i = 0; i < countries.length; i++) {
+        console.log(countries[i])
+        if (countries[i].Country === country) {
+            console.log('hi')
+            return true
+        }
+    }
+    console.log('bi')
+    return false
+  }
+
+router.post('/countries', function(req, res, next) {
+    country = req.body.country
+    const dbPath = __dirname + '/databases/who.db'
+    const db = new sqlite3.Database(dbPath)
+    var sql = `SELECT DISTINCT Country FROM Location`
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.json(checkCountries(country, rows))
+    });
+    db.close()
+});
+
 module.exports = router;

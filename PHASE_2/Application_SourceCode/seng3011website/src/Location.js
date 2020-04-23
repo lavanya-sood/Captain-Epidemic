@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Location.css';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import mainLayout from './MainLayout';
 
@@ -189,7 +189,8 @@ class Location extends Component {
     diseases_tele: '',
     diseases_calm: '',
     report_tele: '',
-    report_calm:''
+    report_calm:'', 
+    countries:''
   }
   callAPI(country) {
     const requestOptions = {
@@ -209,11 +210,17 @@ class Location extends Component {
     fetch("/location/reports-calmclams", requestOptions)
         .then(res => res.json())
         .then(res => this.setState({ report_calm: res }));
+    fetch("/location/countries", requestOptions)
+        .then(res => res.json())
+        .then(res => this.setState({ countries: res }))
   }
   componentDidMount() {
-    
     const path = window.location.hash
     var country = path.split('/')[2]
+    if (country === undefined) {
+      this.setState({countries: false})
+      return
+    }
     country = country.replace('%20', ' ')
     this.callAPI(country)
     this.setState({
@@ -374,6 +381,9 @@ class Location extends Component {
    }
 
   render() {
+    if (this.state.countries === false) {
+      return <Redirect to="/country" />
+    } 
     if (this.state.country === '' || this.state.diseases_tele == '' || this.state.diseases_calm == '' || this.state.report_calm == '' || this.state.report_tele == '') {
         return <h3 className="headingpage loading">Loading...</h3>
     }
