@@ -393,15 +393,11 @@ router.post('/reports-calmclams', function(req, res, next) {
 
 
 function checkCountries(country, countries) {
-    console.log(country)
     for(var i = 0; i < countries.length; i++) {
-        console.log(countries[i])
         if (countries[i].Country === country) {
-            console.log('hi')
             return true
         }
     }
-    console.log('bi')
     return false
   }
 

@@ -263,7 +263,7 @@ class Location extends Component {
     for (i = 0; i < dis2.length; i++) {
       for (j = 0; j < result.length; j++) {
         if (dis2[i].disease === result[j].disease) {
-          if (result[j].location == '') {
+          if (result[j].location === '') {
             result[j].location += dis2[i].location
           } else {
             result[j].location += ',' + dis2[i].location
@@ -273,7 +273,7 @@ class Location extends Component {
         }
       }
     }
-    for (var j = 0; j < result.length; j++) {
+    for (j = 0; j < result.length; j++) {
       var loc = result[j].location.split(',')
       loc = Array.from(new Set(loc))
       if (loc.length > 4) {
@@ -384,7 +384,7 @@ class Location extends Component {
     if (this.state.countries === false) {
       return <Redirect to="/country" />
     } 
-    if (this.state.country === '' || this.state.diseases_tele == '' || this.state.diseases_calm == '' || this.state.report_calm == '' || this.state.report_tele == '') {
+    if (this.state.country === '' || this.state.diseases_tele === '' || this.state.diseases_calm === '' || this.state.report_calm === '' || this.state.report_tele === '') {
         return <h3 className="headingpage loading">Loading...</h3>
     }
     const getDis = this.getDiseases()
@@ -437,7 +437,7 @@ class Location extends Component {
     })
     const reportData = this.getReports()
     const reports = reportData.map(({url, headline, maintext, date, key}) => {
-      if (key == 1) 
+      if (key === 1) 
         return (
           <div style={Location.CARD_STYLE2}>
             <h1 className = "report-title"> {headline}</h1>
@@ -446,7 +446,7 @@ class Location extends Component {
             <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
           </div>
         )
-      if (key == 2) 
+      if (key === 2) 
         return (
           <div style={Location.CARD_STYLE1}>
             <h1 className = "report-title"> {headline}</h1>
@@ -455,7 +455,7 @@ class Location extends Component {
             <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
           </div>
         )
-      if (key == 3)
+      if (key === 3)
         return (
           <div style={Location.CARD_STYLE3}>
             <h1 className = "report-title"> {headline}</h1>
@@ -464,7 +464,7 @@ class Location extends Component {
             <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
           </div>
         )
-      if (key == 4)
+      if (key === 4)
         return (
           <div style={Location.CARD_STYLE4}>
             <h1 className = "report-title"> {headline}</h1>
