@@ -9,6 +9,28 @@ import "../css/pure-min.css";
 import "../css/SearchResult.css";
 
 class Country extends Component {
+  state = {
+    countries: "",
+  };
+  callLocationAPI() {
+    fetch("/map/countries")
+      .then((res) => res.json())
+      .then((res) => this.setState({ countries: res }));
+  }
+  listLocations = () => {
+    let container = [];
+    for (let i = 0; i < this.state.countries.length; i++) {
+      container.push(
+        <Link to="location/{this.state.countries[i]}" className="result-link">
+          <div className="result">
+            <img src={aus} className="result-img"></img>
+            <h3 className="result-content">{this.state.countries[i]} </h3>
+          </div>
+        </Link>
+      );
+    }
+    return container;
+  };
   render() {
     return (
       <div className="result-div">
@@ -22,24 +44,7 @@ class Country extends Component {
           />
           <h2 className="header-name">Locations</h2>
         </div>
-        <Link to="location" className="result-link">
-          <div className="result">
-            <img src={aus} className="result-img"></img>
-            <h3 className="result-content">Australia</h3>
-          </div>
-        </Link>
-        <Link to="location" className="result-link">
-          <div className="result">
-            <img src={china} className="result-img"></img>
-            <h3 className="result-content">China</h3>
-          </div>
-        </Link>
-        <Link to="location" className="result-link">
-          <div className="result">
-            <img src={usa} className="result-img"></img>
-            <h3 className="result-content">America</h3>
-          </div>
-        </Link>
+        <div> {this.listLocations()} </div>
       </div>
     );
   }
