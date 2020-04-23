@@ -23,7 +23,7 @@ class Country extends Component {
       container.push(
         <Link to="location/{this.state.countries[i]}" className="result-link">
           <div className="result">
-            <img src={aus} className="result-img"></img>
+            {/* <img src={aus} className="result-img"></img> */}
             <h3 className="result-content">{this.state.countries[i]} </h3>
           </div>
         </Link>
