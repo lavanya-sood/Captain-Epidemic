@@ -1,5 +1,6 @@
 body {
-
+  cursor: url('../img/cursorstar.png'), pointer;
+  /* cursor: url('../img/cursorrocket.png'), pointer; */
 }
 
 @font-face {
@@ -98,6 +99,7 @@ body {
     padding-bottom: 10vh;
     color: #F53240;
     margin-bottom: 2vh;
+    position: relative;
   }
 
   .button-map {
@@ -126,6 +128,7 @@ body {
   }
 
   #categories {
+    padding-top: 5vh;
     padding-bottom: 10vh;
     background-image: url('../img/login-background.png');
     background-size: cover;
@@ -205,7 +208,61 @@ body {
     color: white;
   }
 
-  :hover {
-    text-decoration: none;
+  .mapImg {
+    width: 20%;
+    animation: bounce 1.5s;
+    animation-iteration-count: infinite;
   }
+
+  #mapbase {
+    width: 100%;
+  }
+
+  .waves {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .categorybuttons {
+    min-width: 200px;
+    min-height: 200px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #b93738;
+    color: white;
+    color: transparent;
+    border: none;
+    padding: 30px 30px 30px 30px;
+    border-radius: 50%;
+
   
+  animation: bounce 1.5s;
+
+  animation-iteration-count: infinite;
+
+  }
+
+
+#diseasesbutton {
+	background: url("../img/categorydiseases.png") no-repeat;
+	background-size: 100%; 
+}
+
+#locationsbutton{
+  background: url("../img/categorylocations.png") no-repeat;
+	background-size: 100%; 
+}
+
+#diseasesbutton:hover {
+	background:none;
+	background-color: #b93738;
+	color: white;
+}
+
+#locationsbutton:hover {
+	background:none;
+	background-color: #b93738;
+	color: white;
+}

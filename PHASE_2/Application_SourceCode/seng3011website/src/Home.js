@@ -6,6 +6,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import virus1 from './img/virus3.png';
 import virus2 from './img/virus1.png';
 import virus3 from './img/virus5.png';
+import fancymap from './img/mapping.png';
+import waves from './img/waves.png';
+
 
 class Home extends Component {
 
@@ -25,7 +28,7 @@ class Home extends Component {
               <Col>
                   <div>
                   <Link to="/Info">
-                    <img src={virus1} class="virusImg" href='/'alt="Super"/>
+                    <img src={virus1} class="virusImg" href='/Info'alt="Super"/>
                     <h2 class="diseaseTrend"> CORONAVIRUS </h2>
                     </Link>
                       <br/>
@@ -74,9 +77,13 @@ class Home extends Component {
         </div>
         <div id="map-location">
         <Link to='/map'>
-          <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button>
+          {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
+          <img src={fancymap} class="mapImg" href='/'alt="Super"/>
+          <p id="mapheading">Learn about diseases around the world </p>
         </Link>
-
+          {/* <div id="mapbase">
+          <img src={waves} class="waves" href='/'/>
+          </div> */}
         </div>
 
         <div id="categories">
@@ -85,12 +92,13 @@ class Home extends Component {
             <Row>
               <Col>
                 <Link to='/disease'>
-                  <Button className="button-category"> <h2>DISEASES</h2> </Button>
+                  {/* <Button className="button-category"> <h2>DISEASES</h2> </Button> */}
+                  <button class="categorybuttons" id="diseasesbutton"> <h2>Diseases</h2> </button>
                 </Link>
               </Col>
               <Col>
                 <Link to='/country'>
-                  <Button className="button-category"> <h2>LOCATIONS</h2> </Button>
+                <button class="categorybuttons" id="locationsbutton"> <h2> Locations </h2> </button>
                 </Link>
               </Col>
             </Row>
