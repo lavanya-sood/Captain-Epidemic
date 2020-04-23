@@ -166,7 +166,7 @@ export default () => {
   const saveGameData = () => {
     let disease = localStorage.getItem('game-disease');
     let username = localStorage.getItem('username');
-
+    console.log('username')
     // save game into db
     axios.post('/savegame', {
       username:username,
