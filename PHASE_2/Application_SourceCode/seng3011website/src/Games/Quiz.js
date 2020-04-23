@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import mainLayout from "../MainLayout.js";
-import quizdata from "./question";
+import ebola_quizdata from "./covid_question";
+import general_quizdata from "./general_question";
 import Answer from "./Answer";
 import logo from "../img/virus.png";
 import axios from 'axios';
@@ -28,18 +29,20 @@ class Quiz extends Component {
   };
 
   showModal = () => {
+    if (localStorage.getItem("score") === null) {
+      alert('Please complete the quiz')
+      return;
+    }
     this.setState({
       isOpen:true
     });
-    console.log("show")
-    console.log(this.state.isOpen)
     this.submitAnswer()
   };
 
  setStatefunstion = () => {
     //  use reactjs setState
     this.setState({
-      dataQuestion: quizdata
+      dataQuestion: ebola_quizdata
     });
     localStorage.removeItem('score')
   };
@@ -55,7 +58,6 @@ class Quiz extends Component {
     console.log(sc)
     console.log(name)
     console.log(disease)
-
     axios.post('/savegame', {
       username:name,
       quiz:disease,
@@ -110,7 +112,7 @@ class Quiz extends Component {
             width="110"
             height="100"
           />
-            <div className="quiz-name">{localStorage.getItem('score')}/10</div>
+            <div className="quiz-name">{localStorage.getItem('score')}/5</div>
           </div>
           <Modal.Footer>
           <Link to="/Home">

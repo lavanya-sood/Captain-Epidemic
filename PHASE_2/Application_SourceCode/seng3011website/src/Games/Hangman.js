@@ -197,6 +197,10 @@ export default () => {
     }
     return uniqueItems
   }
+  // restart game
+  function refreshPage(){
+    window.location.reload();
+  }
 
   return (
     <>
@@ -263,11 +267,9 @@ export default () => {
             Go to Home
           </Button>
         </Link>
-        <Link to="/Hangman">
-          <Button className = "submitBtn">
+          <Button className = "submitBtn"  onClick = {refreshPage} >
             Restart
           </Button>
-        </Link>
         </Modal.Footer>
       </Modal>
       {!isPaused && <Button pause> Pause Game</Button>}

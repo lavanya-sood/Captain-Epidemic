@@ -37,10 +37,27 @@ import mainLayout from './MainLayout';
 class Profile extends Component {
   // get data from db
   state = {
-    numGames : localStorage.getItem('games')
+    numGames : localStorage.getItem('games'),
+    rank : "none"
   }
 
   componentWillMount() {
+    this.state.rank = recruitImg
+    if (this.state.numGames == 40){
+      this.state.rank = captainImg
+    } else if (this.state.numGames >= 30){
+      this.state.rank = majorImg
+    } else if (this.state.numGames >= 21){
+      this.state.rank = commanderImg
+    } else if (this.state.numGames >= 15){
+      this.state.rank = lieutenantImg
+    } else if (this.state.numGames >= 10){
+      this.state.rank = sergeantImg
+    } else if (this.state.numGames >= 6){
+      this.state.rank = corporalImg
+    } else if (this.state.numGames >= 3){
+      this.state.rank = cadetImg
+    }
    }
 
   render() {
@@ -54,14 +71,14 @@ class Profile extends Component {
           <img src={passportIcon} align = "left" className="passport-image" alt=""/>
       {/*profile pic*/}
           <div className = "back">
-            <img src={'img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
+            <img src={'./img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
           </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
           <Table borderless size="sm" style = {{"marginBottom":"0px"}}>
           <tbody style = {{"marginTop":"0px"}}>
             <tr>
             <td colSpan = "2">
-            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> Emily <img src={corporalImg} className = "rank-icon" alt=""/></h1>
+            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> Emily <img src={this.state.rank} className = "rank-icon" alt=""/></h1>
             </td>
             </tr>
             <tr>
@@ -143,7 +160,7 @@ class Profile extends Component {
               </tr>
               <tr>
                 <td colSpan = "4">
-                  <h5 style= {{"color":"#0e2930", "fontFamily":"handwriting",'fontSize': '40px'}}> Complete more missions to move to the next rank! </h5>
+                  <h5 style= {{"color":"#0e2930", "fontFamily":"handwriting",'fontSize': '40px'}}> You have completed {this.state.numGames} missions! Keep it up! </h5>
                 </td>
               </tr>
             </tbody>
