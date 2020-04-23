@@ -73,8 +73,8 @@ function formatDate(date) {
 }
 
 var diseases = [
-    { "name": "unknown", "type": "germIcon" },
-    { "name": "other", "type": "germIcon" },
+    { "name": "unknown", "type": "germIcon", "title": "unknown disease" },
+    { "name": "other", "type": "germIcon", "title": "unknown disease"},
     { "name": "anthrax cutaneous", "type": "bacteriaIcon", "title": "anthrax" },
     { "name": "anthrax gastrointestinous", "type": "bacteriaIcon", "title": "anthrax" },
     { "name": "anthrax inhalation","type": "bacteriaIcon", "title": "anthrax" },
@@ -220,9 +220,15 @@ function getReportsByCountry(country, results, flag) {
             for (var k = 0; k < results[i].reports[j].locations.length; k++) {
                 if (country == results[i].reports[j].locations[k].country) {
                     if (flag == 0) {
+                        var disease = results[i].reports[0].diseases[0]
+                        if (disease === undefined) {
+                            disease = 'unknown disease'
+                        } else {
+                            disease = formatDisease(disease)
+                        }
                         var entry = {
                             url: results[i].url,
-                            headline: formatDisease(results[i].reports[0].diseases[0]) + ' update',
+                            headline: disease + ' update',
                             maintext: results[i].headline,
                             date: formatDate(results[i].reports[0].event_date)
                         }
