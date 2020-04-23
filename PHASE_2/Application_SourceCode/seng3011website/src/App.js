@@ -20,6 +20,7 @@ import Hangman from "./Games/Hangman"
 var CronJob = require('cron').CronJob;
 var job = new CronJob('0 0 * * *', function() {
   axios.post('/map')
+  axios.post('/location')
 }, null, true, 'Australia/Sydney');
 job.start();
 
