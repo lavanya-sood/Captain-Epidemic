@@ -5,11 +5,9 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 class Home extends Component {
-
   setGameDisease = (e) => {
     console.log(e.target.id);
-    localStorage.setItem('game-disease', e.target.id);
-
+    localStorage.setItem("game-disease", e.target.id);
   };
 
   render() {
@@ -27,16 +25,20 @@ class Home extends Component {
                       <h2> CORONAVIRUS </h2>
                     </div>
 
-                  <div className="flip-card-back">
-                      <Link to='/Info'>
-                      <Button className="button-primary-flip">
-                      {" "}
-                      Learn More{" "}
-                    </Button>
+                    <div className="flip-card-back">
+                      <Link to="/Info">
+                        <Button className="button-primary-flip">
+                          {" "}
+                          Learn More{" "}
+                        </Button>
                       </Link>
                       <br />
                       <Link to="/Quiz">
-                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
+                        <Button
+                          className="button-primary-flip"
+                          id="coronavirus"
+                          onClick={(e) => this.setGameDisease(e)}
+                        >
                           {" "}
                           Play Quiz{" "}
                         </Button>
@@ -53,7 +55,6 @@ class Home extends Component {
                     </div>
 
                     <div className="flip-card-back">
-
                       <Link to="/Info">
                         <Button className="button-primary-flip">
                           {" "}
@@ -78,14 +79,12 @@ class Home extends Component {
                       <h2> YELLOW FEVER </h2>
                     </div>
 
-
                     <div className="flip-card-back">
                       <Link to="/Info">
                         <Button className="button-primary-flip">
                           {" "}
                           Learn More{" "}
                         </Button>
-
                       </Link>
                       <br />
                       <Link to="/Quiz">
@@ -102,10 +101,12 @@ class Home extends Component {
           </Container>
         </div>
         <div id="map-location">
-        <Link to='/map'>
-          <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button>
-        </Link>
-
+          <Link to="/map">
+            <Button className="button-map">
+              {" "}
+              <p id="mapheading">Learn about diseases around the world </p>{" "}
+            </Button>
+          </Link>
         </div>
 
         <div id="categories">
@@ -113,13 +114,19 @@ class Home extends Component {
           <Container id="trending-topics">
             <Row>
               <Col>
-                <Link to='/disease'>
-                  <Button className="button-category"> <h2>DISEASES</h2> </Button>
+                <Link to="/disease">
+                  <Button className="button-category">
+                    {" "}
+                    <h2>DISEASES</h2>{" "}
+                  </Button>
                 </Link>
               </Col>
               <Col>
-                <Link to='/country'>
-                  <Button className="button-category"> <h2>LOCATIONS</h2> </Button>
+                <Link to="/locations">
+                  <Button className="button-category">
+                    {" "}
+                    <h2>LOCATIONS</h2>{" "}
+                  </Button>
                 </Link>
               </Col>
             </Row>
