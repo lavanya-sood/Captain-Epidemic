@@ -31,6 +31,7 @@ class Info extends Component {
     check: ''
   }
   callDiseaseAPI(disease) {
+    console.log(disease)
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +48,7 @@ class Info extends Component {
       this.setState({check: false})
       return
     }
-    disease = disease.replace('%20', ' ')
+    disease = disease.replace(/%20/g, ' ')
     this.callDiseaseAPI(disease)
     this.setState({
       disease: disease

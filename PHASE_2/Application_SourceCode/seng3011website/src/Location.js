@@ -147,6 +147,9 @@ function getCentre(country) {
       return [103.8198, 1.3521]
     }
   }
+  if (polygon == undefined) {
+    return undefined
+  }
   var p = polylabel(polygon, 0.001)
   return p
 }
@@ -221,8 +224,12 @@ class Location extends Component {
       this.setState({countries: false})
       return
     }
-    country = country.replace('%20', ' ')
+    country = country.replace(/%20/g, ' ')
     this.callAPI(country)
+    if (getCentre(country) === undefined) {
+      this.setState({countries: false})
+      return
+    }
     this.setState({
       country: country,
       lat: getCentre(country)[1],
