@@ -1,3 +1,7 @@
+body {
+
+}
+
 @font-face {
   font-family: 'My Kids Handwritten Basic';
   src: url(../fonts/MyKidsHandwrittenBasic-gxxZY.ttf) format('truetype');
@@ -85,18 +89,14 @@
 
   #trending {
     padding-bottom: 8vh;
-    padding-top: 3vh;
-  }
-
-  #trending-topics {
-    margin-top: 20px;
+    background-image: url('../img/login-background.png');
+    background-size: cover;
   }
 
   #map-location {
-    background-color: #F53240;
     padding-top: 10vh;
     padding-bottom: 10vh;
-    color: white;
+    color: #F53240;
     margin-bottom: 2vh;
   }
 
@@ -126,8 +126,9 @@
   }
 
   #categories {
-    padding-top: 1vh;
     padding-bottom: 10vh;
+    background-image: url('../img/login-background.png');
+    background-size: cover;
   }
 
   .button-category {
@@ -153,6 +154,58 @@
   }
 
   .headingpage {
-    color: rgb(117, 117, 117);
-    font-size: 80px;
+    color: rgb(255, 255, 255);
+    font-size: 90px;
+    text-shadow: 2px 2px #000000;
   }
+
+  .virusImg {
+    width: 100%;
+    animation: bounce 1.5s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: translate(0px, 2px);
+    }
+    10% {
+      transform: translate(0px, 4px);
+    }
+    20% {
+      transform: translate(0px, 6px);
+    }
+    30% {
+      transform: translate(0px, 8px);
+    }
+    40% {
+      transform: translate(0px, 10px);
+    }
+    50% {
+      transform: translate(0px, 12px);
+    }
+    60% {
+      transform: translate(0px, 10px);
+    }
+    70% {
+      transform: translate(0px, 8px);
+    }
+    80% {
+      transform: translate(0px, 6px);
+    }
+    90% {
+      transform: translate(0px, 4px);
+    }
+    100% {
+      transform: translate(0px, 2px);
+    }
+  }
+
+  .diseaseTrend {
+    color: white;
+  }
+
+  :hover {
+    text-decoration: none;
+  }
+  

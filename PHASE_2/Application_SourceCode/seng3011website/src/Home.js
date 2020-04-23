@@ -3,6 +3,9 @@ import mainLayout from "./MainLayout.js";
 import "./css/Home.css";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import virus1 from './img/virus3.png';
+import virus2 from './img/virus1.png';
+import virus3 from './img/virus5.png';
 
 class Home extends Component {
 
@@ -20,83 +23,51 @@ class Home extends Component {
           <Container id="trending-topics">
             <Row>
               <Col>
-                <div className="flip-card">
-                  <div className="flip-card-inner">
-                    <div className="flip-card-front">
-                      {/* <img src={title} className="project-image"/> */}
-                      <h2> CORONAVIRUS </h2>
-                    </div>
-
-                  <div className="flip-card-back">
-                      <Link to='/Info'>
-                      <Button className="button-primary-flip">
-                      {" "}
-                      Learn More{" "}
-                    </Button>
-                      </Link>
-                      <br />
-                      <Link to="/Quiz">
-                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Quiz{" "}
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col>
-                <div className="flip-card">
-                  <div className="flip-card-inner">
-                    <div className="flip-card-front">
-                      <h2> EBOLA </h2>
-                    </div>
-
-                    <div className="flip-card-back">
-
-                      <Link to="/Info">
-                        <Button className="button-primary-flip">
-                          {" "}
-                          Learn More{" "}
-                        </Button>
-                      </Link>
-                      <br />
-                      <Link to="/Hangman">
+                  <div>
+                  <Link to="/Info">
+                    <img src={virus1} class="virusImg" href='/'alt="Super"/>
+                    <h2 class="diseaseTrend"> CORONAVIRUS </h2>
+                    </Link>
+                      <br/>
+                    <Link to="/Quiz">
                         <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Game{" "}
                         </Button>
-                      </Link>
-                    </div>
+                        </Link>
                   </div>
-                </div>
               </Col>
               <Col>
-                <div className="flip-card">
-                  <div className="flip-card-inner">
-                    <div className="flip-card-front">
-                      <h2> YELLOW FEVER </h2>
-                    </div>
-
-
-                    <div className="flip-card-back">
-                      <Link to="/Info">
-                        <Button className="button-primary-flip">
-                          {" "}
-                          Learn More{" "}
-                        </Button>
-
+              <div>
+              <Link to="/Info">
+                    <img src={virus2} class="virusImg" href='/'alt="Super"/>
+                    <h2 class="diseaseTrend"> EBOLA </h2>
                       </Link>
-                      <br />
-                      <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
+                      <br/>
+                    <Link to="/Hangman">
+                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Game{" "}
                         </Button>
-                      </Link>
-                    </div>
+                        </Link>
                   </div>
-                </div>
+                
+              </Col>
+              <Col>
+              <div>
+              <Link to="/Info">
+                    <img src={virus3} class="virusImg" href='/'alt="Super"/>
+                    <h2 class="diseaseTrend"> PANDEMIC </h2>
+          
+                      </Link>
+                      <br/>
+                    <Link to="/Hangman">
+                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
+                          {" "}
+                          Play Game{" "}
+                        </Button>
+                        </Link>
+                  </div>
               </Col>
             </Row>
           </Container>
