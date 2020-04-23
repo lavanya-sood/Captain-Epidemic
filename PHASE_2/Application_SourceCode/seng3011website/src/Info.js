@@ -31,7 +31,6 @@ class Info extends Component {
     check: ''
   }
   callDiseaseAPI(disease) {
-    console.log(disease)
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
