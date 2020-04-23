@@ -239,7 +239,7 @@ class Location extends Component {
     for (var i = 0; i < dis1.length; i++) {
       diseases.push(dis1[i].disease)
     }
-    for (i = 0; i < dis1.length; i++) {
+    for (i = 0; i < dis2.length; i++) {
       diseases.push(dis2[i].disease)
     }
     diseases = Array.from(new Set(diseases))
