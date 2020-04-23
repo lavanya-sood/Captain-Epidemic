@@ -1,5 +1,6 @@
 import React from 'react'
 import { Wrapper, List, ListItem, Title } from './styled'
+// code source : https://github.com/ozluy/react-hangman/tree/master/src/components
 
 export default ({ failedLetters }) => (
   <Wrapper>
@@ -11,5 +12,3 @@ export default ({ failedLetters }) => (
     </List>
   </Wrapper>
 )
-
-

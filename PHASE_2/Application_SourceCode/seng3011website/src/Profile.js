@@ -25,7 +25,7 @@ import profilePic from './img/profile_pic.png';
 import background from './img/profile_background.png';
 import passportIcon from './img/passport.png';
 import star from './img/star_og.png';
-
+import axios from 'axios';
 import virus from './img/virus.png';
 import virus1 from './img/virus1.png';
 import virus2 from './img/virus2.png';
@@ -36,37 +36,58 @@ import mainLayout from './MainLayout';
 
 class Profile extends Component {
   // get data from db
-  state = 5;
+  state = {
+    numGames : localStorage.getItem('games'),
+    rank : "none"
+  }
+
+  componentWillMount() {
+    this.state.rank = recruitImg
+    if (this.state.numGames == 40){
+      this.state.rank = captainImg
+    } else if (this.state.numGames >= 30){
+      this.state.rank = majorImg
+    } else if (this.state.numGames >= 21){
+      this.state.rank = commanderImg
+    } else if (this.state.numGames >= 15){
+      this.state.rank = lieutenantImg
+    } else if (this.state.numGames >= 10){
+      this.state.rank = sergeantImg
+    } else if (this.state.numGames >= 6){
+      this.state.rank = corporalImg
+    } else if (this.state.numGames >= 3){
+      this.state.rank = cadetImg
+    }
+   }
 
   render() {
     return (
       <div>
 
         <div className="passport ">
-
       {/*----PASSPORT---*/}
           <div  className = "separator"> PASSPORT </div>
       {/*Passport icon*/}
           <img src={passportIcon} align = "left" className="passport-image" alt=""/>
       {/*profile pic*/}
           <div className = "back">
-            <img src={'img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
+            <img src={'./img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
           </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
-          <Table borderless size="sm" style = {{"margin-bottom":"0px"}}>
-          <tbody style = {{"margin-top":"0px"}}>
+          <Table borderless size="sm" style = {{"marginBottom":"0px"}}>
+          <tbody style = {{"marginTop":"0px"}}>
             <tr>
-            <td colspan = "2">
-            <h1 style = {{"font-size":"70px","color":"#0e2930", "font-family" : "Stella", 'margin-top': '0px', 'margin-bottom':'0px'}}> Emily <img src={corporalImg} className = "rank-icon" alt=""/></h1>
+            <td colSpan = "2">
+            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> Emily <img src={this.state.rank} className = "rank-icon" alt=""/></h1>
             </td>
             </tr>
             <tr>
-            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"font-family":"handwriting", 'font-size': '40px' }}>Agent Name: </h5></td>
-            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"text-decoration": "underline", "font-family":"Chalkduster", "padding-top":"10px"}}>emily101</h5></td>
+            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px' }}>Agent Name: </h5></td>
+            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>emily101</h5></td>
             </tr>
             <tr>
-            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"font-family":"handwriting", 'font-size': '40px'}}>Age: </h5></td>
-            <td style = {{"padding" : "0px 0px 0px 0px"}} > <h5 style={{"text-decoration": "underline", "font-family":"Chalkduster", "padding-top":"10px"}}>10 years old</h5></td>
+            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
+            <td style = {{"padding" : "0px 0px 0px 0px"}} > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>10 years old</h5></td>
             </tr>
           </tbody>
           </Table>
@@ -83,7 +104,7 @@ class Profile extends Component {
           <Table borderless size="sm">
             <thead>
               <tr>
-                <td colspan = "4">
+                <td colSpan = "4">
                   <div  className = "separator"> BADGES OF HONOUR </div>
                 </td>
               </tr>
@@ -95,51 +116,51 @@ class Profile extends Component {
                   <h1 className = "rank-name" > Recruit </h1>
                   <p className = "rank-stamp"> [Welcome_Aboard!] </p> </div>
                 </td>
-                <td><img src= {this.state < 15 ? lieutenantImgDisabled : lieutenantImg} className = "rank"/></td>
+                <td><img src= {this.state.numGames < 15 ? lieutenantImgDisabled : lieutenantImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 15 ? '-disabled' : '')}> Lieutenant </h1>
-                  <p className = {"rank-stamp" + (this.state < 15 ? '-disabled' : '')}> [15_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state.numGames < 15 ? '-disabled' : '')}> Lieutenant </h1>
+                  <p className = {"rank-stamp" + (this.state.numGames < 15 ? '-disabled' : '')}> [15_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
-                <td><img src={this.state < 3 ? cadetImgDisabled : cadetImg} className = "rank"/></td>
+                <td><img src={this.state.numGames < 3 ? cadetImgDisabled : cadetImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 3 ? '-disabled' : '')} > Cadet </h1>
-                  <p className = {"rank-stamp" + (this.state < 3 ? '-disabled' : '')}> [3_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state.numGames < 3 ? '-disabled' : '')} > Cadet </h1>
+                  <p className = {"rank-stamp" + (this.state.numGames < 3 ? '-disabled' : '')}> [3_Missions_Completed] </p> </div>
                 </td>
-                <td><img src={this.state < 21 ? commanderImgDisabled : commanderImg} className = "rank"/></td>
+                <td><img src={this.state.numGames < 21 ? commanderImgDisabled : commanderImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 21 ? '-disabled' : '')}> Commander </h1>
-                  <p className = {"rank-stamp" + (this.state < 21 ? '-disabled' : '')}> [21_Missions_Completed] </p> </div>
-                </td>
-              </tr>
-              <tr>
-                <td><img src={this.state < 6 ? corporalImgDisabled : corporalImg} className = "rank"/></td>
-                <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 6 ? '-disabled' : '')} > Corporal </h1>
-                  <p className ={"rank-stamp" + (this.state < 6 ? '-disabled' : '')}> [6_Missions_Completed] </p> </div>
-                </td>
-                <td><img src={this.state < 30 ? majorImgDisabled : majorImg} className = "rank"/></td>
-                <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 30 ? '-disabled' : '')}> Major </h1>
-                  <p className = {"rank-stamp" + (this.state < 30 ? '-disabled' : '')}> [30_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state.numGames < 21 ? '-disabled' : '')}> Commander </h1>
+                  <p className = {"rank-stamp" + (this.state.numGames < 21 ? '-disabled' : '')}> [21_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
-                <td><img src={this.state < 10 ? sergeantImgDisabled : sergeantImg} className = "rank"/></td>
+                <td><img src={this.state.numGames < 6 ? corporalImgDisabled : corporalImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 10 ? '-disabled' : '')} > Sergeant </h1>
-                  <p className = {"rank-stamp" + (this.state < 10 ? '-disabled' : '')} > [10_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state.numGames < 6 ? '-disabled' : '')} > Corporal </h1>
+                  <p className ={"rank-stamp" + (this.state.numGames < 6 ? '-disabled' : '')}> [6_Missions_Completed] </p> </div>
                 </td>
-                <td><img src={this.state < 40 ? captainImgDisabled : captainImg}  className = "rank"/></td>
+                <td><img src={this.state.numGames < 30 ? majorImgDisabled : majorImg} className = "rank"/></td>
                 <td><div className = "back">
-                  <h1 className = {"rank-name" + (this.state < 40 ? '-disabled' : '')}> Captain </h1>
-                  <p className = {"rank-stamp" + (this.state < 40? '-disabled' : '')} > [40_Missions_Completed] </p> </div>
+                  <h1 className = {"rank-name" + (this.state.numGames < 30 ? '-disabled' : '')}> Major </h1>
+                  <p className = {"rank-stamp" + (this.state.numGames < 30 ? '-disabled' : '')}> [30_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
-                <td colspan = "4">
-                  <h5 style= {{"color":"#0e2930", "font-family":"handwriting",'font-size': '40px'}}> Complete 4 more missions to move to the next rank! </h5>
+                <td><img src={this.state.numGames < 10 ? sergeantImgDisabled : sergeantImg} className = "rank"/></td>
+                <td><div className = "back">
+                  <h1 className = {"rank-name" + (this.state.numGames < 10 ? '-disabled' : '')} > Sergeant </h1>
+                  <p className = {"rank-stamp" + (this.state.numGames < 10 ? '-disabled' : '')} > [10_Missions_Completed] </p> </div>
+                </td>
+                <td><img src={this.state.numGames < 40 ? captainImgDisabled : captainImg}  className = "rank"/></td>
+                <td><div className = "back">
+                  <h1 className = {"rank-name" + (this.state.numGames < 40 ? '-disabled' : '')}> Captain </h1>
+                  <p className = {"rank-stamp" + (this.state.numGames < 40? '-disabled' : '')} > [40_Missions_Completed] </p> </div>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan = "4">
+                  <h5 style= {{"color":"#0e2930", "fontFamily":"handwriting",'fontSize': '40px'}}> You have completed {this.state.numGames} missions! Keep it up! </h5>
                 </td>
               </tr>
             </tbody>
@@ -148,7 +169,7 @@ class Profile extends Component {
 
         {/* Completed Mission diseases */}
         <div className = "missions">
-          <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Mission Accomplished!</h1>
+          <h1 style = {{"fontSize":"100px","color":"#0e2930", "fontFamily":"Stella"}}> Mission Accomplished!</h1>
           {/*tables holding p*/}
           <div className="mission-table">
           <Table borderless size="sm">

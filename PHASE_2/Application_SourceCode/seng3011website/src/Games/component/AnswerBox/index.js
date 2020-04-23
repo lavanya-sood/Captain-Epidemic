@@ -1,5 +1,6 @@
 import React from 'react'
 import { Item, Wrapper } from './styled'
+// code source : https://github.com/ozluy/react-hangman/tree/master/src/components
 
 export default ({ spaces, correctLetters, wordFromAPI }) => (
   <Wrapper>

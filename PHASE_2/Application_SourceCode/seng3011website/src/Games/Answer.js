@@ -7,7 +7,7 @@ class Answer extends React.Component {
     Answers: this.props.ans,
     Clickcheck:true,
     rightAnswer: this.props.correct,
-    ansLength : this.props.noQues
+    ansLength : this.props.noQues,
   };
 
   // Event on button
@@ -15,12 +15,19 @@ class Answer extends React.Component {
     this.setState({
       Clickcheck:false
     });
+    // record number of correct ques
     if (e.target.innerHTML === this.props.correct){
-      return  <button > {this.props.correct}</button>;
-    } else {
-      return  <button > {this.props.correct}</button>;
+      if (localStorage.getItem("score") === null) {
+        localStorage.setItem('score',1);
+      } else {
+        let s =  parseInt(localStorage.getItem('score')) + 1;
+        localStorage.setItem('score', s);
+      }
     }
-
+    if (localStorage.getItem("score") === null) {
+      localStorage.setItem('score',0);
+    }
+    return  <button > {this.props.correct}</button>;
   };
 
   render() {

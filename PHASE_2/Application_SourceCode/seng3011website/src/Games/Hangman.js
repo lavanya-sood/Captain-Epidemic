@@ -4,6 +4,17 @@ import AnswerBox from './component/AnswerBox'
 import FailBox from './component/FailBox'
 import Result from './component/Result'
 import Human from './component/Human'
+import boycough from '../img/boycough.jpg';
+import boyheadache from '../img/boyheadache.jpg';
+import '../index.css';
+import ReactDOM from "react-dom";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import { Link } from "react-router-dom";
+import logo from "../img/Logo.png";
+
 import axios from 'axios';
 import {
   Gallow,
@@ -19,6 +30,7 @@ export default () => {
   const [wordFromAPI, setWordFromAPI] = useState([])
   const [isPaused, setIsPaused] = useState(false)
   const [isGameOver, setIsGameOver] = useState(false)
+  const [isGameWon, setIsGameWon] = useState(false)
   const [resultBox, setResultBox] = useState({
     disabled: false,
     title: 'Hangman',
@@ -111,31 +123,29 @@ export default () => {
   }
 
   const getDataFromAPI = () => {
-    fetch("/symptoms")
-        .then(res => res.json())
-        .then(res => {
-          let r = JSON.parse(res);
-          let i = 0;
-          console.log(r['result'])
-          let symptom = r['result'][i]['reports'][0]['syndromes'][0]
-          while (r['result'][i]['reports'][0]['syndromes'].length == 0){
-             i = i + 1
-          }
-          symptom = r['result'][i]['reports'][0]['syndromes'][0]
-          console.log(symptom)
-          console.log(i)
-          symptom = 'banana'
-          wordSetter(symptom)
-          return res.status
-        })
-        .catch(error => {
-            console.log(error)
-            const symptoms = [
-              'Cough'
-            ]
-            const random = symptoms[Math.floor(Math.random() * symptoms.length)]
-            wordSetter(random)
-          })
+    // fetch("/symptoms")
+    //     .then(res => res.json())
+    //     .then(res => {
+    //       let r = JSON.parse(res);
+    //       let i = 0;
+    //       console.log(r['result'])
+    //       let symptom = r['result'][i]['reports'][0]['syndromes'][0]
+    //       while (r['result'][i]['reports'][0]['syndromes'].length == 0){
+    //          i = i + 1
+    //       }
+    //       symptom = r['result'][i]['reports'][0]['syndromes'][0]
+    //       console.log(symptom)
+    //       console.log(i)
+    //
+    //       return res.status
+    //     })
+    let disease = localStorage.getItem('game-disease')
+    let symptom = 'coughing'
+    if (disease == "yellow fever"){
+      symptom = 'headache'
+    }
+    wordSetter(symptom)
+
   }
 
 
@@ -147,20 +157,21 @@ export default () => {
         title: '★ You Won! ★',
         buttonLabel: 'Play Quiz',
       })
-      setIsGameOver(true)
       saveGameData()
-
+      setIsGameOver(true)
+      setIsGameWon(true)
     }
   }
   // save data to database
   const saveGameData = () => {
     let disease = localStorage.getItem('game-disease');
     let username = localStorage.getItem('username');
-
+    console.log('username')
     // save game into db
     axios.post('/savegame', {
       username:username,
-      quiz:disease
+      quiz:disease,
+      score:10
     })
     .then(function (res) {
       console.log(res);
@@ -168,7 +179,13 @@ export default () => {
     .catch(function (error) {
       console.log("error");
     });
-
+    var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
+    if (!storedQuiz.includes(disease)){
+      let g = localStorage.getItem('games')
+      let new_sum_games = parseInt(g) + 1
+      localStorage.setItem('games',new_sum_games)
+      console.log('add game')
+    }
   }
 
   const filterUniqueItems = items => {
@@ -183,12 +200,17 @@ export default () => {
     }
     return uniqueItems
   }
+  // restart game
+  function refreshPage(){
+    window.location.reload();
+  }
 
   return (
     <>
     <GlobalStyles />
     <AppWrapper>
       <GameInstruction>Press any keys (letters) to play.</GameInstruction>
+      <h4> Captain Epidemic Hangman Game </h4>
 
       <Gallow>
         <DownPipe />
@@ -209,8 +231,12 @@ export default () => {
         />
       </Gallow>
       <Human failedLetterCount={failedLetters.length} />
-
+      <img src={boycough} style={localStorage.getItem('game-disease') == 'ebola' ? {} : { display: 'none' }}  width= "280" height = "300" left = "200px" alt = "hangmanpic"/>
+      <img src={boyheadache} style={localStorage.getItem('game-disease') == 'yellow fever' ? {} : { display: 'none' }}  width= "280" height = "330" left = "200px" alt = "hangmanpic"/>
       <FailBox failedLetters={failedLetters} />
+      <div>
+      <h4> Charlie is showing symptoms for the disease. What symptom is that? </h4>
+      </div>
       <AnswerBox
         wordFromAPI={wordFromAPI}
         correctLetters={correctLetters}
@@ -222,8 +248,33 @@ export default () => {
         title={resultBox.title}
         disabled={resultBox.disabled}
         buttonLabel={resultBox.buttonLabel}
-        buttonAction={isPaused ? continueGame : startGame}
+        buttonAction={isPaused && !isGameOver ? continueGame : startGame}
       />
+      <Modal show={isGameOver} aria-labelledby="contained-modal-title-vcenter">
+        <Modal.Header>
+          <h3>Your result for this mission is </h3>
+        </Modal.Header>
+          <div className="quiz-div">
+        <img
+          src={logo}
+          className="quiz-img"
+          alt="Logo"
+          width="110"
+          height="100"
+        />
+          <div className="quiz-name">{isGameWon ? 'SUCCESS!': 'TRY AGAIN'}</div>
+        </div>
+        <Modal.Footer>
+        <Link to="/Home">
+          <Button className = "submitBtn">
+            Go to Home
+          </Button>
+        </Link>
+          <Button className = "submitBtn"  onClick = {refreshPage} >
+            Restart
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {!isPaused && <Button pause> Pause Game</Button>}
     </AppWrapper>
     </>

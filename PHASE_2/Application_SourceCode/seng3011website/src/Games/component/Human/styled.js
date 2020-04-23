@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-
+// code source : https://github.com/ozluy/react-hangman/tree/master/src/components
 export const Man = styled.div`
   position: relative;
   margin: 70px 0 0 77.5px;
@@ -107,18 +107,18 @@ export const Corpus = styled.div`
   width: 60px;
   height: 95px;
   border-radius: 5px;
-  background-color: var(--color-bodybg);
+  background-color: #ffdb58;
 `
 export const Chest = styled.div`
   display: inline-block;
   width: 30px;
   height: 70px;
-  background-color: var(--color-shirtLeft);
+  background-color: #800000;
   border-radius: 5px 0 0 0;
   ${({ right }) =>
     right &&
     css`
-      background-color: var(--color-shirtRight);
+      background-color: 	#0000A0;
       border-radius: 0 5px 0 0;
     `}
 `
@@ -129,14 +129,14 @@ export const Arm = styled.div`
   margin-top: -5px;
   width: 22px;
   height: 80px;
-  background-color: var(--color-shirtLeft);
+  background-color: #800000;
   border-radius: 5px;
   ${({ right }) =>
     right &&
     css`
       transform: rotate(-45deg);
       margin-left: 35px;
-      background-color: var(--color-shirtRight);
+      background-color: 	#0000A0;
     `}
 `
 export const Hand = styled.div`
@@ -151,7 +151,7 @@ export const Hand = styled.div`
   background-color: var(--color-humanbody);
 `
 export const Leg = styled.div`
-  background-color: var(--color-bodybg);
+  background-color:#ffdb58;
 
   height: 70px;
   width: 25px;
