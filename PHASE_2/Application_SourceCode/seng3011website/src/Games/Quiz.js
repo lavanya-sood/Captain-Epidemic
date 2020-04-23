@@ -69,6 +69,13 @@ class Quiz extends Component {
     .catch(function (error) {
       console.log("submit score error");
     });
+    var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
+    if (!storedQuiz.includes(disease)){
+      let g = localStorage.getItem('games')
+      let new_sum_games = parseInt(g) + 1
+      localStorage.setItem('games',new_sum_games)
+      console.log('add game')
+    }
   };
 
   render() {

@@ -59,13 +59,21 @@ export default class Login extends Component {
                     // .then(res => this.setState({ games: res}));
                     .then( res => {
                       let sum = 0
+                      let quiz = []
                       for (var i = 0;i < res.length;i++){
                         if (res[i]['username'] == localStorage.getItem('username')){
-                          sum ++
+                          // dont count same quiz twice
+                          if (!quiz.includes(res[i]['quiz'])){
+                            sum ++
+                            quiz.push(res[i]['quiz'])
+                          }
                         }
                       }
+                      console.log(quiz)
                       // set number of games played
                      localStorage.setItem('games',sum)
+                     localStorage.setItem('quiz',JSON.stringify(quiz))
+
                     })
             } else {
                 empty.textContent = 'incorrect username or password'

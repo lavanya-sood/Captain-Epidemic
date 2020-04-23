@@ -7,8 +7,8 @@ const sqlite3 = require('sqlite3').verbose();
 router.post('/', function(req, res) {
     const dbPath = __dirname + '/databases/user.db'
     const db = new sqlite3.Database(dbPath)
-    const sql = `INSERT INTO Quiz(username, quiz,score) VALUES(?,?,?) WHERE NOT EXISTS (SELECT * FROM QUIZ WHERE USERNAME = ? AND QUIZ = ?)`
-    db.run(sql, [req.body.username, req.body.quiz,req.body.score,req.body.username,req.body.quiz], (err) => {
+    const sql = `INSERT INTO Quiz(username, quiz,score) VALUES(?,?,?)`
+    db.run(sql, [req.body.username, req.body.quiz,req.body.score], (err) => {
         if (err) {
             throw err;
         }
@@ -30,5 +30,6 @@ router.post('/', function(req, res) {
 //     db.close()
 //     console.log("get game!!");
 // })
-
-module.exports = router;
+// insert into tablename (code)
+//  Select '1448523' Where not exists(select * from tablename where code='1448523')
+ module.exports = router;
