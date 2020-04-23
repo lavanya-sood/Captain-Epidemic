@@ -26,7 +26,17 @@ import spain from './img/spain.png';
 
 
 class Info extends Component {
-
+  state = {
+    disease: ''
+  }
+  componentDidMount() {
+    const path = window.location.hash
+    var disease = path.split('/')[2]
+    disease = disease.replace('%20', ' ')
+    this.setState({
+      disease: disease
+    })
+  }
   static get CONTAINER_STYLE() {
      return {
        position: "relative",
@@ -123,7 +133,7 @@ class Info extends Component {
           {/* Disease (animate) + Name + Button */}
           <div className = "disease">
             <img src={virus} align = "left" className="virus-image" alt=""/>
-            <h1 className = "virus-title" align = "center"> Coronavirus </h1>
+            <h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
             <Link to="/Quiz" style={{ textDecoration: 'none' }}><button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button></Link>
           </div>
           {/*Symptoms*/}
