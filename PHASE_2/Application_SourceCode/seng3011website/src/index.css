@@ -204,6 +204,7 @@ ul.header li a {
 #navbar {
   background-color: #7cdbd5;
   color: white;
+  box-shadow: 1px 5px #00000033;
 }
 
 .nav-link {
