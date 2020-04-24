@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Table from 'react-bootstrap/Table'
 import './css/Profile.css';
 import { Link } from "react-router-dom";
+import Modal1 from './edit/EditAvatar';
 
 import recruitImg from './img/recruit.png';
 import cadetImg from './img/cadet.png';
@@ -36,11 +37,21 @@ import mainLayout from './MainLayout';
 
 class Profile extends Component {
   // get data from db
+
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     numGames : localStorage.getItem('games'),
     rank : "none",
     completedQuiz:[],
-    num : 0
+    username: localStorage.getItem('username'),
+    dob: localStorage.getItem('dob'),
+    image: localStorage.getItem('image'),
+    avatar: false,
+    addModalShow:false
+
 
   }
 
@@ -68,9 +79,29 @@ class Profile extends Component {
 
    }
 
+  getAge(time){
+    var MILLISECONDS_IN_A_YEAR = 1000*60*60*24*365;
+    var date_array = time.split('-')
+    var years_elapsed = (new Date() - new Date(date_array[0],date_array[1],date_array[2]))/(MILLISECONDS_IN_A_YEAR);
+    return Math.floor(years_elapsed);
+  }
+  handleSubmit(event) {
+    this.showModal(event);
+  }
+
+  showModal(event) {
+      this.setState ({
+          avatar: !this.state.avatar
+      })
+      event.preventDefault();
+  }
+
+
   render() {
+    let addModalClose = () => this.setState({addModalShow:false});
     return (
       <div>
+      <Modal1 show={this.state.addModalShow} onHide={addModalClose}/>
 
         <div className="passport ">
       {/*----PASSPORT---*/}
@@ -81,28 +112,29 @@ class Profile extends Component {
           <div className = "images">
             <img src={'./img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
           </div>
+          {/*edit button*/}
+          <div className = "images">
+            <button className = "edit-button-avatar" type="button" value="EditAvatar" onClick={()=>this.setState({addModalShow:true})}> Edit Avatar </button>
+          </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
           <Table borderless size="sm" style = {{"marginBottom":"0px"}}>
           <tbody style = {{"marginTop":"0px"}}>
             <tr>
             <td colSpan = "2">
-            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> Emily <img src={this.state.rank} className = "rank-icon" alt=""/></h1>
+            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> {(this.state.username).toUpperCase()} <img src={this.state.rank} className = "rank-icon" alt=""/></h1>
             </td>
             </tr>
-            <tr>
+            {/*<tr>
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px' }}>Agent Name: </h5></td>
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>emily101</h5></td>
-            </tr>
+            </tr>*/}
             <tr>
-            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
-            <td style = {{"padding" : "0px 0px 0px 0px"}} > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>10 years old</h5></td>
+
+            <td > <h5 style={{"padding-left": "20px","fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
+            <td > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>{this.getAge(this.state.dob)} years old</h5></td>
             </tr>
           </tbody>
           </Table>
-      {/*edit: need to link to popup: can only edit password/name*/}
-          <div className = "images">
-            <button className = "edit-button" type="button" value="Edit"> Edit </button>
-          </div>
         </div>
 
         <div className="divider"></div>
@@ -226,7 +258,5 @@ class Profile extends Component {
     );
   }
 }
-
-
 
 export default mainLayout(Profile);

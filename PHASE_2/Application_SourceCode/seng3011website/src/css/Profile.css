@@ -114,8 +114,8 @@
     transform:  rotate(-5deg);
   }
 
-  .edit-button {
-     margin-left : 160px;
+  .edit-button-avatar {
+     margin-left : 130px;
      display: flex;
      justify-content: center;
      font-family: "handwriting";
@@ -123,15 +123,18 @@
      background-color: #7cdbd5;
      border: none;
      padding: 0px 30px;
+		 margin-bottom: 10px;
      border-radius: 25px;
      color: #FFFFFF;
      line-height: 40px;
   }
 
-  .edit-button:hover {
+  .edit-button-avatar:hover {
     box-shadow: 2px 5px #37836f;
     background-color:  #02C8A7;
   }
+
+
 
   .missions {
     background-color: #F9BE02;
