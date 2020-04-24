@@ -7,6 +7,7 @@ import china from "../img/china1.png";
 import usa from "../img/usa.png";
 import germany from "../img/germany.png";
 import italy from "../img/italy.png";
+import uk from "../img/uk.png";
 import "../css/pure-min.css";
 import "../css/SearchResult.css";
 
