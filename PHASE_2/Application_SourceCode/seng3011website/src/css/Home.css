@@ -225,7 +225,7 @@ body {
     right: 0;
   }
 
-  .categorybuttons {
+  /* .categorybuttons {
     min-width: 200px;
     min-height: 200px;
     margin-top: 5px;
@@ -242,24 +242,24 @@ body {
 
   animation-iteration-count: infinite;
 
-  }
+  } */
 
 
-#diseasesbutton {
+/* #diseasesbutton {
 	background: url("../img/categorydiseases.png") no-repeat;
 	background-size: 100%; 
-}
+} */
 
 #locationsbutton{
   background: url("../img/categorylocations.png") no-repeat;
 	background-size: 100%; 
 }
 
-#diseasesbutton:hover {
+/* #diseasesbutton:hover {
 	background:none;
 	background-color: #b93738;
 	color: white;
-}
+} */
 
 #locationsbutton:hover {
 	background:none;
