@@ -147,7 +147,7 @@ function getCentre(country) {
       return [103.8198, 1.3521]
     }
   }
-  if (polygon == undefined) {
+  if (polygon === undefined) {
     return undefined
   }
   var p = polylabel(polygon, 0.001)
@@ -389,7 +389,7 @@ class Location extends Component {
 
   render() {
     if (this.state.countries === false) {
-      return <Redirect to="/country" />
+      return <Redirect to="/*" />
     } 
     if (this.state.country === '' || this.state.diseases_tele === '' || this.state.diseases_calm === '' || this.state.report_calm === '' || this.state.report_tele === '') {
         return <h3 className="headingpage loading">Loading...</h3>

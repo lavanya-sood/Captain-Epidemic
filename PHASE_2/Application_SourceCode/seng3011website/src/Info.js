@@ -142,7 +142,7 @@ class Info extends Component {
 
   render() {
     if (this.state.check === false) {
-      return <Redirect to="/disease" />
+      return <Redirect to="/*" />
     } 
     return (
       <div>
