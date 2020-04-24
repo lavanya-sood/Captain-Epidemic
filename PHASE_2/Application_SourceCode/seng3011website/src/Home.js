@@ -19,7 +19,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div id="homepage">
         <div id="trending">
           <h2 className="headingpage">Discover</h2>
           <Container id="trending-topics">
@@ -77,8 +77,10 @@ class Home extends Component {
         <div id="map-location">
         <Link to='/map'>
           {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
+          <Button className="buttonMaps">
           <img src={fancymap} class="mapImg" href='/'alt="Super"/>
           <p id="mapheading">Learn about diseases around the world </p>
+          </Button>
         </Link>
           {/* <div id="mapbase">
           <img src={waves} class="waves" href='/'/>
