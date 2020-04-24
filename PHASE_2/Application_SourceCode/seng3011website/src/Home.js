@@ -13,7 +13,6 @@ import waves from './img/waves.png';
 class Home extends Component {
 
   setGameDisease = (e) => {
-    console.log(e.target.id);
     localStorage.setItem('game-disease', e.target.id);
 
   };
@@ -33,7 +32,7 @@ class Home extends Component {
                     </Link>
                       <br/>
                     <Link to="/Quiz">
-                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
+                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Game{" "}
                         </Button>
@@ -54,18 +53,18 @@ class Home extends Component {
                         </Button>
                         </Link>
                   </div>
-                
+
               </Col>
               <Col>
               <div>
               <Link to="/Info">
                     <img src={virus3} class="virusImg" href='/'alt="Super"/>
-                    <h2 class="diseaseTrend"> PANDEMIC </h2>
-          
+                    <h2 class="diseaseTrend"> YELLOW FEVER </h2>
+
                       </Link>
                       <br/>
                     <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
+                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Game{" "}
                         </Button>

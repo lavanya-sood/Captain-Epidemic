@@ -70,7 +70,7 @@ class Profile extends Component {
       {/*Passport icon*/}
           <img src={passportIcon} align = "left" className="passport-image" alt=""/>
       {/*profile pic*/}
-          <div className = "back">
+          <div className = "images">
             <img src={'./img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
           </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
@@ -92,7 +92,7 @@ class Profile extends Component {
           </tbody>
           </Table>
       {/*edit: need to link to popup: can only edit password/name*/}
-          <div className = "back">
+          <div className = "images">
             <button className = "edit-button" type="button" value="Edit"> Edit </button>
           </div>
         </div>
@@ -112,48 +112,48 @@ class Profile extends Component {
             <tbody>
               <tr>
                 <td><img src={recruitImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = "rank-name" > Recruit </h1>
                   <p className = "rank-stamp"> [Welcome_Aboard!] </p> </div>
                 </td>
                 <td><img src= {this.state.numGames < 15 ? lieutenantImgDisabled : lieutenantImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 15 ? '-disabled' : '')}> Lieutenant </h1>
                   <p className = {"rank-stamp" + (this.state.numGames < 15 ? '-disabled' : '')}> [15_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
                 <td><img src={this.state.numGames < 3 ? cadetImgDisabled : cadetImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 3 ? '-disabled' : '')} > Cadet </h1>
                   <p className = {"rank-stamp" + (this.state.numGames < 3 ? '-disabled' : '')}> [3_Missions_Completed] </p> </div>
                 </td>
                 <td><img src={this.state.numGames < 21 ? commanderImgDisabled : commanderImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 21 ? '-disabled' : '')}> Commander </h1>
                   <p className = {"rank-stamp" + (this.state.numGames < 21 ? '-disabled' : '')}> [21_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
                 <td><img src={this.state.numGames < 6 ? corporalImgDisabled : corporalImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 6 ? '-disabled' : '')} > Corporal </h1>
                   <p className ={"rank-stamp" + (this.state.numGames < 6 ? '-disabled' : '')}> [6_Missions_Completed] </p> </div>
                 </td>
                 <td><img src={this.state.numGames < 30 ? majorImgDisabled : majorImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 30 ? '-disabled' : '')}> Major </h1>
                   <p className = {"rank-stamp" + (this.state.numGames < 30 ? '-disabled' : '')}> [30_Missions_Completed] </p> </div>
                 </td>
               </tr>
               <tr>
                 <td><img src={this.state.numGames < 10 ? sergeantImgDisabled : sergeantImg} className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 10 ? '-disabled' : '')} > Sergeant </h1>
                   <p className = {"rank-stamp" + (this.state.numGames < 10 ? '-disabled' : '')} > [10_Missions_Completed] </p> </div>
                 </td>
                 <td><img src={this.state.numGames < 40 ? captainImgDisabled : captainImg}  className = "rank"/></td>
-                <td><div className = "back">
+                <td><div className = "images">
                   <h1 className = {"rank-name" + (this.state.numGames < 40 ? '-disabled' : '')}> Captain </h1>
                   <p className = {"rank-stamp" + (this.state.numGames < 40? '-disabled' : '')} > [40_Missions_Completed] </p> </div>
                 </td>
@@ -192,32 +192,32 @@ class Profile extends Component {
                 <td><div className = "circle"><img src={virus5} className = "disease"/></div></td>
               </tr>
               <tr>
-                <td><div className = "back"><img src={star} className = "star"/></div>
+                <td><div className = "images"><img src={star} className = "star"/></div>
                 </td>
-                <td><div className = "back"><img src={star} className = "star"/><img src={star} className = "star1"/></div>
+                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/></div>
                 </td>
-                <td><div className = "back"><img src={star} className = "star"/></div>
+                <td><div className = "images"><img src={star} className = "star"/></div>
                 </td>
-                <td><div className = "back"><img src={star} className = "star"/><img src={star} className = "star1"/></div>
+                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/></div>
                 </td>
-                <td><div className = "back"><img src={star} className = "star"/><img src={star} className = "star1"/><img src={star} className = "star2"/></div>
+                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/><img src={star} className = "star2"/></div>
                 </td>
-                <td><div className = "back"><img src={star} className = "star"/><img src={star} className = "star1"/><img src={star} className = "star2"/></div>
+                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/><img src={star} className = "star2"/></div>
                 </td>
               </tr>
 
               <tr>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> COVID-19 </button></Link></div>
+                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> COVID-19 </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Smallpox </button></Link></div>
+                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Smallpox </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Ebola </button></Link></div>
+                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Ebola </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> SARS </button></Link></div>
+                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> SARS </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Cholera </button></Link></div>
+                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Cholera </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Dengue </button></Link></div>
+                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Dengue </button></Link></div>
                 </td>
               </tr>
 
