@@ -11,7 +11,7 @@ export default class SignUp extends Component {
     state = { users : "",
               avatar: false
             }
-    
+
    callAPI() {
         fetch("/login")
             .then(res => res.json())
@@ -26,7 +26,7 @@ export default class SignUp extends Component {
             if (username.value === this.state.users[i].username) {
                 return 'username already exists'
             }
-        } 
+        }
         return true
     }
 
@@ -52,7 +52,7 @@ export default class SignUp extends Component {
                 }
             }
             return msg + err
-        } 
+        }
         return msg
     }
     birthdate(dob) {
@@ -161,7 +161,7 @@ export default class SignUp extends Component {
                         </fieldset>
                     </form>
                 </div>
-                
+
             </div>
         );
     }
