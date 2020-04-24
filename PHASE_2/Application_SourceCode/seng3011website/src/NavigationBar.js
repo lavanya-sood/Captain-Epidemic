@@ -25,6 +25,7 @@ class NavigationBar extends Component {
     const link = "#/searchResult/" + this.state.searchTerm;
     if (this.state.searchTerm) {
       window.location.href = link;
+      window.location.reload(true);
     }
   }
   logout() {
