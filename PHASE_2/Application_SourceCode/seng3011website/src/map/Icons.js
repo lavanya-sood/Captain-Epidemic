@@ -6,17 +6,17 @@ const virusIcon = L.icon({
     iconAnchor: [20,20],
 })
 const fungusIcon = L.icon({
-    iconUrl: require('../img/fungus.png'),
+    iconUrl: require('../img/virus1.png'),
     iconSize:[20,20],
     iconAnchor: [20,20],
 })
 const bacteriaIcon = L.icon({
-    iconUrl: require('../img/bacteria.png'),
+    iconUrl: require('../img/virus2.png'),
     iconSize:[20,20],
     iconAnchor: [20,20],
 })
 const parasiteIcon = L.icon({
-    iconUrl: require('../img/parasite.png'),
+    iconUrl: require('../img/virus3.png'),
     iconSize:[20,20],
     iconAnchor: [20,20],
 })

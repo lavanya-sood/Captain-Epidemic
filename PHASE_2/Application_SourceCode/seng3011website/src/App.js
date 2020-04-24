@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Landing from "./Landing.js";
-import { HashRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import SignUp from "./login_signup/Signup.js";
 import Login from "./login_signup/Login.js";
 import MapContainer from "./map/Map.js";
@@ -16,17 +16,22 @@ import Disease from "./category/Disease";
 import Location from "./Location";
 import axios from 'axios';
 import Hangman from "./Games/Hangman"
+import Error from "./Error"
+
 // updates map db daily to get current data from calmclams
 var CronJob = require('cron').CronJob;
 var job = new CronJob('0 0 * * *', function() {
   axios.post('/map')
+  axios.post('/location')
 }, null, true, 'Australia/Sydney');
 job.start();
 
 function App() {
   return (
     <Router>
+      
     <div className="App">
+        <Switch>
           <Route exact path="/" component={Landing}/>
           <Route path="/home" component={Home}/>
           <Route path="/game" component={Game}/>
@@ -49,8 +54,10 @@ function App() {
           <Route path="/disease" component={Disease} />
           <Route path="/location" component={Location}/>
           <Route path="/hangman" component={Hangman} />
-
+          <Route path ="*"component={Error}/>
+          </Switch>
     </div>
+    
     </Router>
   );
 }

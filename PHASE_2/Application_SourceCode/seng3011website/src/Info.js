@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Info.css';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import mainLayout from './MainLayout';
 import virus from './img/virus.png';
@@ -27,12 +27,28 @@ import spain from './img/spain.png';
 
 class Info extends Component {
   state = {
-    disease: ''
+    disease: '',
+    check: ''
+  }
+  callDiseaseAPI(disease) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ disease: disease })
+    };
+    fetch("/map/diseases", requestOptions)
+        .then(res => res.json())
+        .then(res => this.setState({ check: res }))
   }
   componentDidMount() {
     const path = window.location.hash
     var disease = path.split('/')[2]
-    disease = disease.replace('%20', ' ')
+    if (disease === undefined) {
+      this.setState({check: false})
+      return
+    }
+    disease = disease.replace(/%20/g, ' ')
+    this.callDiseaseAPI(disease)
     this.setState({
       disease: disease
     })
@@ -125,6 +141,9 @@ class Info extends Component {
    }
 
   render() {
+    if (this.state.check === false) {
+      return <Redirect to="/*" />
+    } 
     return (
       <div>
         <div className="letter">

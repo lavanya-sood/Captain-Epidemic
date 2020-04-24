@@ -114,7 +114,8 @@ var diseases = [
     { "name": "COVID-19", "type": "virusIcon", "title": "coronavirus" }
     ]
 
-function getDiseaseNames() {
+function getDiseaseNames(disease) {
+    disease = disease.toLowerCase()
     disease_names = []
     for(var i = 0; i < diseases.length; i++) {
         if (diseases[i].title) {
@@ -123,7 +124,12 @@ function getDiseaseNames() {
             disease_names.push(diseases[i].name)
         }
     }
-    return disease_names
+    for (i = 0; i < disease_names.length; i++) {
+        if (disease_names[i] === disease) {
+            return true
+        }
+    }
+    return false
 }
 
 function getMapInfo(info) {
@@ -217,8 +223,9 @@ router.get('/countries', function(req, res, next) {
     db.close()
 });
 
-router.get('/diseases', function(req, res, next) {
-    res.json(getDiseaseNames())
+router.post('/diseases', function(req, res, next) {
+    const disease = req.body.disease
+    res.json(getDiseaseNames(disease))
 });
 
 

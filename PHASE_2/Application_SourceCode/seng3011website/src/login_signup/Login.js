@@ -61,7 +61,7 @@ export default class Login extends Component {
                       let sum = 0
                       let quiz = []
                       for (var i = 0;i < res.length;i++){
-                        if (res[i]['username'] == localStorage.getItem('username')){
+                        if (res[i]['username'] === localStorage.getItem('username')){
                           // dont count same quiz twice
                           if (!quiz.includes(res[i]['quiz'])){
                             sum ++
