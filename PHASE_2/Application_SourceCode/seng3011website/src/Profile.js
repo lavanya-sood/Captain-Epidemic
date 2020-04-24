@@ -50,6 +50,7 @@ class Profile extends Component {
     image: localStorage.getItem('image'),
     avatar: false,
     addModalShow:false
+
   }
 
   componentWillMount() {
@@ -88,6 +89,7 @@ class Profile extends Component {
       event.preventDefault();
   }
 
+
   render() {
     let addModalClose = () => this.setState({addModalShow:false});
     return (
@@ -120,12 +122,12 @@ class Profile extends Component {
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>emily101</h5></td>
             </tr>*/}
             <tr>
+
             <td > <h5 style={{"padding-left": "20px","fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
             <td > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>{this.getAge(this.state.dob)} years old</h5></td>
             </tr>
           </tbody>
           </Table>
-
         </div>
 
         <div className="divider"></div>
