@@ -49,6 +49,8 @@ class NavigationBar extends Component {
                   type="text"
                   placeholder="Search"
                   className="searchbox"
+                  onChange={this.handleChange}
+                  value={this.state.searchTerm || ""}
                 />
                 <Button className="navbutton" onClick={this.onClick}>
                   {" "}
