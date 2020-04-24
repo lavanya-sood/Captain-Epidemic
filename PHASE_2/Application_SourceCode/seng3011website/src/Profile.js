@@ -73,9 +73,13 @@ class Profile extends Component {
     } else if (this.state.numGames >= 3){
       this.state.rank = cadetImg
     }
+    
     let al = JSON.parse(localStorage.getItem('allquizzes'));
-    this.state.completedQuiz = al['game']
-    console.log(al['game'])
+    if (al!=null) {
+      this.state.completedQuiz = al['game']
+      console.log(al['game'])
+    }
+   
 
    }
 
