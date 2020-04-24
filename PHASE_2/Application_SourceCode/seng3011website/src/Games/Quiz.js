@@ -55,26 +55,55 @@ class Quiz extends Component {
     let sc = localStorage.getItem('score')
     let name = localStorage.getItem('username')
     let disease = localStorage.getItem('game-disease')
-    console.log(sc)
-    console.log(name)
-    console.log(disease)
-    axios.post('/savegame', {
-      username:name,
-      quiz:disease,
-      score:sc
-    })
-    .then(function (res) {
-      console.log(res);
-    })
-    .catch(function (error) {
-      console.log("submit score error");
-    });
+
     var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
     if (!storedQuiz.includes(disease)){
       let g = localStorage.getItem('games')
       let new_sum_games = parseInt(g) + 1
       localStorage.setItem('games',new_sum_games)
       console.log('add game')
+      axios.post('/savegame', {
+        username:name,
+        quiz:disease,
+        score:sc
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log("submit score error");
+      });
+      let al = JSON.parse(localStorage.getItem('allquizzes'));
+      var item = {
+        "quiz": disease,
+        "score":sc
+      }
+      al.game.push(item);
+      localStorage.setItem('allquizzes', JSON.stringify(al));
+    } else {
+      axios.post('/updategame', {
+        username:name,
+        quiz:disease,
+        score:sc
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log("error");
+      });
+      console.log('update quiz score')
+      let al = JSON.parse(localStorage.getItem('allquizzes'));
+      var item = {
+        "quiz": disease,
+        "score":sc
+      }
+      for (let i = 0;i < al.game.length;i++){
+        if (al.game[i]['quiz'] == disease){
+          al.game[i]['score'] = sc;
+        }
+      }
+      localStorage.setItem('allquizzes', JSON.stringify(al));
     }
   };
 

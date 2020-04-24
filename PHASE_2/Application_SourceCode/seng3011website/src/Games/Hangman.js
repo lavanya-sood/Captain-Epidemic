@@ -166,25 +166,49 @@ export default () => {
   const saveGameData = () => {
     let disease = localStorage.getItem('game-disease');
     let username = localStorage.getItem('username');
-    console.log('username')
-    // save game into db
-    axios.post('/savegame', {
-      username:username,
-      quiz:disease,
-      score:10
-    })
-    .then(function (res) {
-      console.log(res);
-    })
-    .catch(function (error) {
-      console.log("error");
-    });
+    console.log(username)
+
     var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
+    console.log('store quix')
     if (!storedQuiz.includes(disease)){
       let g = localStorage.getItem('games')
       let new_sum_games = parseInt(g) + 1
+      storedQuiz.push(disease)
       localStorage.setItem('games',new_sum_games)
-      console.log('add game')
+      localStorage.setItem('quiz',JSON.stringify(storedQuiz))
+      let al = JSON.parse(localStorage.getItem('allquizzes'));
+      var item = {
+        "quiz": disease,
+         "score":5
+      }
+      al.game.push(item);
+      localStorage.setItem('allquizzes', JSON.stringify(al));
+      // save game into db
+      axios.post('/savegame', {
+        username:username,
+        quiz:disease,
+        score:5
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log("error");
+      });
+    // game already played hence update score
+    } else {
+      axios.post('/updategame', {
+        username:username,
+        quiz:disease,
+        score:5
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log("error");
+      });
+      console.log('update quiz score')
     }
   }
 

@@ -150,15 +150,16 @@
     background-color: #1e4b57;
     width: 100px;
     height: 100px;
-    align-items: center;
-    margin-left: 70px;
+    margin: auto;
     box-shadow: 10px 10px #37836f; /*shadow size and colour*/
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
+		align-items: center;
 }
 
 .disease {
   height: 70px;
   width: 70px;
+	align-items: center;
 }
 
 .disease-button {
