@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import virus1 from './img/virus3.png';
 import virus2 from './img/virus1.png';
-import virus3 from './img/virus5.png';
+import coronavirus from './img/virus5.png';
 import fancymap from './img/mapping.png';
 import waves from './img/waves.png';
 
@@ -27,8 +27,8 @@ class Home extends Component {
               <Col>
                   <div>
                   <Link to="/Info">
-                    <img src={virus1} class="virusImg" href='/Info'alt="Super"/>
-                    <h2 class="diseaseTrend"> CORONAVIRUS </h2>
+                    <img src={coronavirus} className="virusImg" href='/Info'alt="Super"/>
+                    <h2 className="diseaseTrend"> CORONAVIRUS </h2>
                     </Link>
                       <br/>
                     <Link to="/Quiz">
@@ -42,8 +42,8 @@ class Home extends Component {
               <Col>
               <div>
               <Link to="/Info">
-                    <img src={virus2} class="virusImg" href='/'alt="Super"/>
-                    <h2 class="diseaseTrend"> EBOLA </h2>
+                    <img src={virus2} className="virusImg" href='/'alt="Super"/>
+                    <h2 className="diseaseTrend"> EBOLA </h2>
                       </Link>
                       <br/>
                     <Link to="/Hangman">
@@ -58,8 +58,8 @@ class Home extends Component {
               <Col>
               <div>
               <Link to="/Info">
-                    <img src={virus3} class="virusImg" href='/'alt="Super"/>
-                    <h2 class="diseaseTrend"> YELLOW FEVER </h2>
+                    <img src={virus1} className="virusImg" href='/'alt="Super"/>
+                    <h2 className="diseaseTrend"> YELLOW FEVER </h2>
 
                       </Link>
                       <br/>
@@ -83,7 +83,7 @@ class Home extends Component {
           </Button>
         </Link>
           {/* <div id="mapbase">
-          <img src={waves} class="waves" href='/'/>
+          <img src={waves} className="waves" href='/'/>
           </div> */}
         </div>
 
@@ -94,12 +94,12 @@ class Home extends Component {
               <Col>
                 <Link to='/disease'>
                   {/* <Button className="button-category"> <h2>DISEASES</h2> </Button> */}
-                  <button class="categorybuttons" id="diseasesbutton"> <h2>Diseases</h2> </button>
+                  <button className="categorybuttons" id="diseasesbutton"> <h2>Diseases</h2> </button>
                 </Link>
               </Col>
               <Col>
                 <Link to='/country'>
-                <button class="categorybuttons" id="locationsbutton"> <h2> Locations </h2> </button>
+                <button className="categorybuttons" id="locationsbutton"> <h2> Locations </h2> </button>
                 </Link>
               </Col>
             </Row>

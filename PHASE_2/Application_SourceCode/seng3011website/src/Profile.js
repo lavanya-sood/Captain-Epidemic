@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Table from 'react-bootstrap/Table'
 import './css/Profile.css';
 import { Link } from "react-router-dom";
+import Modal1 from './edit/EditAvatar';
 
 import recruitImg from './img/recruit.png';
 import cadetImg from './img/cadet.png';
@@ -26,26 +27,36 @@ import background from './img/profile_background.png';
 import passportIcon from './img/passport.png';
 import star from './img/star_og.png';
 import axios from 'axios';
-import virus from './img/virus.png';
-import virus1 from './img/virus1.png';
+import coronavirus from './img/virus5.png';
+import ebola from './img/virus1.png';
 import virus2 from './img/virus2.png';
-import virus3 from './img/virus3.png';
+import yellowfever from './img/virus3.png';
 import virus4 from './img/virus4.png';
 import virus5 from './img/virus5.png';
 import mainLayout from './MainLayout';
 
 class Profile extends Component {
   // get data from db
+
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     numGames : localStorage.getItem('games'),
     rank : "none",
+    completedQuiz:[],
     username: localStorage.getItem('username'),
     dob: localStorage.getItem('dob'),
     image: localStorage.getItem('image'),
-    avatar: false
+    avatar: false,
+    addModalShow:false
+
+
   }
 
   componentWillMount() {
+    // set correct rank image
     this.state.rank = recruitImg
     if (this.state.numGames == 40){
       this.state.rank = captainImg
@@ -62,6 +73,14 @@ class Profile extends Component {
     } else if (this.state.numGames >= 3){
       this.state.rank = cadetImg
     }
+    
+    let al = JSON.parse(localStorage.getItem('allquizzes'));
+    if (al!=null) {
+      this.state.completedQuiz = al['game']
+      console.log(al['game'])
+    }
+   
+
    }
 
   getAge(time){
@@ -70,10 +89,23 @@ class Profile extends Component {
     var years_elapsed = (new Date() - new Date(date_array[0],date_array[1],date_array[2]))/(MILLISECONDS_IN_A_YEAR);
     return Math.floor(years_elapsed);
   }
+  handleSubmit(event) {
+    this.showModal(event);
+  }
+
+  showModal(event) {
+      this.setState ({
+          avatar: !this.state.avatar
+      })
+      event.preventDefault();
+  }
+
 
   render() {
+    let addModalClose = () => this.setState({addModalShow:false});
     return (
       <div>
+      <Modal1 show={this.state.addModalShow} onHide={addModalClose}/>
 
         <div className="passport ">
       {/*----PASSPORT---*/}
@@ -83,6 +115,10 @@ class Profile extends Component {
       {/*profile pic*/}
           <div className = "images">
             <img src={'./img/'+localStorage.getItem('image')} align = "left" className="profile-image" alt=""/>
+          </div>
+          {/*edit button*/}
+          <div className = "images">
+            <button className = "edit-button-avatar" type="button" value="EditAvatar" onClick={()=>this.setState({addModalShow:true})}> Edit Avatar </button>
           </div>
       {/*spyname: change fonts? to external handwriting fontsPUT TABLE HERE */}
           <Table borderless size="sm" style = {{"marginBottom":"0px"}}>
@@ -97,15 +133,12 @@ class Profile extends Component {
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>emily101</h5></td>
             </tr>*/}
             <tr>
-            <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
-            <td style = {{"padding" : "0px 0px 0px 0px"}} > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>{this.getAge(this.state.dob)} years old</h5></td>
+
+            <td > <h5 style={{"padding-left": "20px","fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
+            <td > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>{this.getAge(this.state.dob)} years old</h5></td>
             </tr>
           </tbody>
           </Table>
-      {/*edit: need to link to popup: can only edit password/name*/}
-          <div className = "images">
-            <button className = "edit-button" type="button" value="Edit"> Edit </button>
-          </div>
         </div>
 
         <div className="divider"></div>
@@ -189,49 +222,38 @@ class Profile extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><div className = "circle"><img src={virus} className = "disease"/></div></td>
+            <tr>
+            {this.state.completedQuiz.map(data => {
+              return (
+                <td className = "images">
+                <div className = "images">
+                <div className = "circle" style={data.quiz == 'coronavirus' ? {} : { display: 'none' }} ><img src={coronavirus} style={data.quiz == 'coronavirus' ? {} : { display: 'none' }} className = "disease"/></div>
+                <div className = "circle" style={data.quiz == 'ebola' ? {} : { display: 'none' }}><img src={ebola} style={data.quiz == 'ebola' ? {} : { display: 'none' }} className = "disease"/></div>
+                <div className = "circle" style={data.quiz == 'yellow fever' ? {} : { display: 'none' }}><img src={yellowfever} style={data.quiz == 'yellow fever' ? {} : { display: 'none' }} className = "disease"/></div>
 
-                <td><div className = "circle"><img src={virus1} className = "disease"/></div></td>
-
-                <td><div className = "circle"><img src={virus2} className = "disease"/></div></td>
-
-                <td><div className = "circle"><img src={virus3} className = "disease"/></div></td>
-
-                <td><div className = "circle"><img src={virus4} className = "disease"/></div></td>
-
-                <td><div className = "circle"><img src={virus5} className = "disease"/></div></td>
-              </tr>
-              <tr>
-                <td><div className = "images"><img src={star} className = "star"/></div>
+                </div>
                 </td>
-                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/></div>
-                </td>
-                <td><div className = "images"><img src={star} className = "star"/></div>
-                </td>
-                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/></div>
-                </td>
-                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/><img src={star} className = "star2"/></div>
-                </td>
-                <td><div className = "images"><img src={star} className = "star"/><img src={star} className = "star1"/><img src={star} className = "star2"/></div>
-                </td>
-              </tr>
-
-              <tr>
-                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> COVID-19 </button></Link></div>
-                </td>
-                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Smallpox </button></Link></div>
-                </td>
-                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Ebola </button></Link></div>
-                </td>
-                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> SARS </button></Link></div>
-                </td>
-                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Cholera </button></Link></div>
-                </td>
-                <td><div className = "images"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Dengue </button></Link></div>
-                </td>
-              </tr>
-
+              );
+            })}
+            </tr>
+            <tr>
+            {this.state.completedQuiz.map(data => {
+              return (
+                <td><div className = "images"><img src={star} className = "star"/><img src={star} style={data.score >= 3 ? {} : { display: 'none' }} className = "star1"/><img src={star} style={data.score >= 5 ? {} : { display: 'none' }} className = "star2"/></div></td>
+              );
+            })}
+            </tr>
+            <tr>
+            {this.state.completedQuiz.map(data => {
+              return (
+                <td><div className = "images">
+                <Link to="/Info">
+                <button className = "disease-button" type="button" value="Edit"> {data.quiz} </button>
+                </Link>
+                </div></td>
+              );
+            })}
+            </tr>
             </tbody>
           </Table>
           </div>
@@ -240,7 +262,5 @@ class Profile extends Component {
     );
   }
 }
-
-
 
 export default mainLayout(Profile);

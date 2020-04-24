@@ -12,6 +12,9 @@ class NavigationBar extends Component {
       localStorage.removeItem('username');
       localStorage.removeItem('dob');
       localStorage.removeItem('image');
+      localStorage.removeItem('quiz');
+      localStorage.removeItem('games');
+
     }
     render() {
         return (

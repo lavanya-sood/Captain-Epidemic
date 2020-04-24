@@ -56,24 +56,30 @@ export default class Login extends Component {
                 localStorage.setItem('image', this.state.users[res].image)
                 fetch("/getgame")
                     .then(res => res.json())
-                    // .then(res => this.setState({ games: res}));
                     .then( res => {
                       let sum = 0
                       let quiz = []
+                      // store all quiz and score
+                      var allquizzes = {};
+                      var game = []
+                      allquizzes.game = game;
                       for (var i = 0;i < res.length;i++){
                         if (res[i]['username'] === localStorage.getItem('username')){
                           // dont count same quiz twice
-                          if (!quiz.includes(res[i]['quiz'])){
-                            sum ++
-                            quiz.push(res[i]['quiz'])
-                          }
+                            sum ++;
+                            quiz.push(res[i]['quiz']);
+                            var item = {
+                              "quiz": res[i]['quiz'],
+                               "score": res[i]['score']
+                            }
+                            allquizzes.game.push(item);
                         }
                       }
-                      console.log(quiz)
+                      // store all score and games played
+                      localStorage.setItem('allquizzes', JSON.stringify(allquizzes));
                       // set number of games played
-                     localStorage.setItem('games',sum)
-                     localStorage.setItem('quiz',JSON.stringify(quiz))
-
+                      localStorage.setItem('games',sum)
+                      localStorage.setItem('quiz',JSON.stringify(quiz))
                     })
             } else {
                 empty.textContent = 'incorrect username or password'
