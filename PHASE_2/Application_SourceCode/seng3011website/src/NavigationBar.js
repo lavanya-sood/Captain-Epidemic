@@ -31,8 +31,6 @@ class NavigationBar extends Component {
     localStorage.removeItem("username");
     localStorage.removeItem("dob");
     localStorage.removeItem("image");
-    localStorage.removeItem("quiz");
-    localStorage.removeItem("games");
   }
   render() {
     return (
@@ -75,14 +73,6 @@ class NavigationBar extends Component {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-
-          <Dropdown.Menu className="dropdown-menu-nav">
-            <Dropdown.Item href="#/profile">Profile</Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item href="#/login" onClick={this.logout}>
-              Logout
-            </Dropdown.Item>
-          </Dropdown.Menu>
         </Navbar.Collapse>
       </Navbar>
     );

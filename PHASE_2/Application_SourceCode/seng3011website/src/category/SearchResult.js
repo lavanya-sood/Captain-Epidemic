@@ -47,7 +47,7 @@ class SearchResult extends React.Component {
 
     let container = [];
     for (let i = 0; i < this.state.diseaseResult.length; i++) {
-      const link = "info/" + this.state.diseaseResult[i];
+      const link = "/info/" + this.state.diseaseResult[i];
       container.push(
         <Link to={link} className="result-link">
           <div className="result">
@@ -57,7 +57,7 @@ class SearchResult extends React.Component {
       );
     }
     for (let i = 0; i < this.state.locationResult.length; i++) {
-      const link = "location/" + this.state.locationResult[i];
+      const link = "/location/" + this.state.locationResult[i];
       container.push(
         <Link to={link} className="result-link">
           <div className="result">
