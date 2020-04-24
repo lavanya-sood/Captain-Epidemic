@@ -31,11 +31,18 @@ class Disease extends Component {
           </div>
         </Link>
         <Link to="info/yellow%20fever" className="result-link">
-          <div
-            className="result"
-            // background-image="url('../img/titlecard.jpg')"
-          >
+          <div className="result">
             <h3 className="result-content">YELLOW FEVER</h3>
+          </div>
+        </Link>
+        <Link to="info/chickenpox" className="result-link">
+          <div className="result">
+            <h3 className="result-content">CHICKEN POX</h3>
+          </div>
+        </Link>
+        <Link to="info/sars" className="result-link">
+          <div className="result">
+            <h3 className="result-content">SARS</h3>
           </div>
         </Link>
       </div>
