@@ -10,6 +10,7 @@ var mapRouter = require("./routes/map");
 var symptomRouter = require("./routes/symptoms");
 var signupRouter = require("./routes/signup");
 var savegameRouter = require("./routes/savegame");
+var updategameRouter = require("./routes/updategame");
 var locationRouter = require("./routes/location");
 var getgameRouter = require("./routes/getgame");
 
@@ -33,6 +34,7 @@ app.use("/signup", signupRouter);
 app.use("/savegame", savegameRouter);
 app.use("/location", locationRouter);
 app.use("/getgame", getgameRouter);
+app.use("/updategame", updategameRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
