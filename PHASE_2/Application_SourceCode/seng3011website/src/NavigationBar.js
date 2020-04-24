@@ -25,7 +25,9 @@ class NavigationBar extends Component {
     const link = "#/searchResult/" + this.state.searchTerm;
     if (this.state.searchTerm) {
       window.location.href = link;
-      window.location.reload(true);
+      if (window.location.href.indexOf("searchResult") != -1) {
+        window.location.reload(true);
+      }
     }
   }
   logout() {
