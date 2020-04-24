@@ -42,6 +42,7 @@ class Profile extends Component {
   }
 
   componentWillMount() {
+    // set correct rank image
     this.state.rank = recruitImg
     if (this.state.numGames == 40){
       this.state.rank = captainImg
@@ -207,7 +208,7 @@ class Profile extends Component {
               </tr>
 
               <tr>
-                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> COVID-19 </button></Link></div>
+                <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Coronavirus </button></Link></div>
                 </td>
                 <td><div className = "back"><Link to="/Info"><button className = "disease-button" type="button" value="Edit"> Smallpox </button></Link></div>
                 </td>
