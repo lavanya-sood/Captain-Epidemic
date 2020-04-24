@@ -38,7 +38,11 @@ class Profile extends Component {
   // get data from db
   state = {
     numGames : localStorage.getItem('games'),
-    rank : "none"
+    rank : "none",
+    username: localStorage.getItem('username'),
+    dob: localStorage.getItem('dob'),
+    image: localStorage.getItem('image'),
+    avatar: false
   }
 
   componentWillMount() {
@@ -60,6 +64,13 @@ class Profile extends Component {
     }
    }
 
+  getAge(time){
+    var MILLISECONDS_IN_A_YEAR = 1000*60*60*24*365;
+    var date_array = time.split('-')
+    var years_elapsed = (new Date() - new Date(date_array[0],date_array[1],date_array[2]))/(MILLISECONDS_IN_A_YEAR);
+    return Math.floor(years_elapsed);
+  }
+
   render() {
     return (
       <div>
@@ -78,16 +89,16 @@ class Profile extends Component {
           <tbody style = {{"marginTop":"0px"}}>
             <tr>
             <td colSpan = "2">
-            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> Emily <img src={this.state.rank} className = "rank-icon" alt=""/></h1>
+            <h1 style = {{"fontSize":"70px","color":"#0e2930", "fontFamily" : "Stella", 'marginTop': '0px', 'marginBottom':'0px'}}> {(this.state.username).toUpperCase()} <img src={this.state.rank} className = "rank-icon" alt=""/></h1>
             </td>
             </tr>
-            <tr>
+            {/*<tr>
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px' }}>Agent Name: </h5></td>
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>emily101</h5></td>
-            </tr>
+            </tr>*/}
             <tr>
             <td style = {{"padding" : "0px 0px 0px 0px"}}> <h5 style={{"fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
-            <td style = {{"padding" : "0px 0px 0px 0px"}} > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>10 years old</h5></td>
+            <td style = {{"padding" : "0px 0px 0px 0px"}} > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>{this.getAge(this.state.dob)} years old</h5></td>
             </tr>
           </tbody>
           </Table>
