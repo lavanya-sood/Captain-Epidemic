@@ -34,11 +34,11 @@ import spain from './img/spain.png';
 function checkDiseases(disease) {
   for (var i = 0; i < diseases.length; i++) {
     if (diseases[i].title) {
-      if (disease.toLowerCase() === diseases[i].title.toLowerCase()) {
+      if (disease === diseases[i].title.charAt(0).toUpperCase() + diseases[i].title.slice(1)) {
         return true
       }
     } else {
-      if (disease.toLowerCase() === diseases[i].name.toLowerCase()) {
+      if (disease === diseases[i].name.charAt(0).toUpperCase() + diseases[i].name.slice(1)) {
         return true
       }
     }
