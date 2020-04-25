@@ -242,6 +242,11 @@ function getReportsByDisease(disease, results, flag) {
         for (var j = 0; j < results[i].reports.length; j++) {
             if (disease == results[i].reports[j].diseases[0]){ //not entering
               if (flag == 0) {
+                if (disease === undefined) {
+                    disease = 'unknown disease'
+                } else {
+                    disease = formatDisease(disease)
+                }
                   var entry = {
                       url: results[i].url,
                       headline: disease + ' update',
