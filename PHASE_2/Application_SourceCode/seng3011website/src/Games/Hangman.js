@@ -159,9 +159,6 @@ export default () => {
     var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
     console.log('store quix')
     if (!storedQuiz.includes(disease)){
-      fetch("/map/symptoms")
-      .then(res => res.json())
-      .then(res => console.log(res[0]))
       let g = localStorage.getItem('games')
       storedQuiz.push(disease)
       localStorage.setItem('quiz',JSON.stringify(storedQuiz))
