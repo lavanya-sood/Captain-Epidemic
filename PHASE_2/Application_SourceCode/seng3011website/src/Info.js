@@ -297,7 +297,7 @@ class Info extends Component {
             <img src={fungusIcon} style={this.state.icon == 'fungusIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <img src={parasiteIcon} style={this.state.icon == 'parasiteIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <img src={germIcon} style={this.state.icon == 'germIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
-            <h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
+            <h1 className = "virus-title" align = "center" style = {this.state.disease.length > 11 ? {fontSize : '70px'}:{fontSize : '70px'}}> {this.state.disease} </h1>
             <Link to= {this.state.disease.toLowerCase() == "coronavirus" ? "/Quiz" : "/Hangman"} style={{ textDecoration: 'none' }}>
             <Button className = "quiz-button" id = {this.state.disease.toLowerCase()} onClick={(e) => this.setGameDisease(e)} >
             Beat the Quiz!
@@ -357,32 +357,32 @@ class Info extends Component {
             </thead>
             <tbody>
               <tr>
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[0]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 0 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[0]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[1]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 1 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[1]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[2]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 2 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[2]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[3]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 3 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[3]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[4]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 4 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[4]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[5]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 5 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[5]+"/flat/64.png"} className = "disease1"/></div></td>
               </tr>
 
 
               <tr>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[0]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[0]} </button></Link></div>
+                <td style={this.state.countries.length > 0 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[0]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[0]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[1]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[1]} </button></Link></div>
+                <td style={this.state.countries.length > 1 ? {} : { display: 'none' }}><div className = "back0" style={this.state.countries.length > 1 ? {} : { display: 'none' }}><Link to={"/Location/"+this.state.countries[1]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[1]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[2]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[2]} </button></Link></div>
+                <td style={this.state.countries.length > 2 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[2]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[2]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[3]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[3]} </button></Link></div>
+                <td style={this.state.countries.length > 3 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[3]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[3]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[4]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[4]} </button></Link></div>
+                <td style={this.state.countries.length > 4 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[4]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[4]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[5]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[5]} </button></Link></div>
+                <td style={this.state.countries.length > 5 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[5]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[5]} </button></Link></div>
                 </td>
               </tr>
 
