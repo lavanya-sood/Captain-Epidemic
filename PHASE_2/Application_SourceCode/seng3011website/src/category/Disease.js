@@ -8,7 +8,13 @@ import "../css/SearchResult.css";
 
 class Disease extends Component {
   sortDiseases = () => {
-    return diseases.sort((a, b) => a.name.localeCompare(b.name));
+    return diseases.sort(function (a, b) {
+      var nameA = a.name,
+        nameB = b.name;
+      if (a.title) nameA = a.title;
+      if (b.title) nameB = b.title;
+      return nameA.localeCompare(nameB);
+    });
   };
 
   render() {

@@ -95,7 +95,7 @@ function getCentre(country) {
     if (country === 'Curaçao') {
       return [-69, 12.1833326]
     }
-    if (country === "Côte d'Ivoire"){ 
+    if (country === "Côte d'Ivoire"){
       return [-5.5471, 7.5400]
     }
     if (country === 'French Polynesia') {
@@ -192,7 +192,7 @@ class Location extends Component {
     diseases_tele: '',
     diseases_calm: '',
     report_tele: '',
-    report_calm:'', 
+    report_calm:'',
     countries:''
   }
   callAPI(country) {
@@ -254,7 +254,7 @@ class Location extends Component {
     for (i = 0; i < diseases.length; i++) {
       var tmp = {
         disease: diseases[i],
-        location: '', 
+        location: '',
         type: ''
       }
       result.push(tmp)
@@ -275,7 +275,7 @@ class Location extends Component {
           } else {
             result[j].location += ',' + dis2[i].location
           }
-          
+
           result[j].type = dis2[i].type
         }
       }
@@ -315,7 +315,7 @@ class Location extends Component {
 
    static get CARD_STYLE1() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -331,7 +331,7 @@ class Location extends Component {
 
    static get CARD_STYLE2() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -346,7 +346,7 @@ class Location extends Component {
 
    static get CARD_STYLE3() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -360,7 +360,7 @@ class Location extends Component {
    }
    static get CARD_STYLE4() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -374,7 +374,7 @@ class Location extends Component {
    }
    static get CARD_STYLE5() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -390,14 +390,14 @@ class Location extends Component {
   render() {
     if (this.state.countries === false) {
       return <Redirect to="/*" />
-    } 
+    }
     if (this.state.country === '' || this.state.diseases_tele === '' || this.state.diseases_calm === '' || this.state.report_calm === '' || this.state.report_tele === '') {
         return <h3 className="headingpage loading">Loading...</h3>
     }
     const getDis = this.getDiseases()
     const diseases = getDis.map(({disease, location, type}) => {
       var href = '/Info/' + disease
-      if (type === 'virusIcon') 
+      if (type === 'virusIcon')
             return (
               <tr>
                 <td width = "100px"><div className = "circle-prevention1"><img src={virus} className = "prevention-img1"/></div></td>
@@ -406,7 +406,7 @@ class Location extends Component {
                   <h3 className = "country-para">{location}</h3></td>
               </tr>
             )
-        if (type === 'bacteriaIcon') 
+        if (type === 'bacteriaIcon')
             return (
               <tr>
                 <td width = "100px"><div className = "circle-prevention1"><img src={virus1} className = "prevention-img1"/></div></td>
@@ -415,7 +415,7 @@ class Location extends Component {
                   <h3 className = "country-para">{location}</h3></td>
               </tr>
             )
-        if (type === 'fungusIcon') 
+        if (type === 'fungusIcon')
             return (
               <tr>
                 <td width = "100px"><div className = "circle-prevention1"><img src={virus2} className = "prevention-img1"/></div></td>
@@ -424,7 +424,7 @@ class Location extends Component {
                   <h3 className = "country-para">{location}</h3></td>
               </tr>
             )
-        if (type === 'parasiteIcon') 
+        if (type === 'parasiteIcon')
         return (
           <tr>
             <td width = "100px"><div className = "circle-prevention1"><img src={virus3} className = "prevention-img1"/></div></td>
@@ -444,7 +444,7 @@ class Location extends Component {
     })
     const reportData = this.getReports()
     const reports = reportData.map(({url, headline, maintext, date, key}) => {
-      if (key === 1) 
+      if (key === 1)
         return (
           <div style={Location.CARD_STYLE2}>
             <h1 className = "report-title"> {headline}</h1>
@@ -453,13 +453,13 @@ class Location extends Component {
             <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
           </div>
         )
-      if (key === 2) 
+      if (key === 2)
         return (
           <div style={Location.CARD_STYLE1}>
             <h1 className = "report-title"> {headline}</h1>
             <p className = "report-date">{date}</p>
             <p className = "report-para">{maintext}</p>
-            <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
+            <a href = {url} ><button className = "report-button2" type="button"> Read More </button></a>
           </div>
         )
       if (key === 3)
@@ -468,7 +468,7 @@ class Location extends Component {
             <h1 className = "report-title"> {headline}</h1>
             <p className = "report-date">{date}</p>
             <p className = "report-para">{maintext}</p>
-            <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
+            <a href = {url} ><button className = "report-button3" type="button"> Read More </button></a>
           </div>
         )
       if (key === 4)
@@ -477,7 +477,7 @@ class Location extends Component {
             <h1 className = "report-title"> {headline}</h1>
             <p className = "report-date">{date}</p>
             <p className = "report-para">{maintext}</p>
-            <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
+            <a href = {url} ><button className = "report-button4" type="button"> Read More </button></a>
           </div>
         )
       return (
@@ -485,7 +485,7 @@ class Location extends Component {
             <h1 className = "report-title"> {headline}</h1>
             <p className = "report-date">{date}</p>
             <p className = "report-para">{maintext}</p>
-            <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
+            <a href = {url} ><button className = "report-button5" type="button"> Read More </button></a>
           </div>
       )
     })

@@ -3,9 +3,14 @@ import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Info.css';
 import { Link, Redirect } from "react-router-dom";
-
+import { Button } from "react-bootstrap";
+import axios from 'axios';
 import mainLayout from './MainLayout';
-import virus from './img/virus.png';
+import virusIcon from './img/virusIcon.png';
+import bacteriaIcon from './img/bacteriaIcon.png';
+import fungusIcon from './img/fungusIcon.png';
+import parasiteIcon from './img/parasiteIcon.png';
+import germIcon from './img/germIcon.png';
 
 import soreThroat from './img/sore-throat.png';
 import fever from './img/fever.png';
@@ -28,8 +33,21 @@ import spain from './img/spain.png';
 class Info extends Component {
   state = {
     disease: '',
-    check: ''
+    check: '',
+    syndromes:'',
+    icon : '',
+    countries: '',
+    codes:'',
+    report_tele: '',
+    report_calm:''
   }
+  //rmb game played
+  setGameDisease = (e) => {
+    console.log(e)
+    localStorage.setItem('game-disease', e.target.id);
+    console.log(localStorage.getItem('game-disease'))
+  };
+
   callDiseaseAPI(disease) {
     const requestOptions = {
       method: 'POST',
@@ -40,6 +58,43 @@ class Info extends Component {
         .then(res => res.json())
         .then(res => this.setState({ check: res }))
   }
+
+  callAPI(disease) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ disease: disease })
+    };
+    fetch("/map/info", requestOptions)
+        .then(res => res.json())
+        .then(res => console.log(res.json))
+
+    fetch("/map/symptoms")
+    .then(res => res.json())
+      .then(res => this.setState({ icon : res[0]}))
+
+      fetch("/map/symptoms")
+      .then(res => res.json())
+        .then(res => this.setState({ syndromes : res.slice(1,)}))
+
+      fetch("/map/countriesdisease")
+        .then(res => res.json())
+        .then(res => this.setState({ countries : res.slice(0,6)}))
+
+        fetch("/map/countriesdisease")
+          .then(res => res.json())
+          .then(res => this.setState({ codes : res.slice(6,)}))
+          .then(res => console.log(this.state.codes))
+
+          fetch("/location/reports-teletubbies-d", requestOptions)
+              .then(res => res.json())
+              .then(res => this.setState({ report_tele: res }));
+          fetch("/location/reports-calmclams-d", requestOptions)
+              .then(res => res.json())
+              .then(res => this.setState({ report_calm: res }));
+
+  }
+
   componentDidMount() {
     const path = window.location.hash
     var disease = path.split('/')[2]
@@ -48,10 +103,20 @@ class Info extends Component {
       return
     }
     disease = disease.replace(/%20/g, ' ')
+    this.callAPI(disease)
     this.callDiseaseAPI(disease)
     this.setState({
       disease: disease
     })
+
+  }
+
+  getReports() {
+    var reports = this.state.report_calm.concat(this.state.report_tele)
+    for (var i = 0; i < reports.length; i++) {
+      reports[i].key = i%5 + 1
+    }
+    return reports
   }
   static get CONTAINER_STYLE() {
      return {
@@ -68,7 +133,7 @@ class Info extends Component {
 
    static get CARD_STYLE1() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -84,7 +149,7 @@ class Info extends Component {
 
    static get CARD_STYLE2() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -99,7 +164,7 @@ class Info extends Component {
 
    static get CARD_STYLE3() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -113,7 +178,7 @@ class Info extends Component {
    }
    static get CARD_STYLE4() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -127,7 +192,7 @@ class Info extends Component {
    }
    static get CARD_STYLE5() {
      return {
-       height: "500px",
+       height: "600px",
        width: "800px",
        paddingTop: "80px",
        textAlign: "center",
@@ -143,7 +208,75 @@ class Info extends Component {
   render() {
     if (this.state.check === false) {
       return <Redirect to="/*" />
-    } 
+    }
+    if (this.state.report_calm === '' || this.state.report_tele === '') {
+        return <h3 className="headingpage loading">Loading...</h3>
+    }
+    const getImage = () => {
+      if (this.state.icon == "virusIcon"){
+        return  <img src={virusIcon} align = "left" className="virus-image" alt=""/>
+      }
+      if (this.state.icon == "bacteriaIcon"){
+        return  <img src={bacteriaIcon} align = "left" className="virus-image" alt=""/>
+      }
+      if (this.state.icon == "fungusIcon"){
+        return  <img src={fungusIcon} align = "left" className="virus-image" alt=""/>
+      }
+      if (this.state.icon == "parasiteIcon"){
+        return  <img src={parasiteIcon} align = "left" className="virus-image" alt=""/>
+      }
+      if (this.state.icon == "germIcon"){
+        return  <img src={germIcon} align = "left" className="virus-image" alt=""/>
+      }
+    }
+
+    const reportData = this.getReports()
+    const reports = reportData.map(({url, headline, maintext, date, key}) => {
+      if (key === 1)
+        return (
+          <div style={Info.CARD_STYLE2}>
+            <h1 className = "report-title"> {headline}</h1>
+            <p className = "report-date">{date}</p>
+            <p className = "report-para">{maintext}</p>
+            <a href = {url} ><button className = "report-button1" type="button"> Read More </button></a>
+          </div>
+        )
+      if (key === 2)
+        return (
+          <div style={Info.CARD_STYLE1}>
+            <h1 className = "report-title"> {headline}</h1>
+            <p className = "report-date">{date}</p>
+            <p className = "report-para">{maintext}</p>
+            <a href = {url} ><button className = "report-button2" type="button"> Read More </button></a>
+          </div>
+        )
+      if (key === 3)
+        return (
+          <div style={Info.CARD_STYLE3}>
+            <h1 className = "report-title"> {headline}</h1>
+            <p className = "report-date">{date}</p>
+            <p className = "report-para">{maintext}</p>
+            <a href = {url} ><button className = "report-button3" type="button"> Read More </button></a>
+          </div>
+        )
+      if (key === 4)
+        return (
+          <div style={Info.CARD_STYLE4}>
+            <h1 className = "report-title"> {headline}</h1>
+            <p className = "report-date">{date}</p>
+            <p className = "report-para">{maintext}</p>
+            <a href = {url} ><button className = "report-button4" type="button"> Read More </button></a>
+          </div>
+        )
+      return (
+        <div style={Info.CARD_STYLE5}>
+            <h1 className = "report-title"> {headline}</h1>
+            <p className = "report-date">{date}</p>
+            <p className = "report-para">{maintext}</p>
+            <a href = {url} ><button className = "report-button5" type="button"> Read More </button></a>
+          </div>
+      )
+    })
     return (
       <div>
         <div className="letter">
@@ -151,9 +284,17 @@ class Info extends Component {
           <h1 className = "confidential">[CONFIDENTIAL]</h1>
           {/* Disease (animate) + Name + Button */}
           <div className = "disease">
-            <img src={virus} align = "left" className="virus-image" alt=""/>
+            <img src={virusIcon} style={this.state.icon == 'virusIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
+            <img src={bacteriaIcon} style={this.state.icon == 'bacteriaIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
+            <img src={fungusIcon} style={this.state.icon == 'fungusIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
+            <img src={parasiteIcon} style={this.state.icon == 'parasiteIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
+            <img src={germIcon} style={this.state.icon == 'germIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
-            <Link to="/Quiz" style={{ textDecoration: 'none' }}><button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button></Link>
+            <Link to= {this.state.disease.toLowerCase() == "coronavirus" ? "/Quiz" : "/Hangman"} style={{ textDecoration: 'none' }}>
+            <Button className = "quiz-button" id = {this.state.disease.toLowerCase()} onClick={(e) => this.setGameDisease(e)} >
+            Beat the Quiz!
+            </Button>
+            </Link>
           </div>
           {/*Symptoms*/}
           <div className = "symptoms">
@@ -161,22 +302,22 @@ class Info extends Component {
             <br />
             <Table borderless size="sm" className = "symptoms-table">
             <tbody>
-            <tr>
-              <td><img src={fever} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> Fever </p></td>
+            <tr> {/*switching pictures means: if syndrome = ... src = ...*/}
+              <td><img src={fever} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[0]} </p></td>
             </tr>
             <tr>
-              <td><img src={cough} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> Dry Coughs </p></td>
+              <td><img src={cough} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[1]} </p></td>
             </tr>
             <tr>
-              <td><img src={headache} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> Headache </p></td>
+              <td><img src={headache} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[2]} </p></td>
             </tr>
             <tr>
-              <td><img src={soreThroat} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> Sore Throat </p></td>
+              <td><img src={soreThroat} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[3]} </p></td>
             </tr>
             </tbody>
             </Table>
           </div>
-          {/*graph*/}
+          {/*graph cases last 5 case reports otherwise dictionary meanings of virus etc  */}
           <div className="box">
           <div className = "graph">
           <div className = "dec"><p className = "bar-text">44</p></div>
@@ -198,7 +339,7 @@ class Info extends Component {
 
         {/**/}
         <div className = "missions1">
-          <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Affected Countries</h1>
+          <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Most Affected Countries</h1>
           {/*tables holding p*/}
           <div className="mission1-table">
           <Table borderless size="sm">
@@ -208,32 +349,32 @@ class Info extends Component {
             </thead>
             <tbody>
               <tr>
-                <td><div className = "circle1"><img src={australia} className = "disease1"/></div></td>
+                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[0]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={china} className = "disease1"/></div></td>
+                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[1]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={italy} className = "disease1"/></div></td>
+                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[2]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={germany} className = "disease1"/></div></td>
+                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[3]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={uk} className = "disease1"/></div></td>
+                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[4]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={spain} className = "disease1"/></div></td>
+                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[5]+"/flat/64.png"} className = "disease1"/></div></td>
               </tr>
 
 
               <tr>
-                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Australia </button></Link></div>
+                <td><div className = "back"><Link to={"/Location/"+this.state.countries[0]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[0]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> China </button></Link></div>
+                <td><div className = "back"><Link to={"/Location/"+this.state.countries[1]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[1]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Italy </button></Link></div>
+                <td><div className = "back"><Link to={"/Location/"+this.state.countries[2]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[2]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Germany </button></Link></div>
+                <td><div className = "back"><Link to={"/Location/"+this.state.countries[3]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[3]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> UK </button></Link></div>
+                <td><div className = "back"><Link to={"/Location/"+this.state.countries[4]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[4]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to="/Location"><button className = "disease1-button" type="button" value="Edit"> Spain </button></Link></div>
+                <td><div className = "back"><Link to={"/Location/"+this.state.countries[5]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[5]} </button></Link></div>
                 </td>
               </tr>
 
@@ -247,38 +388,7 @@ class Info extends Component {
 
         <div style={Info.CONTAINER_STYLE}>
            <ReactCardCarousel autoplay={true} autoplay_speed={5000}>
-             <div style={Info.CARD_STYLE2}>
-              <h1 className = "report-title"> Pandemic Update </h1>
-              <p className = "report-date"> 11 March 2020 </p>
-              <p className = "report-para">Speaking at the COVID-19 media briefing, the WHO Director-General said:
-"WHO has been assessing this outbreak around the clock and we are deeply concerned both by the alarming levels of spread and severity, and by the alarming levels of inaction.
-We have therefore made the assessment that COVID-19 can be characterized as a pandemic.</p>
-              <a href = "https://www.who.int/dg/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020" ><button className = "report-button1" type="button"> Read More </button></a>
-             </div>
-             <div style={Info.CARD_STYLE1}>
-             <h1 className = "report-title"> Korea Update</h1>
-             <p className = "report-date"> 21 January 2020 </p>
-             <p className = "report-para">On 20 January 2020, National IHR Focal Point (NFP) for Republic of Korea reported the first case of novel coronavirus in the Republic of Korea. The case is a 35-year-old female, Chinese national, residing in Wuhan, Hubei province in China.</p>
-              <a href = "https://www.who.int/csr/don/21-january-2020-novel-coronavirus-republic-of-korea-ex-china/en/" ><button className = "report-button2" type="button"> Read More </button></a>
-             </div>
-             <div style={Info.CARD_STYLE3}>
-             <h1 className = "report-title"> Japan Update</h1>
-             <p className = "report-date"> 17 January 2020 </p>
-             <p className = "report-para">On 15 January 2020, the Ministry of Health, Labour and Welfare, Japan (MHLW) reported an imported case of laboratory-confirmed 2019-novel coronavirus (2019-nCoV) from Wuhan, Hubei Province, China.</p>
-              <a href = "https://www.who.int/csr/don/17-january-2020-novel-coronavirus-japan-ex-china/en/" ><button className = "report-button3" type="button"> Read More </button></a>
-             </div>
-             <div style={Info.CARD_STYLE4}>
-             <h1 className = "report-title"> Japan Update</h1>
-             <p className = "report-date"> 16 January 2020 </p>
-             <p className = "report-para">The Japanese Ministry of Health, Labour and Welfare, today informed the World Health Organization (WHO) of a confirmed case of a novel coronavirus (2019-nCoV) in a person who travelled to Wuhan, China. This is the second confirmed case of 2019-nCoV that has been detected outside of China, following confirmation of a case in Thailand on 13 January.</p>
-             <a href = "https://www.who.int/csr/don/16-january-2020-novel-coronavirus-japan-ex-china/en/" ><button className = "report-button4" type="button"> Read More </button></a>
-             </div>
-             <div style={Info.CARD_STYLE5}>
-             <h1 className = "report-title"> Thailand Update</h1>
-             <p className = "report-date"> 14 January 2020 </p>
-             <p className = "report-para">On 13 January 2020, the Ministry of Public Health (MoPH), Thailand reported the first imported case of lab-confirmed novel coronavirus (2019-nCoV) from Wuhan, Hubei Province, China.</p>
-             <a href = "https://www.who.int/csr/don/14-january-2020-novel-coronavirus-thailand/en/" ><button className = "report-button5" type="button"> Read More </button></a>
-             </div>
+             {reports}
            </ReactCardCarousel>
          </div>
 

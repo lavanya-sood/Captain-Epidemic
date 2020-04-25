@@ -94,10 +94,6 @@ class Quiz extends Component {
       });
       console.log('update quiz score')
       let al = JSON.parse(localStorage.getItem('allquizzes'));
-      var item = {
-        "quiz": disease,
-        "score":sc
-      }
       for (let i = 0;i < al.game.length;i++){
         if (al.game[i]['quiz'] == disease){
           al.game[i]['score'] = sc;
