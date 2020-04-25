@@ -26,7 +26,7 @@ class Home extends Component {
             <Row>
               <Col>
                   <div>
-                  <Link to="/Info">
+                  <Link to="/Info/Coronavirus">
                     <img src={coronavirus} className="virusImg" href='/Info'alt="Super"/>
                     <h2 className="diseaseTrend"> CORONAVIRUS </h2>
                     </Link>
@@ -41,7 +41,7 @@ class Home extends Component {
               </Col>
               <Col>
               <div>
-              <Link to="/Info">
+              <Link to="/Info/Ebola">
                     <img src={virus2} className="virusImg" href='/'alt="Super"/>
                     <h2 className="diseaseTrend"> EBOLA </h2>
                       </Link>
@@ -57,7 +57,7 @@ class Home extends Component {
               </Col>
               <Col>
               <div>
-              <Link to="/Info">
+              <Link to="/Info/Yellow Fever">
                     <img src={virus1} className="virusImg" href='/'alt="Super"/>
                     <h2 className="diseaseTrend"> YELLOW FEVER </h2>
 

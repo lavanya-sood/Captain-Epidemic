@@ -6,6 +6,7 @@ import Result from './component/Result'
 import Human from './component/Human'
 import boycough from '../img/boycough.jpg';
 import boyheadache from '../img/boyheadache.jpg';
+import girlfever from '../img/girl-fever.jpg';
 import '../index.css';
 import ReactDOM from "react-dom";
 import Modal from "react-bootstrap/Modal";
@@ -14,7 +15,6 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import { Link } from "react-router-dom";
 import logo from "../img/Logo.png";
-
 import axios from 'axios';
 import {
   Gallow,
@@ -123,26 +123,14 @@ export default () => {
   }
 
   const getDataFromAPI = () => {
-    // fetch("/symptoms")
-    //     .then(res => res.json())
-    //     .then(res => {
-    //       let r = JSON.parse(res);
-    //       let i = 0;
-    //       console.log(r['result'])
-    //       let symptom = r['result'][i]['reports'][0]['syndromes'][0]
-    //       while (r['result'][i]['reports'][0]['syndromes'].length == 0){
-    //          i = i + 1
-    //       }
-    //       symptom = r['result'][i]['reports'][0]['syndromes'][0]
-    //       console.log(symptom)
-    //       console.log(i)
-    //
-    //       return res.status
-    //     })
     let disease = localStorage.getItem('game-disease')
-    let symptom = 'coughing'
+    // ebola
+    let symptom = 'fever'
+    // yellow fever
     if (disease == "yellow fever"){
       symptom = 'headache'
+    } else if (disease == 'ebola'){
+      symptom = 'coughing'
     }
     wordSetter(symptom)
 
@@ -209,6 +197,13 @@ export default () => {
         console.log("error");
       });
       console.log('update quiz score')
+      let al = JSON.parse(localStorage.getItem('allquizzes'));
+      for (let i = 0;i < al.game.length;i++){
+        if (al.game[i]['quiz'] == disease){
+          al.game[i]['score'] = 5;
+        }
+      }
+      localStorage.setItem('allquizzes', JSON.stringify(al));
     }
   }
 
@@ -255,11 +250,13 @@ export default () => {
         />
       </Gallow>
       <Human failedLetterCount={failedLetters.length} />
+      <img src={girlfever} style={localStorage.getItem('game-disease') != 'yellow fever' && localStorage.getItem('game-disease') != 'ebola'? {} : { display: 'none' }}  width= "280" height = "330" left = "200px" alt = "hangmanpic"/>
       <img src={boycough} style={localStorage.getItem('game-disease') == 'ebola' ? {} : { display: 'none' }}  width= "280" height = "300" left = "200px" alt = "hangmanpic"/>
       <img src={boyheadache} style={localStorage.getItem('game-disease') == 'yellow fever' ? {} : { display: 'none' }}  width= "280" height = "330" left = "200px" alt = "hangmanpic"/>
       <FailBox failedLetters={failedLetters} />
       <div>
-      <h4> Charlie is showing symptoms for the disease. What symptom is that? </h4>
+      <h4 style={localStorage.getItem('game-disease') == 'yellow fever' || localStorage.getItem('game-disease') == 'ebola'? {} : { display: 'none' }}> Charlie is showing symptoms for the disease. What symptom is that? </h4>
+      <h4 style={localStorage.getItem('game-disease') != 'yellow fever' && localStorage.getItem('game-disease') != 'ebola'? {} : { display: 'none' }}> Lily is showing symptoms for the disease. What symptom is that? </h4>
       </div>
       <AnswerBox
         wordFromAPI={wordFromAPI}

@@ -3,6 +3,7 @@ import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Info.css';
 import { Link, Redirect } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import axios from 'axios';
 import mainLayout from './MainLayout';
 import virusIcon from './img/virusIcon.png';
@@ -40,6 +41,13 @@ class Info extends Component {
     report_tele: '',
     report_calm:''
   }
+  //rmb game played
+  setGameDisease = (e) => {
+    console.log(e)
+    localStorage.setItem('game-disease', e.target.id);
+    console.log(localStorage.getItem('game-disease'))
+  };
+
   callDiseaseAPI(disease) {
     const requestOptions = {
       method: 'POST',
@@ -108,6 +116,7 @@ class Info extends Component {
     this.setState({
       disease: disease
     })
+
   }
 
   getReports() {
@@ -288,8 +297,12 @@ class Info extends Component {
             <img src={fungusIcon} style={this.state.icon == 'fungusIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <img src={parasiteIcon} style={this.state.icon == 'parasiteIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <img src={germIcon} style={this.state.icon == 'germIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
-<h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
-            <Link to="/Quiz" style={{ textDecoration: 'none' }}><button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button></Link>
+            <h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
+            <Link to= {this.state.disease.toLowerCase() == "coronavirus" ? "/Quiz" : "/Hangman"} style={{ textDecoration: 'none' }}>
+            <Button className = "quiz-button" id = {this.state.disease.toLowerCase()} onClick={(e) => this.setGameDisease(e)} >
+            Beat the Quiz!
+            </Button>
+            </Link>
           </div>
           {/*Symptoms*/}
           <div className = "symptoms">
