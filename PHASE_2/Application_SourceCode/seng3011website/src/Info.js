@@ -22,6 +22,8 @@ import touch from './img/do-not-touch.png';
 import mask from './img/medical-mask.png';
 import distance from './img/distance.png';
 
+import { diseases } from "./category/DiseaseData";
+
 import australia from './img/australia.png';
 import china from './img/china.png';
 import italy from './img/italy.png';
@@ -29,6 +31,20 @@ import uk from './img/uk.png';
 import germany from './img/germany.png';
 import spain from './img/spain.png';
 
+function checkDiseases(disease) {
+  for (var i = 0; i < diseases.length; i++) {
+    if (diseases[i].title) {
+      if (disease.toLowerCase() === diseases[i].title.toLowerCase()) {
+        return true
+      }
+    } else {
+      if (disease.toLowerCase() === diseases[i].name.toLowerCase()) {
+        return true
+      }
+    }
+  }
+  return false
+}
 
 class Info extends Component {
   state = {
@@ -108,6 +124,10 @@ class Info extends Component {
     const path = window.location.hash
     var disease = path.split('/')[2]
     if (disease === undefined) {
+      this.setState({check: false})
+      return
+    }
+    if (!checkDiseases(disease)) {
       this.setState({check: false})
       return
     }
