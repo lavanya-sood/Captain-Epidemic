@@ -59,6 +59,14 @@ animation-iteration-count: infinite;
   width: 300px;
 }
 
+.error-msg-reports1 {
+  font-size: 50px;
+  color: #7CDBD5;
+  font-family: "Stella";
+  margin: 120px 0px 0px 0px;
+  margin-left: 70px;
+  margin-bottom: 30px;
+}
 .disease-button2:hover {
   box-shadow: 2px 10px  #5fa29e;
   background-color:  #7CDBD5;
