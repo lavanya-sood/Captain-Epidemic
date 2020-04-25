@@ -29,6 +29,14 @@
   margin-bottom: 30px;
 }
 
+.error-msg-vac {
+  font-size: 50px;
+  color: #1e4b57;
+  font-family: "Stella";
+  margin: 70px 0px 0px 0px;
+  margin-bottom: 30px;
+}
+
 .letter:before {
     left: -5px;
     top: 2px;

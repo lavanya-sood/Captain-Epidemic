@@ -361,6 +361,146 @@ var diseases = [
     { "name": "COVID-19", "type": "virusIcon", "title": "coronavirus" }
     ]
 
+    var prevention = [
+        { "name": "anthrax", "prevention" : "bacteria", "vaccine": "true"},
+        { "name": "cholera", "prevention" : "fecal", "vaccine": "true"},
+        { "name": "dengue", "prevention" : "mosquitoes", "vaccine": "true"},
+        { "name": "ebola", "prevention": "blood", "vaccine": "true" },
+        { "name": "enterovirus", "prevention" : "contact", "vaccine" : "false"},
+        { "name": "influenza", "prevention" : "contact", "vaccine": "true"},
+        { "name": "hand, foot and mouth disease", "prevention" : "contact", "vaccine": "false"},
+        { "name": "hantavirus", "prevention" : "rats", "vaccine" : "false"},
+        { "name": "hepatitis a", "prevention" : "fecal", "vaccine":"true" },
+        { "name": "hepatitis c", "prevention" : "blood", "vaccine": "false" },
+        { "name": "hepatitis e", "prevention" : "fecal", "vaccine" : "false" },
+        { "name": "lassa fever", "prevention": "rats", "vaccine": "false" },
+        { "name": "malaria", "prevention": "mosquitoes", "vaccine" : "false"},
+        { "name": "marburg virus disease", "prevention":"blood", "vaccine":"false"},
+        { "name": "measles", "prevention" : "contact", "vaccine": "true" },
+        { "name": "mers-cov", "prevention" : "camel", "vaccine":"false" },
+        { "name": "mumps", "prevention": "contact", "vaccine":"true"},
+        { "name": "pertussis", "prevention": "contact", "vaccine":"true" },
+        { "name": "plague", "prevention": "rats", "vaccine":"false"},
+        { "name": "polio","prevention": "contact", "vaccine":"true" },
+        { "name": "rabies", "prevention" : "animals", "vaccine" : "true"},
+        { "name": "rift valley fever", "prevention" : "mosquitoes", "vaccine": "true"},
+        { "name": "rubella", "prevention": "contact", "vaccine":"true"},
+        { "name": "salmonella", "prevention": "bacteria", "vaccine": "true"},
+        { "name": "shigellosis", "prevention":"bacteria", "vaccine": "false"},
+        { "name": "smallpox", "prevention": "contact", "vaccine":"true"},
+        { "name": "tuberculosis", "prevention": "contact", "vaccine":"true"},
+        { "name": "tularemia", "prevention": "mosquitoes", "vaccine": "false"},
+        { "name": "yellow fever", "prevention" : "mosquitoes", "vaccine": "true"},
+        { "name": "zika", "prevention": "mosquitoes", "vaccine": "false"},
+        { "name": "listeriosis", "prevention": "bacteria", "vaccine": "false"},
+        { "name": "coronavirus", "prevention": "contact", "vaccine":"false"}
+        ]
+
+var preventionContact = [ "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
+"Cover your nose and mouth with a disposable tissue or flexed elbow when you cough or sneeze",
+"Stay home and self-isolate from others in the household if you feel unwell",
+"Don't touch your eyes, nose, or mouth if your hands are not clean"
+]
+
+var preventionMos = [
+  "Wear pants and long-sleeved shirts",
+  "Apply insect repellant containing DEET to skin and clothing",
+  "Sleep under a net, particularly those treated with insecticide",
+  "Stay in air-conditioned or well-screened housing"
+]
+
+var preventionBlood = [
+  "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
+  "Avoid buying or eating wild animals",
+  "Avoid contact with infected people, especially tissues and body fluid",
+  "Don't handle remains"
+]
+
+var preventionRats = [
+  "Put food away in rodent-proof containers and keeping the home clean",
+  "Use rat traps",
+  "Protective clothing, such as masks, gloves, gowns, and goggles around infected people",
+  "Remove potential nesting areas. Don't leave pet food in areas that rodents can easily access"
+]
+
+var preventionFecal = [
+  "Wash your hands with soap and water frequently, especially after using the toilet and before handling food",
+  "Drink only safe water, including bottled water or water you've boiled or disinfected yourself",
+  "Eat food that's completely cooked and hot. Avoid vendor food",
+  "Stick to fruits and vegetables that you can peel yourself"
+]
+
+var preventionCamel = [
+  "Avoid vising farms, markets, barns or other places with camels",
+  "Don't consume raw or undercooked animal products including milk and meat",
+  "Practice general hygiene, wash hands before and touching animals",
+  "Avoid contact with sick animals"
+]
+
+var preventionBact = [
+  "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
+  "Don't prepare food for others if you have diarrhea",
+  "Avoid swallowing water from ponds, lakes or untreated pools",
+  "Avoid eating raw eggs including cookie dough, eggnog, homemade ice-cream"
+]
+
+var preventionAnimal = [
+  "Vaccinate your pets. Ask your veterinarian how often your pets should be vaccinated",
+  " Keep your pets inside and supervise them when outside so they avoid wild animals",
+  "Report stray animals to local authorities",
+  "Don't approach wild animals."
+]
+router.get('/prevention', function(req, res, next) {
+    result = []
+    p = ""
+    disease_lower = diseasePage.toLowerCase();
+    for (i = 0; i < prevention.length; i++) {
+      if (prevention[i].name == disease_lower){
+          p = prevention[i].prevention;
+          break;
+      }
+    }
+    if (p == "bacteria"){
+      result = preventionBact;
+    }
+    if (p == "fecal"){
+      result = preventionFecal;
+    }
+    if (p == "blood"){
+      result = preventionBlood;
+    }
+    if (p == "contact"){
+      result = preventionContact;
+    }
+    if (p == "mosquitoes"){
+      result = preventionMos;
+    }
+    if (p == "rats"){
+      result = preventionRats;
+    }
+    if (p == "camel"){
+      result = preventionCamel;
+    }
+    if (p == "animals"){
+      result = preventionAnimal;
+    }
+    console.log(result);
+    res.send(result);
+});
+
+router.get('/vaccine', function(req, res, next) {
+    result = []
+    disease_lower = diseasePage.toLowerCase();
+    for (i = 0; i < prevention.length; i++) {
+      if (prevention[i].name == disease_lower){
+          result.push(prevention[i].vaccine);
+          break;
+      }
+    }
+    console.log(result);
+    res.send(result);
+});
+
 
 function getDiseaseNames(disease) {
     disease = disease.toLowerCase()

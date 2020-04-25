@@ -57,7 +57,9 @@ class Info extends Component {
     countries: '',
     codes:'',
     report_tele: '',
-    report_calm:''
+    report_calm:'',
+    vaccine: '',
+    prevention: ''
   }
   //rmb game played
   setGameDisease = (e) => {
@@ -119,6 +121,18 @@ class Info extends Component {
           fetch("/location/reports-calmclams-d", requestOptions)
               .then(res => res.json())
               .then(res => this.setState({ report_calm: res }));
+          fetch("/map/prevention")
+                  .then(res => res.json())
+                  .then(res => this.setState({ prevention: res}))
+
+                  fetch("/map/vaccine")
+                          .then(res => res.json())
+                          .then(res => this.setState({ vaccine: res}))
+                          .then(res => console.log(this.state.vaccine))
+
+
+
+
 
   }
 
@@ -338,16 +352,16 @@ class Info extends Component {
             <Table borderless size="sm" className = "symptoms-table">
             <tbody>
             <tr> {/*switching pictures means: if syndrome = ... src = ...*/}
-              <td><img src={fever} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[0]} </p></td>
+              <td><img style={this.state.syndromes.length > 0 ? {} : { display: 'none' }} src={fever} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[0]} </p></td>
             </tr>
             <tr>
-              <td><img src={cough} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[1]} </p></td>
+              <td><img style={this.state.syndromes.length > 1 ? {} : { display: 'none' }}  src={cough} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[1]} </p></td>
             </tr>
             <tr>
-              <td><img src={headache} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[2]} </p></td>
+              <td><img style={this.state.syndromes.length > 2 ? {} : { display: 'none' }}  src={headache} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[2]} </p></td>
             </tr>
             <tr>
-              <td><img src={soreThroat} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[3]} </p></td>
+              <td><img style={this.state.syndromes.length > 3 ? {} : { display: 'none' }}  src={soreThroat} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[3]} </p></td>
             </tr>
             </tbody>
             </Table>
@@ -434,6 +448,8 @@ class Info extends Component {
          <div className = "prevention">
            <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Prevention Tips</h1>
            {/*tables holding p*/}
+           <h3 style={this.state.vaccine == "false" ? {} : { display: 'none' }} className = "error-msg-vac"> This epidemic does not have a vaccine currently.</h3>
+           <h3 style={this.state.vaccine == "true" ? {} : { display: 'none' }} className = "error-msg-vac"> This epidemic does have a vaccine.</h3>
            <div className="prevention-table">
            <Table borderless size="sm">
              <thead>
@@ -442,16 +458,16 @@ class Info extends Component {
              </thead>
              <tbody>
                <tr>
-                 <td><div className = "circle-prevention"><img src={hand} className = "prevention-img"/></div></td>
-                 <td width = "420px"><p className = "prevention-text">Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub</p></td>
-                 <td><div className = "circle-prevention"><img src={mask} className = "prevention-img"/></div></td>
-                 <td ><p className = "prevention-text">Cover your nose and mouth with a disposable tissue or flexed elbow when you cough or sneeze</p></td>
+                 <td><div style={this.state.prevention.length > 0 ? {} : { display: 'none' }} className = "circle-prevention"><img src={hand} className = "prevention-img"/></div></td>
+                 <td width = "420px"><p className = "prevention-text">{this.state.prevention[0]}</p></td>
+                 <td><div style={this.state.prevention.length > 1? {} : { display: 'none' }}className = "circle-prevention"><img src={mask} className = "prevention-img"/></div></td>
+                 <td ><p className = "prevention-text">{this.state.prevention[1]}</p></td>
                </tr>
                <tr>
-                 <td><div className = "circle-prevention"><img src={distance} className = "prevention-img"/></div></td>
-                 <td><p className = "prevention-text">Stay home and self-isolate from others in the household if you feel unwell</p></td>
-                 <td><div className = "circle-prevention"><img src={touch} className = "prevention-img"/></div></td>
-                 <td><p className = "prevention-text">Don't touch your eyes, nose, or mouth if your hands are not clean</p></td>
+                 <td><div style={this.state.prevention.length > 2? {} : { display: 'none' }}className = "circle-prevention"><img src={distance} className = "prevention-img"/></div></td>
+                 <td><p className = "prevention-text">{this.state.prevention[2]}</p></td>
+                 <td><div style={this.state.prevention.length > 3 ? {} : { display: 'none' }}className = "circle-prevention"><img src={touch} className = "prevention-img"/></div></td>
+                 <td><p className = "prevention-text">{this.state.prevention[3]}</p></td>
                </tr>
 
              </tbody>
