@@ -15,10 +15,10 @@ class PageFooter extends Component {
                         </Col>
                         <Col>
                             <div id = "outro-links">
-                                <NavLink className="outro-buttons" to="/profile">About us</NavLink>
-                                <NavLink className="outro-buttons" to="/profile">How TAOCE works</NavLink>
-                                <NavLink className="outro-buttons" to="/profile">Terms of Use</NavLink>
-                                <NavLink className="outro-buttons" to="/profile">Privacy Policy</NavLink>
+                                <NavLink className="outro-buttons" to="/home">About us</NavLink>
+                                <NavLink className="outro-buttons" to="/home">How TAOCE works</NavLink>
+                                <NavLink className="outro-buttons" to="/home">Terms of Use</NavLink>
+                                <NavLink className="outro-buttons" to="/home">Privacy Policy</NavLink>
                             </div>
                         </Col>
                         <Col>
