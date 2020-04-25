@@ -77,7 +77,10 @@ class Info extends Component {
         };
     fetch("/map/symptoms")
     .then(res => res.json())
-      .then(res => this.setState({ icon : res[0]}))
+      .then(res => {
+        this.setState({ icon : res[0]})
+        localStorage.setItem('game-icon',this.state.icon)
+      })
 
       fetch("/map/symptoms")
       .then(res => res.json())
@@ -116,7 +119,6 @@ class Info extends Component {
     this.setState({
       disease: disease
     })
-
   }
 
   getReports() {

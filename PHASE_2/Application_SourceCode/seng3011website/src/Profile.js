@@ -33,6 +33,11 @@ import virus2 from './img/virus2.png';
 import yellowfever from './img/virus3.png';
 import virus4 from './img/virus4.png';
 import virus5 from './img/virus5.png';
+import virusIcon from './img/virusIcon.png';
+import bacteriaIcon from './img/bacteriaIcon.png';
+import fungusIcon from './img/fungusIcon.png';
+import parasiteIcon from './img/parasiteIcon.png';
+import germIcon from './img/germIcon.png';
 import mainLayout from './MainLayout';
 
 class Profile extends Component {
@@ -43,7 +48,7 @@ class Profile extends Component {
   }
 
   state = {
-    numGames : localStorage.getItem('games'),
+    numGames : '',
     rank : "none",
     completedQuiz:[],
     username: localStorage.getItem('username'),
@@ -54,8 +59,39 @@ class Profile extends Component {
 
 
   }
+  callAPI(){
+    fetch("/getgame")
+        .then(res => res.json())
+        .then( res => {
+          let sum = 0
+          let quiz = []
+          // store all quiz and score
+          var allquizzes = {};
+          var game = []
+          allquizzes.game = game;
+          for (var i = 0;i < res.length;i++){
+            if (res[i]['username'] === localStorage.getItem('username')){
+              // dont count same quiz twice
+                sum ++;
+                quiz.push(res[i]['quiz']);
+                var item = {
+                  "quiz": res[i]['quiz'],
+                   "score": res[i]['score'],
+                   "icon":res[i]['icon']
+                }
+                allquizzes.game.push(item);
+            }
+          }
+          localStorage.setItem('quiz',JSON.stringify(quiz))
+          this.setState({
+            numGames:sum,
+            completedQuiz:allquizzes['game']
+          })
+    })
+  }
 
   componentWillMount() {
+    this.callAPI()
     // set correct rank image
     this.state.rank = recruitImg
     if (this.state.numGames == 40){
@@ -73,16 +109,16 @@ class Profile extends Component {
     } else if (this.state.numGames >= 3){
       this.state.rank = cadetImg
     }
-    
-    let al = JSON.parse(localStorage.getItem('allquizzes'));
-    if (al!=null) {
-      this.state.completedQuiz = al['game']
-      console.log(al['game'])
-    }
-   
-
    }
 
+ toTitleCase(str) {
+      return str.replace(
+          /\w\S*/g,
+          function(txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          }
+      );
+  }
   getAge(time){
     var MILLISECONDS_IN_A_YEAR = 1000*60*60*24*365;
     var date_array = time.split('-')
@@ -134,7 +170,7 @@ class Profile extends Component {
             </tr>*/}
             <tr>
 
-            <td > <h5 style={{"padding-left": "20px","fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
+            <td > <h5 style={{"paddingLeft": "20px","fontFamily":"handwriting", 'fontSize': '40px'}}>Age: </h5></td>
             <td > <h5 style={{"textDecoration": "underline", "fontFamily":"Chalkduster", "paddingTop":"10px"}}>{this.getAge(this.state.dob)} years old</h5></td>
             </tr>
           </tbody>
@@ -227,10 +263,12 @@ class Profile extends Component {
               return (
                 <td className = "images">
                 <div className = "images">
-                <div className = "circle" style={data.quiz == 'coronavirus' ? {} : { display: 'none' }} ><img src={coronavirus} style={data.quiz == 'coronavirus' ? {} : { display: 'none' }} className = "disease"/></div>
-                <div className = "circle" style={data.quiz == 'ebola' ? {} : { display: 'none' }}><img src={ebola} style={data.quiz == 'ebola' ? {} : { display: 'none' }} className = "disease"/></div>
-                <div className = "circle" style={data.quiz == 'yellow fever' ? {} : { display: 'none' }}><img src={yellowfever} style={data.quiz == 'yellow fever' ? {} : { display: 'none' }} className = "disease"/></div>
-
+                <div className = "circle" >
+                 <img src={virusIcon} style={data.icon == 'virusIcon' ? {} : { display: 'none' }} className = "disease"/>
+                 <img src={bacteriaIcon} style={data.icon == 'bacteriaIcon' ? {} : { display: 'none' }} className = "disease"/>
+                 <img src={fungusIcon} style={data.icon == 'fungusIcon' ? {} : { display: 'none' }} className = "disease"/>
+                 <img src={parasiteIcon} style={data.icon == 'parasiteIcon' ? {} : { display: 'none' }} className = "disease"/>
+                 </div>
                 </div>
                 </td>
               );
@@ -247,8 +285,8 @@ class Profile extends Component {
             {this.state.completedQuiz.map(data => {
               return (
                 <td><div className = "images">
-                <Link to="/Info">
-                <button className = "disease-button" type="button" value="Edit"> {data.quiz} </button>
+                <Link to={"/Info/" + this.toTitleCase(data.quiz)}>
+                <button className = "disease-button" type="button"> {data.quiz} </button>
                 </Link>
                 </div></td>
               );

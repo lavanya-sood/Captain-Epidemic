@@ -17,12 +17,25 @@ class Disease extends Component {
     });
   };
 
+  toTitleCase(str) {
+       return str.replace(
+           /\w\S*/g,
+           function(txt) {
+               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+           }
+       );
+   }
+
   render() {
     const diseases = this.sortDiseases();
     let container = [];
     for (let i = 0; i < diseases.length; i++) {
+      let title = this.toTitleCase(diseases[i].name)
+      if (diseases[i].title){
+        title = this.toTitleCase(diseases[i].title)
+      }
       const link =
-        "info/" + (diseases[i].title ? diseases[i].title : diseases[i].name);
+        "Info/" + title;
       container.push(
         <Link to={link} className="result-link">
           <div className="result">
