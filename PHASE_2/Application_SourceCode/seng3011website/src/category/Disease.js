@@ -15,11 +15,15 @@ class Disease extends Component {
     const diseases = this.sortDiseases();
     let container = [];
     for (let i = 0; i < diseases.length; i++) {
-      const link = "info/" + diseases[i].name;
+      const link =
+        "info/" + (diseases[i].title ? diseases[i].title : diseases[i].name);
       container.push(
         <Link to={link} className="result-link">
           <div className="result">
-            <h3 className="result-content"> {diseases[i].name} </h3>
+            <h3 className="result-content">
+              {" "}
+              {diseases[i].title ? diseases[i].title : diseases[i].name}{" "}
+            </h3>
           </div>
         </Link>
       );
