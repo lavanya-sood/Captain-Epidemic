@@ -492,7 +492,7 @@ router.get('/symptoms', function(req, res, next) {
     }
     var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
-    var sql = `SELECT * FROM emperor WHERE disease = ? ORDER BY accessed DESC LIMIT 1;`
+    var sql = `SELECT * FROM emperor WHERE disease = ? COLLATE NOCASE ORDER BY accessed DESC LIMIT 1;`
             db.get(sql, [diseasePage], (err,rows) => {
                 if (err) {
                     throw err;

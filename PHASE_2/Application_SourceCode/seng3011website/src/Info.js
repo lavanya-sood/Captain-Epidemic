@@ -32,13 +32,15 @@ import germany from './img/germany.png';
 import spain from './img/spain.png';
 
 function checkDiseases(disease) {
+  console.log(disease)
+  var match = disease.split(' ')
   for (var i = 0; i < diseases.length; i++) {
     if (diseases[i].title) {
-      if (disease === diseases[i].title.charAt(0).toUpperCase() + diseases[i].title.slice(1)) {
+      if (disease.toLowerCase() === diseases[i].title.toLowerCase()) {
         return true
       }
     } else {
-      if (disease === diseases[i].name.charAt(0).toUpperCase() + diseases[i].name.slice(1)) {
+      if (disease.toLowerCase() === diseases[i].name.toLowerCase()) {
         return true
       }
     }
@@ -123,15 +125,18 @@ class Info extends Component {
   componentDidMount() {
     const path = window.location.hash
     var disease = path.split('/')[2]
+    if (path.split('/').length > 3) {
+      disease = path.split('/')[2] + '/' + path.split('/')[3]
+    }
     if (disease === undefined) {
       this.setState({check: false})
       return
     }
+    disease = disease.replace(/%20/g, ' ')
     if (!checkDiseases(disease)) {
       this.setState({check: false})
       return
     }
-    disease = disease.replace(/%20/g, ' ')
     this.callAPI(disease)
     this.callDiseaseAPI(disease)
     this.callSympAPI(disease)
