@@ -395,7 +395,8 @@ var diseases = [
         { "name": "yellow fever", "prevention" : "mosquitoes", "vaccine": "true"},
         { "name": "zika", "prevention": "mosquitoes", "vaccine": "false"},
         { "name": "listeriosis", "prevention": "bacteria", "vaccine": "false"},
-        { "name": "coronavirus", "prevention": "contact", "vaccine":"false"}
+        { "name": "coronavirus", "prevention": "contact", "vaccine":"false"},
+        { "name": "chickenpox", "prevention": "contact", "vaccine":"true"}
         ]
 
 var preventionContact = [ "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
