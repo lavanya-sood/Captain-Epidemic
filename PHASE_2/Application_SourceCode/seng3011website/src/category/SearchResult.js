@@ -19,6 +19,14 @@ class SearchResult extends React.Component {
     this.setState({ diseaseResult: [] });
     this.setState({ locationResult: [] });
   }
+  toTitleCase(str) {
+       return str.replace(
+           /\w\S*/g,
+           function(txt) {
+               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+           }
+       );
+   }
   render() {
     const url = window.location.href;
     var res = url.split("/");
@@ -47,7 +55,7 @@ class SearchResult extends React.Component {
 
     let container = [];
     for (let i = 0; i < this.state.diseaseResult.length; i++) {
-      const link = "/info/" + this.state.diseaseResult[i];
+      const link = "/info/" + this.toTitleCase(this.state.diseaseResult[i]);
       container.push(
         <Link to={link} className="result-link">
           <div className="result">

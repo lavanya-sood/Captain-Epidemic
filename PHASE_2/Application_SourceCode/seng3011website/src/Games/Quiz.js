@@ -65,7 +65,8 @@ class Quiz extends Component {
       axios.post('/savegame', {
         username:name,
         quiz:disease,
-        score:sc
+        score:sc,
+        icon:localStorage.getItem('game-icon')
       })
       .then(function (res) {
         console.log(res);
@@ -73,13 +74,6 @@ class Quiz extends Component {
       .catch(function (error) {
         console.log("submit score error");
       });
-      let al = JSON.parse(localStorage.getItem('allquizzes'));
-      var item = {
-        "quiz": disease,
-        "score":sc
-      }
-      al.game.push(item);
-      localStorage.setItem('allquizzes', JSON.stringify(al));
     } else {
       axios.post('/updategame', {
         username:name,
@@ -93,13 +87,6 @@ class Quiz extends Component {
         console.log("error");
       });
       console.log('update quiz score')
-      let al = JSON.parse(localStorage.getItem('allquizzes'));
-      for (let i = 0;i < al.game.length;i++){
-        if (al.game[i]['quiz'] == disease){
-          al.game[i]['score'] = sc;
-        }
-      }
-      localStorage.setItem('allquizzes', JSON.stringify(al));
     }
   };
 
