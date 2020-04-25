@@ -170,6 +170,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":332,"name":"Haiti","alpha2":"ht","alpha3":"hti"},
 {"id":340,"name":"Honduras","alpha2":"hn","alpha3":"hnd"},
 {"id":348,"name":"Hungary","alpha2":"hu","alpha3":"hun"},
+{"id":762,"name":"Hong Kong","alpha2":"hk","alpha3":"tjk"},
 {"id":352,"name":"Iceland","alpha2":"is","alpha3":"isl"},
 {"id":356,"name":"India","alpha2":"in","alpha3":"ind"},
 {"id":360,"name":"Indonesia","alpha2":"id","alpha3":"idn"},
@@ -265,6 +266,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":756,"name":"Switzerland","alpha2":"ch","alpha3":"che"},
 {"id":760,"name":"Syrian Arab Republic","alpha2":"sy","alpha3":"syr"},
 {"id":762,"name":"Tajikistan","alpha2":"tj","alpha3":"tjk"},
+{"id":762,"name":"Taiwan, Province of China","alpha2":"tw","alpha3":"tjk"},
 {"id":834,"name":"Tanzania, United Republic of","alpha2":"tz","alpha3":"tza"},
 {"id":764,"name":"Thailand","alpha2":"th","alpha3":"tha"},
 {"id":626,"name":"Timor-Leste","alpha2":"tl","alpha3":"tls"},
@@ -284,7 +286,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":860,"name":"Uzbekistan","alpha2":"uz","alpha3":"uzb"},
 {"id":548,"name":"Vanuatu","alpha2":"vu","alpha3":"vut"},
 {"id":862,"name":"Venezuela (Bolivarian Republic of)","alpha2":"ve","alpha3":"ven"},
-{"id":704,"name":"Viet Nam","alpha2":"vn","alpha3":"vnm"},
+{"id":704,"name":"Vietnam","alpha2":"vn","alpha3":"vnm"},
 {"id":887,"name":"Yemen","alpha2":"ye","alpha3":"yem"},
 {"id":894,"name":"Zambia","alpha2":"zm","alpha3":"zmb"},
 {"id":716,"name":"Zimbabwe","alpha2":"zw","alpha3":"zwe"}]
@@ -363,21 +365,21 @@ var diseases = [
 
     var prevention = [
         { "name": "anthrax", "prevention" : "bacteria", "vaccine": "true"},
-        { "name": "cholera", "prevention" : "fecal", "vaccine": "true"},
+        { "name": "cholera", "prevention" : "feces", "vaccine": "true"},
         { "name": "dengue", "prevention" : "mosquitoes", "vaccine": "true"},
         { "name": "ebola", "prevention": "blood", "vaccine": "true" },
         { "name": "enterovirus", "prevention" : "contact", "vaccine" : "false"},
         { "name": "influenza", "prevention" : "contact", "vaccine": "true"},
         { "name": "hand, foot and mouth disease", "prevention" : "contact", "vaccine": "false"},
         { "name": "hantavirus", "prevention" : "rats", "vaccine" : "false"},
-        { "name": "hepatitis a", "prevention" : "fecal", "vaccine":"true" },
+        { "name": "hepatitis a", "prevention" : "feces", "vaccine":"true" },
         { "name": "hepatitis c", "prevention" : "blood", "vaccine": "false" },
-        { "name": "hepatitis e", "prevention" : "fecal", "vaccine" : "false" },
+        { "name": "hepatitis e", "prevention" : "feces", "vaccine" : "false" },
         { "name": "lassa fever", "prevention": "rats", "vaccine": "false" },
         { "name": "malaria", "prevention": "mosquitoes", "vaccine" : "false"},
         { "name": "marburg virus disease", "prevention":"blood", "vaccine":"false"},
         { "name": "measles", "prevention" : "contact", "vaccine": "true" },
-        { "name": "mers-cov", "prevention" : "camel", "vaccine":"false" },
+        { "name": "mers-cov", "prevention" : "camels", "vaccine":"false" },
         { "name": "mumps", "prevention": "contact", "vaccine":"true"},
         { "name": "pertussis", "prevention": "contact", "vaccine":"true" },
         { "name": "plague", "prevention": "rats", "vaccine":"false"},
@@ -463,7 +465,7 @@ router.get('/prevention', function(req, res, next) {
     if (p == "bacteria"){
       result = preventionBact;
     }
-    if (p == "fecal"){
+    if (p == "feces"){
       result = preventionFecal;
     }
     if (p == "blood"){
@@ -478,7 +480,7 @@ router.get('/prevention', function(req, res, next) {
     if (p == "rats"){
       result = preventionRats;
     }
-    if (p == "camel"){
+    if (p == "camels"){
       result = preventionCamel;
     }
     if (p == "animals"){
@@ -494,6 +496,19 @@ router.get('/vaccine', function(req, res, next) {
     for (i = 0; i < prevention.length; i++) {
       if (prevention[i].name == disease_lower){
           result.push(prevention[i].vaccine);
+          break;
+      }
+    }
+    console.log(result);
+    res.send(result);
+});
+
+router.get('/source', function(req, res, next) {
+    result = []
+    disease_lower = diseasePage.toLowerCase();
+    for (i = 0; i < prevention.length; i++) {
+      if (prevention[i].name == disease_lower){
+          result.push(prevention[i].prevention);
           break;
       }
     }
@@ -564,7 +579,9 @@ function getSymptoms(info){
       for (var j = 0; j < info[i].reports.length;j++) { //for every report
           for (var k = 0;k<info[i].reports[j].syndromes.length;k++){ //for every list of syndromes
             //if it's not unknown or asymptomatic or repeat
-              result = addSyndrome(result,info[i].reports[j].syndromes[k])
+              if (info[i].reports[j].syndromes[k] != "Shortness of breath"){
+                result = addSyndrome(result,info[i].reports[j].syndromes[k])
+              }
           }
       }
   }
