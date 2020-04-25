@@ -382,6 +382,7 @@ overflow: hidden;
   border: 5px solid white;
   line-height:30px;
   color: #1e4b57;
+  width: 180px;
 }
 
 .disease12-button:hover {
