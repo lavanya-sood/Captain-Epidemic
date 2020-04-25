@@ -10,6 +10,7 @@ var mapRouter = require('./routes/map');
 var symptomRouter = require('./routes/symptoms');
 var signupRouter = require('./routes/signup');
 var savegameRouter = require('./routes/savegame');
+var updategameRouter = require('./routes/updategame');
 var locationRouter = require('./routes/location');
 var getgameRouter = require('./routes/getgame');
 var deleteRouter = require('./routes/deleteuser');
@@ -38,6 +39,7 @@ app.use('/location', locationRouter);
 app.use('/getgame', getgameRouter);
 app.use('/delete', deleteRouter);
 app.use('/info', infoRouter);
+app.use('/updategame', updategameRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

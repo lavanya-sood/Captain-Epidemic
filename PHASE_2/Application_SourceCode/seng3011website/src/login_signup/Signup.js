@@ -106,7 +106,10 @@ export default class SignUp extends Component {
         })
         var auth = this.authenticate(username)
         if (auth === true) {
-            this.showModal(event);
+          let q = []
+          localStorage.setItem('games',0)
+          localStorage.setItem('quiz',JSON.stringify(q))
+          this.showModal(event);
         } else {
             empty.textContent = auth
             event.preventDefault();
