@@ -19,14 +19,14 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div id="homepage">
         <div id="trending">
           <h2 className="headingpage">Discover</h2>
           <Container id="trending-topics">
             <Row>
               <Col>
                   <div>
-                  <Link to="/Info">
+                  <Link to="/Info/Coronavirus">
                     <img src={coronavirus} className="virusImg" href='/Info'alt="Super"/>
                     <h2 className="diseaseTrend"> CORONAVIRUS </h2>
                     </Link>
@@ -41,7 +41,7 @@ class Home extends Component {
               </Col>
               <Col>
               <div>
-              <Link to="/Info">
+              <Link to="/Info/Ebola">
                     <img src={virus2} className="virusImg" href='/'alt="Super"/>
                     <h2 className="diseaseTrend"> EBOLA </h2>
                       </Link>
@@ -57,7 +57,7 @@ class Home extends Component {
               </Col>
               <Col>
               <div>
-              <Link to="/Info">
+              <Link to="/Info/Yellow Fever">
                     <img src={virus1} className="virusImg" href='/'alt="Super"/>
                     <h2 className="diseaseTrend"> YELLOW FEVER </h2>
 
@@ -77,8 +77,10 @@ class Home extends Component {
         <div id="map-location">
         <Link to='/map'>
           {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
-          <img src={fancymap} className="mapImg" href='/'alt="Super"/>
+          <Button className="buttonMaps">
+          <img src={fancymap} class="mapImg" href='/'alt="Super"/>
           <p id="mapheading">Learn about diseases around the world </p>
+          </Button>
         </Link>
           {/* <div id="mapbase">
           <img src={waves} className="waves" href='/'/>
