@@ -24,7 +24,7 @@ class Country extends Component {
         const link = "location/" + locations[i];
         container.push(
           <Link to={link} className="result-link">
-            <div className="result">
+            <div className="result-locations1">
               {/* <img src={aus} className="result-img"></img> */}
               <h3 className="result-content"> {locations[i]} </h3>
             </div>

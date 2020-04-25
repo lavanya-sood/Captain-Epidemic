@@ -1,6 +1,7 @@
 .result-div {
   float: left;
   margin: 30px;
+  margin-left: 10%;
 }
 .result {
   padding: 70px 0;
@@ -18,6 +19,23 @@
   font-size: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.result-locations1 {
+  padding: 70px 0;
+  margin: 60px;
+  width: 300px;
+  height: 200px;
+  float: left;
+  text-align: center;
+  border: none;
+  background-image: url("../img/locations-cat.png");
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  text-shadow: 2px 2px #000000;
+  border-radius: 25px;
+  font-size: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .logo-img {
   animation: bounce 0.8s;
   animation-direction: alternate;
