@@ -53,3 +53,14 @@
 .logo-img {
   margin-left: 30%;
 }
+
+.pagination {
+  position: relative;
+  left: 135px;
+  font-size: 25px;
+}
+
+.page-link{
+  color: black !important;
+}
+
