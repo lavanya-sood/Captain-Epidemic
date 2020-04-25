@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import virus1 from './img/virus3.png';
 import virus2 from './img/virus1.png';
-import virus3 from './img/virus5.png';
+import coronavirus from './img/virus5.png';
 import fancymap from './img/mapping.png';
 import waves from './img/waves.png';
 
@@ -13,27 +13,26 @@ import waves from './img/waves.png';
 class Home extends Component {
 
   setGameDisease = (e) => {
-    console.log(e.target.id);
     localStorage.setItem('game-disease', e.target.id);
 
   };
 
   render() {
     return (
-      <div>
+      <div id="homepage">
         <div id="trending">
           <h2 className="headingpage">Discover</h2>
           <Container id="trending-topics">
             <Row>
               <Col>
                   <div>
-                  <Link to="/Info">
-                    <img src={virus1} class="virusImg" href='/Info'alt="Super"/>
-                    <h2 class="diseaseTrend"> CORONAVIRUS </h2>
+                  <Link to="/Info/Coronavirus">
+                    <img src={coronavirus} className="virusImg" href='/Info'alt="Super"/>
+                    <h2 className="diseaseTrend"> CORONAVIRUS </h2>
                     </Link>
                       <br/>
                     <Link to="/Quiz">
-                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
+                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Game{" "}
                         </Button>
@@ -42,9 +41,9 @@ class Home extends Component {
               </Col>
               <Col>
               <div>
-              <Link to="/Info">
-                    <img src={virus2} class="virusImg" href='/'alt="Super"/>
-                    <h2 class="diseaseTrend"> EBOLA </h2>
+              <Link to="/Info/Ebola">
+                    <img src={virus2} className="virusImg" href='/'alt="Super"/>
+                    <h2 className="diseaseTrend"> EBOLA </h2>
                       </Link>
                       <br/>
                     <Link to="/Hangman">
@@ -54,18 +53,18 @@ class Home extends Component {
                         </Button>
                         </Link>
                   </div>
-                
+
               </Col>
               <Col>
               <div>
-              <Link to="/Info">
-                    <img src={virus3} class="virusImg" href='/'alt="Super"/>
-                    <h2 class="diseaseTrend"> PANDEMIC </h2>
-          
+              <Link to="/Info/Yellow Fever">
+                    <img src={virus1} className="virusImg" href='/'alt="Super"/>
+                    <h2 className="diseaseTrend"> YELLOW FEVER </h2>
+
                       </Link>
                       <br/>
                     <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
+                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
                           {" "}
                           Play Game{" "}
                         </Button>
@@ -78,11 +77,13 @@ class Home extends Component {
         <div id="map-location">
         <Link to='/map'>
           {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
+          <Button className="buttonMaps">
           <img src={fancymap} class="mapImg" href='/'alt="Super"/>
           <p id="mapheading">Learn about diseases around the world </p>
+          </Button>
         </Link>
           {/* <div id="mapbase">
-          <img src={waves} class="waves" href='/'/>
+          <img src={waves} className="waves" href='/'/>
           </div> */}
         </div>
 
@@ -93,12 +94,12 @@ class Home extends Component {
               <Col>
                 <Link to='/disease'>
                   {/* <Button className="button-category"> <h2>DISEASES</h2> </Button> */}
-                  <button class="categorybuttons" id="diseasesbutton"> <h2>Diseases</h2> </button>
+                  <button className="categorybuttons" id="diseasesbutton"> <h2>Diseases</h2> </button>
                 </Link>
               </Col>
               <Col>
                 <Link to='/country'>
-                <button class="categorybuttons" id="locationsbutton"> <h2> Locations </h2> </button>
+                <button className="categorybuttons" id="locationsbutton"> <h2> Locations </h2> </button>
                 </Link>
               </Col>
             </Row>

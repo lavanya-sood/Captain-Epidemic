@@ -4,9 +4,9 @@ var router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 
 function getTeletubbiesReports() {
-    var date = new Date().getDate(); 
-    var month = new Date().getMonth() + 1; 
-    var year = new Date().getFullYear(); 
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
     var lastmonth = month - 6
     var lastyear = year
     if (month < 7) {
@@ -212,6 +212,60 @@ function getByCountry(country, results) {
     return seen
 }
 
+function convertDisease(d){
+  var rightFormat = "False";
+
+  if (d!="COVID-19"){
+    d = d.toLowerCase()
+  }
+  for (var i = 0; i < diseases.length; i++) {
+    if (d == diseases[i].name){
+      rightFormat = "True";
+    }
+  }
+  if (rightFormat == "False"){
+    for (var j = 0; j < diseases.length; j++) {
+      if (d == diseases[j].title){
+        d = diseases[j].name;
+
+      }
+    }
+  }
+  console.log(d)
+  return d
+}
+
+function getReportsByDisease(disease, results, flag) {
+    results = JSON.parse(results)
+    disease = convertDisease(disease)
+    epidemics = []
+    for (var i = 0; i < results.length; i++) {
+        for (var j = 0; j < results[i].reports.length; j++) {
+            if (disease == results[i].reports[j].diseases[0]){
+              if (flag == 0) {
+                  var entry = {
+                      url: results[i].url,
+                      headline: disease + ' update',
+                      maintext: results[i].headline,
+                      date: formatDate(results[i].reports[0].event_date)
+                  }
+                  epidemics.push(entry)
+              } else {
+                  var entry = {
+                      url: results[i].url,
+                      headline: results[i].headline,
+                      maintext: results[i].main_text.split('.')[0],
+                      date: formatDate(results[i].reports[0].event_date)
+                  }
+                  epidemics.push(entry)
+              }
+
+            }
+        }
+    }
+    return epidemics
+}
+
 function getReportsByCountry(country, results, flag) {
     results = JSON.parse(results)
     epidemics = []
@@ -232,7 +286,7 @@ function getReportsByCountry(country, results, flag) {
                             maintext: results[i].headline,
                             date: formatDate(results[i].reports[0].event_date)
                         }
-                        epidemics.push(entry)  
+                        epidemics.push(entry)
                     } else {
                         var entry = {
                             url: results[i].url,
@@ -240,7 +294,7 @@ function getReportsByCountry(country, results, flag) {
                             maintext: results[i].main_text.split('.')[0],
                             date: formatDate(results[i].reports[0].event_date)
                         }
-                        epidemics.push(entry)  
+                        epidemics.push(entry)
                     }
                 }
             }
@@ -248,7 +302,6 @@ function getReportsByCountry(country, results, flag) {
     }
     return epidemics
 }
-
 // adds reports to db from App.js
 //getTeletubbiesReports()
 router.post('/', function(req, res) {
@@ -260,12 +313,12 @@ router.post('/diseases-teletubbies', function(req, res, next) {
     const country = req.body.country
     const dbPath = __dirname + '/databases/map.db'
     const db = new sqlite3.Database(dbPath)
-    var curr_date = new Date().getDate(); 
-    var curr_month = new Date().getMonth() + 1; 
+    var curr_date = new Date().getDate();
+    var curr_month = new Date().getMonth() + 1;
     if (curr_month < 10) {
         curr_month = '0' + curr_month
     }
-    var curr_year = new Date().getFullYear(); 
+    var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
     var sql = `SELECT * FROM teletubbies WHERE accessed = ?`
     db.get(sql, [date], (err, rows) => {
@@ -291,17 +344,17 @@ router.post('/diseases-teletubbies', function(req, res, next) {
 })
 
 
-// get reports by country from teletubbies 
+// get reports by country from teletubbies
 router.post('/reports-teletubbies', function(req, res, next) {
     country = req.body.country
     const dbPath = __dirname + '/databases/map.db'
     const db = new sqlite3.Database(dbPath)
-    var curr_date = new Date().getDate(); 
-    var curr_month = new Date().getMonth() + 1; 
+    var curr_date = new Date().getDate();
+    var curr_month = new Date().getMonth() + 1;
     if (curr_month < 10) {
         curr_month = '0' + curr_month
     }
-    var curr_year = new Date().getFullYear(); 
+    var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
     var sql = `SELECT * FROM teletubbies WHERE accessed = ?`
     db.get(sql, [date], (err, rows) => {
@@ -326,17 +379,51 @@ router.post('/reports-teletubbies', function(req, res, next) {
     db.close()
 })
 
+router.post('/reports-teletubbies-d', function(req, res, next) {
+    disease = req.body.disease
+    const dbPath = __dirname + '/databases/map.db'
+    const db = new sqlite3.Database(dbPath)
+    var curr_date = new Date().getDate();
+    var curr_month = new Date().getMonth() + 1;
+    if (curr_month < 10) {
+        curr_month = '0' + curr_month
+    }
+    var curr_year = new Date().getFullYear();
+    var date = curr_year+'-'+curr_month+'-'+curr_date
+    var sql = `SELECT * FROM teletubbies WHERE accessed = ?`
+    db.get(sql, [date], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        if (rows) {
+            const epidemics = getReportsByDisease(disease, rows.response, 1)
+            res.json(epidemics)
+        // just in case error occurs with calmclams api
+        } else {
+            sql = `SELECT * FROM teletubbies ORDER BY accessed DESC LIMIT 1;`
+            db.get(sql, [], (err,rows) => {
+                if (err) {
+                    throw err;
+                }
+                const epidemics = getReportsByDisease(disease, rows.response, 1)
+                res.json(epidemics)
+            })
+        }
+    });
+    db.close()
+})
+
 // get diseases by country from calmclams
 router.post('/diseases-calmclams', function(req, res, next) {
     country = req.body.country
     const dbPath = __dirname + '/databases/map.db'
     const db = new sqlite3.Database(dbPath)
-    var curr_date = new Date().getDate(); 
-    var curr_month = new Date().getMonth() + 1; 
+    var curr_date = new Date().getDate();
+    var curr_month = new Date().getMonth() + 1;
     if (curr_month < 10) {
         curr_month = '0' + curr_month
     }
-    var curr_year = new Date().getFullYear(); 
+    var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
     var sql = `SELECT * FROM calmclams WHERE accessed = ?`
     db.get(sql, [date], (err, rows) => {
@@ -355,24 +442,24 @@ router.post('/diseases-calmclams', function(req, res, next) {
                 }
                 const epidemics = getByCountry(country, rows.response)
                 res.json(epidemics)
-                
+
             })
         }
     });
     db.close()
 })
 
-// get reports by country from calmclams 
+// get reports by country from calmclams
 router.post('/reports-calmclams', function(req, res, next) {
     country = req.body.country
     const dbPath = __dirname + '/databases/map.db'
     const db = new sqlite3.Database(dbPath)
-    var curr_date = new Date().getDate(); 
-    var curr_month = new Date().getMonth() + 1; 
+    var curr_date = new Date().getDate();
+    var curr_month = new Date().getMonth() + 1;
     if (curr_month < 10) {
         curr_month = '0' + curr_month
     }
-    var curr_year = new Date().getFullYear(); 
+    var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
     var sql = `SELECT * FROM calmclams WHERE accessed = ?`
     db.get(sql, [date], (err, rows) => {
@@ -390,6 +477,40 @@ router.post('/reports-calmclams', function(req, res, next) {
                     throw err;
                 }
                 const epidemics = getReportsByCountry(country, rows.response, 0)
+                res.json(epidemics)
+            })
+        }
+    });
+    db.close()
+})
+
+router.post('/reports-calmclams-d', function(req, res, next) {
+    disease = req.body.disease
+    const dbPath = __dirname + '/databases/map.db'
+    const db = new sqlite3.Database(dbPath)
+    var curr_date = new Date().getDate();
+    var curr_month = new Date().getMonth() + 1;
+    if (curr_month < 10) {
+        curr_month = '0' + curr_month
+    }
+    var curr_year = new Date().getFullYear();
+    var date = curr_year+'-'+curr_month+'-'+curr_date
+    var sql = `SELECT * FROM calmclams WHERE accessed = ?`
+    db.get(sql, [date], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        if (rows) {
+            const epidemics = getReportsByDisease(disease, rows.response, 0)
+            res.json(epidemics)
+        // just in case error occurs with calmclams api
+        } else {
+            sql = `SELECT * FROM calmclams ORDER BY accessed DESC LIMIT 1;`
+            db.get(sql, [], (err,rows) => {
+                if (err) {
+                    throw err;
+                }
+                const epidemics = getReportsByDisease(disease, rows.response, 0)
                 res.json(epidemics)
             })
         }

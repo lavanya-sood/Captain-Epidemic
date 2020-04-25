@@ -216,3 +216,13 @@ input {
   top: 90px;
   position: relative;
 }
+
+.edit-box-title {
+  font-size: 100px;
+  color: #0e2930;
+  padding-left: 130px;
+}
+
+.edit-avatar-modal {
+  height: 700px;
+}

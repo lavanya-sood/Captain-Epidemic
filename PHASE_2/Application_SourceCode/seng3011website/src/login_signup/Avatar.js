@@ -47,7 +47,7 @@ class Modal extends Component {
           alignItems: "middle",
         };
       }
-   
+
       static get CARD_STYLE1() {
         return {
             height: "400px",
@@ -60,10 +60,10 @@ class Modal extends Component {
           fontSize: "12px",
           borderRadius: "10px",
           boxSizing: "border-box",
-   
+
         };
       }
-   
+
       static get CARD_STYLE2() {
         return {
             height: "400px",
@@ -78,7 +78,7 @@ class Modal extends Component {
           boxSizing: "border-box",
         };
       }
-   
+
       static get CARD_STYLE3() {
         return {
             height: "400px",
@@ -132,9 +132,12 @@ class Modal extends Component {
             image: image
         };
         axios.post('/signup', userObject)
+        var quiz = []
         localStorage.setItem('username', this.props.data.username)
         localStorage.setItem('dob', this.props.data.dob)
         localStorage.setItem('image', image)
+        localStorage.setItem('quiz',JSON.stringify(quiz))
+        localStorage.setItem('games',0)
         setTimeout(function() { //Start the timer
             this.props.history.push('/home');
         }.bind(this), 1000)

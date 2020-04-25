@@ -20,7 +20,7 @@
     align-items: center;
   }
 
-  .back {
+  .images {
     align-items: center;
   }
 
@@ -114,8 +114,8 @@
     transform:  rotate(-5deg);
   }
 
-  .edit-button {
-     margin-left : 160px;
+  .edit-button-avatar {
+     margin-left : 130px;
      display: flex;
      justify-content: center;
      font-family: "handwriting";
@@ -123,15 +123,18 @@
      background-color: #7cdbd5;
      border: none;
      padding: 0px 30px;
+		 margin-bottom: 10px;
      border-radius: 25px;
      color: #FFFFFF;
      line-height: 40px;
   }
 
-  .edit-button:hover {
+  .edit-button-avatar:hover {
     box-shadow: 2px 5px #37836f;
     background-color:  #02C8A7;
   }
+
+
 
   .missions {
     background-color: #F9BE02;
@@ -150,15 +153,16 @@
     background-color: #1e4b57;
     width: 100px;
     height: 100px;
-    align-items: center;
-    margin-left: 70px;
+    margin: auto;
     box-shadow: 10px 10px #37836f; /*shadow size and colour*/
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
+		align-items: center;
 }
 
 .disease {
   height: 70px;
   width: 70px;
+	align-items: center;
 }
 
 .disease-button {
