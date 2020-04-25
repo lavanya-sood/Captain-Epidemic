@@ -27,12 +27,12 @@ class Home extends Component {
         <div id="trending">
           <h2 className="headingpage">Discover</h2>
           <Container id="trending-topics">
-            <Row>
+            <Row className='trending-row'>
               <Col>
                   <div>
                   <Link to="/Info/Coronavirus">
                     <img src={coronavirus} className="virusImg" href='/Info'alt="Super"/>
-                    <h2 className="diseaseTrend"> CORONAVIRUS </h2>
+                    <button className = "diseases-home-pg" type="button" value="Edit">CORONAVIRUS</button>
                     </Link>
                       <br/>
                   </div>
@@ -41,7 +41,7 @@ class Home extends Component {
               <div>
               <Link to="/Info/Ebola" class="disLink">
                     <img src={virus2} className="virusImg" href='/'alt="Super"/>
-                    <h2 className="diseaseTrend"> EBOLA </h2>
+                    <button className = "diseases-home-pg" type="button" value="Edit">EBOLA</button>
                       </Link>
                       <br/>
                   </div>
@@ -51,20 +51,19 @@ class Home extends Component {
               <div>
               <Link to="/Info/Yellow Fever">
                     <img src={virus1} className="virusImg" href='/'alt="Super"/>
-                    <h2 className="diseaseTrend"> YELLOW FEVER </h2>
-
+                    <button className = "diseases-home-pg" type="button" value="Edit">YELLOW FEVER</button>
                       </Link>
                       <br/>
                   </div>
               </Col>
             </Row>
             
-            <Row>
+            <Row className='trending-row'>
               <Col>
                   <div>
                   <Link to="/Info/Malaria">
                     <img src={virus5} className="virusImg" href='/Info'alt="Super"/>
-                    <h2 className="diseaseTrend"> MALARIA </h2>
+                    <button className = "diseases-home-pg" type="button" value="Edit">MALARIA</button>
                     </Link>
                       <br/>
                   </div>
@@ -73,7 +72,7 @@ class Home extends Component {
               <div>
               <Link to="/Info/Polio">
                     <img src={virus6} className="virusImg" href='/'alt="Super"/>
-                    <h2 className="diseaseTrend"> POLIO </h2>
+                    <button className = "diseases-home-pg" type="button" value="Edit">POLIO</button>
                       </Link>
                       <br/>
                   </div>
@@ -83,7 +82,7 @@ class Home extends Component {
               <div>
               <Link to="/Info/Measles">
                     <img src={virus4} className="virusImg" href='/'alt="Super"/>
-                    <h2 className="diseaseTrend"> MEASLES </h2>
+                    <button className = "diseases-home-pg" type="button" value="Edit">MEASLES</button>
 
                       </Link>
                       <br/>
