@@ -159,23 +159,18 @@ export default () => {
     var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
     console.log('store quix')
     if (!storedQuiz.includes(disease)){
+      fetch("/map/symptoms")
+      .then(res => res.json())
+      .then(res => console.log(res[0]))
       let g = localStorage.getItem('games')
-      let new_sum_games = parseInt(g) + 1
       storedQuiz.push(disease)
-      localStorage.setItem('games',new_sum_games)
       localStorage.setItem('quiz',JSON.stringify(storedQuiz))
-      let al = JSON.parse(localStorage.getItem('allquizzes'));
-      var item = {
-        "quiz": disease,
-         "score":5
-      }
-      al.game.push(item);
-      localStorage.setItem('allquizzes', JSON.stringify(al));
       // save game into db
       axios.post('/savegame', {
         username:username,
         quiz:disease,
-        score:5
+        score:5,
+        icon:localStorage.getItem('game-icon')
       })
       .then(function (res) {
         console.log(res);
@@ -197,13 +192,6 @@ export default () => {
         console.log("error");
       });
       console.log('update quiz score')
-      let al = JSON.parse(localStorage.getItem('allquizzes'));
-      for (let i = 0;i < al.game.length;i++){
-        if (al.game[i]['quiz'] == disease){
-          al.game[i]['score'] = 5;
-        }
-      }
-      localStorage.setItem('allquizzes', JSON.stringify(al));
     }
   }
 

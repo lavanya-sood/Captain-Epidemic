@@ -78,7 +78,7 @@ class Home extends Component {
         <Link to='/map'>
           {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
           <Button className="buttonMaps">
-          <img src={fancymap} class="mapImg" href='/'alt="Super"/>
+          <img src={fancymap} className="mapImg" href='/'alt="Super"/>
           <p id="mapheading">Learn about diseases around the world </p>
           </Button>
         </Link>
