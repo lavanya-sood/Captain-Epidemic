@@ -46,6 +46,9 @@ class Country extends Component {
         );
       }
     }
+    if (container.length === 0) {
+      container.push(<h3>Oh no! No countries found</h3>)
+    }
     return container
   }
   setList(event) {
