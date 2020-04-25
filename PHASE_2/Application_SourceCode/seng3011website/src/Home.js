@@ -6,6 +6,11 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import virus1 from './img/virus3.png';
 import virus2 from './img/virus1.png';
 import coronavirus from './img/virus5.png';
+
+import virus4 from './img/virus2.png';
+import virus5 from './img/virus4.png';
+import virus6 from './img/virus6.png';
+
 import fancymap from './img/mapping.png';
 import waves from './img/waves.png';
 
@@ -60,6 +65,56 @@ class Home extends Component {
               <Link to="/Info/Yellow Fever">
                     <img src={virus1} className="virusImg" href='/'alt="Super"/>
                     <h2 className="diseaseTrend"> YELLOW FEVER </h2>
+
+                      </Link>
+                      <br/>
+                    <Link to="/Hangman">
+                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
+                          {" "}
+                          Play Game{" "}
+                        </Button>
+                        </Link>
+                  </div>
+              </Col>
+            </Row>
+            
+            <Row>
+              <Col>
+                  <div>
+                  <Link to="/Info/Malaria">
+                    <img src={virus5} className="virusImg" href='/Info'alt="Super"/>
+                    <h2 className="diseaseTrend"> MALARIA </h2>
+                    </Link>
+                      <br/>
+                    <Link to="/Quiz">
+                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
+                          {" "}
+                          Play Game{" "}
+                        </Button>
+                        </Link>
+                  </div>
+              </Col>
+              <Col>
+              <div>
+              <Link to="/Info/Polio">
+                    <img src={virus6} className="virusImg" href='/'alt="Super"/>
+                    <h2 className="diseaseTrend"> POLIO </h2>
+                      </Link>
+                      <br/>
+                    <Link to="/Hangman">
+                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
+                          {" "}
+                          Play Game{" "}
+                        </Button>
+                        </Link>
+                  </div>
+
+              </Col>
+              <Col>
+              <div>
+              <Link to="/Info/Measles">
+                    <img src={virus4} className="virusImg" href='/'alt="Super"/>
+                    <h2 className="diseaseTrend"> MEASLES </h2>
 
                       </Link>
                       <br/>
