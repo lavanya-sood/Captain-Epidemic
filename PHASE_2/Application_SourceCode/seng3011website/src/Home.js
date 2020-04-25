@@ -36,27 +36,15 @@ class Home extends Component {
                     <h2 className="diseaseTrend"> CORONAVIRUS </h2>
                     </Link>
                       <br/>
-                    <Link to="/Quiz">
-                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Game{" "}
-                        </Button>
-                        </Link>
                   </div>
               </Col>
               <Col>
               <div>
-              <Link to="/Info/Ebola">
+              <Link to="/Info/Ebola" class="disLink">
                     <img src={virus2} className="virusImg" href='/'alt="Super"/>
                     <h2 className="diseaseTrend"> EBOLA </h2>
                       </Link>
                       <br/>
-                    <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Game{" "}
-                        </Button>
-                        </Link>
                   </div>
 
               </Col>
@@ -68,12 +56,6 @@ class Home extends Component {
 
                       </Link>
                       <br/>
-                    <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Game{" "}
-                        </Button>
-                        </Link>
                   </div>
               </Col>
             </Row>
@@ -86,12 +68,6 @@ class Home extends Component {
                     <h2 className="diseaseTrend"> MALARIA </h2>
                     </Link>
                       <br/>
-                    <Link to="/Quiz">
-                        <Button className="button-primary-flip" id = "coronavirus" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Game{" "}
-                        </Button>
-                        </Link>
                   </div>
               </Col>
               <Col>
@@ -101,12 +77,6 @@ class Home extends Component {
                     <h2 className="diseaseTrend"> POLIO </h2>
                       </Link>
                       <br/>
-                    <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "ebola" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Game{" "}
-                        </Button>
-                        </Link>
                   </div>
 
               </Col>
@@ -118,25 +88,21 @@ class Home extends Component {
 
                       </Link>
                       <br/>
-                    <Link to="/Hangman">
-                        <Button className="button-primary-flip" id = "yellow fever" onClick={(e) => this.setGameDisease(e)}>
-                          {" "}
-                          Play Game{" "}
-                        </Button>
-                        </Link>
                   </div>
               </Col>
             </Row>
           </Container>
         </div>
         <div id="map-location">
-        <Link to='/map'>
-          {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
-          <Button className="buttonMaps">
-          <img src={fancymap} class="mapImg" href='/'alt="Super"/>
-          <p id="mapheading">Learn about diseases around the world </p>
-          </Button>
-        </Link>
+          <div id="map-info-part">
+            <Link to='/map'>
+              {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
+              <Button className="buttonMaps">
+              <img src={fancymap} class="mapImg" href='/'alt="Super"/>
+              <p id="mapheading">Learn about diseases around the world </p>
+              </Button>
+            </Link>
+            </div>
           {/* <div id="mapbase">
           <img src={waves} className="waves" href='/'/>
           </div> */}

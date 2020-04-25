@@ -1,5 +1,5 @@
 body {
-  cursor: url('../img/cursorstar.png'), pointer;
+  cursor: url('../img/cursorsuper.png'), pointer;
   /* cursor: url('../img/cursorrocket.png'), pointer; */
 }
 
@@ -162,9 +162,10 @@ body {
   }
 
   .headingpage {
-    color: rgb(255, 255, 255);
+    /* color: rgb(255, 255, 255); */
+    color: rgb(0, 23, 58);
     font-size: 90px;
-    text-shadow: 2px 2px #000000;
+    text-shadow: 2px 2px #c7c7c7;
   }
 
   .virusImg {
@@ -172,6 +173,7 @@ body {
     height: 100%;
     animation: bounce 1.5s;
     animation-iteration-count: infinite;
+    /* box-shadow: 2px 5px #2e2e2ec2; */
   }
 
   @keyframes bounce {
@@ -211,7 +213,14 @@ body {
   }
 
   .diseaseTrend {
-    color: white;
+    color: rgb(0, 23, 58);
+  }
+  .diseaseTrend:hover {
+    /* color: pink; */
+  }
+
+  .disLink {
+    /* background-color: white; */
   }
 
   .mapImg {
@@ -273,12 +282,19 @@ body {
 }
 
 .buttonMaps {
-  width: 50%;
+  width: 40%;
+  height: 80vh;
   background-color: #b93738;
-  border:none;
+  border: none;
+  border-radius: 50%;
+  position: relative;
 }
 
 .buttonMaps:hover {
   background-color: #942323;
   border:none;
+}
+
+#map-info-part {
+  
 }
