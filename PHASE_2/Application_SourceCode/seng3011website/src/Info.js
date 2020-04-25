@@ -67,8 +67,14 @@ class Info extends Component {
     };
     fetch("/map/info", requestOptions)
         .then(res => res.json())
-        .then(res => console.log(res.json))
 
+      }
+      callSympAPI(disease){
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ disease: disease })
+        };
     fetch("/map/symptoms")
     .then(res => res.json())
       .then(res => this.setState({ icon : res[0]}))
@@ -77,18 +83,18 @@ class Info extends Component {
       .then(res => res.json())
         .then(res => this.setState({ syndromes : res.slice(1,)}))
 
-      fetch("/map/countriesdisease")
+      fetch("/map/countriesdisease2")
         .then(res => res.json())
-        .then(res => this.setState({ countries : res.slice(0,6)}))
+        .then(res => this.setState({ countries : res}))
 
         fetch("/map/countriesdisease")
           .then(res => res.json())
-          .then(res => this.setState({ codes : res.slice(6,)}))
-          .then(res => console.log(this.state.codes))
+          .then(res => this.setState({ codes : res}))
 
           fetch("/location/reports-teletubbies-d", requestOptions)
               .then(res => res.json())
-              .then(res => this.setState({ report_tele: res }));
+              .then(res => this.setState({ report_tele: res }))
+              .then(res => console.log(this.state.report_tele));
           fetch("/location/reports-calmclams-d", requestOptions)
               .then(res => res.json())
               .then(res => this.setState({ report_calm: res }));
@@ -105,6 +111,8 @@ class Info extends Component {
     disease = disease.replace(/%20/g, ' ')
     this.callAPI(disease)
     this.callDiseaseAPI(disease)
+    this.callSympAPI(disease)
+    //Promise.all(this.callAPI(disease)).then(() => this.callDiseaseAPI(disease)).then(this.callSympAPI(disease))
     this.setState({
       disease: disease
     })
@@ -386,11 +394,13 @@ class Info extends Component {
         {/**/}
         <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella", "margin" : "70px 0px 0px 0px"}}> Latest News Reports</h1>
 
-        <div style={Info.CONTAINER_STYLE}>
+        <div style={reports.length == 0 ? { display: 'none' } : {} }><div style={Info.CONTAINER_STYLE}>
            <ReactCardCarousel autoplay={true} autoplay_speed={5000}>
              {reports}
            </ReactCardCarousel>
          </div>
+         </div>
+         <h3 style={reports.length == 0 ? {} : { display: 'none' }} className = "error-msg-reports"> There have been no reports in the past year.</h3>
 
          {/**/}
 

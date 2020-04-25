@@ -75,7 +75,7 @@ function getNewEntry(disease) {
     var request = new XMLHttpRequest()
     var disease_new = disease.split(" ").join("%20")
     diseasePage = disease
-    request.open('GET','https://asia-northeast1-seng3011-api.cloudfunctions.net/report?start_date=2019-01-01T00%3A00%3A00&end_date=' + end_date + '&key=' + disease_new
+    request.open('GET','https://asia-northeast1-seng3011-api.cloudfunctions.net/report?start_date=2005-01-01T00%3A00%3A00&end_date=' + end_date + '&key=' + disease_new
 , true)
     request.onload = function () {
         if (request.status == 200) {
@@ -279,7 +279,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":804,"name":"Ukraine","alpha2":"ua","alpha3":"ukr"},
 {"id":784,"name":"United Arab Emirates","alpha2":"ae","alpha3":"are"},
 {"id":826,"name":"United Kingdom","alpha2":"gb","alpha3":"gbr"},
-{"id":840,"name":"United States of America","alpha2":"us","alpha3":"usa"},
+{"id":840,"name":"United States","alpha2":"us","alpha3":"usa"},
 {"id":858,"name":"Uruguay","alpha2":"uy","alpha3":"ury"},
 {"id":860,"name":"Uzbekistan","alpha2":"uz","alpha3":"uzb"},
 {"id":548,"name":"Vanuatu","alpha2":"vu","alpha3":"vut"},
@@ -432,7 +432,6 @@ function getSymptoms(info){
   result.sort(function(a, b){return a.length - b.length});
   var len = result.unshift(getType(diseasePage.toLowerCase()))
   result = result.slice(0, 5);
-  console.log(result)
   return result
 }
 
@@ -493,8 +492,8 @@ router.get('/symptoms', function(req, res, next) {
     }
     var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
-    var sql = `SELECT * FROM emperor WHERE accessed =? AND disease = ?`
-            db.get(sql, [date,diseasePage], (err,rows) => {
+    var sql = `SELECT * FROM emperor WHERE disease = ? ORDER BY accessed DESC LIMIT 1;`
+            db.get(sql, [diseasePage], (err,rows) => {
                 if (err) {
                     throw err;
                 }
@@ -536,7 +535,24 @@ router.get('/countriesdisease', function(req, res, next) {
     const dbPath = __dirname + '/databases/who.db'
     const db = new sqlite3.Database(dbPath)
     //console.log(diseasePage)
-    console.log("over")
+    var disease_copy = diseasePage
+    var d = convertDisease(disease_copy)
+    var sql = `SELECT * FROM  Disease as d JOIN Report as r on r.id = d.ReportID JOIN Location as l on l.ReportID = r.id JOIN Article as a on a.url = r.url WHERE d.Disease = ?`
+    db.all(sql, [d], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        var result = getTopCodes(rows)
+        //var mapResult = getMapResult(result)
+        res.send(result);
+    });
+    db.close()
+});
+
+router.get('/countriesdisease2', function(req, res, next) {
+    const dbPath = __dirname + '/databases/who.db'
+    const db = new sqlite3.Database(dbPath)
+    //console.log(diseasePage)
     var disease_copy = diseasePage
     var d = convertDisease(disease_copy)
     var sql = `SELECT * FROM  Disease as d JOIN Report as r on r.id = d.ReportID JOIN Location as l on l.ReportID = r.id JOIN Article as a on a.url = r.url WHERE d.Disease = ?`
@@ -546,7 +562,6 @@ router.get('/countriesdisease', function(req, res, next) {
         }
         var result = getTopCountries(rows)
         //var mapResult = getMapResult(result)
-        console.log(result)
         res.send(result);
     });
     db.close()
@@ -556,7 +571,6 @@ router.get('/diseasereports', function(req, res, next) {
     const dbPath = __dirname + '/databases/who.db'
     const db = new sqlite3.Database(dbPath)
     //console.log(diseasePage)
-    console.log("over")
     var disease_copy = diseasePage
     var d = convertDisease(disease_copy)
     var sql = `SELECT * FROM  Disease as d JOIN Report as r on r.id = d.ReportID JOIN Location as l on l.ReportID = r.id JOIN Article as a on a.url = r.url WHERE d.Disease = ?`
@@ -566,7 +580,6 @@ router.get('/diseasereports', function(req, res, next) {
         }
         var result = getTopCountries(rows)
         //var mapResult = getMapResult(result)
-        console.log(result)
         res.send(result);
     });
     db.close()
@@ -587,12 +600,33 @@ function getTopCountries(info){
       }
     }
   }
+  console.log(result)
+  return result
+}
+
+function getTopCodes(info){
+  result = []
+  for (var i = 0; i < info.length; i++) {
+      result.push(info[i].Country)
+  }
+  result = result.byCount()
+  result = result.slice(0,6)
+  codes = []
+  for (var j = 0;j < result.length; j++){
+    for (var k = 0; k < countryCodes.length; k++){
+      if (countryCodes[k].name == result[j]){
+        codes.push(countryCodes[k].alpha2);
+      }
+    }
+  }
 
   for (var l = 0; l < codes.length; l++){
     result.push(codes[l])
   }
-  return result
+  console.log(codes)
+  return codes
 }
+
 function convertDisease(d){
   var rightFormat = "False";
 
@@ -612,7 +646,6 @@ function convertDisease(d){
       }
     }
   }
-  console.log(d)
   return d
 }
 

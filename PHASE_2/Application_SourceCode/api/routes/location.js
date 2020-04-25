@@ -231,7 +231,6 @@ function convertDisease(d){
       }
     }
   }
-  console.log(d)
   return d
 }
 
@@ -241,7 +240,7 @@ function getReportsByDisease(disease, results, flag) {
     epidemics = []
     for (var i = 0; i < results.length; i++) {
         for (var j = 0; j < results[i].reports.length; j++) {
-            if (disease == results[i].reports[j].diseases[0]){
+            if (disease == results[i].reports[j].diseases[0]){ //not entering
               if (flag == 0) {
                   var entry = {
                       url: results[i].url,
