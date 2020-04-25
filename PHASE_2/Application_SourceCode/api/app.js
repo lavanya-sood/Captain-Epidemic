@@ -1,22 +1,20 @@
+var createError = require("http-errors");
+var express = require("express");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
+var cors = require("cors");
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cors = require('cors');
-
-var loginRouter = require('./routes/login');
-var mapRouter = require('./routes/map');
-var symptomRouter = require('./routes/symptoms');
-var signupRouter = require('./routes/signup');
-var savegameRouter = require('./routes/savegame');
-var updategameRouter = require('./routes/updategame');
-var locationRouter = require('./routes/location');
-var getgameRouter = require('./routes/getgame');
-var deleteRouter = require('./routes/deleteuser');
-var infoRouter = require('./routes/info');
-
+var loginRouter = require("./routes/login");
+var mapRouter = require("./routes/map");
+var symptomRouter = require("./routes/symptoms");
+var signupRouter = require("./routes/signup");
+var savegameRouter = require("./routes/savegame");
+var updategameRouter = require("./routes/updategame");
+var locationRouter = require("./routes/location");
+var getgameRouter = require("./routes/getgame");
+var deleteRouter = require("./routes/deleteuser");
+var infoRouter = require("./routes/info");
 
 var app = express();
 
@@ -31,17 +29,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "seng3011website/build")));
 
-
-app.use('/login', loginRouter);
-app.use('/map', mapRouter);
-app.use('/symptoms', symptomRouter);
-app.use('/signup', signupRouter);
-app.use('/savegame', savegameRouter);
-app.use('/location', locationRouter);
-app.use('/getgame', getgameRouter);
-app.use('/delete', deleteRouter);
-app.use('/info', infoRouter);
-app.use('/updategame', updategameRouter);
+app.use("/login", loginRouter);
+app.use("/map", mapRouter);
+app.use("/symptoms", symptomRouter);
+app.use("/signup", signupRouter);
+app.use("/savegame", savegameRouter);
+app.use("/location", locationRouter);
+app.use("/getgame", getgameRouter);
+app.use("/delete", deleteRouter);
+app.use("/info", infoRouter);
+app.use("/updategame", updategameRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
