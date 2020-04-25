@@ -3,6 +3,7 @@ import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Info.css';
 import { Link, Redirect } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 import mainLayout from './MainLayout';
 import virus from './img/virus.png';
@@ -30,6 +31,13 @@ class Info extends Component {
     disease: '',
     check: ''
   }
+  //rmb game played
+  setGameDisease = (e) => {
+    console.log(e)
+    localStorage.setItem('game-disease', e.target.id);
+    console.log(localStorage.getItem('game-disease'))
+  };
+
   callDiseaseAPI(disease) {
     const requestOptions = {
       method: 'POST',
@@ -52,6 +60,7 @@ class Info extends Component {
     this.setState({
       disease: disease
     })
+
   }
   static get CONTAINER_STYLE() {
      return {
@@ -143,7 +152,7 @@ class Info extends Component {
   render() {
     if (this.state.check === false) {
       return <Redirect to="/*" />
-    } 
+    }
     return (
       <div>
         <div className="letter">
@@ -153,7 +162,12 @@ class Info extends Component {
           <div className = "disease">
             <img src={virus} align = "left" className="virus-image" alt=""/>
             <h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
-            <Link to="/Quiz" style={{ textDecoration: 'none' }}><button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button></Link>
+            <Link to= {this.state.disease.toLowerCase() == "coronavirus" ? "/Quiz" : "/Hangman"} style={{ textDecoration: 'none' }}>
+            <Button className = "quiz-button" id = {this.state.disease.toLowerCase()} onClick={(e) => this.setGameDisease(e)} >
+            Beat the Quiz!
+            </Button>
+            </Link>
+
           </div>
           {/*Symptoms*/}
           <div className = "symptoms">
