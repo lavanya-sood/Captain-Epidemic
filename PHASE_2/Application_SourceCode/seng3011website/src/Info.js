@@ -3,6 +3,7 @@ import ReactCardCarousel from "react-card-carousel";
 import Table from 'react-bootstrap/Table'
 import './css/Info.css';
 import { Link, Redirect } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import axios from 'axios';
 import mainLayout from './MainLayout';
 import virusIcon from './img/virusIcon.png';
@@ -40,6 +41,13 @@ class Info extends Component {
     report_tele: '',
     report_calm:''
   }
+  //rmb game played
+  setGameDisease = (e) => {
+    console.log(e)
+    localStorage.setItem('game-disease', e.target.id);
+    console.log(localStorage.getItem('game-disease'))
+  };
+
   callDiseaseAPI(disease) {
     const requestOptions = {
       method: 'POST',
@@ -59,8 +67,14 @@ class Info extends Component {
     };
     fetch("/map/info", requestOptions)
         .then(res => res.json())
-        .then(res => console.log(res.json))
 
+      }
+      callSympAPI(disease){
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ disease: disease })
+        };
     fetch("/map/symptoms")
     .then(res => res.json())
       .then(res => this.setState({ icon : res[0]}))
@@ -69,18 +83,18 @@ class Info extends Component {
       .then(res => res.json())
         .then(res => this.setState({ syndromes : res.slice(1,)}))
 
-      fetch("/map/countriesdisease")
+      fetch("/map/countriesdisease2")
         .then(res => res.json())
-        .then(res => this.setState({ countries : res.slice(0,6)}))
+        .then(res => this.setState({ countries : res}))
 
         fetch("/map/countriesdisease")
           .then(res => res.json())
-          .then(res => this.setState({ codes : res.slice(6,)}))
-          .then(res => console.log(this.state.codes))
+          .then(res => this.setState({ codes : res}))
 
           fetch("/location/reports-teletubbies-d", requestOptions)
               .then(res => res.json())
-              .then(res => this.setState({ report_tele: res }));
+              .then(res => this.setState({ report_tele: res }))
+              .then(res => console.log(this.state.report_tele));
           fetch("/location/reports-calmclams-d", requestOptions)
               .then(res => res.json())
               .then(res => this.setState({ report_calm: res }));
@@ -97,9 +111,12 @@ class Info extends Component {
     disease = disease.replace(/%20/g, ' ')
     this.callAPI(disease)
     this.callDiseaseAPI(disease)
+    this.callSympAPI(disease)
+    //Promise.all(this.callAPI(disease)).then(() => this.callDiseaseAPI(disease)).then(this.callSympAPI(disease))
     this.setState({
       disease: disease
     })
+
   }
 
   getReports() {
@@ -280,8 +297,12 @@ class Info extends Component {
             <img src={fungusIcon} style={this.state.icon == 'fungusIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <img src={parasiteIcon} style={this.state.icon == 'parasiteIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
             <img src={germIcon} style={this.state.icon == 'germIcon' ? {} : { display: 'none' }} align = "left" className="virus-image" alt=""/>
-<h1 className = "virus-title" align = "center"> {this.state.disease} </h1>
-            <Link to="/Quiz" style={{ textDecoration: 'none' }}><button className = "quiz-button" type="button" value="Quiz"><span> Beat the Quiz! </span></button></Link>
+            <h1 className = "virus-title" align = "center" style = {this.state.disease.length > 11 ? {fontSize : '70px'}:{fontSize : '70px'}}> {this.state.disease} </h1>
+            <Link to= {this.state.disease.toLowerCase() == "coronavirus" ? "/Quiz" : "/Hangman"} style={{ textDecoration: 'none' }}>
+            <Button className = "quiz-button" id = {this.state.disease.toLowerCase()} onClick={(e) => this.setGameDisease(e)} >
+            Beat the Quiz!
+            </Button>
+            </Link>
           </div>
           {/*Symptoms*/}
           <div className = "symptoms">
@@ -336,32 +357,32 @@ class Info extends Component {
             </thead>
             <tbody>
               <tr>
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[0]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 0 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[0]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[1]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 1 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[1]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[2]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 2 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[2]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[3]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 3 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[3]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[4]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 4 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[4]+"/flat/64.png"} className = "disease1"/></div></td>
 
-                <td><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[5]+"/flat/64.png"} className = "disease1"/></div></td>
+                <td style={this.state.countries.length > 5 ? {} : { display: 'none' }}><div className = "circle1"><img src={"https://www.countryflags.io/"+this.state.codes[5]+"/flat/64.png"} className = "disease1"/></div></td>
               </tr>
 
 
               <tr>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[0]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[0]} </button></Link></div>
+                <td style={this.state.countries.length > 0 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[0]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[0]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[1]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[1]} </button></Link></div>
+                <td style={this.state.countries.length > 1 ? {} : { display: 'none' }}><div className = "back0" style={this.state.countries.length > 1 ? {} : { display: 'none' }}><Link to={"/Location/"+this.state.countries[1]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[1]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[2]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[2]} </button></Link></div>
+                <td style={this.state.countries.length > 2 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[2]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[2]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[3]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[3]} </button></Link></div>
+                <td style={this.state.countries.length > 3 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[3]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[3]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[4]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[4]} </button></Link></div>
+                <td style={this.state.countries.length > 4 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[4]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[4]} </button></Link></div>
                 </td>
-                <td><div className = "back"><Link to={"/Location/"+this.state.countries[5]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[5]} </button></Link></div>
+                <td style={this.state.countries.length > 5 ? {} : { display: 'none' }}><div className = "back0" ><Link to={"/Location/"+this.state.countries[5]}><button className = "disease12-button" type="button" value="Edit"> {this.state.countries[5]} </button></Link></div>
                 </td>
               </tr>
 
@@ -373,11 +394,13 @@ class Info extends Component {
         {/**/}
         <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella", "margin" : "70px 0px 0px 0px"}}> Latest News Reports</h1>
 
-        <div style={Info.CONTAINER_STYLE}>
+        <div style={reports.length == 0 ? { display: 'none' } : {} }><div style={Info.CONTAINER_STYLE}>
            <ReactCardCarousel autoplay={true} autoplay_speed={5000}>
              {reports}
            </ReactCardCarousel>
          </div>
+         </div>
+         <h3 style={reports.length == 0 ? {} : { display: 'none' }} className = "error-msg-reports"> There have been no reports in the past year.</h3>
 
          {/**/}
 

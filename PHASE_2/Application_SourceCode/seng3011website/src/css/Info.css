@@ -21,6 +21,13 @@
     z-index: -2;
     transition: .5s;
 }
+.error-msg-reports {
+  font-size: 50px;
+  color: #7CDBD5;
+  font-family: "Stella";
+  margin: 70px 0px 0px 0px;
+  margin-bottom: 30px;
+}
 
 .letter:before {
     left: -5px;
@@ -75,12 +82,13 @@ animation-iteration-count: infinite;
 
 .virus-title {
   font-family: "Stella";
-  font-size: 90px;
+  font-size: calc(4vw + 4vh + 2vmin);
   color: #0e2930;
   margin-top: 0px;
   margin-bottom: 0px;
-  padding-top: 0px;
+  padding-top: 350px;
   padding-bottom: 0px;
+  width : 300px;
 }
 
 .quiz-button {
@@ -344,9 +352,14 @@ animation-iteration-count: infinite;
 position: relative;
 overflow: hidden;
     align-items: center;
-    margin-left: 70px;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: 10px 10px  #1e4b57; /*shadow size and colour*/
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+.td-flag {
+  align-items: center;
 }
 
 .disease1 {
