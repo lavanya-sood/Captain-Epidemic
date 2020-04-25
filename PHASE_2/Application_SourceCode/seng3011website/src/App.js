@@ -27,9 +27,6 @@ var job = new CronJob('0 0 * * *', function() {
 job.start();
 
 function App() {
-  window.onbeforeunload = function() {
-    localStorage.clear();
- }
   return (
     <Router>
       
