@@ -267,3 +267,7 @@ ul.header li a {
   padding: 0;
   width: 0px;
 }
+
+#dropdown-custom {
+  font-size: 30px;
+}

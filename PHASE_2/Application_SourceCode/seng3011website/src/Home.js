@@ -12,7 +12,6 @@ import virus5 from './img/virus4.png';
 import virus6 from './img/virus6.png';
 
 import fancymap from './img/mapping.png';
-import waves from './img/waves.png';
 
 
 class Home extends Component {
