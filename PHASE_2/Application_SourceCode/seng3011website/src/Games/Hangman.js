@@ -154,10 +154,8 @@ export default () => {
   const saveGameData = () => {
     let disease = localStorage.getItem('game-disease');
     let username = localStorage.getItem('username');
-    console.log(username)
 
     var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
-    console.log('store quix')
     if (!storedQuiz.includes(disease)){
       let g = localStorage.getItem('games')
       storedQuiz.push(disease)
@@ -188,7 +186,6 @@ export default () => {
       .catch(function (error) {
         console.log("error");
       });
-      console.log('update quiz score')
     }
   }
 

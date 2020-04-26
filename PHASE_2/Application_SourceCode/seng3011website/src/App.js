@@ -6,7 +6,6 @@ import SignUp from "./login_signup/Signup.js";
 import Login from "./login_signup/Login.js";
 import MapContainer from "./map/Map.js";
 import Home from "./Home";
-import Game from "./Games/Game";
 import Profile from "./Profile";
 import Quiz from "./Games/Quiz";
 import Info from "./Info";
@@ -29,12 +28,11 @@ job.start();
 function App() {
   return (
     <Router>
-      
+
     <div className="App">
         <Switch>
           <Route exact path="/" component={Landing}/>
           <Route path="/home" component={Home}/>
-          <Route path="/game" component={Game}/>
           <Route path="/profile" component={Profile}/>
           <Route path="/info" component={Info}/>
           <Route path="/quiz" component={Quiz}/>
@@ -57,7 +55,7 @@ function App() {
           <Route path ="*"component={Error}/>
           </Switch>
     </div>
-    
+
     </Router>
   );
 }
