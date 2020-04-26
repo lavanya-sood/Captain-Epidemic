@@ -396,6 +396,7 @@ var diseases = [
         { "name": "zika", "prevention": "mosquitoes", "vaccine": "false"},
         { "name": "listeriosis", "prevention": "bacteria", "vaccine": "false"},
         { "name": "coronavirus", "prevention": "contact", "vaccine":"false"},
+        { "name": "sars", "prevention": "contact", "vaccine":"false"},
         { "name": "chickenpox", "prevention": "contact", "vaccine":"true"}
         ]
 
