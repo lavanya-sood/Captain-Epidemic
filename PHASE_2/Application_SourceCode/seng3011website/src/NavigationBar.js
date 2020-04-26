@@ -38,7 +38,7 @@ class NavigationBar extends Component {
     localStorage.removeItem("quiz");
     localStorage.removeItem("games");
   }
- 
+
 
   render() {
     let buttonDrop;
@@ -69,7 +69,6 @@ class NavigationBar extends Component {
         </Dropdown>
       );
     }
-    console.log("HEY" + this.state.username);
     return (
       <Navbar id="navbar" expand="lg" href="/">
         <a href="#/home" className="d-inline-block align-top">

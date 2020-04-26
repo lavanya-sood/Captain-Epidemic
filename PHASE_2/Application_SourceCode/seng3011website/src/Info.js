@@ -64,9 +64,7 @@ class Info extends Component {
   }
   //rmb game played
   setGameDisease = (e) => {
-    console.log(e)
     localStorage.setItem('game-disease', e.target.id);
-    console.log(localStorage.getItem('game-disease'))
   };
 
   callDiseaseAPI(disease) {
