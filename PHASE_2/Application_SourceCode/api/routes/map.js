@@ -397,6 +397,9 @@ var diseases = [
         { "name": "listeriosis", "prevention": "bacteria", "vaccine": "false"},
         { "name": "coronavirus", "prevention": "contact", "vaccine":"false"},
         { "name": "sars", "prevention": "contact", "vaccine":"false"},
+        { "name": "hiv/aids", "prevention": "blood", "vaccine":"false"},
+        { "name": "cowpox", "prevention": "animal contact", "vaccine":"false"},
+        { "name": "monkeypox", "prevention": "animal contact", "vaccine":"true"},
         { "name": "chickenpox", "prevention": "contact", "vaccine":"true"}
         ]
 
@@ -425,6 +428,13 @@ var preventionRats = [
   "Use rat traps",
   "Protective clothing, such as masks, gloves, gowns, and goggles around infected people",
   "Remove potential nesting areas. Don't leave pet food in areas that rodents can easily access"
+]
+
+var preventionAnCon = [
+  "Avoid contact with animals that could harbour the virus",
+  "Isolate infected patients from others who could be at risk for infection",
+  "Protective clothing, such as masks, gloves, gowns, and goggles around infected people",
+  "Avoid contact with any materials, such as bedding, that has been in contact with a sick animal"
 ]
 
 var preventionFecal = [
@@ -487,6 +497,9 @@ router.get('/prevention', function(req, res, next) {
     }
     if (p == "animals"){
       result = preventionAnimal;
+    }
+    if (p == "animal contact"){
+      result = preventionAnCon;
     }
     console.log(result);
     res.send(result);
@@ -654,9 +667,17 @@ router.get('/symptoms', function(req, res, next) {
     var sql = `SELECT * FROM emperor WHERE disease = ? COLLATE NOCASE ORDER BY accessed DESC LIMIT 1;`
             db.get(sql, [diseasePage], (err,rows) => {
                 if (err) {
-                    throw err;
+                    result = []
+                    re.send(result)
                 }
-                var result = getSymptoms(JSON.parse(rows.response))
+                try {
+                  var result = getSymptoms(JSON.parse(rows.response))
+                }
+                catch(err){
+                  var result = []
+                  console.log(getType(diseasePage.toLowerCase()))
+                  result.push(getType(diseasePage.toLowerCase()))
+                }
                 //var mapResult = getMapResult(result)
                 //console.log(result)
                 res.send(result);
