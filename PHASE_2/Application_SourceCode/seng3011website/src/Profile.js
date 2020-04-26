@@ -83,9 +83,28 @@ class Profile extends Component {
             }
           }
           localStorage.setItem('quiz',JSON.stringify(quiz))
+          let rank = recruitImg
           this.setState({
             numGames:sum,
             completedQuiz:allquizzes['game']
+          })
+          if (this.state.numGames == 40){
+            rank = captainImg
+          } else if (this.state.numGames >= 30){
+            rank = majorImg
+          } else if (this.state.numGames >= 21){
+            rank = commanderImg
+          } else if (this.state.numGames >= 15){
+            rank = lieutenantImg
+          } else if (this.state.numGames >= 10){
+            rank = sergeantImg
+          } else if (this.state.numGames >= 6){
+            rank = corporalImg
+          } else if (this.state.numGames >= 3){
+            rank = cadetImg
+          }
+          this.setState({
+            rank:rank
           })
     })
   }
@@ -93,22 +112,7 @@ class Profile extends Component {
   componentWillMount() {
     this.callAPI()
     // set correct rank image
-    this.state.rank = recruitImg
-    if (this.state.numGames == 40){
-      this.state.rank = captainImg
-    } else if (this.state.numGames >= 30){
-      this.state.rank = majorImg
-    } else if (this.state.numGames >= 21){
-      this.state.rank = commanderImg
-    } else if (this.state.numGames >= 15){
-      this.state.rank = lieutenantImg
-    } else if (this.state.numGames >= 10){
-      this.state.rank = sergeantImg
-    } else if (this.state.numGames >= 6){
-      this.state.rank = corporalImg
-    } else if (this.state.numGames >= 3){
-      this.state.rank = cadetImg
-    }
+
    }
 
  toTitleCase(str) {
