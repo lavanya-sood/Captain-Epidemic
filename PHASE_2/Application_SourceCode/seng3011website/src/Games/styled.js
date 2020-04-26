@@ -3,8 +3,8 @@ import styled from 'styled-components'
 export const AppWrapper = styled.main`
   position: relative;
   overflow: hidden;
-  height: 725px;
-  width: 1280px;
+  height: 910px;
+  width: 1600px;
   background-color: var(--color-appbg);
   border-radius: 5px;
 `

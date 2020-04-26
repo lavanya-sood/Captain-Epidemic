@@ -66,11 +66,11 @@ export default () => {
         }
         if (count === 0) {
           if (failedLetters.length === 10) {
-            setResultBox({
-              disabled: false,
-              title: `Game Over { word: ${word} }`,
-              buttonLabel: 'Restart Game',
-            })
+            // setResultBox({
+            //   disabled: false,
+            //   title: `Game Over { word: ${word} }`,
+            //   buttonLabel: 'Restart Game',
+            // })
             setIsGameOver(true)
           }
           setFailedLetters(failedLetters.concat([keyChar]))
@@ -140,11 +140,11 @@ export default () => {
   const countCorrectLetters = correctLetters => {
     let uniqueLetters = filterUniqueItems(wordFromAPI)
     if (correctLetters.length === uniqueLetters.length) {
-      setResultBox({
-        disabled: false,
-        title: '★ You Won! ★',
-        buttonLabel: 'Play Quiz',
-      })
+      // setResultBox({
+      //   disabled: false,
+      //   title: '★ You Won! ★',
+      //   buttonLabel: 'Play Quiz',
+      // })
       saveGameData()
       setIsGameOver(true)
       setIsGameWon(true)
@@ -154,10 +154,9 @@ export default () => {
   const saveGameData = () => {
     let disease = localStorage.getItem('game-disease');
     let username = localStorage.getItem('username');
-    console.log(username)
 
     var storedQuiz= JSON.parse(localStorage.getItem("quiz"));
-    console.log('store quix')
+
     if (!storedQuiz.includes(disease)){
       let g = localStorage.getItem('games')
       storedQuiz.push(disease)
@@ -188,7 +187,6 @@ export default () => {
       .catch(function (error) {
         console.log("error");
       });
-      console.log('update quiz score')
     }
   }
 
