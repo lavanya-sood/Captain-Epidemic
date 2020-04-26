@@ -1,7 +1,6 @@
 .country-info {
   display: inline-block;
   float: left;
-  margin-left: 50px;
 }
 
 .country-title {
@@ -57,8 +56,17 @@ animation-iteration-count: infinite;
   line-height:30px;
   border: none;
   color: #1e4b57;
+  width: 300px;
 }
 
+.error-msg-reports1 {
+  font-size: 50px;
+  color: #7CDBD5;
+  font-family: "Stella";
+  margin: 120px 0px 0px 0px;
+  margin-left: 70px;
+  margin-bottom: 30px;
+}
 .disease-button2:hover {
   box-shadow: 2px 10px  #5fa29e;
   background-color:  #7CDBD5;
@@ -66,7 +74,7 @@ animation-iteration-count: infinite;
 }
 
 .country-dis-table {
-  margin-left: 30px;
+  margin-left: 50px;
   width: 600px;
 }
 
@@ -85,10 +93,10 @@ animation-iteration-count: infinite;
 	box-shadow: 10px 10px #37836f; /*shadow size and colour*/
 	perspective: 1000px; /* Remove this if you don't want the 3D effect */
   border-radius: 25px;
-  margin-top: 80px;
+  margin-top: 40px;
   display:inline-block;
   float: right;
-  margin-right: 110px;
+  margin-right: 100px;
   overflow: hidden;
   }
 
@@ -99,8 +107,8 @@ animation-iteration-count: infinite;
 }
 
 .map-icon-location {
-  width: 75px;
-  height: 75px;
+  width: 55px;
+  height: 55px;
   position: relative;
   float: right;
   left: 80px;
@@ -121,6 +129,8 @@ animation-iteration-count: infinite;
     color: #02C8A7;
     padding-top: 5px;
     font-size: 40px;
+    margin-top: 20px;
+    margin-left: 50px;
 }
 .separator-loc::before, .separator-loc::after {
     content: '';
@@ -129,11 +139,11 @@ animation-iteration-count: infinite;
 }
 .separator-loc::before {
     margin-right: .25em;
-    margin-left: 2em;
-    padding-left: 100px;
+    margin-left: 1em;
+    padding-left: 70px;
 }
 .separator-loc::after {
     margin-left: .25em;
-    margin-right: 2em;
-    padding-right: 100px;
+    margin-right: 0.5em;
+    padding-right: 70px;
 }

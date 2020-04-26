@@ -28,14 +28,21 @@ job.start();
 function App() {
   return (
     <Router>
-
     <div className="App">
         <Switch>
           <Route exact path="/" component={Landing}/>
           <Route path="/home" component={Home}/>
-          <Route path="/profile" component={Profile}/>
+          <Route path="/profile"
+          render={(props)=>{
+            if(localStorage.getItem('username')) return <Profile/>;
+            else return <Login/>;
+        }} />
           <Route path="/info" component={Info}/>
           <Route path="/quiz" component={Quiz}/>
+          render={(props)=>{
+              if(localStorage.getItem('username')) return <Quiz/>;
+              else return <Login/>;
+          }} />
           <Route path = "/map" component = {MapContainer}/>
           <Route path="/login"
           render={(props)=>{
@@ -51,7 +58,11 @@ function App() {
           <Route path="/country" component={Country} />
           <Route path="/disease" component={Disease} />
           <Route path="/location" component={Location}/>
-          <Route path="/hangman" component={Hangman} />
+          <Route path="/hangman"
+            render={(props)=>{
+              if(localStorage.getItem('username')) return <Hangman/>;
+              else return <Login/>;
+          }} />
           <Route path ="*"component={Error}/>
           </Switch>
     </div>

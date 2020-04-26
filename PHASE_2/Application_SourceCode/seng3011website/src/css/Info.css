@@ -29,6 +29,25 @@
   margin-bottom: 30px;
 }
 
+.error-msg-reports3 {
+  font-size: 50px;
+  color: #F9BE02;
+  font-family: "Stella";
+  margin: 70px 0px 0px 0px;
+  margin-bottom: 30px;
+}
+.type-info {
+  font-size: 25px;
+  color:  #37836f;
+}
+.error-msg-vac {
+  font-size: 50px;
+  color: #1e4b57;
+  font-family: "Stella";
+  margin: 70px 0px 0px 0px;
+  margin-bottom: 30px;
+}
+
 .letter:before {
     left: -5px;
     top: 2px;
@@ -153,6 +172,37 @@ animation-iteration-count: infinite;
   display: inline-block;
 }
 
+.type-title {
+  font-family: "Stella";
+  font-size: 40px;
+  color: #7CDBD5;
+  float: left;
+  margin-top: -70px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 80px;
+  display: inline-block;
+}
+
+.type-title2 {
+  font-family: "Stella";
+  font-size: 40px;
+  color: #7CDBD5;
+  float: left;
+  line-height: 10px;
+  margin-left: -20px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 80px;
+  display: inline-block;
+}
+
+.symptom-td {
+  padding-right: 50px;
+}
+
 .symptom-image {
   height: 85px;
   width: 120px;
@@ -170,11 +220,16 @@ animation-iteration-count: infinite;
   padding-left: 60px;
   line-height: 0px;
   margin-right: 0px;
-  padding-right: 0px;
 }
 
 .symptoms-table {
   width: 330px;
+  margin-left:30px;
+}
+.symptoms-error {
+  margin-top: 70px;
+  color: #1e4b57;
+  font-size: 40px;
 }
 
 .box{
@@ -382,6 +437,7 @@ overflow: hidden;
   border: 5px solid white;
   line-height:30px;
   color: #1e4b57;
+  width: 180px;
 }
 
 .disease12-button:hover {

@@ -508,6 +508,7 @@ class Location extends Component {
 
         </tbody>
       </Table>
+      <h3 style={diseases.length == 0 ? {} : { display: 'none' }} className = "error-msg-reports1"> No diseases in the past year.</h3>
       </div>
 
       <div className = "passport1">
@@ -520,11 +521,13 @@ class Location extends Component {
       <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella", "margin" : "70px 0px 0px 0px", "display": "block"}}> Latest News Reports</h1>
       </div>
 
-      <div style={Location.CONTAINER_STYLE}>
+      <div style={reports.length == 0 ? { display: 'none' } : {} }><div style={Location.CONTAINER_STYLE}>
          <ReactCardCarousel autoplay={true} autoplay_speed={5000}>
            {reports}
          </ReactCardCarousel>
        </div>
+       </div>
+       <h3 style={reports.length == 0 ? {} : { display: 'none' }} className = "error-msg-reports"> There have been no reports in the past year.</h3>
 
       </div>
     );

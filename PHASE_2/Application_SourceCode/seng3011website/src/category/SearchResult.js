@@ -38,8 +38,7 @@ class SearchResult extends React.Component {
     for (var i = 0; i < diseases.length; i++) {
       if (diseases[i].title) {
         if (
-          diseases[i].title.toLowerCase().indexOf(searchTerm) != -1 ||
-          diseases[i].name.toLowerCase().indexOf(searchTerm) != -1
+          diseases[i].title.toLowerCase().indexOf(searchTerm) != -1
         ) {
           this.state.diseaseResult.push(diseases[i].title);
         }
@@ -68,7 +67,7 @@ class SearchResult extends React.Component {
       const link = "/location/" + this.state.locationResult[i];
       container.push(
         <Link to={link} className="result-link">
-          <div className="result">
+          <div className="result-locations1">
             <h3 className="result-content"> {this.state.locationResult[i]} </h3>
           </div>
         </Link>

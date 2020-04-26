@@ -170,6 +170,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":332,"name":"Haiti","alpha2":"ht","alpha3":"hti"},
 {"id":340,"name":"Honduras","alpha2":"hn","alpha3":"hnd"},
 {"id":348,"name":"Hungary","alpha2":"hu","alpha3":"hun"},
+{"id":762,"name":"Hong Kong","alpha2":"hk","alpha3":"tjk"},
 {"id":352,"name":"Iceland","alpha2":"is","alpha3":"isl"},
 {"id":356,"name":"India","alpha2":"in","alpha3":"ind"},
 {"id":360,"name":"Indonesia","alpha2":"id","alpha3":"idn"},
@@ -265,6 +266,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":756,"name":"Switzerland","alpha2":"ch","alpha3":"che"},
 {"id":760,"name":"Syrian Arab Republic","alpha2":"sy","alpha3":"syr"},
 {"id":762,"name":"Tajikistan","alpha2":"tj","alpha3":"tjk"},
+{"id":762,"name":"Taiwan, Province of China","alpha2":"tw","alpha3":"tjk"},
 {"id":834,"name":"Tanzania, United Republic of","alpha2":"tz","alpha3":"tza"},
 {"id":764,"name":"Thailand","alpha2":"th","alpha3":"tha"},
 {"id":626,"name":"Timor-Leste","alpha2":"tl","alpha3":"tls"},
@@ -284,7 +286,7 @@ var countryCodes = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":860,"name":"Uzbekistan","alpha2":"uz","alpha3":"uzb"},
 {"id":548,"name":"Vanuatu","alpha2":"vu","alpha3":"vut"},
 {"id":862,"name":"Venezuela (Bolivarian Republic of)","alpha2":"ve","alpha3":"ven"},
-{"id":704,"name":"Viet Nam","alpha2":"vn","alpha3":"vnm"},
+{"id":704,"name":"Vietnam","alpha2":"vn","alpha3":"vnm"},
 {"id":887,"name":"Yemen","alpha2":"ye","alpha3":"yem"},
 {"id":894,"name":"Zambia","alpha2":"zm","alpha3":"zmb"},
 {"id":716,"name":"Zimbabwe","alpha2":"zw","alpha3":"zwe"}]
@@ -361,6 +363,174 @@ var diseases = [
     { "name": "COVID-19", "type": "virusIcon", "title": "coronavirus" }
     ]
 
+    var prevention = [
+        { "name": "anthrax", "prevention" : "bacteria", "vaccine": "true"},
+        { "name": "cholera", "prevention" : "feces", "vaccine": "true"},
+        { "name": "dengue", "prevention" : "mosquitoes", "vaccine": "true"},
+        { "name": "ebola", "prevention": "blood", "vaccine": "true" },
+        { "name": "enterovirus", "prevention" : "contact", "vaccine" : "false"},
+        { "name": "influenza", "prevention" : "contact", "vaccine": "true"},
+        { "name": "hand, foot and mouth disease", "prevention" : "contact", "vaccine": "false"},
+        { "name": "hantavirus", "prevention" : "rats", "vaccine" : "false"},
+        { "name": "hepatitis a", "prevention" : "feces", "vaccine":"true" },
+        { "name": "hepatitis c", "prevention" : "blood", "vaccine": "false" },
+        { "name": "hepatitis e", "prevention" : "feces", "vaccine" : "false" },
+        { "name": "lassa fever", "prevention": "rats", "vaccine": "false" },
+        { "name": "malaria", "prevention": "mosquitoes", "vaccine" : "false"},
+        { "name": "marburg virus disease", "prevention":"blood", "vaccine":"false"},
+        { "name": "measles", "prevention" : "contact", "vaccine": "true" },
+        { "name": "mers-cov", "prevention" : "camels", "vaccine":"false" },
+        { "name": "mumps", "prevention": "contact", "vaccine":"true"},
+        { "name": "pertussis", "prevention": "contact", "vaccine":"true" },
+        { "name": "plague", "prevention": "rats", "vaccine":"false"},
+        { "name": "polio","prevention": "contact", "vaccine":"true" },
+        { "name": "rabies", "prevention" : "animals", "vaccine" : "true"},
+        { "name": "rift valley fever", "prevention" : "mosquitoes", "vaccine": "true"},
+        { "name": "rubella", "prevention": "contact", "vaccine":"true"},
+        { "name": "salmonella", "prevention": "bacteria", "vaccine": "true"},
+        { "name": "shigellosis", "prevention":"bacteria", "vaccine": "false"},
+        { "name": "smallpox", "prevention": "contact", "vaccine":"true"},
+        { "name": "tuberculosis", "prevention": "contact", "vaccine":"true"},
+        { "name": "tularemia", "prevention": "mosquitoes", "vaccine": "false"},
+        { "name": "yellow fever", "prevention" : "mosquitoes", "vaccine": "true"},
+        { "name": "zika", "prevention": "mosquitoes", "vaccine": "false"},
+        { "name": "listeriosis", "prevention": "bacteria", "vaccine": "false"},
+        { "name": "coronavirus", "prevention": "contact", "vaccine":"false"},
+        { "name": "sars", "prevention": "contact", "vaccine":"false"},
+        { "name": "hiv/aids", "prevention": "blood", "vaccine":"false"},
+        { "name": "cowpox", "prevention": "animal contact", "vaccine":"false"},
+        { "name": "monkeypox", "prevention": "animal contact", "vaccine":"true"},
+        { "name": "chickenpox", "prevention": "contact", "vaccine":"true"}
+        ]
+
+var preventionContact = [ "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
+"Cover your nose and mouth with a disposable tissue or flexed elbow when you cough or sneeze",
+"Stay home and self-isolate from others in the household if you feel unwell",
+"Don't touch your eyes, nose, or mouth if your hands are not clean"
+]
+
+var preventionMos = [
+  "Wear pants and long-sleeved shirts",
+  "Apply insect repellant containing DEET to skin and clothing",
+  "Sleep under a net, particularly those treated with insecticide",
+  "Stay in air-conditioned or well-screened housing"
+]
+
+var preventionBlood = [
+  "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
+  "Avoid buying or eating wild animals",
+  "Avoid contact with infected people, especially tissues and body fluid",
+  "Don't handle remains"
+]
+
+var preventionRats = [
+  "Put food away in rodent-proof containers and keeping the home clean",
+  "Use rat traps",
+  "Protective clothing, such as masks, gloves, gowns, and goggles around infected people",
+  "Remove potential nesting areas. Don't leave pet food in areas that rodents can easily access"
+]
+
+var preventionAnCon = [
+  "Avoid contact with animals that could harbour the virus",
+  "Isolate infected patients from others who could be at risk for infection",
+  "Protective clothing, such as masks, gloves, gowns, and goggles around infected people",
+  "Avoid contact with any materials, such as bedding, that has been in contact with a sick animal"
+]
+
+var preventionFecal = [
+  "Wash your hands with soap and water frequently, especially after using the toilet and before handling food",
+  "Drink only safe water, including bottled water or water you've boiled or disinfected yourself",
+  "Eat food that's completely cooked and hot. Avoid vendor food",
+  "Stick to fruits and vegetables that you can peel yourself"
+]
+
+var preventionCamel = [
+  "Avoid vising farms, markets, barns or other places with camels",
+  "Don't consume raw or undercooked animal products including milk and meat",
+  "Practice general hygiene, wash hands before and touching animals",
+  "Avoid contact with sick animals"
+]
+
+var preventionBact = [
+  "Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub",
+  "Don't prepare food for others if you have diarrhea",
+  "Avoid swallowing water from ponds, lakes or untreated pools",
+  "Avoid eating raw eggs including cookie dough, eggnog, homemade ice-cream"
+]
+
+var preventionAnimal = [
+  "Vaccinate your pets. Ask your veterinarian how often your pets should be vaccinated",
+  " Keep your pets inside and supervise them when outside so they avoid wild animals",
+  "Report stray animals to local authorities",
+  "Don't approach wild animals."
+]
+router.get('/prevention', function(req, res, next) {
+    result = []
+    p = ""
+    disease_lower = diseasePage.toLowerCase();
+    for (i = 0; i < prevention.length; i++) {
+      if (prevention[i].name == disease_lower){
+          p = prevention[i].prevention;
+          break;
+      }
+    }
+    if (p == "bacteria"){
+      result = preventionBact;
+    }
+    if (p == "feces"){
+      result = preventionFecal;
+    }
+    if (p == "blood"){
+      result = preventionBlood;
+    }
+    if (p == "contact"){
+      result = preventionContact;
+    }
+    if (p == "mosquitoes"){
+      result = preventionMos;
+    }
+    if (p == "rats"){
+      result = preventionRats;
+    }
+    if (p == "camels"){
+      result = preventionCamel;
+    }
+    if (p == "animals"){
+      result = preventionAnimal;
+    }
+    if (p == "animal contact"){
+      result = preventionAnCon;
+    }
+    console.log(result);
+    res.send(result);
+});
+
+router.get('/vaccine', function(req, res, next) {
+    result = []
+    disease_lower = diseasePage.toLowerCase();
+    for (i = 0; i < prevention.length; i++) {
+      if (prevention[i].name == disease_lower){
+          result.push(prevention[i].vaccine);
+          break;
+      }
+    }
+    console.log(result);
+    res.send(result);
+});
+
+router.get('/source', function(req, res, next) {
+    result = []
+    disease_lower = diseasePage.toLowerCase();
+    for (i = 0; i < prevention.length; i++) {
+      if (prevention[i].name == disease_lower){
+          result.push(prevention[i].prevention);
+          break;
+      }
+    }
+    console.log(result);
+    res.send(result);
+});
+
 
 function getDiseaseNames(disease) {
     disease = disease.toLowerCase()
@@ -424,7 +594,9 @@ function getSymptoms(info){
       for (var j = 0; j < info[i].reports.length;j++) { //for every report
           for (var k = 0;k<info[i].reports[j].syndromes.length;k++){ //for every list of syndromes
             //if it's not unknown or asymptomatic or repeat
-              result = addSyndrome(result,info[i].reports[j].syndromes[k])
+              if (info[i].reports[j].syndromes[k] != "Shortness of breath"){
+                result = addSyndrome(result,info[i].reports[j].syndromes[k])
+              }
           }
       }
   }
@@ -492,12 +664,20 @@ router.get('/symptoms', function(req, res, next) {
     }
     var curr_year = new Date().getFullYear();
     var date = curr_year+'-'+curr_month+'-'+curr_date
-    var sql = `SELECT * FROM emperor WHERE disease = ? ORDER BY accessed DESC LIMIT 1;`
+    var sql = `SELECT * FROM emperor WHERE disease = ? COLLATE NOCASE ORDER BY accessed DESC LIMIT 1;`
             db.get(sql, [diseasePage], (err,rows) => {
                 if (err) {
-                    throw err;
+                    result = []
+                    re.send(result)
                 }
-                var result = getSymptoms(JSON.parse(rows.response))
+                try {
+                  var result = getSymptoms(JSON.parse(rows.response))
+                }
+                catch(err){
+                  var result = []
+                  console.log(getType(diseasePage.toLowerCase()))
+                  result.push(getType(diseasePage.toLowerCase()))
+                }
                 //var mapResult = getMapResult(result)
                 //console.log(result)
                 res.send(result);

@@ -22,6 +22,8 @@ import touch from './img/do-not-touch.png';
 import mask from './img/medical-mask.png';
 import distance from './img/distance.png';
 
+import { diseases } from "./category/DiseaseData";
+
 import australia from './img/australia.png';
 import china from './img/china.png';
 import italy from './img/italy.png';
@@ -29,6 +31,22 @@ import uk from './img/uk.png';
 import germany from './img/germany.png';
 import spain from './img/spain.png';
 
+function checkDiseases(disease) {
+  console.log(disease)
+  var match = disease.split(' ')
+  for (var i = 0; i < diseases.length; i++) {
+    if (diseases[i].title) {
+      if (disease.toLowerCase() === diseases[i].title.toLowerCase()) {
+        return true
+      }
+    } else {
+      if (disease.toLowerCase() === diseases[i].name.toLowerCase()) {
+        return true
+      }
+    }
+  }
+  return false
+}
 
 class Info extends Component {
   state = {
@@ -39,7 +57,10 @@ class Info extends Component {
     countries: '',
     codes:'',
     report_tele: '',
-    report_calm:''
+    report_calm:'',
+    vaccine: '',
+    prevention: '',
+    source : ''
   }
   //rmb game played
   setGameDisease = (e) => {
@@ -101,17 +122,38 @@ class Info extends Component {
           fetch("/location/reports-calmclams-d", requestOptions)
               .then(res => res.json())
               .then(res => this.setState({ report_calm: res }));
+          fetch("/map/prevention")
+                  .then(res => res.json())
+                  .then(res => this.setState({ prevention: res}))
+                  fetch("/map/source")
+                          .then(res => res.json())
+                          .then(res => this.setState({ source: res}))
+                  fetch("/map/vaccine")
+                          .then(res => res.json())
+                          .then(res => this.setState({ vaccine: res}))
+                          .then(res => console.log(this.state.vaccine))
+
+
+
+
 
   }
 
   componentDidMount() {
     const path = window.location.hash
     var disease = path.split('/')[2]
+    if (path.split('/').length > 3) {
+      disease = path.split('/')[2] + '/' + path.split('/')[3]
+    }
     if (disease === undefined) {
       this.setState({check: false})
       return
     }
     disease = disease.replace(/%20/g, ' ')
+    if (!checkDiseases(disease)) {
+      this.setState({check: false})
+      return
+    }
     this.callAPI(disease)
     this.callDiseaseAPI(disease)
     this.callSympAPI(disease)
@@ -310,31 +352,33 @@ class Info extends Component {
           <div className = "symptoms">
             <h1 className = "symptoms-title"> Symptoms </h1>
             <br />
+            <p className = "symptoms-error" style = {this.state.syndromes.length == 0 ? {} : {display: 'none'}}>No known symptoms</p>
             <Table borderless size="sm" className = "symptoms-table">
             <tbody>
             <tr> {/*switching pictures means: if syndrome = ... src = ...*/}
-              <td><img src={fever} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[0]} </p></td>
+              <td className = "symptom-td"><img style={this.state.syndromes.length > 0 ? {} : { display: 'none' }} src={fever} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[0]} </p>
+</td>
             </tr>
             <tr>
-              <td><img src={cough} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[1]} </p></td>
+              <td><img style={this.state.syndromes.length > 1 ? {} : { display: 'none' }}  src={cough} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[1]} </p></td>
             </tr>
             <tr>
-              <td><img src={headache} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[2]} </p></td>
+              <td><img style={this.state.syndromes.length > 2 ? {} : { display: 'none' }}  src={headache} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[2]} </p></td>
             </tr>
             <tr>
-              <td><img src={soreThroat} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[3]} </p></td>
+              <td><img style={this.state.syndromes.length > 3 ? {} : { display: 'none' }}  src={soreThroat} align = "left" className="symptom-image" alt=""/><p className = "symptom-text"> {this.state.syndromes[3]} </p></td>
             </tr>
             </tbody>
             </Table>
           </div>
           {/*graph cases last 5 case reports otherwise dictionary meanings of virus etc  */}
-          <div className="box">
+          < div style={this.state.disease == "Coronavirus" ? {} : { display: 'none' }} className="box">
           <div className = "graph">
-          <div className = "dec"><p className = "bar-text">44</p></div>
+          <div className = "dec"><p className = "bar-text">262</p></div>
           <div className = "jan"><p className = "bar-text">9 826</p></div>
           <div className = "feb"><p className = "bar-text">85 403</p></div>
-          <div className = "mar"><p className = "bar-text">750 890</p></div>
-          <div className = "apr"><p className = "bar-text">972 303</p></div>
+          <div className = "mar"><p className = "bar-text">856 955</p></div>
+          <div className = "apr"><p className = "bar-text">2 790 986</p></div>
           </div>
           <div className = "graph-table">
           <p className = "graph-text">Dec19</p>
@@ -345,12 +389,42 @@ class Info extends Component {
           <p className = "graph-text">Apr20</p>
           </div>
           </div>
+
+        {/*Type information*/}
+        < div style={this.state.disease != "Coronavirus" ? {} : { display: 'none' }}>
+        <h1 className  = "type-title" style={this.state.icon == "virusIcon" ? {} : { display: 'none' }}> What is a Virus? </h1>
+        <h1 className  = "type-title" style={this.state.icon == "bacteriaIcon" ? {} : { display: 'none' }}> What is Bacteria? </h1>
+        <h1 className  = "type-title" style={this.state.icon == "fungusIcon" ? {} : { display: 'none' }}> What is Fungus? </h1>
+        <h1 className  = "type-title" style={this.state.icon == "parasiteIcon" ? {} : { display: 'none' }}> What is a Parasite? </h1>
+        <h1 className  = "type-title" style={this.state.icon == "germIcon" ? {} : { display: 'none' }}> What is a Germ? </h1>
+
+          <p className = "type-info" style={this.state.icon == "virusIcon" ? {} : { display: 'none' }}>A virus (say: VY-rus) is a teensy, tiny germ that can make us sick, but they can't do anything on their own — they need to live inside another creature (their host) to survive. To do that, they have to get into our cells.
+            A virus is very sneaky, and just like a robber can break into a bank, a virus can break into a cell.
+          </p>
+          <p className = "type-info" style={this.state.icon == "bacteriaIcon" ? {} : { display: 'none' }}>Bacteria (say: BAK-teer-ee-uh) are tiny, one-celled creatures that get nutrients from their environments in order to live.
+            But not all bacteria are bad. Some bacteria are good for our bodies. Good bacteria live in our intestines and help us use the nutrients in the food we eat and make waste from what's left over.
+          </p>
+          <p className = "type-info" style={this.state.icon == "fungusIcon" ? {} : { display: 'none' }}>
+          Fungi (say: FUN-guy) are multi-celled (made of many cells), plant-like organisms. Unlike other plants, fungi cannot make their own food from soil, water, and air. Instead, fungi get their nutrition from plants, people, and animals. They love to live in damp, warm places, and many fungi are not dangerous in healthy people. An example of something caused by fungi is athlete's foot, that itchy rash that teens and adults sometimes get between their toes.
+          </p>
+          <p className = "type-info" style={this.state.icon == "parasiteIcon" ? {} : { display: 'none' }}>
+          Parasites are plants or animals that live on or in a host getting their nutrients from that host. Sometimes the host is harmed by the parasite, and sometimes the relationship is neutral. When the parasite does have a negative impact on the host, it doesn't often kill the host directly, but the stressors that come with having parasites can kill.
+          </p>
+          <p className = "type-info" style={this.state.icon == "germIcon" ? {} : { display: 'none' }}>
+          When you hear the word ''germ,'' do you think of bugs or dirt? Germs are more like bugs than dirt because they are microorganisms, or tiny living things.  Because they are so small, germs are very tricky. They can secretly invade the human body like an invisible army. Some of these invaders can make you sick, but others help your body function.
+          </p>
+
+          <h1 className  = "type-title2"> Transmitted through </h1>
+          <h1 className  = "type-title2"> {this.state.source} </h1>
+
+        </div>
         </div>
 
         {/**/}
         <div className = "missions1">
           <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Most Affected Countries</h1>
           {/*tables holding p*/}
+          <h3 style={this.state.countries.length == 0 ? {} : { display: 'none' }} className = "error-msg-reports3"> No recorded countries.</h3>
           <div className="mission1-table">
           <Table borderless size="sm">
             <thead>
@@ -409,6 +483,8 @@ class Info extends Component {
          <div className = "prevention">
            <h1 style = {{"font-size":"100px","color":"#0e2930", "font-family":"Stella"}}> Prevention Tips</h1>
            {/*tables holding p*/}
+           <h3 style={this.state.vaccine == "false" ? {} : { display: 'none' }} className = "error-msg-vac"> This epidemic does not have a vaccine currently.</h3>
+           <h3 style={this.state.vaccine == "true" ? {} : { display: 'none' }} className = "error-msg-vac"> This epidemic does have a vaccine.</h3>
            <div className="prevention-table">
            <Table borderless size="sm">
              <thead>
@@ -417,16 +493,16 @@ class Info extends Component {
              </thead>
              <tbody>
                <tr>
-                 <td><div className = "circle-prevention"><img src={hand} className = "prevention-img"/></div></td>
-                 <td width = "420px"><p className = "prevention-text">Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub</p></td>
-                 <td><div className = "circle-prevention"><img src={mask} className = "prevention-img"/></div></td>
-                 <td ><p className = "prevention-text">Cover your nose and mouth with a disposable tissue or flexed elbow when you cough or sneeze</p></td>
+                 <td><div style={this.state.prevention.length > 0 ? {} : { display: 'none' }} className = "circle-prevention"><img src={hand} className = "prevention-img"/></div></td>
+                 <td width = "420px"><p className = "prevention-text">{this.state.prevention[0]}</p></td>
+                 <td><div style={this.state.prevention.length > 1? {} : { display: 'none' }}className = "circle-prevention"><img src={mask} className = "prevention-img"/></div></td>
+                 <td ><p className = "prevention-text">{this.state.prevention[1]}</p></td>
                </tr>
                <tr>
-                 <td><div className = "circle-prevention"><img src={distance} className = "prevention-img"/></div></td>
-                 <td><p className = "prevention-text">Stay home and self-isolate from others in the household if you feel unwell</p></td>
-                 <td><div className = "circle-prevention"><img src={touch} className = "prevention-img"/></div></td>
-                 <td><p className = "prevention-text">Don't touch your eyes, nose, or mouth if your hands are not clean</p></td>
+                 <td><div style={this.state.prevention.length > 2? {} : { display: 'none' }}className = "circle-prevention"><img src={distance} className = "prevention-img"/></div></td>
+                 <td><p className = "prevention-text">{this.state.prevention[2]}</p></td>
+                 <td><div style={this.state.prevention.length > 3 ? {} : { display: 'none' }}className = "circle-prevention"><img src={touch} className = "prevention-img"/></div></td>
+                 <td><p className = "prevention-text">{this.state.prevention[3]}</p></td>
                </tr>
 
              </tbody>
