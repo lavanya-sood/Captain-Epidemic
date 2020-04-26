@@ -67,8 +67,7 @@
 }
 
 
-/* Animations */
-
+/* This pulse animation code was taken from Codepen to make the notification pulse - https://codepen.io/nadiannis/pen/bGNXawJ */
 @-webkit-keyframes pulse {
   
   0% {
@@ -107,21 +106,9 @@
   
 }
 
-#about {
-	background-color: #ffffff;
-	width: 100%;
-	text-align: center;
-	color: #b93738;
-	height: 80vh;
-	display: flex;
-	justify-content: center;
-	align-content: center;
-  flex-direction: column;
-  font-family: 'My Kids Handwritten Basic';
-  font-size: 40px;
-}
 
-/* NEW */
+
+
 #landingnav {
   text-align: right;
   box-shadow: 1px 5px #00000033;
@@ -157,7 +144,6 @@
 }
 
 .logoPicture {
-  /* background-color: #b93738; */
   width: 40%;
   border:none;
   animation: bounce 1.5s;
@@ -205,8 +191,6 @@
 }
 
 .otherInfo {
-  /* background-color: #ffffff; */
- 
   text-align: center;
 }
 

@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import heading from './img/landingheading.png';
-import Footer from "./PageFooter.js";
 import { NavLink,Link} from "react-router-dom";
 import logo from './img/Logo.png';
 import superhero from './img/Super.png';
-import userimg from './img/user.png';
-import search from './img/search.png';
 import "./css/Landing.css";
 
 import {Navbar,Nav,Table,Button,Dropdown,Modal} from 'react-bootstrap';
@@ -13,12 +10,18 @@ import PageFooter from "./PageFooter.js";
 import {Message} from "./Message.js";
 
 class Landing extends Component {
+
   constructor(props) {
     super(props);
+    // Whether the modal is visible or not
     this.state={addModalShow:false};
   }
+
   render() {
+    // Set the modal intially to not visible
     let addModalClose = () => this.setState({addModalShow:false});
+    
+    //if a user is already logged in
     if (localStorage.getItem('username')) {
       return (
         <div className="Landing">
@@ -26,7 +29,6 @@ class Landing extends Component {
             <NavLink className="d-inline-block align-top" to="/home"><img src={logo} id="logo" href='/'alt="Website logo"/></NavLink>
           </Navbar>
           <div className="MainLanding">
-            {/* <h1> HEY </h1> */}
             <Table borderless size="sm" className="landingTable">
             <tr>
             <td className="logoPicture">
@@ -57,6 +59,8 @@ class Landing extends Component {
       </div>
       )
     }
+
+    //if the user does not exist
     return (
       <div className="Landing">
             <Navbar id='landingnav' expand="lg" href='/'>
@@ -64,7 +68,6 @@ class Landing extends Component {
             <NavLink className="LoginLanding" to="/login">Login</NavLink>
           </Navbar>
           <div className="MainLanding">
-            {/* <h1> HEY </h1> */}
             <Table borderless size="sm" className="landingTable">
             <tr>
             <td className="logoPicture">
