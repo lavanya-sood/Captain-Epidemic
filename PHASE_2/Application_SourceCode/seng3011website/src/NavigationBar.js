@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
 import logo from "./img/Logo.png";
 import userimg from "./img/user.png";
 import search from "./img/search.png";
@@ -31,6 +29,8 @@ class NavigationBar extends Component {
       }
     }
   }
+
+  //logout removes all the current user details from local storage
   logout() {
     localStorage.removeItem("username");
     localStorage.removeItem("dob");
@@ -42,6 +42,8 @@ class NavigationBar extends Component {
 
   render() {
     let buttonDrop;
+
+    //if no user is logged in
     if (this.state.username == null) {
       buttonDrop = (
         <NavLink href="#/login" id="NavBarLogin">
@@ -49,6 +51,8 @@ class NavigationBar extends Component {
           Login
         </NavLink>
       );
+
+    //if a user is logged in
     } else {
       buttonDrop = (
         <Dropdown>
@@ -69,6 +73,7 @@ class NavigationBar extends Component {
         </Dropdown>
       );
     }
+
     return (
       <Navbar id="navbar" expand="lg" href="/">
         <a href="#/home" className="d-inline-block align-top">

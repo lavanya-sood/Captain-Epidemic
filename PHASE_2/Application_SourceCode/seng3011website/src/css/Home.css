@@ -1,6 +1,5 @@
 body {
   cursor: url('../img/cur2.png'), auto;
-  /* cursor: url('../img/cursorrocket.png'), pointer; */
 }
 
 #homepage {
@@ -44,7 +43,6 @@ body {
 
   #trending {
     padding-bottom: 8vh;
-    /* background-image: url('../img/bgmain.png'); */
     background-size: cover;
   }
 
@@ -84,7 +82,6 @@ body {
   #categories {
     padding-top: 5vh;
     padding-bottom: 10vh;
-    /* background-image: url('../img/bgmain.png'); */
     background-size: cover;
   }
 
@@ -111,7 +108,6 @@ body {
   }
 
   .headingpage {
-    /* color: rgb(255, 255, 255); */
     color: rgb(0, 23, 58);
     font-size: 90px;
     text-shadow: 2px 2px #c7c7c7;
@@ -163,15 +159,8 @@ body {
 
   .diseaseTrend {
     color: rgb(0, 23, 58);
-    
-  }
-  .diseaseTrend:hover {
-    /* color: pink; */
   }
 
-  .disLink {
-    /* background-color: white; */
-  }
 
   .mapImg {
     width: 50%;
@@ -201,12 +190,8 @@ body {
     border: none;
     padding: 30px 30px 30px 30px;
     border-radius: 50%;
-
-
-  animation: bounce 1.5s;
-
-  animation-iteration-count: infinite;
-
+    animation: bounce 1.5s;
+    animation-iteration-count: infinite;
   } 
 
  #diseasesbutton {
@@ -243,10 +228,6 @@ body {
 .buttonMaps:hover {
   background-color: #942323;
   border:none;
-}
-
-#map-info-part {
-  
 }
 
 .diseases-home-pg {

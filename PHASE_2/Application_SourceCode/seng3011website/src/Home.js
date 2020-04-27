@@ -16,16 +16,13 @@ import fancymap from './img/mapping.png';
 
 class Home extends Component {
 
-  setGameDisease = (e) => {
-    localStorage.setItem('game-disease', e.target.id);
-
-  };
-
   render() {
     return (
       <div id="homepage">
         <div id="trending">
           <h2 className="headingpage">Discover</h2>
+          
+          {/* Diseases which the children can click through to get started */}
           <Container id="trending-topics">
             <Row className='trending-row'>
               <Col>
@@ -91,28 +88,26 @@ class Home extends Component {
             </Row>
           </Container>
         </div>
+        
+        {/* The map locations */}
         <div id="map-location">
           <div id="map-info-part">
             <Link to='/map'>
-              {/* <Button className="button-map"> <p id="mapheading">Learn about diseases around the world </p> </Button> */}
               <Button className="buttonMaps">
               <img src={fancymap} class="mapImg" href='/'alt="Super"/>
               <p id="mapheading">Learn about diseases around the world </p>
               </Button>
             </Link>
             </div>
-          {/* <div id="mapbase">
-          <img src={waves} className="waves" href='/'/>
-          </div> */}
         </div>
 
+        {/* The categories for users to browse through */}
         <div id="categories">
           <h2 className="headingpage"> Categories</h2>
           <Container id="trending-topics">
             <Row>
               <Col>
                 <Link to='/disease'>
-                  {/* <Button className="button-category"> <h2>DISEASES</h2> </Button> */}
                   <button className="categorybuttons" id="diseasesbutton"> <h2>Diseases</h2> </button>
                 </Link>
               </Col>
